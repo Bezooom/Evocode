@@ -38,7 +38,7 @@ npm run evocode
 | Local LLM wiring | 70% | profiles + UI start/stop |
 | Agent (Kilo features) | 65% | runtime as-is; native chrome partial |
 | Product shell | 50% | panel + toolbar; dual UI shrinking |
-| Branded IDE binary | 15% | product.json brand; **no** AppImage yet |
+| Branded IDE binary | 55% | portable `packages/ide/dist/evocode-ide` (VSCodium rebrand); full compile optional |
 | Enterprise F3 | 0% | **не начинать** |
 | Git history | ⚡ | baseline commit |
 

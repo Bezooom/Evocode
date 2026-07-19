@@ -44,8 +44,10 @@ if [[ -n "${VSCODE_EXEC_PATH:-}" && -x "${VSCODE_EXEC_PATH}" ]]; then
   exec "${VSCODE_EXEC_PATH}" "${FLAGS[@]}"
 fi
 
-# 2) local branded build
+# 2) branded portable (F2.5) — first choice
 for cand in \
+  "${ROOT}/packages/ide/dist/evocode-ide/bin/evocode" \
+  "${ROOT}/packages/ide/dist/evocode-ide/evocode" \
   "${ROOT}/packages/ide/vscodium/VSCode-linux-x64/bin/evocode" \
   "${ROOT}/packages/ide/vscodium/VSCode-linux-x64/bin/codium" \
   "${ROOT}/dist/evocode" \
@@ -53,7 +55,7 @@ for cand in \
   /usr/bin/codium
 do
   if [[ -x "${cand}" ]]; then
-    echo "→ editor: ${cand} (no Microsoft)"
+    echo "→ editor: ${cand} (branded / no Microsoft)"
     exec "${cand}" "${FLAGS[@]}"
   fi
 done

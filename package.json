@@ -33,6 +33,8 @@
     "ide:install-desktop": "bash scripts/install-desktop.sh",
     "ide:build-codium": "bash scripts/build-evocode-ide.sh",
     "ide:prepare-codium": "EVOCODE_BUILD_SKIP=1 bash scripts/build-evocode-ide.sh",
+    "ide:package-portable": "bash scripts/package-evocode-portable.sh",
+    "ide:rebrand-portable": "node packages/ide/scripts/rebrand-portable-codium.mjs",
     "ide:refresh-brand": "npm run agent:rebrand && npm run ide:preinstall-agent && npm run ide:install-shell && npm run ide:product-settings && npm run ide:install-desktop",
     "evocode": "bash scripts/evocode-app.sh",
     "demo": "bash scripts/evocode-app.sh",

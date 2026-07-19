@@ -346,7 +346,7 @@ npm run disk:audit
 | F2.3d | **Единые настройки** (product panel = all settings) | ⚡ | settings/profile → panel; chat default |
 | F2.3e | Kill residual Kilo logos in assets | ⚡ | overwrite kilo-*.svg/png |
 | F2.4 | First-run wizard | 📋 | llama detect / skills |
-| **F2.5** | **Branded binary / AppImage** | ⚡ **next hard** | `ide:build-codium` |
+| **F2.5** | **Branded portable IDE** | ⚡ **partial** | `ide:package-portable` → `dist/evocode-ide` (full compile still optional) |
 | F2.6 | Rename command IDs | 📋 | after UX stable |
 | F2.7 | Splash/About icons fully Evocode | 📋 | needs F2.5 |
 | F2.8 | SMOKE-IDE E2E | 📋 | one script |
@@ -550,11 +550,12 @@ TEST:    npm test && npx tsc --noEmit
 
 ## §14. Очередь (P0) — выполнять по порядку
 
-1. ⚡ **Единые настройки** — profile/settings → product panel; chat open default  
-2. ⚡ **Git baseline** — initial commit  
-3. **F2.5** — `npm run ide:build-codium` → deb/AppImage `evocode`  
-4. **Webview de-Kilo** — residual marketplace/brand inside React bundle  
-5. **F2.4 + F2.8** — first-run wizard + SMOKE-IDE  
+1. ~~Единые настройки + chat default~~ ✅  
+2. ~~Git baseline~~ ✅  
+3. ⚡ **F2.5 portable brand** — `ide:package-portable` (done tree); AppImage/deb polish next  
+4. **Webview de-Kilo** — residual brand inside React  
+5. **F2.4 + F2.8** — first-run + SMOKE-IDE  
+6. Optional: full `ide:build-codium` when libsecret-dev available
 
 **Blocked:** F3, F4 until F2 DoD.
 

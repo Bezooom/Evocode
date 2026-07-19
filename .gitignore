@@ -77,6 +77,9 @@ skills/.archive/
 *.dmg
 *.exe
 
+# Portable IDE tree (~600MB+, regenerate: npm run ide:package-portable)
+packages/ide/dist/
+
 # Local IDE userdata (profile lives in ~/.evocode-ide)
 .evocode-ide-userdata/
 .evocode-ide/
