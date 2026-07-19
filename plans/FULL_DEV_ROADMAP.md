@@ -553,7 +553,7 @@ TEST:    npm test && npx tsc --noEmit
 1. ~~Единые настройки + chat default~~ ✅  
 2. ~~Git baseline~~ ✅  
 3. ⚡ **F2.5 portable brand** — `ide:package-portable` (done tree); AppImage/deb polish next  
-4. **Webview de-Kilo** — residual brand inside React  
+4. ~~**Webview de-Kilo**~~ ✅ `webview-dekilo.json` + rebrand  
 5. **F2.4 + F2.8** — first-run + SMOKE-IDE  
 6. Optional: full `ide:build-codium` when libsecret-dev available
 
@@ -566,6 +566,7 @@ TEST:    npm test && npx tsc --noEmit
 | Дата | Изменение |
 |------|-----------|
 | 2026-07-19 | **v2.0 critical reset:** F2 = current (not F3); F2 DoD rewritten; queue = settings unify + git + branded binary; anti-patterns explicit |
+| 2026-07-19 | **v2.2 webview de-Kilo:** brand/webview-dekilo.json strips Kilo Code/Gateway/marketplace/icons/URLs from webview bundles |
 | 2026-07-19 | **v2.1 F2.5 portable:** download VSCodium tarball + rebrand product.json/icons → `packages/ide/dist/evocode-ide`; launcher prefers `bin/evocode` |
 
 *Конец FULL_DEV_ROADMAP v2.0.*
