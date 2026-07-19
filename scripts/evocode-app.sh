@@ -11,8 +11,13 @@ export EVOCODE_USER_DATA_DIR="$PROFILE"
 export EVOCODE_EXTENSIONS_DIR="$EXT_DIR"
 export EVOCODE_LLAMA_MODE="${EVOCODE_LLAMA_MODE:-attach}"
 export EVOCODE_CORE_URL="${EVOCODE_CORE_URL:-http://127.0.0.1:8083/v1}"
+# Isolate agent config from normal Kilo in VS Code
+export KILO_CONFIG_DIR="${KILO_CONFIG_DIR:-$HOME/.config/evocode/kilo}"
+export KILO_DATA_DIR="${KILO_DATA_DIR:-$HOME/.local/share/evocode}"
 
 cd "$ROOT"
+# ensure isolated provider config (does not touch ~/.config/kilo)
+EVOCODE_CORE_URL="$EVOCODE_CORE_URL" npm run agent:install-provider >/dev/null 2>&1 || true
 
 node packages/ide/scripts/install-shell-extension.mjs 2>/dev/null || true
 node packages/ide/scripts/apply-product-settings.mjs 2>/dev/null || true

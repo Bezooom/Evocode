@@ -205,16 +205,12 @@ function stageExtension() {
 
 function defaultInstallRoots() {
   const home = os.homedir();
-  const roots = [
-    // Branded IDE data folder (product.evocode.json dataFolderName)
-    path.join(home, '.evocode-ide', 'extensions'),
-    // Common editors for smoke without full Evocode binary
-    path.join(home, '.vscode-oss', 'extensions'),
-    path.join(home, '.vscode', 'extensions'),
-  ];
-  // codium if present
-  const codium = path.join(home, '.vscode-oss', 'extensions');
-  if (!roots.includes(codium)) roots.push(codium);
+  // NEVER install into ~/.vscode — that pollutes normal VS Code + Kilo.
+  // Only Evocode profile (and optional EVOCODE_INSTALL_EXTRA=1 for oss).
+  const roots = [path.join(home, '.evocode-ide', 'extensions')];
+  if (process.env.EVOCODE_INSTALL_EXTRA === '1') {
+    roots.push(path.join(home, '.vscode-oss', 'extensions'));
+  }
   return roots;
 }
 

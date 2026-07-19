@@ -19,7 +19,8 @@ node packages/ide/scripts/preinstall-agent.mjs --stage
 node packages/ide/scripts/preinstall-agent.mjs --copy
 
 # Custom extensions dir
-node packages/ide/scripts/preinstall-agent.mjs --target ~/.vscode/extensions
+# NEVER use ~/.vscode — pollutes normal VS Code + Kilo
+node packages/ide/scripts/preinstall-agent.mjs --target ~/.evocode-ide/extensions
 ```
 
 ## Layout
@@ -35,8 +36,8 @@ node packages/ide/scripts/preinstall-agent.mjs --target ~/.vscode/extensions
 ## Install targets
 
 1. **`~/.evocode-ide/extensions/`** — always (matches `dataFolderName` in product brand)
-2. **`~/.vscode-oss/extensions/`**, **`~/.vscode/extensions/`** — if that editor’s data dir already exists
-3. **`packages/ide/vscodium/vscode/extensions/evocode-agent`** — system extension hook when `prepare_vscode` has created the tree
+2. **Never** `~/.vscode/extensions` (breaks stock VS Code + Kilo)  
+3. Optional: `EVOCODE_INSTALL_EXTRA=1` for `.vscode-oss` only
 
 ## Smoke without full IDE binary
 

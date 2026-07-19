@@ -74,8 +74,12 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
+/** Isolated Evocode agent config — never ~/.config/kilo (that is real Kilo / VS Code). */
 function kiloConfigPath() {
-  return path.join(os.homedir(), '.config', 'kilo', 'kilo.json');
+  if (process.env.KILO_CONFIG_DIR) {
+    return path.join(process.env.KILO_CONFIG_DIR, 'kilo.json');
+  }
+  return path.join(os.homedir(), '.config', 'evocode', 'kilo', 'kilo.json');
 }
 
 function readKiloConfig() {
