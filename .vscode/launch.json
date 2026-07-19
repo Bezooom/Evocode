@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Эвокод: Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=/home/bezoom/storage/Projects/Evocode/packages/agent-extension/extension",
+        "/home/bezoom/storage/Projects/Evocode/packages/agent-extension/config/evocode.code-workspace"
+      ],
+      "outFiles": [
+        "/home/bezoom/storage/Projects/Evocode/packages/agent-extension/extension/dist/**/*.js"
+      ]
+    }
+  ]
+}

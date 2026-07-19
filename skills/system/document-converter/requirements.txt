@@ -1,0 +1,26 @@
+# Основные зависимости для document-converter
+
+# markitdown - универсальный конвертер (Microsoft AutoGen)
+markitdown>=0.0.1
+
+# Существующие инструменты (сохраняем для fallback)
+mammoth>=1.6.0          # DOCX → Markdown (лучше сохраняет структуру)
+python-pptx>=0.6.21     # PPTX → Markdown (извлекает заметки докладчика)
+PyMuPDF>=1.23.0         # PDF → Markdown (лучше для научных статей)
+
+# Дополнительные зависимости markitdown
+# (устанавливаются автоматически с markitdown, но перечислены для ясности)
+# - beautifulsoup4 (HTML parsing)
+# - pandas (Excel, CSV)
+# - pdfminer.six (PDF text extraction)
+# - python-pptx (PowerPoint)
+# - mammoth (Word)
+# - openpyxl (Excel)
+# - Pillow (Images)
+# - pydub (Audio)
+# - SpeechRecognition (Audio transcription)
+# - youtube-transcript-api (YouTube)
+
+# Опциональные зависимости для расширенных возможностей
+# pytesseract>=0.3.10    # OCR для изображений (требует tesseract-ocr)
+# ffmpeg-python>=0.2.0   # Обработка видео (требует ffmpeg)

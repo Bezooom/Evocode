@@ -1,0 +1,2 @@
+# Зависимости для поиска в ФИПС (tools/fips_epub_search.py / fips_epub_crawler.py); независимо от корневых requirements.txt
+playwright>=1.40.0

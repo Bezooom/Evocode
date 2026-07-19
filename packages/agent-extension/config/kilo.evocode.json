@@ -1,0 +1,33 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "_comment": "Эвокод F1: default provider → Evocode Core (OpenAI-compatible :8083/v1)",
+  "model": "evocode/evocode-auto",
+  "small_model": "evocode/evocode-local",
+  "enabled_providers": ["evocode"],
+  "disabled_providers": ["kilo"],
+  "provider": {
+    "evocode": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Эвокод Core",
+      "options": {
+        "baseURL": "http://127.0.0.1:8083/v1",
+        "apiKey": "evocode-local"
+      },
+      "models": {
+        "evocode-auto": {
+          "name": "Эвокод Auto (router local↔cloud)"
+        },
+        "evocode-local": {
+          "name": "Эвокод Local"
+        }
+      }
+    }
+  },
+  "skills": {
+    "paths": [
+      "~/.config/evocode/skills/system",
+      "~/.config/evocode/skills/user",
+      "~/.config/kilo/skills"
+    ]
+  }
+}

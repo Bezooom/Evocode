@@ -1,0 +1,6 @@
+interface:
+  display_name: "Agent Loop Skill"
+  short_description: "Run Codex tasks with contracts and traces."
+  default_prompt: "Use $agent-loop-skill to plan, execute, verify, and recover this long-running Codex task with disk-backed state."
+policy:
+  allow_implicit_invocation: true

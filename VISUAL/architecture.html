@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Эвокод — Архитектура системы</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #c9d1d9; --accent: #58a6ff; --accent2: #3fb950;
+    --accent3: #f0883e; --accent4: #bc8cff; --accent5: #f778ba;
+    --green: #3fb950; --yellow: #d29922; --red: #f85149;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+  }
+  .header {
+    background: linear-gradient(135deg, #161b22 0%, #1c2333 100%);
+    border-bottom: 1px solid var(--border); padding: 32px 48px;
+  }
+  .header h1 { font-size: 28px; color: #fff; margin-bottom: 8px; }
+  .header .subtitle { color: #8b949e; font-size: 14px; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 32px 48px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px; transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); }
+  .card h2 { font-size: 18px; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card h2 .icon { font-size: 24px; }
+  .card p { font-size: 14px; line-height: 1.6; color: #8b949e; }
+  .list { list-style: none; margin-top: 12px; }
+  .list li { padding: 6px 0; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .list li::before { content: '●'; color: var(--accent); font-size: 8px; }
+  .badge {
+    display: inline-block; padding: 2px 10px; border-radius: 12px;
+    font-size: 11px; font-weight: 600;
+  }
+  .badge-blue { background: rgba(88,166,255,0.15); color: var(--accent); }
+  .badge-green { background: rgba(63,185,80,0.15); color: var(--accent2); }
+  .badge-orange { background: rgba(240,136,62,0.15); color: var(--accent3); }
+  .badge-purple { background: rgba(188,140,255,0.15); color: var(--accent4); }
+  .badge-pink { background: rgba(247,120,186,0.15); color: var(--accent5); }
+  .flow { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 32px; }
+  .flow h2 { font-size: 18px; color: #fff; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+  .flow-row { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .flow-box {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 20px; text-align: center; min-width: 140px;
+  }
+  .flow-box .name { font-size: 13px; font-weight: 600; color: #fff; }
+  .flow-box .desc { font-size: 11px; color: #8b949e; margin-top: 4px; }
+  .arrow { color: var(--accent); font-size: 20px; }
+  .full-width { grid-column: 1 / -1; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .stat .value { font-size: 32px; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 12px; color: #8b949e; margin-top: 4px; }
+  .section-title { font-size: 20px; color: #fff; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .container { padding: 16px; }
+    .header { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧬 Эвокод — Архитектура системы</h1>
+  <div class="subtitle">Форк VS Code с локальным inference-фреймворком и самоактуализацией навыков</div>
+</div>
+
+<div class="container">
+
+  <!-- Статистика -->
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="value">270+</div>
+      <div class="label">Навыков (Skills)</div>
+    </div>
+    <div class="stat">
+      <div class="value">~150</div>
+      <div class="label">Файлов документации</div>
+    </div>
+    <div class="stat">
+      <div class="value">32K</div>
+      <div class="label">n-predict (LLM)</div>
+    </div>
+    <div class="stat">
+      <div class="value">~10 дней</div>
+      <div class="label">Сроки внедрения</div>
+    </div>
+  </div>
+
+  <!-- Поток данных -->
+  <div class="flow">
+    <h2>🔄 Поток данных: от запроса до ответа</h2>
+    <div class="flow-row">
+      <div class="flow-box">
+        <div class="name">Пользователь</div>
+        <div class="desc">Запрос в чат</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box">
+        <div class="name">DLP Guard</div>
+        <div class="desc">Маскировка секретов</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box">
+        <div class="name">Умный роутер</div>
+        <div class="desc">Local vs Cloud</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box">
+        <div class="name">Inference Engine</div>
+        <div class="desc">llama.cpp</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box">
+        <div class="name">Результат</div>
+        <div class="desc">Ответ пользователю</div>
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-box">
+        <div class="name">Skill Sync Engine</div>
+        <div class="desc">GitHub → skills/system/</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box">
+        <div class="name">Skill Registry</div>
+        <div class="desc">Загрузка + оверрайды</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box">
+        <div class="name">Active Skills</div>
+        <div class="desc">skills/user/ + system/</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Компоненты -->
+  <h2 class="section-title">🏗️ Ключевые компоненты</h2>
+  <div class="grid">
+    <div class="card">
+      <h2><span class="icon">🧠</span> Inference Engine</h2>
+      <p>Дву-модельный локальный инференс на базе llama.cpp</p>
+      <ul class="list">
+        <li>FIM-модель (1.5B, &lt;100ms) — догадки кода</li>
+        <li>Chat-модель (8B) — диалог и рассуждения</li>
+        <li>Фоновый режим (background mode)</li>
+        <li>Конфигурируемые промпты</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><span class="icon">🔀</span> Умный роутер</h2>
+      <p>Интеллектуальное переключение между локальным и облачным выводом</p>
+      <ul class="list">
+        <li>Простые задачи → локальная модель</li>
+        <li>Сложные задачи → OpenRouter (Claude/GPT)</li>
+        <li>Настройка приоритетов и триггеров</li>
+        <li>Контроль расходов (cloud spending)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><span class="icon">🔄</span> Skill Sync Engine</h2>
+      <p>Ежедневная автоактуализация навыков из GitHub</p>
+      <ul class="list">
+        <li>Синхронизация каждые 24 часа (03:00)</li>
+        <li>Новые / изменённые / удалённые навыки</li>
+        <li>Soft-delete и бэкапы</li>
+        <li>Верификация перед применением</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><span class="icon">🛡️</span> DLP Guard</h2>
+      <p>Защита данных перед отправкой в облако</p>
+      <ul class="list">
+        <li>Маскировка API-ключей, токенов, паролей</li>
+        <li>Конфигурируемые правила (regex)</li>
+        <li>Предпросмотр до отправки</li>
+        <li>Логирование заблокированных данных</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><span class="icon">🔍</span> Local RAG</h2>
+      <p>Локальный семантический поиск по документам и коду</p>
+      <ul class="list">
+        <li>SQLite-vec / FTS5 — без внешних зависимостей</li>
+        <li>Индексация документации и кода проекта</li>
+        <li>Гибридный поиск (векторный + текстовый)</li>
+        <li>Авто-обновление при изменении файлов</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><span class="icon">🔌</span> MCP Host</h2>
+      <p>Встроенный хост для Model Context Protocol</p>
+      <ul class="list">
+        <li>Серверы: filesystem, sequentialthinking, Gmail</li>
+        <li>Аутентификация и ограничения</li>
+        <li>Мониторинг и логирование вызовов</li>
+        <li>Файрвол для защиты данных</li>
+      </ul>
+    </div>
+    <div class="card full-width">
+      <h2><span class="icon">📁</span> Структура навыков</h2>
+      <p>Системные навыки обновляются автоматически, пользовательские — нет</p>
+      <div style="margin-top: 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; line-height: 1.8;">
+        <div><span style="color: var(--accent);">skills/</span></div>
+        <div>&nbsp;&nbsp;<span style="color: var(--accent);">system/</span> <span style="color: var(--accent2);">← Sync Engine обновляет</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">agentic-coordination/SKILL.md</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">frontend-engineering/SKILL.md</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">...</span></div>
+        <div>&nbsp;&nbsp;<span style="color: var(--accent3);">user/</span> <span style="color: var(--accent2);">← Пользовательские оверрайды</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">agentic-coordination/SKILL.md</span> <span style="color: #8b949e;">(переопределяет системный)</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">custom-skill/SKILL.md</span></div>
+        <div>&nbsp;&nbsp;<span style="color: var(--accent4);">.backup/</span> <span style="color: #8b949e;">← Бэкапы версий</span></div>
+        <div>&nbsp;&nbsp;<span style="color: var(--accent5);">.archive/</span> <span style="color: #8b949e;">← Удалённые навыки</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

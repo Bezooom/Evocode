@@ -1,0 +1,8 @@
+# Для tools/md_to_docx.py, docx_to_md.py, pptx_to_md.py
+python-docx>=1.1.0
+# Для финальных диаграмм (mermaid → PNG) нужен Node: в tools/ — npm install или npx, см. tools/README.md
+mammoth>=1.6.0
+python-pptx>=0.6.21
+
+# Опционально: Шаг 5 — поиск в ФИПС (Playwright, большой объём; не включён для избежания дефолтной установки)
+#   pip install -r tools/requirements-fips.txt && python -m playwright install chromium

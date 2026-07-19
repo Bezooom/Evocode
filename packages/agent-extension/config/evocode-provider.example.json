@@ -1,0 +1,14 @@
+{
+  "evocode.provider": {
+    "type": "openai-compatible",
+    "baseUrl": "http://127.0.0.1:8083/v1",
+    "apiKey": "evocode-local",
+    "model": "evocode-auto",
+    "name": "Эвокод (local+router)"
+  },
+  "evocode.skills.paths": [
+    "~/.config/evocode/skills/system",
+    "~/.config/evocode/skills/user",
+    "~/.config/kilo/skills"
+  ]
+}

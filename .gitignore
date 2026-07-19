@@ -1,0 +1,83 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json.bak
+
+# Build
+dist/
+build/
+out/
+*.js.map
+*.tsbuildinfo
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# IDE (editor) — keep .vscode/extensions.json if added later
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Cache
+.cache/
+.caches/
+
+# Test / coverage
+coverage/
+.nyc_output/
+test-results/
+
+# Temporary
+tmp/
+temp/
+
+# Local runtime data (RAG DB, models — not source)
+.evocode/
+*.db
+*.db-journal
+models/
+*.gguf
+
+# Vendor trees (bootstrap clones — not committed whole)
+packages/ide/vscodium/
+packages/ide/code-oss/
+packages/agent-extension/upstream/
+packages/agent-extension/extension/
+vendor/
+
+# F2.3 staged extension payload (regenerate: npm run ide:preinstall-agent)
+packages/ide/preinstall/evocode-agent/
+packages/ide/preinstall/manifest.json
+packages/ide/preinstall/install-record.json
+packages/ide/preinstall/settings.default.json
+packages/ide/preinstall/product-extensions.fragment.json
+
+# Skills: user overrides & backups stay local
+skills/user/**
+!skills/user/.gitkeep
+skills/.backup/
+skills/.archive/
+
+# Optional large assets
+*.AppImage
+*.deb
+*.dmg
+*.exe
+
+# Local IDE userdata (profile lives in ~/.evocode-ide)
+.evocode-ide-userdata/
+.evocode-ide/
+packages/agent-extension/brand/icons/evocode-imagine-ref.jpg

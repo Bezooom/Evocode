@@ -1,0 +1,107 @@
+{
+  "$comment": "Профили local runtime. Пути — абсолютные, БЕЗ копий GGUF. Core только ссылается.",
+  "modelsDir": "/home/bezoom/llama.cpp/models",
+  "defaults": {
+    "chatProfile": "coder",
+    "embedProfile": "embed-nomic",
+    "corePort": 8083,
+    "mode": "attach"
+  },
+  "profiles": {
+    "coder": {
+      "role": "chat",
+      "description": "По умолчанию IDE: Qwopus 27B Coder + ik_llama (fit, KV q4). Рекомендуется для агента.",
+      "binary": "/home/bezoom/ik_llama.cpp/build/bin/llama-server",
+      "model": "/home/bezoom/llama.cpp/models/Qwopus3.6-27B-Coder-MTP-IQ4_XS.gguf",
+      "port": 8080,
+      "startScript": "/home/bezoom/start_ik_ai_coder.sh",
+      "args": [
+        "--fit", "--fit-margin", "1664",
+        "--ctx-size", "131072",
+        "--cache-type-k", "q4_0",
+        "--cache-type-v", "q4_0",
+        "--threads", "4",
+        "--batch-size", "2048",
+        "--ubatch-size", "256",
+        "--parallel", "1",
+        "--jinja",
+        "--no-warmup",
+        "-ngl", "99"
+      ]
+    },
+    "chat-ornith": {
+      "role": "chat",
+      "description": "ornith 35B Q4_K + ik (start_ik_ai4.sh)",
+      "binary": "/home/bezoom/ik_llama.cpp/build/bin/llama-server",
+      "model": "/home/bezoom/llama.cpp/models/ornith-1.0-35b-Q4_K.gguf",
+      "port": 8080,
+      "startScript": "/home/bezoom/start_ik_ai4.sh"
+    },
+    "chat-agentworld": {
+      "role": "chat",
+      "description": "AgentWorld 35B + ik (start_ik_ai3.sh)",
+      "binary": "/home/bezoom/ik_llama.cpp/build/bin/llama-server",
+      "model": "/home/bezoom/llama.cpp/models/Qwen-AgentWorld-35B-A3B-Q4_K_M.gguf",
+      "port": 8080,
+      "startScript": "/home/bezoom/start_ik_ai3.sh"
+    },
+    "chat-buun": {
+      "role": "chat",
+      "description": "buun turbo KV + ornith (spawn binary; start_ai4 удалён как мёртвый)",
+      "binary": "/home/bezoom/buun-llama-cpp/build/bin/llama-server",
+      "model": "/home/bezoom/llama.cpp/models/ornith-1.0-35b-Q4_K.gguf",
+      "port": 8080,
+      "args": [
+        "-ngl", "99",
+        "--ctx-size", "262144",
+        "--cache-type-k", "turbo4",
+        "--cache-type-v", "turbo4",
+        "-fa", "on",
+        "--parallel", "1",
+        "-t", "8",
+        "--batch-size", "2048",
+        "--ubatch-size", "256",
+        "--n-predict", "32768",
+        "--timeout", "900",
+        "--no-warmup"
+      ]
+    },
+    "embed-nomic": {
+      "role": "embed",
+      "description": "nomic embeddings (НЕ на 8081 — Core там; используем 8084)",
+      "binary": "/home/bezoom/buun-llama-cpp/build/bin/llama-server",
+      "model": "/home/bezoom/llama.cpp/models/nomic-embed-text-v1.5.Q4_K_M.gguf",
+      "port": 8084,
+      "args": [
+        "-ngl", "99",
+        "--embedding",
+        "-t", "8",
+        "-c", "8192",
+        "--parallel", "2",
+        "--batch-size", "4096",
+        "--ubatch-size", "4096"
+      ]
+    },
+    "fim-small": {
+      "role": "fim",
+      "description": "лёгкий FIM из Neurocontrol (2G) — без копии",
+      "binary": "/home/bezoom/ik_llama.cpp/build/bin/llama-server",
+      "model": "/home/bezoom/storage/Projects/Neurocontrol/models/Qwen1.5B-Instruct-Upscale-3.5B.Q4_K_M.gguf",
+      "port": 8082,
+      "args": ["-ngl", "99", "-c", "8192", "--parallel", "1", "-t", "4"]
+    }
+  },
+  "keep": {
+    "binaries": [
+      "/home/bezoom/buun-llama-cpp",
+      "/home/bezoom/ik_llama.cpp",
+      "/home/bezoom/llama.cpp/models"
+    ],
+    "models": [
+      "Qwopus3.6-27B-Coder-MTP-IQ4_XS.gguf",
+      "ornith-1.0-35b-Q4_K.gguf",
+      "nomic-embed-text-v1.5.Q4_K_M.gguf",
+      "Qwen-AgentWorld-35B-A3B-Q4_K_M.gguf"
+    ]
+  }
+}

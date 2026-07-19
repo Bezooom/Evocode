@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Эвокод — Прототип</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #c9d1d9; --accent: #58a6ff; --accent2: #3fb950;
+    --accent3: #f0883e; --accent4: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); height: 100vh;
+    display: flex; flex-direction: column;
+  }
+  .header {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .header h1 { font-size: 20px; color: #fff; display: flex; align-items: center; gap: 8px; }
+  .status-bar { display: flex; gap: 16px; font-size: 13px; }
+  .status-item { display: flex; align-items: center; gap: 6px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .status-dot.local { background: var(--accent2); }
+  .status-dot.cloud { background: var(--accent3); }
+  .status-dot.sync { background: var(--accent4); }
+  .status-dot.dlp { background: var(--accent); }
+  .main { flex: 1; display: flex; overflow: hidden; }
+  .sidebar {
+    width: 280px; background: var(--surface); border-right: 1px solid var(--border);
+    overflow-y: auto; padding: 16px;
+  }
+  .sidebar h2 { font-size: 14px; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .skill-list { list-style: none; }
+  .skill-item {
+    padding: 10px 12px; border-radius: 8px; margin-bottom: 6px;
+    background: var(--bg); border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .skill-item:hover { border-color: var(--accent); }
+  .skill-item.active { border-color: var(--accent); background: rgba(88,166,255,0.1); }
+  .skill-item .name { font-size: 13px; color: #fff; font-weight: 500; }
+  .skill-item .desc { font-size: 11px; color: #8b949e; margin-top: 4px; }
+  .skill-item .status { font-size: 10px; color: var(--accent2); margin-top: 4px; }
+  .content { flex: 1; display: flex; flex-direction: column; }
+  .chat { flex: 1; overflow-y: auto; padding: 24px; }
+  .message { margin-bottom: 20px; max-width: 80%; }
+  .message.user { margin-left: auto; background: var(--accent); color: #fff; padding: 12px 16px; border-radius: 12px 12px 4px 12px; }
+  .message.ai { background: var(--surface); border: 1px solid var(--border); padding: 12px 16px; border-radius: 12px 12px 12px 4px; }
+  .message.ai .source { font-size: 11px; color: var(--accent); margin-bottom: 6px; }
+  .input-area {
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 16px 24px; display: flex; gap: 12px; align-items: center;
+  }
+  .input-area input {
+    flex: 1; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; color: var(--text); font-size: 14px;
+  }
+  .input-area input:focus { outline: none; border-color: var(--accent); }
+  .btn {
+    background: var(--accent); color: #fff; border: none;
+    padding: 10px 20px; border-radius: 8px; cursor: pointer;
+    font-size: 14px; font-weight: 500; transition: all 0.2s;
+  }
+  .btn:hover { background: #4a9af5; }
+  .btn:disabled { background: var(--border); cursor: not-allowed; }
+  .info-panel {
+    background: var(--surface); border-left: 1px solid var(--border);
+    width: 300px; padding: 16px; overflow-y: auto;
+  }
+  .info-panel h2 { font-size: 14px; color: #fff; margin-bottom: 12px; }
+  .info-item { margin-bottom: 16px; }
+  .info-item .label { font-size: 12px; color: #8b949e; margin-bottom: 4px; }
+  .info-item .value { font-size: 14px; color: #fff; }
+  .sync-log { font-family: monospace; font-size: 12px; line-height: 1.6; }
+  .sync-log .log-entry { padding: 4px 0; border-bottom: 1px solid var(--border); }
+  .sync-log .timestamp { color: var(--accent); }
+  .sync-log .operation { color: var(--accent2); }
+  .sync-log .result { color: #8b949e; }
+  @media (max-width: 768px) {
+    .sidebar, .info-panel { display: none; }
+    .main { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧬 Эвокод</h1>
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot local"></div> Локальный</div>
+    <div class="status-item"><div class="status-dot cloud"></div> Облачный</div>
+    <div class="status-item"><div class="status-dot sync"></div> Sync: 2 мин назад</div>
+    <div class="status-item"><div class="status-dot dlp"></div> DLP: активен</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <h2>📚 Навыки (7 активных)</h2>
+    <ul class="skill-list">
+      <li class="skill-item active">
+        <div class="name">agentic-coordination</div>
+        <div class="desc">Координация агентов</div>
+        <div class="status">✓ Актуально</div>
+      </li>
+      <li class="skill-item">
+        <div class="name">frontend-engineering</div>
+        <div class="desc">React, Next.js, Angular</div>
+        <div class="status">✓ Актуально</div>
+      </li>
+      <li class="skill-item">
+        <div class="name">backend-engineering</div>
+        <div class="desc">Node.js, Python, Go</div>
+        <div class="status">✓ Актуально</div>
+      </li>
+      <li class="skill-item">
+        <div class="name">document-converter</div>
+        <div class="desc">Конвертация документов</div>
+        <div class="status">🔄 Обновлено</div>
+      </li>
+      <li class="skill-item">
+        <div class="name">git-guardrails</div>
+        <div class="desc">Защита git-команд</div>
+        <div class="status">✓ Актуально</div>
+      </li>
+      <li class="skill-item">
+        <div class="name">scientific-publishing</div>
+        <div class="desc">Научные публикации</div>
+        <div class="status">🆕 Новый</div>
+      </li>
+      <li class="skill-item">
+        <div class="name">aztp-skills</div>
+        <div class="desc">ГОСТ-документация</div>
+        <div class="status">✓ Актуально</div>
+      </li>
+    </ul>
+    <div style="margin-top: 16px; padding: 12px; background: var(--bg); border-radius: 8px; font-size: 12px;">
+      <div style="color: var(--accent); font-weight: 500; margin-bottom: 8px;">📊 Статистика</div>
+      <div>Всего навыков: <strong>270+</strong></div>
+      <div>Системных: <strong>148</strong></div>
+      <div>Пользовательских: <strong>122</strong></div>
+      <div>Обновлено сегодня: <strong>3</strong></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="chat" id="chat">
+      <div class="message ai">
+        <div class="source">🤖 Эвокод (локально)</div>
+        Привет! Я Эвокод — AI-ориентированная среда разработки. Чем могу помочь?
+      </div>
+      <div class="message user">
+        Помоги написать API на FastAPI
+      </div>
+      <div class="message ai">
+        <div class="source">🤖 Эвокод (локально) + backend-engineering</div>
+        Конечно! Вот пример простого API на FastAPI:
+
+<pre style="background: var(--bg); padding: 12px; border-radius: 6px; margin-top: 8px; overflow-x: auto;">
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Item(BaseModel):
+    name: str
+    price: float
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return item
+</pre>
+
+Хочешь добавить аутентификацию или работу с базой данных?
+      </div>
+      <div class="message user">
+        Да, добавь PostgreSQL
+      </div>
+      <div class="message ai">
+        <div class="source">🤖 Эвокод (локально) + backend-engineering</div>
+        Отлично! Вот обновлённый код с PostgreSQL:
+
+<pre style="background: var(--bg); padding: 12px; border-radius: 6px; margin-top: 8px; overflow-x: auto;">
+from fastapi import FastAPI
+from pydantic import BaseModel
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+DATABASE_URL = "postgresql://user:pass@localhost/dbname"
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(bind=engine)
+Base = declarative_base()
+
+class Item(Base):
+    __tablename__ = "items"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    price = Column(Float)
+
+app = FastAPI()
+
+@app.get("/items/")
+async def get_items():
+    db = SessionLocal()
+    items = db.query(Item).all()
+    return items
+</pre>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" placeholder="Введите сообщение..." id="messageInput">
+      <button class="btn" onclick="sendMessage()">Отправить</button>
+    </div>
+  </div>
+
+  <div class="info-panel">
+    <h2>🔄 Skill Sync</h2>
+    <div class="info-item">
+      <div class="label">Последняя синхронизация</div>
+      <div class="value">18 июля 2026, 03:00</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Следующая синхронизация</div>
+      <div class="value">19 июля 2026, 03:00</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Источники</div>
+      <div class="value">evocode/skills, kilocode/skills</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Статус</div>
+      <div class="value" style="color: var(--accent2);">✅ Активно</div>
+    </div>
+
+    <h2 style="margin-top: 24px;">📋 Лог синхронизации</h2>
+    <div class="sync-log">
+      <div class="log-entry">
+        <span class="timestamp">03:00:01</span>
+        <span class="operation"> [INFO]</span>
+        <span class="result"> Starting sync...</span>
+      </div>
+      <div class="log-entry">
+        <span class="timestamp">03:00:02</span>
+        <span class="operation"> [INFO]</span>
+        <span class="result"> Checking source: evocode-skills</span>
+      </div>
+      <div class="log-entry">
+        <span class="timestamp">03:00:05</span>
+        <span class="operation"> [INFO]</span>
+        <span class="result"> Found 3 new skills, 1 changed</span>
+      </div>
+      <div class="log-entry">
+        <span class="timestamp">03:00:06</span>
+        <span class="operation"> [INFO]</span>
+        <span class="result"> Downloading new skills...</span>
+      </div>
+      <div class="log-entry">
+        <span class="timestamp">03:00:08</span>
+        <span class="operation"> [INFO]</span>
+        <span class="result"> Applying changes...</span>
+      </div>
+      <div class="log-entry">
+        <span class="timestamp">03:00:09</span>
+        <span class="operation"> [INFO]</span>
+        <span class="result"> Backup created: .backup/2026-07-18/</span>
+      </div>
+      <div class="log-entry">
+        <span class="timestamp">03:00:10</span>
+        <span class="operation"> [INFO]</span>
+        <span class="result"> Sync completed: 4 skills updated</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const chat = document.getElementById('chat');
+    const text = input.value.trim();
+    if (!text) return;
+
+    // User message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message user';
+    userMsg.textContent = text;
+    chat.appendChild(userMsg);
+
+    // AI message (simulated)
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'message ai';
+    aiMsg.innerHTML = '<div class="source">🤖 Эвокод (локально)</div> Обрабатываю ваш запрос...';
+    chat.appendChild(aiMsg);
+    chat.scrollTop = chat.scrollHeight;
+
+    // Simulate response
+    setTimeout(() => {
+      aiMsg.innerHTML = `<div class="source">🤖 Эвокод (локально) + agentic-coordination</div> Вот ответ на ваш запрос: "${text}". Этот ответ сгенерирован локальной моделью и использует активный навык agentic-coordination.`;
+      chat.scrollTop = chat.scrollHeight;
+    }, 1000);
+
+    input.value = '';
+  }
+
+  document.getElementById('messageInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
+
+</body>
+</html>

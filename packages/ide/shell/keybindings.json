@@ -1,0 +1,27 @@
+[
+  {
+    "key": "ctrl+shift+m",
+    "command": "evocode.shell.openProduct"
+  },
+  {
+    "key": "ctrl+shift+,",
+    "command": "evocode.shell.openIdeSettings"
+  },
+  {
+    "key": "ctrl+,",
+    "command": "evocode.shell.openIdeSettings"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "evocode.shell.focusAgent",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+l",
+    "command": "kilo-code.new.plusButtonClicked"
+  },
+  {
+    "key": "ctrl+;",
+    "command": "workbench.action.toggleSidebarVisibility"
+  }
+]

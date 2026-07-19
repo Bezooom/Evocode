@@ -1,0 +1,553 @@
+{
+  "_comment": "Строковые замены в dist/*.js — лицо «Эвокод», без Kilo/VS Code noise",
+  "replacements": [
+    {
+      "from": "Kilo Code is an AI coding assistant. Ask it to build features, fix bugs, or explain your codebase.",
+      "to": "Эвокод — privacy-first AI-агент. Локальная модель, DLP и роутер. Создайте код, исправьте баг или объясните проект."
+    },
+    {
+      "from": "Kilo Code — это AI-помощник для программирования. Попросите его создать функции, исправить ошибки или объяснить вашу кодовую базу.",
+      "to": "Эвокод — privacy-first AI-агент. Локальная модель, DLP и роутер. Создайте код, исправьте баг или объясните проект."
+    },
+    {
+      "from": "Welcome to Kilo",
+      "to": "Добро пожаловать в Эвокод"
+    },
+    {
+      "from": "Добро пожаловать в Kilo",
+      "to": "Добро пожаловать в Эвокод"
+    },
+    {
+      "from": "Welcome to Kilo Code",
+      "to": "Добро пожаловать в Эвокод"
+    },
+    {
+      "from": "Kilo Code",
+      "to": "Эвокод"
+    },
+    {
+      "from": "Kilo Gateway",
+      "to": "Эвокод Core"
+    },
+    {
+      "from": "About Kilo",
+      "to": "Об Эвокод"
+    },
+    {
+      "from": "О Kilo Code",
+      "to": "Об Эвокод"
+    },
+    {
+      "from": "Sign in to Kilo",
+      "to": "Войти (не нужно для local)"
+    },
+    {
+      "from": "Log in with Kilo",
+      "to": "Вход (не нужен для local)"
+    },
+    {
+      "from": "Sign in",
+      "to": "Войти"
+    },
+    {
+      "from": "kilo.ai",
+      "to": "evocode.local"
+    },
+    {
+      "from": "https://kilo.ai",
+      "to": "https://github.com/evocode/evocode"
+    },
+    {
+      "from": "app.kilo.ai",
+      "to": "localhost:8083"
+    },
+    {
+      "from": "KiloClaw",
+      "to": "Эвокод Claw"
+    },
+    {
+      "from": "Open Kilo",
+      "to": "Открыть Эвокод"
+    },
+    {
+      "from": "Open Kilo Code",
+      "to": "Открыть Эвокод"
+    },
+    {
+      "from": "Kilo Settings",
+      "to": "Настройки Эвокод"
+    },
+    {
+      "from": "Kilo Marketplace",
+      "to": "Каталог навыков"
+    },
+    {
+      "from": "via Kilo",
+      "to": "via Эвокод"
+    },
+    {
+      "from": "let Kilo take",
+      "to": "агент берёт"
+    },
+    {
+      "from": "If unset, Kilo",
+      "to": "Если пусто, Эвокод"
+    },
+    {
+      "from": "when the Kilo backend",
+      "to": "когда backend Эвокод"
+    },
+    {
+      "from": "into Kilo sessions",
+      "to": "в сессии Эвокод"
+    },
+    {
+      "from": "want Kilo to use",
+      "to": "нужно, чтобы Эвокод использовал"
+    },
+    {
+      "from": "Kilo diff",
+      "to": "diff Эвокод"
+    },
+    {
+      "from": "powered by Kilo",
+      "to": "powered by Эвокод"
+    },
+    {
+      "from": "Powered by Kilo",
+      "to": "Эвокод"
+    },
+    {
+      "from": "Get started with Kilo",
+      "to": "Начать с Эвокод"
+    },
+    {
+      "from": "Connect to Kilo",
+      "to": "Подключить Core"
+    },
+    {
+      "from": "Kilo account",
+      "to": "Аккаунт (опционально)"
+    },
+    {
+      "from": "No Kilo",
+      "to": "Нет"
+    },
+    {
+      "from": "Kilocode",
+      "to": "Эвокод"
+    },
+    {
+      "from": "Subagent waiting for permission",
+      "to": "Субагент ждёт разрешения"
+    },
+    {
+      "from": "Subagent waiting for response",
+      "to": "Субагент ждёт ответа"
+    },
+    {
+      "from": "Leave empty for local server",
+      "to": "Пусто = локальный сервер"
+    },
+    {
+      "from": "Diff too large to render",
+      "to": "Diff слишком большой"
+    },
+    {
+      "from": "Searching the codebase",
+      "to": "Ищу в кодовой базе"
+    },
+    {
+      "from": "Considering next steps",
+      "to": "Обдумываю дальше"
+    },
+    {
+      "from": "Waiting for permission",
+      "to": "Ожидание разрешения"
+    },
+    {
+      "from": "Disable auto-approve",
+      "to": "Выключить авто-одобрение"
+    },
+    {
+      "from": "Something went wrong",
+      "to": "Что-то пошло не так"
+    },
+    {
+      "from": "Waiting for response",
+      "to": "Ожидание ответа"
+    },
+    {
+      "from": "Planning next steps",
+      "to": "Планирую следующие шаги"
+    },
+    {
+      "from": "Free usage exceeded",
+      "to": "Бесплатный лимит исчерпан"
+    },
+    {
+      "from": "Enable auto-approve",
+      "to": "Включить авто-одобрение"
+    },
+    {
+      "from": "Previous agent mode",
+      "to": "Предыдущий режим"
+    },
+    {
+      "from": "Permission required",
+      "to": "Требуется разрешение"
+    },
+    {
+      "from": "Export conversation",
+      "to": "Экспорт диалога"
+    },
+    {
+      "from": "Import conversation",
+      "to": "Импорт диалога"
+    },
+    {
+      "from": "Gathering thoughts",
+      "to": "Собираю мысли"
+    },
+    {
+      "from": "Free limit reached",
+      "to": "Бесплатный лимит"
+    },
+    {
+      "from": "Select provider...",
+      "to": "Выберите провайдера…"
+    },
+    {
+      "from": "Browse Marketplace",
+      "to": "Каталог навыков"
+    },
+    {
+      "from": "Keyboard shortcuts",
+      "to": "Горячие клавиши"
+    },
+    {
+      "from": "Copy relative path",
+      "to": "Копировать относительный путь"
+    },
+    {
+      "from": "Reveal in explorer",
+      "to": "Показать в проводнике"
+    },
+    {
+      "from": "Clear conversation",
+      "to": "Очистить диалог"
+    },
+    {
+      "from": "Searching the web",
+      "to": "Ищу в интернете"
+    },
+    {
+      "from": "Last turn changes",
+      "to": "Изменения последнего хода"
+    },
+    {
+      "from": "Provider API Keys",
+      "to": "API-ключи провайдеров"
+    },
+    {
+      "from": "Check for updates",
+      "to": "Проверить обновления"
+    },
+    {
+      "from": "Fork conversation",
+      "to": "Ветвить диалог"
+    },
+    {
+      "from": "Completion tokens",
+      "to": "Токены ответа"
+    },
+    {
+      "from": "OpenAI Compatible",
+      "to": "OpenAI-совместимый"
+    },
+    {
+      "from": "Running commands",
+      "to": "Выполняю команды"
+    },
+    {
+      "from": "Go limit reached",
+      "to": "Лимит достигнут"
+    },
+    {
+      "from": "Unsupported type",
+      "to": "Неподдерживаемый тип"
+    },
+    {
+      "from": "Open in terminal",
+      "to": "Открыть в терминале"
+    },
+    {
+      "from": "Image attachment",
+      "to": "Изображение"
+    },
+    {
+      "from": "Enhancing prompt",
+      "to": "Улучшаю промпт"
+    },
+    {
+      "from": "New conversation",
+      "to": "Новый диалог"
+    },
+    {
+      "from": "Delegating work",
+      "to": "Делегирую"
+    },
+    {
+      "from": "Session changes",
+      "to": "Изменения сессии"
+    },
+    {
+      "from": "Next agent mode",
+      "to": "Следующий режим"
+    },
+    {
+      "from": "Command palette",
+      "to": "Палитра команд"
+    },
+    {
+      "from": "Switch provider",
+      "to": "Сменить провайдера"
+    },
+    {
+      "from": "Custom provider",
+      "to": "Свой провайдер"
+    },
+    {
+      "from": "powered by Kilo",
+      "to": "Эвокод"
+    },
+    {
+      "from": "Branch changes",
+      "to": "Изменения ветки"
+    },
+    {
+      "from": "Select a model",
+      "to": "Выберите модель"
+    },
+    {
+      "from": "Commit Message",
+      "to": "Сообщение коммита"
+    },
+    {
+      "from": "Revert to here",
+      "to": "Откатить сюда"
+    },
+    {
+      "from": "Binary content",
+      "to": "Бинарное содержимое"
+    },
+    {
+      "from": "Ask every time",
+      "to": "Спрашивать каждый раз"
+    },
+    {
+      "from": "Architect mode",
+      "to": "Режим архитектора"
+    },
+    {
+      "from": "Speech to text",
+      "to": "Речь в текст"
+    },
+    {
+      "from": "Stop listening",
+      "to": "Остановить запись"
+    },
+    {
+      "from": "Enhance prompt",
+      "to": "Улучшить промпт"
+    },
+    {
+      "from": "Delete message",
+      "to": "Удалить сообщение"
+    },
+    {
+      "from": "Context window",
+      "to": "Окно контекста"
+    },
+    {
+      "from": "Quota exceeded",
+      "to": "Квота исчерпана"
+    },
+    {
+      "from": "Render anyway",
+      "to": "Всё равно показать"
+    },
+    {
+      "from": "Open settings",
+      "to": "Открыть настройки"
+    },
+    {
+      "from": "System prompt",
+      "to": "Системный промпт"
+    },
+    {
+      "from": "Are you sure?",
+      "to": "Вы уверены?"
+    },
+    {
+      "from": "Not available",
+      "to": "Недоступно"
+    },
+    {
+      "from": "Agent Manager",
+      "to": "Менеджер агентов"
+    },
+    {
+      "from": "Drag and drop",
+      "to": "Перетащите файлы"
+    },
+    {
+      "from": "Prompt tokens",
+      "to": "Токены промпта"
+    },
+    {
+      "from": "Making edits",
+      "to": "Вношу правки"
+    },
+    {
+      "from": "Collapse all",
+      "to": "Свернуть всё"
+    },
+    {
+      "from": "View details",
+      "to": "Подробности"
+    },
+    {
+      "from": "Kilo Desktop",
+      "to": "Эвокод"
+    },
+    {
+      "from": "Always allow",
+      "to": "Всегда разрешать"
+    },
+    {
+      "from": "Auto-approve",
+      "to": "Авто-одобрение"
+    },
+    {
+      "from": "Auto approve",
+      "to": "Авто-одобрение"
+    },
+    {
+      "from": "Unauthorized",
+      "to": "Нет доступа"
+    },
+    {
+      "from": "Experimental",
+      "to": "Экспериментально"
+    },
+    {
+      "from": "Report issue",
+      "to": "Сообщить о проблеме"
+    },
+    {
+      "from": "Working tree",
+      "to": "Рабочее дерево"
+    },
+    {
+      "from": "Close others",
+      "to": "Закрыть остальные"
+    },
+    {
+      "from": "Edit message",
+      "to": "Редактировать сообщение"
+    },
+    {
+      "from": "Copy message",
+      "to": "Копировать сообщение"
+    },
+    {
+      "from": "Context used",
+      "to": "Контекст занят"
+    },
+    {
+      "from": "Switch model",
+      "to": "Сменить модель"
+    },
+    {
+      "from": "Local server",
+      "to": "Локальный сервер"
+    },
+    {
+      "from": "Evocode Core",
+      "to": "Эвокод Core"
+    },
+    {
+      "from": "Kilo account",
+      "to": "Аккаунт"
+    },
+    {
+      "from": "Git changes",
+      "to": "Изменения Git"
+    },
+    {
+      "from": "Add credits",
+      "to": "Добавить кредиты"
+    },
+    {
+      "from": "Add comment",
+      "to": "Добавить комментарий"
+    },
+    {
+      "from": "Get started",
+      "to": "Начать"
+    },
+    {
+      "from": "Binary file",
+      "to": "Бинарный файл"
+    },
+    {
+      "from": "Permissions",
+      "to": "Разрешения"
+    },
+    {
+      "from": "Full screen",
+      "to": "На весь экран"
+    },
+    {
+      "from": "Coming soon",
+      "to": "Скоро"
+    },
+    {
+      "from": "Auto update",
+      "to": "Автообновление"
+    },
+    {
+      "from": "In progress",
+      "to": "Выполняется"
+    },
+    {
+      "from": "Open folder",
+      "to": "Открыть папку"
+    },
+    {
+      "from": "Paste image",
+      "to": "Вставить изображение"
+    },
+    {
+      "from": "Voice input",
+      "to": "Голосовой ввод"
+    },
+    {
+      "from": "Expand all",
+      "to": "Развернуть всё"
+    },
+    {
+      "from": "Loading...",
+      "to": "Загрузка…"
+    },
+    {
+      "from": "Show steps",
+      "to": "Показать шаги"
+    },
+    {
+      "from": "Hide steps",
+      "to": "Скрыть шаги"
+    }
+  ]
+}

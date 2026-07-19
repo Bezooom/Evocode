@@ -1,0 +1,191 @@
+{
+  "name": "evocode-shell",
+  "displayName": "Эвокод",
+  "description": "Нативная оболочка Эвокод: toolbar, модели, настройки IDE.",
+  "version": "0.5.1",
+  "publisher": "evocode",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js",
+  "icon": "icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "evocode.shell.openProduct",
+        "title": "Модели / программа",
+        "category": "Эвокод",
+        "icon": "$(server-process)"
+      },
+      {
+        "command": "evocode.shell.models",
+        "title": "Модели",
+        "category": "Эвокод",
+        "icon": "$(server-process)"
+      },
+      {
+        "command": "evocode.shell.settings",
+        "title": "Настройки",
+        "category": "Эвокод",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "evocode.shell.openIdeSettings",
+        "title": "Параметры IDE (Эвокод)",
+        "category": "Эвокод",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "evocode.shell.focusAgent",
+        "title": "Чат агента",
+        "category": "Эвокод",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "evocode.shell.agentManager",
+        "title": "Менеджер агентов",
+        "category": "Эвокод",
+        "icon": "$(organization)"
+      },
+      {
+        "command": "evocode.shell.profile",
+        "title": "Профиль",
+        "category": "Эвокод",
+        "icon": "$(account)"
+      },
+      {
+        "command": "evocode.shell.ensureCore",
+        "title": "Проверить Core",
+        "category": "Эвокод"
+      },
+      {
+        "command": "evocode.shell.showStatus",
+        "title": "Статус",
+        "category": "Эвокод"
+      },
+      {
+        "command": "evocode.shell.startDefaultModel",
+        "title": "Запустить coder",
+        "category": "Эвокод"
+      },
+      {
+        "command": "evocode.shell.installDesktop",
+        "title": "Ярлык Ubuntu",
+        "category": "Эвокод"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "evocode.shell.openIdeSettings",
+          "group": "navigation@90",
+          "when": "true"
+        },
+        {
+          "command": "evocode.shell.agentManager",
+          "group": "navigation@91",
+          "when": "true"
+        },
+        {
+          "command": "evocode.shell.profile",
+          "group": "navigation@92",
+          "when": "true"
+        },
+        {
+          "command": "evocode.shell.openProduct",
+          "group": "navigation@93",
+          "when": "true"
+        },
+        {
+          "command": "evocode.shell.focusAgent",
+          "group": "navigation@94",
+          "when": "true"
+        }
+      ],
+      "commandPalette": [
+        { "command": "evocode.shell.openProduct" },
+        { "command": "evocode.shell.models" },
+        { "command": "evocode.shell.settings" },
+        { "command": "evocode.shell.openIdeSettings" },
+        { "command": "evocode.shell.focusAgent" },
+        { "command": "evocode.shell.agentManager" },
+        { "command": "evocode.shell.profile" },
+        { "command": "evocode.shell.installDesktop" },
+        { "command": "evocode.shell.startDefaultModel" },
+        { "command": "evocode.shell.ensureCore" }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "evocode.shell.openProduct",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m"
+      },
+      {
+        "command": "evocode.shell.openIdeSettings",
+        "key": "ctrl+shift+,",
+        "mac": "cmd+shift+,"
+      },
+      {
+        "command": "evocode.shell.openIdeSettings",
+        "key": "ctrl+,",
+        "mac": "cmd+,"
+      },
+      {
+        "command": "evocode.shell.focusAgent",
+        "key": "ctrl+l",
+        "mac": "cmd+l",
+        "when": "!terminalFocus"
+      },
+      {
+        "command": "evocode.shell.agentManager",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a"
+      }
+    ],
+    "configuration": {
+      "title": "Эвокод",
+      "properties": {
+        "evocode.shell.autoStartCore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Автозапуск Core :8083"
+        },
+        "evocode.shell.autoStartDefaultModel": {
+          "type": "boolean",
+          "default": true,
+          "description": "Автозапуск профиля coder, если LLM offline"
+        },
+        "evocode.shell.defaultModelProfile": {
+          "type": "string",
+          "default": "coder",
+          "description": "Профиль models (profiles.json)"
+        },
+        "evocode.shell.openProductOnStartup": {
+          "type": "boolean",
+          "default": false,
+          "description": "Открывать панель моделей при старте"
+        },
+        "evocode.shell.autoFocusAgent": {
+          "type": "boolean",
+          "default": true,
+          "description": "Открывать чат Эвокод при старте (по умолчанию да)"
+        },
+        "evocode.shell.corePort": {
+          "type": "number",
+          "default": 8083
+        },
+        "evocode.shell.coreRoot": {
+          "type": "string",
+          "default": ""
+        },
+        "evocode.shell.showWelcome": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  }
+}

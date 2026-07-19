@@ -1,0 +1,9 @@
+{
+  "name": "agentic-coordination",
+  "version": "1.0.0",
+  "source": "github.com/evocode/skills",
+  "sha": "abc123def456",
+  "updated": "2026-07-18",
+  "breaking": false,
+  "dependencies": []
+}

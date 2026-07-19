@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Эвокод — Roadmap</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #c9d1d9; --accent: #58a6ff; --accent2: #3fb950;
+    --accent3: #f0883e; --accent4: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); padding: 48px;
+  }
+  .header { text-align: center; margin-bottom: 48px; }
+  .header h1 { font-size: 36px; color: #fff; margin-bottom: 8px; }
+  .header p { color: #8b949e; font-size: 16px; }
+  .timeline { position: relative; max-width: 900px; margin: 0 auto; }
+  .timeline::before {
+    content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 3px; background: var(--border); transform: translateX(-50%);
+  }
+  .phase {
+    position: relative; width: 50%; padding: 24px 40px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 32px;
+    transition: transform 0.2s;
+  }
+  .phase:hover { transform: translateY(-4px); }
+  .phase::before {
+    content: ''; position: absolute; top: 24px; left: -8px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--bg);
+  }
+  .phase:nth-child(odd) { left: 0; text-align: right; }
+  .phase:nth-child(even) { left: 50%; text-align: left; }
+  .phase:nth-child(odd)::before { left: auto; right: -8px; }
+  .phase .date {
+    font-size: 12px; color: var(--accent); font-weight: 600;
+    margin-bottom: 8px; display: inline-block;
+  }
+  .phase h3 { font-size: 18px; color: #fff; margin-bottom: 12px; }
+  .phase ul { list-style: none; }
+  .phase ul li {
+    font-size: 13px; padding: 4px 0; color: #8b949e;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .phase:nth-child(odd) ul li { justify-content: flex-end; }
+  .phase ul li::before { content: '✓'; color: var(--accent2); font-weight: bold; }
+  .phase:nth-child(odd) ul li::before { content: '✓'; }
+  .phase:nth-child(even) ul li::before { content: '✓'; }
+  .status {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; margin-left: 8px;
+  }
+  .status-done { background: rgba(63,185,80,0.2); color: var(--accent2); }
+  .status-progress { background: rgba(88,166,255,0.2); color: var(--accent); }
+  .status-todo { background: rgba(139,148,158,0.2); color: #8b949e; }
+  .footer { text-align: center; margin-top: 48px; color: #8b949e; font-size: 14px; }
+  @media (max-width: 768px) {
+    body { padding: 24px; }
+    .timeline::before { left: 24px; }
+    .phase { width: 100%; left: 0 !important; text-align: left !important; }
+    .phase::before { left: 16px !important; right: auto !important; }
+    .phase ul li { justify-content: flex-start !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🗺️ Эвокод — Roadmap</h1>
+  <p>Дорожная карта разработки: от идеи до релиза</p>
+</div>
+
+<div class="timeline">
+
+  <!-- Phase 0 -->
+  <div class="phase">
+    <div class="date">Фаза 0 — Подготовка</div>
+    <h3>Исследование и планирование</h3>
+    <ul>
+      <li>Создано техническое задание <span class="status status-done">✓</span></li>
+      <li>Созданы дополнения к ТЗ <span class="status status-done">✓</span></li>
+      <li>Созданы примеры SKILL.md <span class="status status-done">✓</span></li>
+      <li>Создано сравнение с конкурентами <span class="status status-done">✓</span></li>
+      <li>Созданы 21 user story <span class="status status-done">✓</span></li>
+      <li>Создана OpenAPI-спецификация <span class="status status-done">✓</span></li>
+      <li>Создана дизайн-система <span class="status status-done">✓</span></li>
+      <li>Создан план миграции с VS Code <span class="status status-done">✓</span></li>
+    </ul>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase">
+    <div class="date">Фаза 1 — Ядро приложения</div>
+    <h3>Inference Engine + Роутер</h3>
+    <ul>
+      <li>Реализация дву-модельного инференса (FIM + Chat)</li>
+      <li>Интеграция llama.cpp в качестве inference-фреймворка</li>
+      <li>Умный роутер между локальным и облачным выводом</li>
+      <li>DLP Guard для защиты данных</li>
+      <li>Local RAG на SQLite-vec/FTS5</li>
+      <li>Встроенный MCP Host</li>
+    </ul>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase">
+    <div class="date">Фаза 2 — Навыки</div>
+    <h3>Миграция и Skill Sync</h3>
+    <ul>
+      <li>Перенос 7 критически важных навыков <span class="status status-progress">⚡</span></li>
+      <li>Перенос 10+ дополнительных навыков (Phase 1, 2)</li>
+      <li>Настройка Skill Sync Engine для ежедневной синхронизации</li>
+      <li>Реализация Skill Overrides (system/user)</li>
+      <li>Перенос оставшихся ~242 навыков (Phase 3)</li>
+    </ul>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase">
+    <div class="date">Фаза 3 — Инфраструктура</div>
+    <h3>CI/CD и тестирование</h3>
+    <ul>
+      <li>Настройка CI/CD (GitLab CI/CD или GitHub Actions)</li>
+      <li>Создание Dockerfile для сборки</li>
+      <li>Создание unit-тестов для перенесённых навыков</li>
+      <li>Создание integration-тестов</li>
+      <li>Создание E2E-тестов</li>
+      <li>Настройка окружений (staging, production)</li>
+      <li>Настройка уведомлений (email, Slack, Telegram)</li>
+    </ul>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase">
+    <div class="date">Фаза 4 — Демо</div>
+    <h3>Создание demo-версии</h3>
+    <ul>
+      <li>Создание интерактивного прототипа</li>
+      <li>Демонстрация основных функций</li>
+      <li>Сбор обратной связи от пользователей</li>
+      <li>Итеративное улучшение на основе feedback</li>
+    </ul>
+  </div>
+
+  <!-- Phase 5 -->
+  <div class="phase">
+    <div class="date">Фаза 5 — Релиз</div>
+    <h3>Запуск и поддержка</h3>
+    <ul>
+      <li>Запуск бета-версии</li>
+      <li>Сбор и обработка обратной связи</li>
+      <li>Исправление багов и улучшения</li>
+      <li>Документирование API и SDK</li>
+      <li>Запуск публичной версии</li>
+      <li>Поддержка и развитие</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Эвокод — российская AI-ориентированная среда разработки</p>
+  <p style="margin-top: 8px;">Обновлено: июль 2026</p>
+</div>
+
+</body>
+</html>
