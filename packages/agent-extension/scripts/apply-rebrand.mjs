@@ -526,20 +526,32 @@ function materializeIcons() {
 }
 
 function writeWorkspaceFiles() {
+  // IMPORTANT: never write product branding (window.title=Эвокод) into repo .vscode/
+  // — that renames stock VS Code when opening this folder.
+  // Branding only: packages/ide/shell/settings.json → ~/.evocode-ide
   const vscodeDir = path.join(EVOCODE_ROOT, '.vscode');
   fs.mkdirSync(vscodeDir, { recursive: true });
 
-  const settings = JSON.parse(
-    fs.readFileSync(path.join(PKG_ROOT, 'config/settings.vscode.json'), 'utf-8')
+  const safeSettings = {
+    _comment:
+      'No product branding here (see packages/ide/shell/settings.json for Эвокод profile)',
+    'files.exclude': {
+      '**/node_modules': true,
+      'packages/ide/dist': true,
+      'packages/ide/vscodium': true,
+    },
+  };
+  fs.writeFileSync(
+    path.join(vscodeDir, 'settings.json'),
+    JSON.stringify(safeSettings, null, 2) + '\n',
   );
-  fs.writeFileSync(path.join(vscodeDir, 'settings.json'), JSON.stringify(settings, null, 2) + '\n');
 
   const workspaceFile = path.join(PKG_ROOT, 'config/evocode.code-workspace');
   const launch = {
     version: '0.2.0',
     configurations: [
       {
-        name: 'Эвокод: Extension',
+        name: 'Evocode Extension Dev',
         type: 'extensionHost',
         request: 'launch',
         args: [
@@ -551,7 +563,7 @@ function writeWorkspaceFiles() {
     ],
   };
   fs.writeFileSync(path.join(vscodeDir, 'launch.json'), JSON.stringify(launch, null, 2) + '\n');
-  console.log('  wrote .vscode settings (no welcome, hide secondary chat chrome)');
+  console.log('  wrote .vscode (no window.title branding)');
   if (fs.existsSync(workspaceFile)) {
     console.log('  workspace:', workspaceFile);
   }

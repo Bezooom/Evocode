@@ -1,23 +1,13 @@
 {
-  "kilo-code.new.model.providerID": "evocode",
-  "kilo-code.new.model.modelID": "evocode-auto",
-  "kilo-code.new.language": "Русский",
-  "workbench.startupEditor": "none",
-  "workbench.tips.enabled": false,
-  "workbench.welcomePage.walkthroughs.openOnInstall": false,
-  "chat.commandCenter.enabled": false,
-  "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "window.title": "Эвокод — ${activeEditorShort}${separator}${rootName}",
-  "window.commandCenter": false,
-  "extensions.ignoreRecommendations": true,
-  "telemetry.telemetryLevel": "off",
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#0d1117",
-    "activityBar.foreground": "#58a6ff",
-    "activityBarBadge.background": "#238636",
-    "statusBar.background": "#161b22",
-    "statusBar.foreground": "#c9d1d9",
-    "titleBar.activeBackground": "#0d1117",
-    "titleBar.activeForeground": "#e6edf3"
+  "_comment": "Workspace for development only — NO product branding (window.title etc.). Branding lives in ~/.evocode-ide via packages/ide/shell/settings.json",
+  "files.exclude": {
+    "**/node_modules": true,
+    "packages/ide/dist": true,
+    "packages/ide/vscodium": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "packages/ide/dist": true,
+    "skills/system/**": true
   }
 }

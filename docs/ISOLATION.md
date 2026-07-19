@@ -45,3 +45,25 @@ bash scripts/repair-vscode-kilo.sh
 2. Восстановить `kilo.json` из `kilo.json.bak-*`  
 3. Переустановить Kilo Code из marketplace (если monorepo dist кастомный)  
 4. `git -C ~/kilocode checkout -- packages/kilo-vscode`  
+
+## Если обычный VS Code называется «Эвокод»
+
+Частая причина: открыта **папка проекта** `Evocode/` с workspace-настройкой  
+`window.title = "Эвокод — …"` (раньше писалась rebrand-скриптом в `.vscode/settings.json`).
+
+Это **не** системный rename VS Code — только title bar для этого workspace.
+
+**Исправление:**
+
+1. В репо уже убрано branding из `.vscode/settings.json`  
+2. `bash scripts/repair-vscode-kilo.sh`  
+3. **Developer: Reload Window** или закрой папку Evocode / открой другую  
+
+Product brand (`window.title` Эвокод) живёт **только** в `~/.evocode-ide` (launcher `npm run evocode`).
+
+**Не путать:**
+
+| Окно | Как запускать | Title |
+|------|----------------|-------|
+| Visual Studio Code | `code` / иконка Code | Visual Studio Code / имя папки |
+| Эвокод | `npm run evocode` / ярлык Эвокод | Эвокод — … |

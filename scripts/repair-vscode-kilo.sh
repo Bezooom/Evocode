@@ -80,7 +80,50 @@ if [[ -d /home/bezoom/kilocode/.git ]]; then
   echo "reverted kilocode monorepo Evocode patches (if any)"
 fi
 
+# 6) Clear accidental product branding if it landed in Code user settings
+python3 - <<'PY'
+import json
+from pathlib import Path
+p = Path.home() / ".config" / "Code" / "User" / "settings.json"
+if p.exists():
+    try:
+        d = json.loads(p.read_text())
+    except Exception:
+        d = {}
+    removed = []
+    for k in list(d.keys()):
+        if k in (
+            "window.title",
+            "window.commandCenter",
+            "workbench.colorCustomizations",
+        ) and (
+            (isinstance(d[k], str) and "Эвокод" in d[k])
+            or k == "workbench.colorCustomizations"
+            and "Эвокод" in json.dumps(d.get("window.title", ""))
+        ):
+            # only remove title if it mentions Эвокод
+            if k == "window.title" and "Эвокод" in str(d[k]):
+                del d[k]
+                removed.append(k)
+    # explicit: never leave Evocode title in stock Code
+    if "window.title" in d and "Эвокод" in str(d.get("window.title", "")):
+        del d["window.title"]
+        removed.append("window.title")
+    if removed:
+        p.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n")
+        print("cleaned Code User settings:", removed)
+    else:
+        print("Code User settings: no Эвокод window.title")
+else:
+    print("no Code User settings.json")
+PY
+
 echo ""
-echo "Done. Reload VS Code window (Developer: Reload Window)."
-echo "Evocode lives only in ~/.evocode-ide + ~/.config/evocode + npm run evocode"
-echo "Do NOT run preinstall into ~/.vscode anymore."
+echo "Done. Reload VS Code (Developer: Reload Window)."
+echo ""
+echo "If title still says Эвокод: you opened the Evocode *project folder*."
+echo "  Repo .vscode/settings.json must NOT set window.title (fixed in tree)."
+echo "  Close folder or open another workspace — title becomes Visual Studio Code again."
+echo ""
+echo "Evocode product brand only: ~/.evocode-ide + npm run evocode"
+echo "Do NOT preinstall into ~/.vscode."
