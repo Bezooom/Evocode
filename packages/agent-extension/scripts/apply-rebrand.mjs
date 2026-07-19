@@ -22,6 +22,10 @@ const I18N_RU_PATH = path.join(PKG_ROOT, 'brand/webview-i18n-ru.json');
 const I18N_RU = fs.existsSync(I18N_RU_PATH)
   ? JSON.parse(fs.readFileSync(I18N_RU_PATH, 'utf-8'))
   : { keyPatches: {}, phrases: [] };
+const DEKILO_PATH = path.join(PKG_ROOT, 'brand/webview-dekilo.json');
+const DEKILO = fs.existsSync(DEKILO_PATH)
+  ? JSON.parse(fs.readFileSync(DEKILO_PATH, 'utf-8'))
+  : { replacements: [] };
 const OVERRIDES = JSON.parse(
   fs.readFileSync(path.join(PKG_ROOT, 'rebrand/overrides.json'), 'utf-8')
 );
@@ -332,9 +336,17 @@ function materializeAndPatchDist(upstream) {
     'agent-manager.js',
     'extension.js',
     'diff-viewer.js',
+    'diff-virtual.js',
+    'marketplace.js',
+    'kiloclaw.js',
   ];
 
-  // Build replacement list: longer phrases first (avoid partial clobber)
+  // Webview-only aggressive de-Kilo (substring, longest first)
+  const dekiloList = (DEKILO.replacements || [])
+    .filter((r) => r.from && r.to && r.from !== r.to)
+    .sort((a, b) => b.from.length - a.from.length);
+
+  // Safer phrase list: quoted only
   const phraseList = [
     ...(UI_STRINGS.replacements || []),
     ...(I18N_RU.phrases || []),
@@ -342,7 +354,7 @@ function materializeAndPatchDist(upstream) {
     .filter((r) => r.from && r.to && r.from !== r.to)
     .sort((a, b) => b.from.length - a.from.length);
 
-  // i18n key-safe patches: "key.path": "English" → "key.path": "Русский"
+  // i18n key-safe patches
   const keyPatchList = [];
   for (const [key, val] of Object.entries(I18N_RU.keyPatches || {})) {
     if (!val?.en || !val?.ru || val.en === val.ru) continue;
@@ -352,6 +364,15 @@ function materializeAndPatchDist(upstream) {
       to: `"${key}": "${esc(val.ru)}"`,
     });
   }
+
+  const webviewLike = new Set([
+    'webview.js',
+    'agent-manager.js',
+    'diff-viewer.js',
+    'diff-virtual.js',
+    'marketplace.js',
+    'kiloclaw.js',
+  ]);
 
   let total = 0;
   for (const name of patchFiles) {
@@ -371,7 +392,6 @@ function materializeAndPatchDist(upstream) {
 
     for (const { from, to } of phraseList) {
       if (from.length < 4) continue;
-      // ONLY quoted string literals — never bare identifiers (getDefaultValue)
       if (from.includes('"') || to.includes('"')) continue;
       const variants = [
         [`"${from}"`, `"${to}"`],
@@ -387,6 +407,31 @@ function materializeAndPatchDist(upstream) {
       }
     }
 
+    // Aggressive de-Kilo on UI bundles (and mild on extension host for icons/URLs)
+    const list =
+      name === 'extension.js'
+        ? dekiloList.filter(
+            (r) =>
+              r.from.includes('.svg') ||
+              r.from.includes('.png') ||
+              r.from.includes('kilo.ai') ||
+              r.from.includes('Kilo Code') ||
+              r.from.includes('kilo-logo') ||
+              r.from.includes('Rebuild or reinstall'),
+          )
+        : webviewLike.has(name)
+          ? dekiloList
+          : [];
+
+    for (const { from, to } of list) {
+      if (!text.includes(from)) continue;
+      const parts = text.split(from);
+      if (parts.length > 1) {
+        n += parts.length - 1;
+        text = parts.join(to);
+      }
+    }
+
     if (n > 0) {
       fs.writeFileSync(p, text);
       console.log(`  patch ${name}: ${n} replacements`);
@@ -394,7 +439,7 @@ function materializeAndPatchDist(upstream) {
     }
   }
   console.log(
-    `  total UI string replacements: ${total} (i18n keys: ${keyPatchList.length}, phrases: ${phraseList.length})`,
+    `  total UI string replacements: ${total} (i18n keys: ${keyPatchList.length}, phrases: ${phraseList.length}, dekilo: ${dekiloList.length})`,
   );
 }
 
