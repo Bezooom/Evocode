@@ -52,7 +52,7 @@ graph LR
 | F2.3d | Единые настройки (product panel) | ⚡ |
 | F2.3e | Chat open by default | ⚡ |
 | F2.4 | First-run wizard (llama/skills) | 📋 |
-| F2.5 | **Branded VSCodium binary / AppImage** | ⚡ next hard |
+| F2.5 | **Branded portable** (`ide:package-portable`) | ⚡ partial |
 | F2.6 | Rename command IDs kilo→evocode | 📋 |
 | F2.7 | Icons/splash fully Evocode | ⚡ partial |
 | F2.8 | SMOKE-IDE E2E | 📋 |

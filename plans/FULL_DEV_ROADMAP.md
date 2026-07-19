@@ -566,5 +566,6 @@ TEST:    npm test && npx tsc --noEmit
 | Дата | Изменение |
 |------|-----------|
 | 2026-07-19 | **v2.0 critical reset:** F2 = current (not F3); F2 DoD rewritten; queue = settings unify + git + branded binary; anti-patterns explicit |
+| 2026-07-19 | **v2.1 F2.5 portable:** download VSCodium tarball + rebrand product.json/icons → `packages/ide/dist/evocode-ide`; launcher prefers `bin/evocode` |
 
 *Конец FULL_DEV_ROADMAP v2.0.*
