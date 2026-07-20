@@ -75,10 +75,11 @@ npm run evocode
 Сообщение «pid запущен, порт не отвечает» чаще значит **процесс упал** (VRAM OOM), а не «порт занят».  
 Лог: `.evocode/logs/<profile>.log` — ищите `cudaMalloc failed` / `out of memory`.
 
-**35B на RTX 3090 24GB:** веса ~20 GB → KV-cache должен быть умеренным.  
-- ✅ `coder` (ik `--fit`, ctx до ~128k с q4 KV)  
-- ⚠️ `chat-buun`: ctx **32k** (раньше 262k → OOM KV)  
-- embed/fim: **CPU** (`-ngl 0`), чтобы не отъедать VRAM у chat
+**35B на RTX 3090 24GB:** веса ~20 GB + большой KV — **весь GPU под chat**.  
+- ✅ `chat-buun`: ctx **262k**, turbo KV — при **свободной** VRAM (fim/embed на CPU)  
+- ✅ `coder` (ik `--fit`) — альтернатива с авто-подгонкой  
+- ✅ FIM (`fim-small`) + embed (`embed-nomic`): **только CPU** (`-ngl 0`) — не делят VRAM с chat  
+- ❌ embed/fim с `-ngl 99` параллельно 35B → OOM на KV, порт «не отвечает»
 
 ## Dual-model: chat + FIM (Neurocontrol)
 

@@ -124,8 +124,9 @@ function diagnoseLog(logPath: string): string {
       tail.includes('ggml_gallocr_reserve')
     ) {
       return (
-        'Похоже на нехватку VRAM (OOM). Для 35B на 24GB: профиль «coder» (ik --fit), ' +
-        'не chat-buun с огромным ctx; embed/fim лучше на CPU (-ngl 0).'
+        'Нехватка VRAM (OOM). Chat 35B+262k ctx нужен почти весь 24GB GPU: ' +
+        'остановите другие llama на GPU (embed с -ngl 99), FIM/embed должны быть CPU (-ngl 0). ' +
+        'nvidia-smi → free memory.'
       );
     }
     if (tail.includes('cuda_error') || tail.includes('no cuda') || tail.includes('cuda driver')) {
