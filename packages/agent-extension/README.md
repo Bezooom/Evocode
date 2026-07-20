@@ -6,7 +6,7 @@
 
 | Путь | Назначение |
 |------|------------|
-| `upstream` | symlink → `/home/bezoom/kilocode/packages/kilo-vscode` |
+| `upstream` | symlink → `$HOME/kilocode/packages/kilo-vscode` |
 | `rebrand/overrides.json` | identity + defaults |
 | `config/evocode.agent.json` | provider `evocode` → Core `:8083/v1` → `~/.config/evocode/agent/evocode.json` |
 | `config/settings.vscode.json` | VS Code defaults |
@@ -20,7 +20,7 @@ Command IDs в F1 остаются `kilo-code.*` (стабильность API).
 ## Быстрый старт (лицо «Эвокод»)
 
 ```bash
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 PORT=8083 npm start          # Core
 npm run agent:rebrand        # иконки + тексты + package.json
 npm run agent:install-provider
@@ -76,7 +76,7 @@ Agent (kilo serve)  --OpenAI compat-->  Evocode Core :8081/v1
 Если `extension/dist` пуст:
 
 ```bash
-cd /home/bezoom/kilocode
+cd $HOME/kilocode
 bun run --cwd packages/kilo-vscode compile
 # или script/local-bin.ts для bin/kilo
 ```

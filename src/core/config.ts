@@ -124,6 +124,16 @@ function env(name: string, fallback: string): string {
     : fallback;
 }
 
+/** Portable defaults: $HOME/... (expanded at use via profiles; env can override). */
+const HOME = process.env.HOME || process.env.USERPROFILE || '';
+function homePath(...parts: string[]): string {
+  if (!HOME) return pathJoin(...parts);
+  return pathJoin(HOME, ...parts);
+}
+function pathJoin(...parts: string[]): string {
+  return parts.filter(Boolean).join('/').replace(/\/+/g, '/');
+}
+
 export const defaultConfig: EvocodeConfig = {
   appName: 'Эвокод',
   appVersion: '0.95.0',
@@ -133,28 +143,22 @@ export const defaultConfig: EvocodeConfig = {
   inference: {
     local: {
       enabled: true,
-      // Абсолютный путь по умолчанию — без копии в Evocode/
-      model: env(
-        'LLAMA_MODEL',
-        '/home/bezoom/llama.cpp/models/ornith-1.0-35b-Q4_K.gguf'
-      ),
+      // Prefer config/profiles.json; these are fallbacks only (no machine-specific username).
+      model: env('LLAMA_MODEL', homePath('llama.cpp/models/ornith-1.0-35b-Q4_K.gguf')),
       nPredict: 8192,
       timeout: 600,
       startupTimeout: 90,
-      // Chat llama-server (как start_ik_ai_coder) — :8080
+      // Chat llama-server — :8080
       port: Number(env('LLAMA_PORT', '8080')),
       host: env('LLAMA_HOST', 'http://127.0.0.1'),
-      binary: env(
-        'LLAMA_BINARY',
-        '/home/bezoom/ik_llama.cpp/build/bin/llama-server'
-      ),
+      binary: env('LLAMA_BINARY', homePath('ik_llama.cpp/build/bin/llama-server')),
     },
     fim: {
-      // dual-model: лёгкий FIM/autocomplete (Neurocontrol ~2G) на :8082
+      // dual-model: light FIM/autocomplete on :8082 (prefer CPU; see profiles.json)
       enabled: env('LLAMA_FIM_ENABLED', 'true') === 'true',
       model: env(
         'LLAMA_FIM_MODEL',
-        '/home/bezoom/storage/Projects/Neurocontrol/models/Qwen1.5B-Instruct-Upscale-3.5B.Q4_K_M.gguf'
+        homePath('models/fim-small.Q4_K_M.gguf')
       ),
       /** short OpenAI model id for clients (autocomplete) */
       modelId: env('LLAMA_FIM_MODEL_ID', 'evocode-fim'),

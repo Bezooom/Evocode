@@ -13,7 +13,7 @@ Use the `build_tool.py` universal build engine to prepare cross-platform distrib
 
 ## Tool Location
 ```bash
-/home/bezoom/storage/Projects/MCP/scripts/build_tool.py
+$HOME/bin/build_tool.py
 ```
 
 ## Workflow
@@ -23,7 +23,7 @@ When asked to prepare distributions (e.g., "подготовь сборку по
 ### Step 1: Analyze the Project
 Determine project type and entry point:
 ```bash
-python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
+python3 $HOME/bin/build_tool.py \
   --action analyze \
   --path <PROJECT_PATH>
 ```
@@ -42,7 +42,7 @@ Expected output:
 Execute builds for requested platforms (windows, linux, darwin):
 
 ```bash
-python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
+python3 $HOME/bin/build_tool.py \
   --action build \
   --path <PROJECT_PATH> \
   --os <windows|linux|darwin> \
@@ -54,7 +54,7 @@ python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
 mkdir -p /tmp/dist
 
 for TARGET_OS in windows linux darwin; do
-  python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
+  python3 $HOME/bin/build_tool.py \
     --action build \
     --path /path/to/project \
     --os $TARGET_OS \
@@ -66,7 +66,7 @@ done
 Package the distributions:
 
 ```bash
-python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
+python3 $HOME/bin/build_tool.py \
   --action archive \
   --path <SOURCE_DIR> \
   --output <ARCHIVE_NAME> \
@@ -91,24 +91,24 @@ python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
 
 ### Analyze current project
 ```bash
-python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py --action analyze --path .
+python3 $HOME/bin/build_tool.py --action analyze --path .
 ```
 
 ### Build Windows executable
 ```bash
-python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
+python3 $HOME/bin/build_tool.py \
   --action build --path . --os windows --output ./dist
 ```
 
 ### Build Linux binary
 ```bash
-python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
+python3 $HOME/bin/build_tool.py \
   --action build --path . --os linux --output ./dist
 ```
 
 ### Build macOS binary
 ```bash
-python3 /home/bezoom/storage/Projects/MCP/scripts/build_tool.py \
+python3 $HOME/bin/build_tool.py \
   --action build --path . --os darwin --output ./dist
 ```
 

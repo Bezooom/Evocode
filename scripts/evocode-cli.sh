@@ -15,10 +15,11 @@ mkdir -p "$EVOCODE_USER_DATA_DIR" "$EVOCODE_EXTENSIONS_DIR" "$EVOCODE_CONFIG_DIR
 ROOT="${EVOCODE_ROOT:-}"
 if [[ -z "$ROOT" || ! -f "$ROOT/dist/index.js" ]]; then
   for cand in \
-    "$HOME/storage/Projects/Evocode" \
-    "/home/bezoom/storage/Projects/Evocode" \
-    "$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}")")/.." 2>/dev/null && pwd)"; do
-    if [[ -f "${cand}/dist/index.js" ]]; then ROOT="$cand"; break; fi
+    "$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}")")/.." 2>/dev/null && pwd)" \
+    "$HOME/Projects/Evocode" \
+    "$HOME/src/Evocode" \
+    "$HOME/storage/Projects/Evocode"; do
+    if [[ -n "${cand:-}" && -f "${cand}/dist/index.js" ]]; then ROOT="$cand"; break; fi
   done
 fi
 

@@ -17,7 +17,7 @@ Launcher раньше вызывал **`code`** (Microsoft).
 # VSCodium без Microsoft (уже: flatpak --user)
 flatpak info --user com.vscodium.codium
 
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 npm run ide:install-desktop
 npm run ide:install-shell
 npm run evocode

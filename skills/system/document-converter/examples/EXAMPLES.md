@@ -185,7 +185,7 @@ python ~/.config/kilo/skills/document-converter/tools/unified_converter.py \
 ```python
 from pathlib import Path
 import sys
-sys.path.append('/home/bezoom/.config/kilo/skills/document-converter/tools')
+sys.path.append('~/.config/evocode/skills/…)
 from unified_converter import UnifiedConverter
 
 # Конвертировать PDF
@@ -205,7 +205,7 @@ print(f"Медиа-файлов: {len(result.media_files)}")
 ```python
 from pathlib import Path
 import sys
-sys.path.append('/home/bezoom/.config/kilo/skills/document-converter/tools')
+sys.path.append('~/.config/evocode/skills/…)
 from unified_converter import UnifiedConverter
 
 def convert_document(input_path, output_path):
@@ -234,7 +234,7 @@ else:
 ```python
 from pathlib import Path
 import sys
-sys.path.append('/home/bezoom/.config/kilo/skills/document-converter/tools')
+sys.path.append('~/.config/evocode/skills/…)
 from unified_converter import UnifiedConverter
 
 def batch_convert(input_dir, output_dir, extensions=['.pdf', '.docx', '.pptx']):
@@ -276,7 +276,7 @@ print(f"Успешно: {results['success']}, Ошибок: {results['failed']}"
 ```python
 from pathlib import Path
 import sys
-sys.path.append('/home/bezoom/.config/kilo/skills/document-converter/tools')
+sys.path.append('~/.config/evocode/skills/…)
 from unified_converter import UnifiedConverter
 
 # Принудительно использовать markitdown (пропустить PyMuPDF)
@@ -295,7 +295,7 @@ converter.save(result)
 ```python
 from pathlib import Path
 import sys
-sys.path.append('/home/bezoom/.config/kilo/skills/document-converter/tools')
+sys.path.append('~/.config/evocode/skills/…)
 from unified_converter import UnifiedConverter
 
 converter = UnifiedConverter(
@@ -316,7 +316,7 @@ for img in result.media_files:
 ```python
 from pathlib import Path
 import sys
-sys.path.append('/home/bezoom/.config/kilo/skills/document-converter/tools')
+sys.path.append('~/.config/evocode/skills/…)
 from unified_converter import UnifiedConverter
 
 converter = UnifiedConverter(

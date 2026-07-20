@@ -20,9 +20,9 @@
 
 ```bash
 # опционально local LLM
-/home/bezoom/start_ik_ai_coder.sh
+$HOME/start_ik_ai_coder.sh
 
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 npm run evocode
 # или: npm run demo
 # workspace: npm run evocode -- /path/to/project

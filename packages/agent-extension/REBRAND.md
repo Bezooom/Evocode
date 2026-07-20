@@ -1,7 +1,7 @@
 # Evocode Agent Extension (fork of kilo-vscode)
 
 ## Upstream
-- Path: `/home/bezoom/kilocode/packages/kilo-vscode`
+- Path: `$HOME/kilocode/packages/kilo-vscode`
 - Symlink: `packages/agent-extension/upstream`
 
 ## Rebrand checklist
@@ -14,14 +14,14 @@
 
 ## Dev launch (from kilocode monorepo)
 ```bash
-cd /home/bezoom/kilocode
+cd $HOME/kilocode
 bun run extension
 # or packages/kilo-vscode script/launch.ts
 ```
 
 ## Wire Core
 ```bash
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 npm run build && npm start
 # Extension provider baseURL = http://127.0.0.1:8081/v1
 ```

@@ -4,10 +4,10 @@
 
 ```bash
 # 1) (рекомендуется) local llama
-/home/bezoom/start_ik_ai_coder.sh
+$HOME/start_ik_ai_coder.sh
 
 # 2) всё остальное
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 npm run build          # один раз
 npm run evocode        # = npm run demo
 ```

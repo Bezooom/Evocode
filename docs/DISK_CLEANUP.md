@@ -1,7 +1,7 @@
 # Диск: что держать, что можно снести (llama / модели)
 
-**Корень `/` — ~18 G свободно (96%).** Модели и форки лежат на `/home/bezoom` → корень.  
-Storage (`/home/bezoom/storage`) — 147 G free, туда GGUF **не копировали**.
+**Корень `/` — ~18 G свободно (96%).** Модели и форки лежат на `$HOME` → корень.  
+Storage (`$HOME/storage`) — 147 G free, туда GGUF **не копировали**.
 
 Эвокод **не копирует** модели: только абсолютные пути в `config/profiles.json`.
 
@@ -38,9 +38,9 @@ Storage (`/home/bezoom/storage`) — 147 G free, туда GGUF **не копи
 ./scripts/disk-audit-llama.sh
 
 # Потом, если согласен, ПО ОДНОМУ:
-# rm -rf /home/bezoom/beellama.cpp
-# rm -rf /home/bezoom/llama-cpp-turboquant-cuda
-# rm -rf /home/bezoom/llama.cpp-tq3
+# rm -rf $HOME/beellama.cpp
+# rm -rf $HOME/llama-cpp-turboquant-cuda
+# rm -rf $HOME/llama.cpp-tq3
 ```
 
 Не удалять `~/llama.cpp` целиком — там **`models/` на 92 G**.  
@@ -48,8 +48,8 @@ Storage (`/home/bezoom/storage`) — 147 G free, туда GGUF **не копи
 
 ```bash
 # Опционально позже: исходники llama.cpp без models (осторожно)
-# mv ~/llama.cpp/models /home/bezoom/storage/gguf-models
-# ln -s /home/bezoom/storage/gguf-models ~/llama.cpp/models
+# mv ~/llama.cpp/models $HOME/storage/gguf-models
+# ln -s $HOME/storage/gguf-models ~/llama.cpp/models
 ```
 
 (перенос на storage = место на `/`, **не копия** если `mv`).
@@ -70,7 +70,7 @@ Storage (`/home/bezoom/storage`) — 147 G free, туда GGUF **не копи
 Coder 15G + ornith Q4_K 20G + nomic = **~35 G моделей**, можно освободить **~40–55 G** убрав второй ornith + лишний 35B + AgentWorld (если не нужны).
 
 Сломанный 0-байт:  
-`/home/bezoom/storage/Projects/Axis/models/Qwen2.5-14B-Instruct-Q4_K_M.gguf` — можно удалить (0 B).
+`$HOME/…/Axis/models/Qwen2.5-14B-Instruct-Q4_K_M.gguf` — можно удалить (0 B).
 
 ---
 
@@ -126,12 +126,12 @@ Ollama (`~/.ollama`, deepseek-70b) — удалена.
 
 ```bash
 # 1) chat как раньше
-/home/bezoom/start_ik_ai_coder.sh
+$HOME/start_ik_ai_coder.sh
 # или
 ./scripts/start-local-stack.sh   # profile=coder
 
 # 2) Core attach
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 PORT=8083 EVOCODE_LLAMA_MODE=attach npm start
 
 # 3) agent → Core :8083

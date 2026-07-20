@@ -11,10 +11,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DST_DIR = path.join(ROOT, 'skills/system');
 
-const SRC_DIRS = [
-  '/home/bezoom/storage/Projects/Skills/Agent-skills-setup-for-AntiGravity-main/tests/manual-repair-test/.agent/skills',
-  '/home/bezoom/storage/Projects/Skills/backup-kilo-20260704-173843/skills'
-];
+// Override: EVOCODE_SKILLS_IMPORT_DIRS=/path/a:/path/b
+const SRC_DIRS = (process.env.EVOCODE_SKILLS_IMPORT_DIRS || '')
+  .split(path.delimiter)
+  .map((s) => s.trim())
+  .filter(Boolean);
 
 function copyFolderSync(from, to) {
   fs.mkdirSync(to, { recursive: true });
@@ -31,6 +32,16 @@ function copyFolderSync(from, to) {
 function importSkills() {
   console.log('=== Эвокод: Импорт готовых профессиональных навыков ===');
   console.log(`Целевой каталог: ${DST_DIR}`);
+
+  if (SRC_DIRS.length === 0) {
+    console.error(
+      'Set EVOCODE_SKILLS_IMPORT_DIRS to one or more skill source directories\n' +
+        '  (path separator: OS default, e.g. : on Linux).\n' +
+        'Example:\n' +
+        '  EVOCODE_SKILLS_IMPORT_DIRS="$HOME/Skills/set-a:$HOME/Skills/set-b" npm run skills:import',
+    );
+    process.exit(1);
+  }
 
   if (!fs.existsSync(DST_DIR)) {
     fs.mkdirSync(DST_DIR, { recursive: true });

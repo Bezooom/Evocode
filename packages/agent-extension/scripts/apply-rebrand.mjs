@@ -31,15 +31,20 @@ const OVERRIDES = JSON.parse(
 );
 
 function resolveUpstream() {
+  const home = process.env.HOME || process.env.USERPROFILE || '';
   const candidates = [
     process.env.KILO_SRC,
     path.join(PKG_ROOT, 'upstream'),
-    '/home/bezoom/kilocode/packages/kilo-vscode',
+    home && path.join(home, 'kilocode/packages/kilo-vscode'),
+    home && path.join(home, 'src/kilocode/packages/kilo-vscode'),
+    home && path.join(home, 'Projects/kilocode/packages/kilo-vscode'),
   ].filter(Boolean);
   for (const c of candidates) {
     if (fs.existsSync(path.join(c, 'package.json'))) return path.resolve(c);
   }
-  throw new Error('kilo-vscode upstream not found. npm run bootstrap:agent');
+  throw new Error(
+    'kilo-vscode upstream not found. Set KILO_SRC or run: npm run bootstrap:agent',
+  );
 }
 
 function deepSetDefault(pkg, keyPath, value) {

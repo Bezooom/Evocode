@@ -13,7 +13,7 @@
 ## Как починить (уже можно)
 
 ```bash
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 bash scripts/repair-vscode-kilo.sh
 # в VS Code: Developer: Reload Window
 ```

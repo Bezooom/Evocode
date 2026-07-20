@@ -13,13 +13,13 @@
 
 | Проект | Стек | Что забираем | Куда встраиваем | Сложность | Срок |
 |--------|------|--------------|-----------------|-----------|------|
-| **[Router](file:///home/bezoom/storage/Projects/Router)** | Python, FastAPI | TF-IDF классификатор, логика fallback, метрики | `src/router/` | 🟡 Средняя | 3-5 дней |
-| **[Skills](file:///home/bezoom/storage/Projects/Skills)** | TypeScript | 247 готовых markdown навыков | `skills/system/` | 🟢 Лёгкая | 1 день |
-| **[Neurocontrol](file:///home/bezoom/storage/Projects/Neurocontrol)** | Python, PyTorch | LoRA fine-tuning, мониторинг GPU | `src/training/` | 🔴 Высокая | 7-10 дней |
-| **[Agent](file:///home/bezoom/storage/Projects/Agent)** | Python, LangChain | MCP-клиент, вызов инструментов | `src/agent/` | 🔴 Высокая | 5-7 дней |
-| **[Messenger](file:///home/bezoom/storage/Projects/Messenger)** | TypeScript, WS | WebSocket-сервер для стриминга | `src/server/` | 🟡 Средняя | 2-3 дня |
-| **[Archon](file:///home/bezoom/storage/Projects/Archon)** | Python, LangGraph | Оптимизатор промптов, фидбек-луп | `src/adaptive/` | 🟡 Средняя | 3-5 дней |
-| **[Tengri-Forge](file:///home/bezoom/storage/Projects/Tengri-Forge)** | Rust | Стратегии батчинга llama.cpp | `src/engine/` | 🟢 Лёгкая | 1-2 дня |
+| **[Router](file://$HOME/…/Router)** | Python, FastAPI | TF-IDF классификатор, логика fallback, метрики | `src/router/` | 🟡 Средняя | 3-5 дней |
+| **[Skills](file://$HOME/…/Skills)** | TypeScript | 247 готовых markdown навыков | `skills/system/` | 🟢 Лёгкая | 1 день |
+| **[Neurocontrol](file://$HOME/…/Neurocontrol)** | Python, PyTorch | LoRA fine-tuning, мониторинг GPU | `src/training/` | 🔴 Высокая | 7-10 дней |
+| **[Agent](file://$HOME/…/Agent)** | Python, LangChain | MCP-клиент, вызов инструментов | `src/agent/` | 🔴 Высокая | 5-7 дней |
+| **[Messenger](file://$HOME/…/Messenger)** | TypeScript, WS | WebSocket-сервер для стриминга | `src/server/` | 🟡 Средняя | 2-3 дня |
+| **[Archon](file://$HOME/…/Archon)** | Python, LangGraph | Оптимизатор промптов, фидбек-луп | `src/adaptive/` | 🟡 Средняя | 3-5 дней |
+| **[Tengri-Forge](file://$HOME/…/Tengri-Forge)** | Rust | Стратегии батчинга llama.cpp | `src/engine/` | 🟢 Лёгкая | 1-2 дня |
 | **openai_proxy.py** | Python, Flask | Маппинг OpenAI API → llama.cpp | `src/server/` | 🟢 Лёгкая | 1 день |
 
 ---
@@ -35,7 +35,7 @@
     *   Создать `src/router/ml-router.ts`.
     *   Реализовать легковесный TF-IDF векторайзер на TypeScript (без внешних тяжелых зависимостей) или использовать модуль `natural` для классификации намерений (intent classification).
     *   Реализовать логику `fallback-цепочек` (если локальный инференс падает с ошибкой, запрос автоматически маскируется DLP и отправляется в OpenRouter).
-*   **Как протестировать:** Обновить [smart-router.test.ts](file:///home/bezoom/storage/Projects/Evocode/tests/unit/smart-router.test.ts), подавая запросы разной сложности (например, "исправь опечатку" vs "напиши архитектуру распределённого кэша") и проверяя корректность выбора модели.
+*   **Как протестировать:** Обновить [smart-router.test.ts](file://$EVOCODE_ROOT  # path to clone/tests/unit/smart-router.test.ts), подавая запросы разной сложности (например, "исправь опечатку" vs "напиши архитектуру распределённого кэша") и проверяя корректность выбора модели.
 
 ### 2. Подключение библиотеки навыков (из `Skills/`)
 Проект `Skills/` содержит 247 готовых файлов `SKILL.md` во множестве категорий (coding, DevOps, Data Science, QA и др.).

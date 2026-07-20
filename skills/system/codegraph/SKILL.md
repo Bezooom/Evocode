@@ -13,23 +13,23 @@ CodeGraph — это инструмент для индексации кодов
 ## Расположение кода
 
 ```
-/home/bezoom/storage/Projects/Skills/New/codegraph-rust-main/
+$HOME/…/Skills/…
 ```
 
 ## Установка на Ubuntu
 
 ### 1. Установить SurrealDB (база данных):
 ```bash
-/home/bezoom/storage/Projects/Skills/New/codegraph-rust-main/install-surrealdb-ubuntu.sh
+$HOME/…/Skills/…
 ```
 
 ### 2. Установить CodeGraph:
 ```bash
 # Быстрая установка (минимальные фичи)
-/home/bezoom/storage/Projects/Skills/New/codegraph-rust-main/install-codegraph-local-speed-ubuntu.sh
+$HOME/…/Skills/…
 
 # Полная установка (все фичи)
-/home/bezoom/storage/Projects/Skills/New/codegraph-rust-main/install-codegraph-full-features-ubuntu.sh
+$HOME/…/Skills/…
 ```
 
 ## Архитектура

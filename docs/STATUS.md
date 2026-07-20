@@ -29,7 +29,7 @@
 ## Запуск и порты
 
 ```bash
-/home/bezoom/start_ik_ai_coder.sh   # chat :8080
+# chat llama on :8080 (your launcher, e.g. $HOME/start_ik_ai_coder.sh)
 npm run build && npm run evocode    # IDE + Core :8083; FIM :8082 auto
 ```
 

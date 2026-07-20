@@ -108,8 +108,8 @@ Uses **llama.cpp** (`llama-server`) instead of Ollama:
 
 ```bash
 # Server config
-LLAMA_BIN="/home/bezoom/buun-llama-cpp/build/bin/llama-server"
-MODELS_DIR="/home/bezoom/llama.cpp/models"
+LLAMA_BIN="$HOME/buun-llama-cpp/build/bin/llama-server"
+MODELS_DIR="$HOME/llama.cpp/models"
 MODEL_FILE="Qwopus3.6-35B-A3B-v1-Q4_K_M.gguf"
 
 # Model settings
@@ -130,7 +130,7 @@ MODEL_FILE="Qwopus3.6-35B-A3B-v1-Q4_K_M.gguf"
 --no-warmup
 
 # PID file
-PID_FILE="/home/bezoom/.llama_pid"
+PID_FILE="$HOME/.llama_pid"
 ```
 
 API endpoint: `http://localhost:8080/v1`

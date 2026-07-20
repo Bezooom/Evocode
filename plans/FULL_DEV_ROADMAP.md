@@ -59,7 +59,7 @@ VSCodium (brand «Эвокод»)
 
 ### Делать
 
-1. Agent runtime = **Kilo/OpenCode** (`/home/bezoom/kilocode`), UI rebrand в `packages/agent-extension`.
+1. Agent runtime = **Kilo/OpenCode** (`$HOME/kilocode  # or set KILO_SRC`), UI rebrand в `packages/agent-extension`.
 2. Core = **policy + local inference orchestration** (`src/`), порт **8083**.
 3. GGUF и бинарники llama — **только абсолютные пути** (`config/profiles.json`), zero-copy.
 4. DLP — **только cloud path**; local не слать в сеть.
@@ -102,7 +102,7 @@ VSCodium (brand «Эвокод»)
 ┌───────────────────────────▼─────────────────────────────────┐
 │ AGENT RUNTIME = Kilo serve (OpenCode fork)                   │
 │  packages: opencode, kilo-vscode, kilo-indexing, MCP, tools  │
-│  Path on disk: /home/bezoom/kilocode                         │
+│  Path on disk: $HOME/kilocode  # or set KILO_SRC                         │
 └───────────────────────────┬─────────────────────────────────┘
                             │ OpenAI-compatible
                             │ baseURL http://127.0.0.1:8083/v1
@@ -141,7 +141,7 @@ VSCodium (brand «Эвокод»)
 ### 3.1. Репозиторий
 
 ```
-Evocode/                          # /home/bezoom/storage/Projects/Evocode
+Evocode/                          # $EVOCODE_ROOT  # path to clone
 ├── src/                          # Core TypeScript (appVersion 0.9.0)
 │   ├── index.ts                  # HTTP :8083, /v1/*, /chat, /health, runtime
 │   ├── core/config.ts
@@ -173,11 +173,11 @@ Evocode/                          # /home/bezoom/storage/Projects/Evocode
 
 | Путь | Назначение | KEEP? |
 |------|------------|-------|
-| `/home/bezoom/kilocode` | Kilo monorepo (agent) | YES |
-| `/home/bezoom/ik_llama.cpp` | llama-server binary | YES |
-| `/home/bezoom/buun-llama-cpp` | turbo/embed binary | YES |
-| `/home/bezoom/llama.cpp/models` | GGUF weights | YES |
-| `/home/bezoom/start_ik_ai_coder.sh` (+ ai2/3/4, embeddings, stop_ai) | LIVE launchers | YES |
+| `$HOME/kilocode  # or set KILO_SRC` | Kilo monorepo (agent) | YES |
+| `$HOME/ik_llama.cpp` | llama-server binary | YES |
+| `$HOME/buun-llama-cpp` | turbo/embed binary | YES |
+| `$HOME/llama.cpp/models` | GGUF weights | YES |
+| `$HOME/start_ik_ai_coder.sh` (+ ai2/3/4, embeddings, stop_ai) | LIVE launchers | YES |
 | `~/.config/kilo` | kilo.json, skills | YES (provider evocode) |
 
 **Удалено ранее (не восстанавливать без запроса):** beellama, turboquant-cuda, llama.cpp-tq3, ornith Q4_K_M, dead start_ai*, `~/.ollama`.
@@ -185,12 +185,12 @@ Evocode/                          # /home/bezoom/storage/Projects/Evocode
 ### 3.4. Команды (готовые)
 
 ```bash
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 
 npm ci && npm run build && npm test && npx tsc --noEmit
 
 # Local LLM
-/home/bezoom/start_ik_ai_coder.sh          # or: npm run local:stack
+$HOME/start_ik_ai_coder.sh          # or: npm run local:stack
 
 # Core
 PORT=8083 EVOCODE_LLAMA_MODE=attach npm start
@@ -427,10 +427,10 @@ npm run disk:audit
 
 | ID | Задача | Source | Note |
 |----|--------|--------|------|
-| F4.1 | LoRA job spawn (Python/Neurocontrol) | Neurocontrol | Фоновое дообучение мини-модели в `/home/bezoom/storage/Projects/Neurocontrol` |
-| F4.2 | User coding style profile | ЭдТех-Комбайн | Персонализация стиля из `/home/bezoom/storage/Projects/ЭдТех-Комбайн` |
-| F4.3 | Prompt feedback loop | Archon | Self-improvement loop из `/home/bezoom/storage/Projects/Archon` |
-| F4.4 | ML Smart Router v2 | Router/ | TF-IDF МЛ-классификатор из `/home/bezoom/storage/Projects/Router` |
+| F4.1 | LoRA job spawn (Python/Neurocontrol) | Neurocontrol | Фоновое дообучение мини-модели в `$HOME/…/Neurocontrol` |
+| F4.2 | User coding style profile | ЭдТех-Комбайн | Персонализация стиля из `$HOME/…/EdTech` |
+| F4.3 | Prompt feedback loop | Archon | Self-improvement loop из `$HOME/…/Archon` |
+| F4.4 | ML Smart Router v2 | Router/ | TF-IDF МЛ-классификатор из `$HOME/…/Router` |
 
 ---
 
@@ -576,7 +576,7 @@ npm run disk:audit
 
 ```
 WHO:     Evocode = RU privacy AI IDE  |  product v0.9.0 (RC1)
-WHERE:   /home/bezoom/storage/Projects/Evocode
+WHERE:   $EVOCODE_ROOT  # path to clone
 RUNTIME: Core :8083 → llama :8080 (attach); agent = kilo rebrand + shell
 NOW:     Pilot testing & Operator Mode feedback (F3 CLOSED) — NOT F4
 SHIPPED: F2 product IDE, F3 Hardening, visual Operator Mode, deb/AppImage

@@ -25,12 +25,16 @@ function resolveCoreRoot() {
   if (process.env.EVOCODE_ROOT && fs.existsSync(path.join(process.env.EVOCODE_ROOT, 'dist', 'index.js'))) {
     return process.env.EVOCODE_ROOT;
   }
+  const home = os.homedir();
   const candidates = [
     path.resolve(__dirname, '../../../../core/'),
     path.resolve(__dirname, '../../../../../core/'),
     path.resolve(__dirname, '../../../../'),
     path.resolve(__dirname, '../../../../../'),
-    '/home/bezoom/storage/Projects/Evocode',
+    // common clone layouts (no hard-coded username)
+    path.join(home, 'Projects', 'Evocode'),
+    path.join(home, 'src', 'Evocode'),
+    path.join(home, 'storage', 'Projects', 'Evocode'),
   ];
   for (const c of candidates) {
     if (fs.existsSync(path.join(c, 'dist', 'index.js'))) return c;

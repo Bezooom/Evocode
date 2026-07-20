@@ -228,7 +228,7 @@ export class InferenceEngine {
       console.warn(
         `⚠️  Attach mode: llama-server не слушает ${this.chatBaseUrl()}.\n` +
           `   Запустите вручную, например:\n` +
-          `     ${this.chatProfile?.startScript || '/home/bezoom/start_ik_ai_coder.sh'}\n` +
+          `     ${this.chatProfile?.startScript || '$HOME/start_ik_ai_coder.sh'}\n` +
           `   или: EVOCODE_LLAMA_MODE=spawn npm start`
       );
       this.logProfileHint();

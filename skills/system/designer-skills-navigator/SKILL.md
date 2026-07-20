@@ -26,7 +26,7 @@ description: |
   [EN] Navigator for 87 professional design skills: UX Research, Design Ops, Interaction Design, Design Systems, UI Design, UX Strategy, Prototyping. Use when user asks for: user personas, empathy maps, design sprints, handoff specs, Fitts law, Gestalt principles, design tokens, usability testing.
 metadata:
   category: design
-  source: /home/bezoom/storage/Projects/Skills/New/designer-skills-main
+  source: $HOME/…/Skills/…
   total_skills: 87
   triggers:
     - UX Research / исследования пользователей
@@ -51,7 +51,7 @@ metadata:
 
 Этот навык — **навигатор** для 87 профессиональных дизайн-навыков из коллекции designer-skills-main. Вместо дублирования всех навыков, он направляет к соответствующим специализированным навыкам и предоставляет краткие инструкции.
 
-**Источник:** `/home/bezoom/storage/Projects/Skills/New/designer-skills-main`
+**Источник:** `$HOME/…/Skills/…`
 
 ---
 
@@ -206,7 +206,7 @@ metadata:
 Если знаешь точное название навыка, читай его напрямую:
 
 ```bash
-cat /home/bezoom/storage/Projects/Skills/New/designer-skills-main/design-research/skills/user-persona/SKILL.md
+cat $HOME/…/Skills/…
 ```
 
 ### Вариант 2: Через навигатор

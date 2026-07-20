@@ -27,6 +27,7 @@
 ### Изменено
 - Версия продукта **0.9.0 → 0.95.0** (RC2).
 - Документация: RUNTIME dual-model, SKILL_AUTHORING, OPENAPI, STATUS.
+- **Public-repo hygiene:** paths use `$HOME` / env (no hard-coded `/home/<user>`); `config/profiles.example.json`; path expansion in `profiles.ts`; NOTICE / SECURITY / CONTRIBUTING; skills provenance note.
 
 ### Упаковка
 - `VERSION=0.95.0` в `package-deb` / `package-appimage`.

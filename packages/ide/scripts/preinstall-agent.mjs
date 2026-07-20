@@ -104,7 +104,8 @@ function stageExtension() {
   if (!fs.existsSync(distJs)) {
     fail(
       'dist/extension.js missing. Build kilo-vscode:\n' +
-        '  cd /home/bezoom/kilocode && bun run --cwd packages/kilo-vscode compile',
+        '  cd "$KILO_SRC/../.." && bun run --cwd packages/kilo-vscode compile\n' +
+        '  # or: KILO_SRC=/path/to/kilocode/packages/kilo-vscode',
     );
   }
 

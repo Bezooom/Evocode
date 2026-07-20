@@ -103,7 +103,7 @@ Priority: optional
 Architecture: amd64
 Installed-Size: ${SIZE_KB}
 Depends: libnss3, libatk1.0-0, libatk-bridge2.0-0, libcups2, libdrm2, libgtk-3-0, libgbm1, libasound2
-Maintainer: bezoom <bezoom@evocode.ru>
+Maintainer: Evocode maintainers <maintainers@evocode.local>
 Description: Evocode AI IDE
  Evocode is a privacy-first AI-IDE based on VSCodium.
  Built-in agent, local LLM router, and DLP guard.

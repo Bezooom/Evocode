@@ -1,7 +1,7 @@
 # Критический анализ безопасности и edge cases — Эвокод Core
 
 Дата: 2026-07-19
-Объект: `/home/bezoom/storage/Projects/Evocode/src/`
+Объект: `$EVOCODE_ROOT  # path to clone/src/`
 Стек: Node.js/TypeScript, HTTP API :8083, llama.cpp (local), OpenRouter (cloud)
 
 ---

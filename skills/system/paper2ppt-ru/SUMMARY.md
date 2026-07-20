@@ -277,7 +277,7 @@ python verify_presentation.py presentation_ru.pptx
 
 ### 1. Установка зависимостей
 ```bash
-cd /home/bezoom/.config/kilo/skills/paper2ppt-ru/
+cd ~/.config/evocode/skills/…
 pip install -r requirements.txt
 ```
 
@@ -412,4 +412,4 @@ MIT License — свободное использование и модифик�
 ---
 
 **Автор:** Kilo Skills  
-**Контакт:** /home/bezoom/.config/kilo/skills/paper2ppt-ru/
+**Контакт:** ~/.config/evocode/skills/…

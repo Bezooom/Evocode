@@ -15,7 +15,7 @@
 | Источник | Роль |
 |----------|------|
 | **OpenCode** (anomalyco) | Runtime: agents, tools, sessions, MCP, LSP, providers, HTTP+SSE |
-| **Kilo** (`/home/bezoom/kilocode`) | Fork OpenCode + VS Code extension + gateway + indexing |
+| **Kilo** (`$HOME/kilocode  # or set KILO_SRC`) | Fork OpenCode + VS Code extension + gateway + indexing |
 | **Grok Build** (xAI / `~/.grok/docs`) | Reference: permissions, plan mode, sandbox, worktrees, adapters |
 | **Evocode Core** (`src/`) | DLP, router, attach llama, skill sync, RAG, OpenAI-compat policy endpoint |
 

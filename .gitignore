@@ -16,6 +16,11 @@ out/
 .env
 .env.*
 !.env.example
+config/profiles.local.json
+
+# Local agent/editor config under repo (if any secrets later)
+.kilo/node_modules/
+.kilo/package-lock.json
 
 # IDE (editor) — keep .vscode/extensions.json if added later
 .idea/
@@ -70,6 +75,11 @@ skills/user/**
 !skills/user/.gitkeep
 skills/.backup/
 skills/.archive/
+
+# Python cruft under skills
+**/__pycache__/
+*.py[cod]
+*.egg-info/
 
 # Optional large assets
 *.AppImage

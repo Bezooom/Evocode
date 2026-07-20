@@ -1,0 +1,32 @@
+# NOTICE — Third-party and upstream components
+
+Evocode (Эвокод) is a product shell combining:
+
+1. **Evocode Core** — privacy plane, DLP, skill router, local runtime attach
+   (this repository; see LICENSE — MIT).
+
+2. **VSCodium / Code - OSS** — IDE base (MIT).
+   https://github.com/VSCodium/vscodium
+   Bundled or built via `packages/ide/` bootstrap; not all upstream sources are
+   committed here.
+
+3. **Kilocode / OpenCode lineage** — agent extension runtime (MIT / Apache as
+   published upstream). Rebranded UI and provider wiring live under
+   `packages/agent-extension/`. Upstream monorepo is **not** vendored by default;
+   set `KILO_SRC` and run `npm run bootstrap:agent`.
+
+4. **llama.cpp and forks** (ik_llama, buun-llama-cpp, etc.) — local inference
+   binaries referenced only by path in `config/profiles.json`. Weights (GGUF)
+   are never copied into this repo.
+
+5. **Skill corpus** under `skills/system/` — mixed provenance:
+   - First-party `evocode-*` skills (MIT, same as this project).
+   - Community and imported skills may carry their own LICENSE / LICENSE.txt
+     inside each skill folder. See `skills/NOTICE.md`.
+
+Do not assume every skill file is original Evocode content. When redistributing
+a subset of skills, retain the corresponding per-skill license files.
+
+Trademarks: “VS Code”, “Kilo”, “OpenCode”, and model names belong to their
+respective owners. Evocode is an independent local-first product, not affiliated
+with Microsoft, Anthropic, or OpenAI.

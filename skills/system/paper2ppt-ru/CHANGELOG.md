@@ -121,10 +121,10 @@
 
 ## Ссылки
 
-- [Репозиторий навыка](file:///home/bezoom/.config/kilo/skills/paper2ppt-ru/)
-- [Документация](file:///home/bezoom/.config/kilo/skills/paper2ppt-ru/SKILL.md)
-- [Примеры](file:///home/bezoom/.config/kilo/skills/paper2ppt-ru/examples/EXAMPLES.md)
-- [Зависимости](file:///home/bezoom/.config/kilo/skills/paper2ppt-ru/DEPENDENCIES.md)
+- [Репозиторий навыка](file://~/.config/evocode/skills/…)
+- [Документация](file://~/.config/evocode/skills/…)
+- [Примеры](file://~/.config/evocode/skills/…)
+- [Зависимости](file://~/.config/evocode/skills/…)
 
 ---
 

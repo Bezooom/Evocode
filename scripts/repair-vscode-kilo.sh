@@ -73,11 +73,13 @@ if [[ -f "${HOME}/.config/kilo/evocode-provider.json" ]]; then
 fi
 
 # 5) Revert monorepo sources if present
-if [[ -d /home/bezoom/kilocode/.git ]]; then
-  git -C /home/bezoom/kilocode checkout -- \
+KILO_ROOT="${KILO_ROOT:-${KILO_SRC%/packages/kilo-vscode}}"
+KILO_ROOT="${KILO_ROOT:-$HOME/kilocode}"
+if [[ -d "${KILO_ROOT}/.git" ]]; then
+  git -C "${KILO_ROOT}" checkout -- \
     packages/kilo-vscode/src/extension.ts \
     packages/kilo-vscode/script/build.ts 2>/dev/null || true
-  echo "reverted kilocode monorepo Evocode patches (if any)"
+  echo "reverted kilocode monorepo Evocode patches (if any) at ${KILO_ROOT}"
 fi
 
 # 6) Clear accidental product branding if it landed in Code user settings

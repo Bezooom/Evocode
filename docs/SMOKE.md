@@ -5,13 +5,13 @@
 ## Prefetch
 
 - [ ] Node ≥ 20, `npm ci` в Evocode
-- [ ] Бинарь: `/home/bezoom/ik_llama.cpp/build/bin/llama-server`
+- [ ] Бинарь: `$HOME/ik_llama.cpp/build/bin/llama-server`
 - [ ] Модель coder: `.../Qwopus3.6-27B-Coder-MTP-IQ4_XS.gguf` (или другой LIVE profile)
 
 ## 1. Local LLM
 
 ```bash
-/home/bezoom/start_ik_ai_coder.sh
+$HOME/start_ik_ai_coder.sh
 # или: npm run local:stack
 curl -s http://127.0.0.1:8080/v1/models | head
 ```
@@ -21,7 +21,7 @@ curl -s http://127.0.0.1:8080/v1/models | head
 ## 2. Core attach
 
 ```bash
-cd /home/bezoom/storage/Projects/Evocode
+cd /path/to/Evocode
 npm run build
 PORT=8083 EVOCODE_LLAMA_MODE=attach npm start
 ```
@@ -69,7 +69,7 @@ npm run agent:launch
 
 ```bash
 # Core: Ctrl+C
-/home/bezoom/stop_ai.sh   # осторожно: гасит llama на 8080
+$HOME/stop_ai.sh   # осторожно: гасит llama на 8080
 ```
 
 ## Результат

@@ -20,7 +20,7 @@
 
 Почему не «с нуля свой Electron»:
 
-- У вас уже есть **Kilocode monorepo** (`/home/bezoom/kilocode`, 8.4 G) — agent loop, MCP, autocomplete, indexing, OpenRouter/OpenAI-compatible providers.
+- У вас уже есть **Kilocode monorepo** (`$HOME/kilocode  # or set KILO_SRC`, 8.4 G) — agent loop, MCP, autocomplete, indexing, OpenRouter/OpenAI-compatible providers.
 - У вас уже есть **рабочая конфигурация kilo** (`~/.config/kilo`: 148 skills, agents, MCP).
 - Cursor/Windsurf — hard-fork; Kilo/Continue/Cline — extension. Эвокод берёт **сильную agent-часть Kilo** и **оболочку VSCodium**, плюс **свой privacy-backend**.
 
@@ -125,7 +125,7 @@ Evocode/
 ```
 
 **Диск:** полный clone Code-OSS/VSCodium ~несколько GB. Класть в  
-`/home/bezoom/storage/Projects/Evocode/packages/ide/vscodium` (на storage, не на root 18 G).
+`$EVOCODE_ROOT  # path to clone/packages/ide/vscodium` (на storage, не на root 18 G).
 
 **Не коммитить** дерево VSCodium в git — только patches + scripts; upstream как submodule или shallow clone в bootstrap.
 
@@ -182,13 +182,13 @@ Evocode/
 
 | Путь | Использование |
 |------|----------------|
-| `/home/bezoom/kilocode` | upstream agent monorepo |
-| `/home/bezoom/kilocode/packages/kilo-vscode` | base extension |
-| `/home/bezoom/kilocode/packages/kilo-gateway` | OpenAI/OpenRouter providers |
-| `/home/bezoom/kilocode/packages/kilo-indexing` | codebase index (optional) |
-| `/home/bezoom/.config/kilo` | skills, agents, mcp, kilo.json |
-| `/home/bezoom/storage/Projects/Skills` | доп. skill library |
-| `/home/bezoom/storage/Projects/Evocode/src` | privacy core |
+| `$HOME/kilocode  # or set KILO_SRC` | upstream agent monorepo |
+| `$HOME/kilocode  # or set KILO_SRC/packages/kilo-vscode` | base extension |
+| `$HOME/kilocode  # or set KILO_SRC/packages/kilo-gateway` | OpenAI/OpenRouter providers |
+| `$HOME/kilocode  # or set KILO_SRC/packages/kilo-indexing` | codebase index (optional) |
+| `~/.config/kilo` | skills, agents, mcp, kilo.json |
+| `$HOME/…/Skills` | доп. skill library |
+| `$EVOCODE_ROOT  # path to clone/src` | privacy core |
 
 ---
 

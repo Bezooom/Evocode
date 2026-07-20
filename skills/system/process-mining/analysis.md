@@ -25,7 +25,7 @@ This document analyzes all system skills to identify which can enhance the `proc
 
 ## Integration Complete ✅
 
-All relevant functionalities from the skills listed below have been successfully integrated directly into `/home/bezoom/.kilo/skills/process-mining/SKILL.md` (no external references remain).
+All relevant functionalities from the skills listed below have been successfully integrated directly into `~/.config/evocode/skills/…` (no external references remain).
 
 ### 3. `data-engineering` — ETL/ELT Pipeline Processing
 

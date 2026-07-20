@@ -1,0 +1,57 @@
+{
+  "$comment": "Copy to config/profiles.json and edit paths. Supports $HOME, ${ENV}, ~. GGUF are never copied into the repo.",
+  "modelsDir": "$HOME/llama.cpp/models",
+  "defaults": {
+    "chatProfile": "coder",
+    "embedProfile": "embed-nomic",
+    "fimProfile": "fim-small",
+    "corePort": 8083,
+    "mode": "attach",
+    "autoStartFim": true
+  },
+  "profiles": {
+    "coder": {
+      "role": "chat",
+      "description": "Main chat/agent profile (ik_llama or stock llama-server)",
+      "binary": "$HOME/ik_llama.cpp/build/bin/llama-server",
+      "model": "$HOME/llama.cpp/models/your-chat-model.Q4_K_M.gguf",
+      "port": 8080,
+      "startScript": "$HOME/start_chat.sh",
+      "args": [
+        "--ctx-size", "131072",
+        "--threads", "4",
+        "-ngl", "99",
+        "--jinja",
+        "--no-warmup"
+      ]
+    },
+    "embed-nomic": {
+      "role": "embed",
+      "description": "Embeddings on CPU so chat keeps GPU VRAM",
+      "binary": "$HOME/llama.cpp/build/bin/llama-server",
+      "model": "$HOME/llama.cpp/models/nomic-embed-text-v1.5.Q4_K_M.gguf",
+      "port": 8084,
+      "args": [
+        "-ngl", "0",
+        "--embedding",
+        "-t", "8",
+        "-c", "8192",
+        "--host", "127.0.0.1"
+      ]
+    },
+    "fim-small": {
+      "role": "fim",
+      "description": "Small FIM/autocomplete model on CPU (:8082)",
+      "binary": "$HOME/llama.cpp/build/bin/llama-server",
+      "model": "$HOME/models/your-fim-model.Q4_K_M.gguf",
+      "port": 8082,
+      "args": [
+        "-ngl", "0",
+        "-c", "8192",
+        "-t", "8",
+        "--jinja",
+        "--host", "127.0.0.1"
+      ]
+    }
+  }
+}

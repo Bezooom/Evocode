@@ -4,15 +4,23 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PKG="${ROOT}/packages/agent-extension"
-KILO_DEFAULT="/home/bezoom/kilocode/packages/kilo-vscode"
-KILO_SRC="${KILO_SRC:-$KILO_DEFAULT}"
+# Upstream kilo-vscode: set KILO_SRC, or common clone layouts under $HOME
+if [[ -z "${KILO_SRC:-}" ]]; then
+  for cand in \
+    "$HOME/kilocode/packages/kilo-vscode" \
+    "$HOME/src/kilocode/packages/kilo-vscode" \
+    "$HOME/Projects/kilocode/packages/kilo-vscode"; do
+    if [[ -d "$cand" ]]; then KILO_SRC="$cand"; break; fi
+  done
+fi
+KILO_SRC="${KILO_SRC:-}"
 
 mkdir -p "${ROOT}/packages"
 
 echo "=== Эвокод: bootstrap agent (kilo-vscode fork base) ==="
 
-if [[ ! -d "${KILO_SRC}" ]]; then
-  echo "ERROR: kilo-vscode not found at ${KILO_SRC}"
+if [[ -z "${KILO_SRC}" || ! -d "${KILO_SRC}" ]]; then
+  echo "ERROR: kilo-vscode not found${KILO_SRC:+ at ${KILO_SRC}}"
   echo "Set KILO_SRC=/path/to/kilocode/packages/kilo-vscode"
   exit 1
 fi
@@ -42,7 +50,7 @@ cat > "${PKG}/REBRAND.md" <<EOF
 
 ## Dev launch (from kilocode monorepo)
 \`\`\`bash
-cd /home/bezoom/kilocode
+cd "\${KILO_SRC%/packages/kilo-vscode}"
 bun run extension
 # or packages/kilo-vscode script/launch.ts
 \`\`\`

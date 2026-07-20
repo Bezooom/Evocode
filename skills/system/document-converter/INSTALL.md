@@ -80,7 +80,7 @@ pip install -r ~/.config/kilo/skills/document-converter/requirements.txt
 Можно добавить shebang для автоматического использования venv:
 
 ```python
-#!/home/bezoom/.config/kilo/venv/bin/python3
+#!$HOME/.config/kilo/venv/bin/python3
 ```
 
 Или создать wrapper скрипт:

@@ -3,11 +3,12 @@ import { resolveFimProfile } from '../../src/core/profiles';
 import { InferenceEngine } from '../../src/engine/inference';
 
 describe('FIM dual-model config', () => {
-  it('FIM enabled by default with Neurocontrol path and port 8082', () => {
+  it('FIM enabled by default with portable model path and port 8082', () => {
     expect(defaultConfig.inference.fim.enabled).toBe(true);
     expect(defaultConfig.inference.fim.port).toBe(8082);
     expect(defaultConfig.inference.fim.modelId).toBe('evocode-fim');
-    expect(defaultConfig.inference.fim.model).toContain('Neurocontrol');
+    expect(defaultConfig.inference.fim.model).toMatch(/fim-small|\.gguf$/);
+    expect(defaultConfig.inference.fim.model).not.toContain('/home/bezoom/storage');
     expect(defaultConfig.inference.fim.profileId).toBe('fim-small');
   });
 
@@ -15,7 +16,8 @@ describe('FIM dual-model config', () => {
     const p = resolveFimProfile();
     expect(p).not.toBeNull();
     expect(p!.port).toBe(8082);
-    expect(p!.model).toContain('Neurocontrol');
+    expect(p!.model).toContain('fim-small');
+    expect(p!.model.endsWith('.gguf')).toBe(true);
     expect(p!.role).toBe('fim');
     expect(p!.args?.some((a) => a === '-ngl' || a === '0' || String(a).includes('ngl'))).toBe(true);
     // ensure -ngl 0 pair
