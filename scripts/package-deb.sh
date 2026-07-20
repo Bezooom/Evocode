@@ -50,9 +50,10 @@ export KILO_DATA_DIR="${KILO_DATA_DIR:-$EVOCODE_DATA_DIR}"
 export EVOCODE_USER_DATA_DIR="${EVOCODE_USER_DATA_DIR:-$HOME/.evocode-ide}"
 export EVOCODE_EXTENSIONS_DIR="${EVOCODE_EXTENSIONS_DIR:-$EVOCODE_USER_DATA_DIR/extensions}"
 mkdir -p "$EVOCODE_USER_DATA_DIR" "$EVOCODE_EXTENSIONS_DIR" "$EVOCODE_CONFIG_DIR" "$EVOCODE_DATA_DIR"
+# --flag=value form: Electron must not treat the next token as a path value
 exec /usr/share/evocode/bin/evocode \
-  --user-data-dir "$EVOCODE_USER_DATA_DIR" \
-  --extensions-dir "$EVOCODE_EXTENSIONS_DIR" \
+  --user-data-dir="$EVOCODE_USER_DATA_DIR" \
+  --extensions-dir="$EVOCODE_EXTENSIONS_DIR" \
   --disable-workspace-trust \
   "$@"
 EOF

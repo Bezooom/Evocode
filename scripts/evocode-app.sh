@@ -47,8 +47,8 @@ fi
 
 WORKSPACE="${1:-$ROOT}"
 FLAGS=(
-  --user-data-dir "${PROFILE}"
-  --extensions-dir "${EXT_DIR}"
+  --user-data-dir="${PROFILE}"
+  --extensions-dir="${EXT_DIR}"
   --disable-workspace-trust
   --new-window
   "${WORKSPACE}"

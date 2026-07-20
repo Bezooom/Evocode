@@ -58,8 +58,9 @@ if [[ -z "$EDITOR_BIN" ]]; then
 fi
 
 echo "→ editor: $EDITOR_BIN"
+# Use --flag=value so Electron/Chromium never swallows the next flag as a path
 exec "$EDITOR_BIN" \
-  --user-data-dir "$EVOCODE_USER_DATA_DIR" \
-  --extensions-dir "$EVOCODE_EXTENSIONS_DIR" \
+  --user-data-dir="$EVOCODE_USER_DATA_DIR" \
+  --extensions-dir="$EVOCODE_EXTENSIONS_DIR" \
   --disable-workspace-trust \
   "$@"
