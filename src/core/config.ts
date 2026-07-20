@@ -124,16 +124,10 @@ function env(name: string, fallback: string): string {
     : fallback;
 }
 
-/** Portable defaults: $HOME/... (expanded at use via profiles; env can override). */
-const HOME = process.env.HOME || process.env.USERPROFILE || '';
-function homePath(...parts: string[]): string {
-  if (!HOME) return pathJoin(...parts);
-  return pathJoin(HOME, ...parts);
-}
-function pathJoin(...parts: string[]): string {
-  return parts.filter(Boolean).join('/').replace(/\/+/g, '/');
-}
-
+/**
+ * Portable defaults: empty model/binary paths — set via env or config/profiles.json.
+ * Do not hard-code developer $HOME layouts in published source.
+ */
 export const defaultConfig: EvocodeConfig = {
   appName: 'Эвокод',
   appVersion: '0.95.0',
@@ -143,23 +137,20 @@ export const defaultConfig: EvocodeConfig = {
   inference: {
     local: {
       enabled: true,
-      // Prefer config/profiles.json; these are fallbacks only (no machine-specific username).
-      model: env('LLAMA_MODEL', homePath('llama.cpp/models/ornith-1.0-35b-Q4_K.gguf')),
+      // Prefer config/profiles.json; env overrides. Empty = attach-only until configured.
+      model: env('LLAMA_MODEL', ''),
       nPredict: 8192,
       timeout: 600,
       startupTimeout: 90,
       // Chat llama-server — :8080
       port: Number(env('LLAMA_PORT', '8080')),
       host: env('LLAMA_HOST', 'http://127.0.0.1'),
-      binary: env('LLAMA_BINARY', homePath('ik_llama.cpp/build/bin/llama-server')),
+      binary: env('LLAMA_BINARY', ''),
     },
     fim: {
       // dual-model: light FIM/autocomplete on :8082 (prefer CPU; see profiles.json)
       enabled: env('LLAMA_FIM_ENABLED', 'true') === 'true',
-      model: env(
-        'LLAMA_FIM_MODEL',
-        homePath('models/fim-small.Q4_K_M.gguf')
-      ),
+      model: env('LLAMA_FIM_MODEL', ''),
       /** short OpenAI model id for clients (autocomplete) */
       modelId: env('LLAMA_FIM_MODEL_ID', 'evocode-fim'),
       port: Number(env('LLAMA_FIM_PORT', '8082')),
@@ -202,7 +193,8 @@ export const defaultConfig: EvocodeConfig = {
   },
 
   sync: {
-    enabled: env('SKILL_SYNC_ENABLED', 'true') === 'true',
+    // Off by default for public installs — enable only with trusted sources
+    enabled: env('SKILL_SYNC_ENABLED', 'false') === 'true',
     interval: 86_400_000,
     sources: [
       {
@@ -223,9 +215,23 @@ export const defaultConfig: EvocodeConfig = {
   },
 
   dlp: {
-    enabled: true,
-    blockOnCritical: true,
+    enabled: env('EVOCODE_DLP_ENABLED', 'true') !== 'false',
+    blockOnCritical: env('EVOCODE_DLP_BLOCK', 'true') !== 'false',
     rules: [
+      {
+        name: 'openrouter-key',
+        pattern: /\bsk-or-v1-[a-zA-Z0-9]{20,}\b/g,
+        replacement: '[REDACTED_OPENROUTER_KEY]',
+        description: 'OpenRouter API keys (bare)',
+        critical: true,
+      },
+      {
+        name: 'openai-key',
+        pattern: /\bsk-(?!or-v1-)[a-zA-Z0-9]{20,}\b/g,
+        replacement: '[REDACTED_OPENAI_KEY]',
+        description: 'OpenAI-style API keys (bare)',
+        critical: true,
+      },
       {
         name: 'api-key',
         pattern: /api[_-]?key[:=]\s*["']?([a-zA-Z0-9_-]{20,})["']?/gi,

@@ -140,6 +140,31 @@ export class DLPGuard {
           if (res.blocked) messagesBlocked = true;
           messagesChanges.push(...res.changes);
           maskedMsgs.push({ ...m, content: res.masked });
+        } else if (Array.isArray(m.content)) {
+          // multimodal / content parts — mask string parts only
+          const parts = [];
+          for (const part of m.content as unknown[]) {
+            if (part && typeof part === 'object' && typeof (part as any).text === 'string') {
+              const res = await this.mask((part as any).text);
+              if (res.blocked) messagesBlocked = true;
+              messagesChanges.push(...res.changes);
+              parts.push({ ...(part as object), text: res.masked });
+            } else if (typeof part === 'string') {
+              const res = await this.mask(part);
+              if (res.blocked) messagesBlocked = true;
+              messagesChanges.push(...res.changes);
+              parts.push(res.masked);
+            } else {
+              parts.push(part);
+            }
+          }
+          maskedMsgs.push({ ...m, content: parts as any });
+        } else if (m.content != null) {
+          // unknown shape — stringify + mask rather than forward raw
+          const res = await this.mask(String(m.content));
+          if (res.blocked) messagesBlocked = true;
+          messagesChanges.push(...res.changes);
+          maskedMsgs.push({ ...m, content: res.masked });
         } else {
           maskedMsgs.push(m);
         }

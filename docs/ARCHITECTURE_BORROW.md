@@ -1,7 +1,8 @@
 # Заимствования архитектуры: OpenCode, Kilo, Grok Build
 
-**Дата:** 2026-07-19  
+**Дата:** 2026-07-20  
 **Статус:** утверждённый архитектурный принцип  
+**Лицензии / NOTICE:** [NOTICE](../NOTICE) · [LICENSE](../LICENSE)  
 **Связано:** [ARCHITECTURE.md](./ARCHITECTURE.md) · [FORK_STRATEGY.md](../plans/FORK_STRATEGY.md) · [ROADMAP.md](../plans/ROADMAP.md)
 
 ---
@@ -9,15 +10,18 @@
 ## 1. Принцип
 
 > **Не писать второй agent runtime.**  
-> Agent loop = **OpenCode / Kilo** (уже на машине).  
+> Agent loop = **OpenCode / Kilo** (bootstrap снаружи репозитория).  
 > Уникальность Эвокод = **privacy plane (Core)** + **branded IDE** + **политика local-first для РФ**.
 
-| Источник | Роль |
-|----------|------|
-| **OpenCode** (anomalyco) | Runtime: agents, tools, sessions, MCP, LSP, providers, HTTP+SSE |
-| **Kilo** (`$HOME/kilocode  # or set KILO_SRC`) | Fork OpenCode + VS Code extension + gateway + indexing |
-| **Grok Build** (xAI / `~/.grok/docs`) | Reference: permissions, plan mode, sandbox, worktrees, adapters |
-| **Evocode Core** (`src/`) | DLP, router, attach llama, skill sync, RAG, OpenAI-compat policy endpoint |
+| Источник | Роль | Лицензия (проверять upstream) | В этом git-дереве |
+|----------|------|-------------------------------|-------------------|
+| **OpenCode** (anomalyco) | Runtime: agents, tools, sessions, MCP, providers | Обычно MIT/Apache-2.0 | Не vendored целиком |
+| **Kilo / kilo-vscode** (`KILO_SRC`) | Extension + gateway patterns | Как у upstream LICENSE | Только rebrand scripts + config examples |
+| **VSCodium / Code - OSS** | IDE binary | MIT | Bootstrap / dist gitignored |
+| **Grok Build** (xAI docs) | Reference UX patterns | Docs reference only | Не копируем проприетарный код |
+| **Evocode Core** (`src/`) | DLP, router, attach llama, skill sync, RAG | **MIT (наш)** | Да |
+
+**Публикация:** публикуется Core + tooling + skills с NOTICE. Собранный agent extension / IDE dist — только после проверки лицензий upstream файлов внутри пакета.
 
 ---
 

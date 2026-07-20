@@ -1112,7 +1112,17 @@ async function main(): Promise<void> {
           }
           requestBody = { ...body, model: modelToUse, messages: finalMessages };
         } else {
-          // Применяем DLP Guard на облачном пути
+          // DLP is mandatory on every cloud egress (mask + blockOnCritical)
+          if (!defaultConfig.dlp.enabled) {
+            sendJson(res, 403, {
+              error: {
+                message:
+                  'Cloud route requires DLP (EVOCODE_DLP_ENABLED). Refusing to send unfiltered data.',
+                type: 'dlp_required',
+              },
+            });
+            return;
+          }
           const { dlpGuard } = await import('./guard/dlp-guard');
           const dlpResult = await dlpGuard.processRequest({
             prompt: userText,
@@ -1128,7 +1138,7 @@ async function main(): Promise<void> {
             );
           }
 
-          // Обновляем сообщения с замаскированным промптом
+          // Only masked messages leave Core toward cloud providers
           const maskedMessages = dlpResult.messages || [];
 
           const cloud = defaultConfig.inference.cloud;

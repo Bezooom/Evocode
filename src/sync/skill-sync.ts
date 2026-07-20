@@ -4,6 +4,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as https from 'https';
 import { defaultConfig, EvocodeConfig, SyncSource } from '../core/config';
+import {
+  isPathInside,
+  sanitizeSkillRelativePath,
+  safeSkillFetchUrl,
+} from './path-safe';
 
 export type SkillStatus = 'new' | 'changed' | 'removed' | 'unchanged';
 
@@ -141,22 +146,58 @@ export class SkillSyncEngine {
       const manifestUrl = `${source.url}/raw/${source.branch}/MANIFEST.json`;
       const manifest = await this.fetchJson(manifestUrl);
 
-      const resolvedLocalDir = path.resolve(this.config.skills.systemPath, source.name);
+      // Always resolve under cwd-relative skills root (never write outside repo skills tree)
+      const systemRoot = path.resolve(process.cwd(), this.config.skills.systemPath);
+      const sourceName = String(source.name || 'remote').replace(/[^a-zA-Z0-9._-]/g, '_');
+      const resolvedLocalDir = path.resolve(systemRoot, sourceName);
+      if (!isPathInside(systemRoot, resolvedLocalDir)) {
+        result.errors.push(`Ошибка безопасности: имя источника ${source.name} выходит за skills root`);
+        return result;
+      }
       if (!fs.existsSync(resolvedLocalDir)) {
         fs.mkdirSync(resolvedLocalDir, { recursive: true });
       }
 
       for (const skill of manifest.skills || []) {
-        const skillPath = path.resolve(resolvedLocalDir, skill.path);
-        if (!skillPath.startsWith(resolvedLocalDir)) {
-          result.errors.push(`Ошибка безопасности ${skill.name}: обнаружена уязвимость path traversal в пути ${skill.path}`);
-          this.log.push(`  ❌ Ошибка безопасности ${skill.name}: обнаружена уязвимость path traversal в пути ${skill.path}`);
+        const rel = sanitizeSkillRelativePath(skill.path);
+        if (!rel) {
+          result.errors.push(
+            `Ошибка безопасности ${skill.name || '?'}: небезопасный path в манифесте: ${skill.path}`
+          );
+          this.log.push(`  ❌ path reject: ${skill.path}`);
+          continue;
+        }
+        const skillPath = path.resolve(resolvedLocalDir, rel);
+        if (!isPathInside(resolvedLocalDir, skillPath)) {
+          result.errors.push(
+            `Ошибка безопасности ${skill.name}: path traversal в пути ${skill.path}`
+          );
+          this.log.push(`  ❌ path traversal: ${skill.path}`);
+          continue;
+        }
+        // Only allow SKILL.md (and nested skill docs under same skill folder)
+        const base = path.basename(skillPath);
+        if (!/\.(md|txt|json|yml|yaml)$/i.test(base)) {
+          result.errors.push(`Ошибка безопасности ${skill.name}: запрещённый тип файла ${base}`);
           continue;
         }
         const skillDir = path.dirname(skillPath);
+        if (!isPathInside(resolvedLocalDir, skillDir)) {
+          result.errors.push(`Ошибка безопасности ${skill.name}: skillDir вне root`);
+          continue;
+        }
 
-        // Загрузка содержимого навыка
-        const skillUrl = `${source.url}/raw/${source.branch}/${source.path}${skill.path}`;
+        // Загрузка содержимого навыка (только https github / raw)
+        const skillUrl = safeSkillFetchUrl(
+          source.url,
+          source.branch,
+          source.path,
+          rel
+        );
+        if (!skillUrl) {
+          result.errors.push(`Ошибка безопасности ${skill.name}: URL fetch отклонён`);
+          continue;
+        }
         let skillContent: string;
         try {
           skillContent = await this.fetchText(skillUrl);
@@ -255,8 +296,26 @@ export class SkillSyncEngine {
       }
     };
 
+    // Initial URL must be https + trusted host (no plain http SSRF)
+    try {
+      const u = new URL(url);
+      if (u.protocol !== 'https:') {
+        return Promise.reject(new Error(`SSRF Prevention: only https allowed (${url})`));
+      }
+      const host = u.hostname.toLowerCase();
+      const ok =
+        host === 'github.com' ||
+        host === 'raw.githubusercontent.com' ||
+        host.endsWith('.githubusercontent.com');
+      if (!ok) {
+        return Promise.reject(new Error(`SSRF Prevention: untrusted host ${host}`));
+      }
+    } catch (e) {
+      return Promise.reject(new Error(`Invalid URL: ${url}`));
+    }
+
     return new Promise((resolve, reject) => {
-      const protocol = url.startsWith('https') ? https : require('http');
+      const protocol = https;
       protocol.get(url, (res: any) => {
         // Обработка редиректов (301, 302, 307, 308)
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {

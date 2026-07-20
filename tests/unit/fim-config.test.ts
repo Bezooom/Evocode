@@ -3,12 +3,12 @@ import { resolveFimProfile } from '../../src/core/profiles';
 import { InferenceEngine } from '../../src/engine/inference';
 
 describe('FIM dual-model config', () => {
-  it('FIM enabled by default with portable model path and port 8082', () => {
+  it('FIM enabled by default; model path from env/profiles only (no hard-coded home)', () => {
     expect(defaultConfig.inference.fim.enabled).toBe(true);
     expect(defaultConfig.inference.fim.port).toBe(8082);
     expect(defaultConfig.inference.fim.modelId).toBe('evocode-fim');
-    expect(defaultConfig.inference.fim.model).toMatch(/fim-small|\.gguf$/);
-    expect(defaultConfig.inference.fim.model).not.toContain('/home/bezoom/storage');
+    // empty default — set LLAMA_FIM_MODEL or profiles.json
+    expect(defaultConfig.inference.fim.model).not.toContain('/home/bezoom');
     expect(defaultConfig.inference.fim.profileId).toBe('fim-small');
   });
 

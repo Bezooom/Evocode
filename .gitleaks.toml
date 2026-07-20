@@ -1,0 +1,19 @@
+# Allowlist for known false positives (docs / fixtures). Real keys must still fail CI.
+title = "Evocode"
+
+[allowlist]
+description = "Placeholders and test fixtures"
+paths = [
+  '''tests/unit/.*''',
+  '''skills/system/.*/references/.*''',
+  '''skills/system/broken-authentication/.*''',
+  '''skills/system/autoskill/tests/.*''',
+]
+regexes = [
+  '''YOUR_TOKEN''',
+  '''your_key_here''',
+  '''sk-or-v1-\.\.\.''',
+  '''sk-or-v1-your_key''',
+  '''abc123def456ghi789012345''',
+  '''-----BEGIN PRIVATE KEY-----\\n\.\.\.''',
+]

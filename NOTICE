@@ -1,32 +1,67 @@
 # NOTICE — Third-party and upstream components
 
-Evocode (Эвокод) is a product shell combining:
+Evocode (Эвокод) is a product shell. **This repository** primarily contains:
 
-1. **Evocode Core** — privacy plane, DLP, skill router, local runtime attach
-   (this repository; see LICENSE — MIT).
+- **Evocode Core** (`src/`, `config/`, packaging scripts) — MIT (see `LICENSE`)
+- **Product shell / rebrand tooling** (`packages/ide/shell`, `packages/agent-extension` scripts)
+- **Skill corpus** (`skills/system/`) — mixed licenses (see `skills/NOTICE.md`)
 
-2. **VSCodium / Code - OSS** — IDE base (MIT).
-   https://github.com/VSCodium/vscodium
-   Bundled or built via `packages/ide/` bootstrap; not all upstream sources are
-   committed here.
+Upstream IDE and agent **sources are not fully vendored** into this git tree by default
+(large trees are gitignored / bootstrapped). Operators must obtain them separately
+under their original licenses.
 
-3. **Kilocode / OpenCode lineage** — agent extension runtime (MIT / Apache as
-   published upstream). Rebranded UI and provider wiring live under
-   `packages/agent-extension/`. Upstream monorepo is **not** vendored by default;
-   set `KILO_SRC` and run `npm run bootstrap:agent`.
+---
 
-4. **llama.cpp and forks** (ik_llama, buun-llama-cpp, etc.) — local inference
-   binaries referenced only by path in `config/profiles.json`. Weights (GGUF)
-   are never copied into this repo.
+## 1. Evocode Core
 
-5. **Skill corpus** under `skills/system/` — mixed provenance:
-   - First-party `evocode-*` skills (MIT, same as this project).
-   - Community and imported skills may carry their own LICENSE / LICENSE.txt
-     inside each skill folder. See `skills/NOTICE.md`.
+| Item | License |
+|------|---------|
+| Core TypeScript sources | MIT — Copyright (c) 2026 bezoom / Evocode |
 
-Do not assume every skill file is original Evocode content. When redistributing
-a subset of skills, retain the corresponding per-skill license files.
+## 2. VSCodium / Code - OSS
 
-Trademarks: “VS Code”, “Kilo”, “OpenCode”, and model names belong to their
-respective owners. Evocode is an independent local-first product, not affiliated
-with Microsoft, Anthropic, or OpenAI.
+| Item | License | Notes |
+|------|---------|--------|
+| [VSCodium](https://github.com/VSCodium/vscodium) | MIT | Branding/build scripts; not Microsoft product |
+| Code - OSS | MIT | Base editor; obtained via bootstrap, not required in this repo |
+
+## 3. OpenCode / Kilocode lineage (agent runtime)
+
+| Item | Typical license | Notes |
+|------|-----------------|--------|
+| [OpenCode](https://github.com/anomalyco/opencode) (and forks) | Check upstream LICENSE (commonly MIT/Apache-2.0) | Agent loop, tools, providers |
+| Kilocode monorepo / kilo-vscode | **As published by upstream** — verify LICENSE before redistribution | Used via `KILO_SRC` + rebrand scripts; **not copied into public tree by default** |
+
+**Important:** Evocode rebrands and wires a **local provider** to Core (`:8083/v1`).
+We do **not** claim ownership of Kilo/OpenCode code. If you redistribute a built
+extension that includes upstream JS, retain their license files and attribution.
+
+There is **no intentional inclusion of proprietary closed-source Kilo Gateway
+server code** in this repository. Cloud Kilo account features are disabled for
+local-only mode. If you add private upstream trees, do not publish them.
+
+## 4. llama.cpp and forks
+
+| Item | License | Notes |
+|------|---------|--------|
+| llama.cpp / ik_llama / buun-llama-cpp | MIT (upstream) | Binaries referenced by path only |
+| GGUF model weights | **Model-specific** | Never committed here |
+
+## 5. Skills corpus
+
+See `skills/NOTICE.md`. First-party `evocode-*` skills are MIT. Imported community
+skills may be MIT, Apache-2.0, or other — keep per-skill `LICENSE*` files when shipping.
+
+## 6. Trademarks
+
+“VS Code”, “Kilo”, “OpenCode”, “OpenAI”, model names, and product marks belong to
+their owners. Evocode is independent and unaffiliated.
+
+---
+
+## Operator checklist before public redistribution
+
+1. Confirm `packages/agent-extension/extension/` and `packages/ide/dist/` are **not**
+   committed (gitignored) unless every included license is reviewed.
+2. Ship this `NOTICE` + root `LICENSE` + `skills/NOTICE.md` with any binary package.
+3. Do not publish `.env`, `.evocode/config.json`, or API keys.

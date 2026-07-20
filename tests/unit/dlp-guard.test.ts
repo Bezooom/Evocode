@@ -104,4 +104,19 @@ describe('DLPGuard', () => {
     expect(result.masked).not.toContain('abc123def456ghi789012345');
     expect(result.changes.length).toBe(2);
   });
+
+  it('блокирует bare OpenRouter sk-or-v1-… (defaultConfig rules)', async () => {
+    const { defaultConfig } = require('../../src/core/config');
+    const g = new DLPGuard({
+      enabled: true,
+      blockOnCritical: true,
+      rules: defaultConfig.dlp.rules,
+    });
+    const fake = 'please use sk-or-v1-' + 'a'.repeat(48);
+    const result = await g.mask(fake);
+    expect(result.wasMasked).toBe(true);
+    expect(result.masked).toContain('[REDACTED_OPENROUTER_KEY]');
+    expect(result.blocked).toBe(true);
+  });
 });
+
