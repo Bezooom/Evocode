@@ -515,15 +515,15 @@ function materializeAndPatchDist(upstream) {
         n += 1;
       }
 
-      // Prefer Эвокод config names (evocode.json) while keeping kilo.json as fallback
+      // Prefer Эвокод config names (evocode.json) only, completely independent of kilo
       const configPathPatches = [
         [
           'var MODERN = ["kilo.jsonc", "kilo.json"]',
-          'var MODERN = ["evocode.jsonc", "evocode.json", "kilo.jsonc", "kilo.json"]',
+          'var MODERN = ["evocode.jsonc", "evocode.json"]',
         ],
         [
           'var GLOBAL = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"]',
-          'var GLOBAL = ["evocode.jsonc", "evocode.json", "kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"]',
+          'var GLOBAL = ["evocode.jsonc", "evocode.json", "config.json"]',
         ],
         [
           'return path18.join(xdg, "kilo");',
@@ -536,19 +536,19 @@ function materializeAndPatchDist(upstream) {
         ],
         [
           'const env17 = process.env.KILO_CONFIG ? [row(process.env.KILO_CONFIG, "sourceEnvFile")] : [];',
-          'const env17 = (process.env.EVOCODE_CONFIG || process.env.KILO_CONFIG) ? [row(process.env.EVOCODE_CONFIG || process.env.KILO_CONFIG, "sourceEnvFile")] : [];',
+          'const env17 = process.env.EVOCODE_CONFIG ? [row(process.env.EVOCODE_CONFIG, "sourceEnvFile")] : [];',
         ],
         [
           'const extra = process.env.KILO_CONFIG_DIR;',
-          'const extra = process.env.EVOCODE_CONFIG_DIR || process.env.KILO_CONFIG_DIR;',
+          'const extra = process.env.EVOCODE_CONFIG_DIR;',
         ],
         [
           'var HOME = [".kilo", ".kilocode", ".opencode"];',
-          'var HOME = [".evocode", ".kilo", ".kilocode", ".opencode"];',
+          'var HOME = [".evocode"];',
         ],
         [
           'var SOURCES = {\n  ".kilo": "sourceHomeKilo",\n  ".kilocode": "sourceHomeKilocode",\n  ".opencode": "sourceHomeOpencode"\n};',
-          'var SOURCES = {\n  ".evocode": "sourceHomeEvocode",\n  ".kilo": "sourceHomeKilo",\n  ".kilocode": "sourceHomeKilocode",\n  ".opencode": "sourceHomeOpencode"\n};',
+          'var SOURCES = {\n  ".evocode": "sourceHomeEvocode"\n};',
         ],
       ];
       for (const [from, to] of configPathPatches) {
