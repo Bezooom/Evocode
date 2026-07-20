@@ -1460,11 +1460,32 @@ async function main(): Promise<void> {
         const body = JSON.parse(await readBody(req));
         const input = body.input;
         const texts = Array.isArray(input) ? input : [input];
-        const data = [];
-        for (let i = 0; i < texts.length; i++) {
-          const emb = await inferenceEngine.getEmbeddings(String(texts[i]).slice(0, 8000));
-          data.push({ object: 'embedding', index: i, embedding: emb });
-        }
+        
+        const pMap = async <T, R>(
+          items: T[],
+          fn: (item: T, index: number) => Promise<R>,
+          concurrency: number
+        ): Promise<R[]> => {
+          const results: R[] = new Array(items.length);
+          let currentIndex = 0;
+          const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+            while (currentIndex < items.length) {
+              const index = currentIndex++;
+              results[index] = await fn(items[index], index);
+            }
+          });
+          await Promise.all(workers);
+          return results;
+        };
+
+        const data = await pMap(
+          texts,
+          async (text, i) => {
+            const emb = await inferenceEngine.getEmbeddings(String(text).slice(0, 8000));
+            return { object: 'embedding', index: i, embedding: emb };
+          },
+          4
+        );
         sendJson(res, 200, { object: 'list', data, model: body.model || 'evocode-embed' });
         return;
       }
