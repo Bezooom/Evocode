@@ -493,7 +493,8 @@ function main() {
 
   const customIconCss = `
 /* Evocode Premium Custom Icon Overrides */
-.activitybar .action-label.codicon-files::before {
+.activitybar .action-label.codicon-files::before,
+.activitybar .action-label.codicon-explorer-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') no-repeat center / 20px 20px !important;
@@ -502,7 +503,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-search::before {
+.activitybar .action-label.codicon-search::before,
+.activitybar .action-label.codicon-search-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') no-repeat center / 20px 20px !important;
@@ -511,7 +513,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-source-control::before {
+.activitybar .action-label.codicon-source-control::before,
+.activitybar .action-label.codicon-source-control-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') no-repeat center / 20px 20px !important;
@@ -520,7 +523,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-debug-alt::before {
+.activitybar .action-label.codicon-debug-alt::before,
+.activitybar .action-label.codicon-run-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') no-repeat center / 20px 20px !important;
@@ -529,7 +533,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-extensions::before {
+.activitybar .action-label.codicon-extensions::before,
+.activitybar .action-label.codicon-extensions-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') no-repeat center / 20px 20px !important;
@@ -546,11 +551,6 @@ function main() {
   width: 24px !important;
   height: 24px !important;
   display: inline-block !important;
-}
-
-/* Force auxiliary bar width */
-.part.auxiliarybar {
-  min-width: 500px !important;
 }
 `;
 
