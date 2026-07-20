@@ -400,6 +400,18 @@ export class InferenceEngine {
         { role: 'user', content: request.prompt },
       ];
 
+    // Fail fast if we already know local is down (avoid 600s hang → Core unresponsive)
+    if (!this.localReady) {
+      const up = await this.probe(this.chatBaseUrl());
+      if (!up) {
+        throw new InferenceError(
+          `Локальный llama не на ${this.chatBaseUrl()}. Запустите coder / start_ik_*.sh`,
+          'LOCAL_UNAVAILABLE'
+        );
+      }
+      this.localReady = true;
+    }
+
     try {
       const data = await this.fetchJson(
         `${this.chatBaseUrl()}/v1/chat/completions`,
@@ -413,7 +425,8 @@ export class InferenceEngine {
             model: request.model || local.model,
           }),
         },
-        local.timeout
+        // Cap wait so Core event loop stays responsive for /health and IDE launch
+        Math.min(local.timeout, 120)
       );
 
       return {

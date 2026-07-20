@@ -53,27 +53,29 @@ async function initialize(): Promise<void> {
 
   const skills = skillLoader.loadAll();
   console.log(`✅ Эвокод готов (${skills.length} навыков на диске)`);
+  // Skill embeddings warm-up runs AFTER HTTP listen (see main) so /health is immediate
+}
 
-  if (defaultConfig.skills.useEmbeddings) {
-    try {
-      let embedFn: ((t: string) => Promise<number[]>) | undefined;
-      if (defaultConfig.skills.embedBackend === 'inference') {
-        embedFn = async (t: string) => {
-          try {
-            return await inferenceEngine.getEmbeddings(t.slice(0, 2000));
-          } catch {
-            const { hashEmbed } = await import('./skills/skill-embeddings');
-            return hashEmbed(t);
-          }
-        };
-      }
-      const emb = await skillLoader.ensureEmbeddings(embedFn);
-      console.log(
-        `🧠 Skill embeddings: upserted=${emb.upserted} skipped=${emb.skipped} errors=${emb.errors} (backend=${defaultConfig.skills.embedBackend})`
-      );
-    } catch (e) {
-      console.warn('Skill embeddings skipped:', (e as Error).message);
+async function warmSkillEmbeddings(): Promise<void> {
+  if (!defaultConfig.skills.useEmbeddings) return;
+  try {
+    let embedFn: ((t: string) => Promise<number[]>) | undefined;
+    if (defaultConfig.skills.embedBackend === 'inference') {
+      embedFn = async (t: string) => {
+        try {
+          return await inferenceEngine.getEmbeddings(t.slice(0, 2000));
+        } catch {
+          const { hashEmbed } = await import('./skills/skill-embeddings');
+          return hashEmbed(t);
+        }
+      };
     }
+    const emb = await skillLoader.ensureEmbeddings(embedFn);
+    console.log(
+      `🧠 Skill embeddings: upserted=${emb.upserted} skipped=${emb.skipped} errors=${emb.errors} (backend=${defaultConfig.skills.embedBackend})`
+    );
+  } catch (e) {
+    console.warn('Skill embeddings skipped:', (e as Error).message);
   }
 }
 
@@ -278,19 +280,20 @@ async function main(): Promise<void> {
 
     try {
       if (req.method === 'GET' && url === '/health') {
-        await inferenceEngine.refreshLocalReady();
-        const fimReady = await inferenceEngine.isFimReady();
+        // Keep health FAST — launchers poll this; never block on llama or full skill scan
         sendJson(res, 200, {
           status: 'ok',
           version: defaultConfig.appVersion,
           product: 'evocode-core',
           localReady: inferenceEngine.isLocalReady(),
           fimEnabled: inferenceEngine.isFimEnabled(),
-          fimReady,
+          fimReady: false, // refreshed on /v1/runtime, not on health
           fim: inferenceEngine.getFimInfo(),
-          skills: skillLoader.loadAll().length,
+          skills: skillLoader.skillCount(),
           runtime: inferenceEngine.getRuntimeInfo(),
         });
+        // Soft refresh readiness in background (do not await)
+        void inferenceEngine.refreshLocalReady().catch(() => undefined);
         return;
       }
 
@@ -1421,6 +1424,8 @@ async function main(): Promise<void> {
     console.log(`   Health:        GET  http://${HOST}:${PORT}/health`);
     console.log(`   Runtime API:   GET  /v1/runtime  POST /v1/runtime/start|stop|switch`);
     console.log(`   Runtime:       ${JSON.stringify(inferenceEngine.getRuntimeInfo())}`);
+    // Background — never block listen/health
+    void warmSkillEmbeddings();
   });
 }
 

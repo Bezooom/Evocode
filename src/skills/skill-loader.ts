@@ -47,6 +47,9 @@ export class SkillLoader {
   private index: SkillIndex;
   private router: SkillRouter;
   private embedStore: SkillEmbeddingStore | null = null;
+  /** skip full embed sync once index is warm (M4) */
+  private embeddingsWarm = false;
+  private skillCountCache = 0;
 
   constructor(config?: Partial<EvocodeConfig>) {
     this.config = mergeConfig(config);
@@ -56,7 +59,15 @@ export class SkillLoader {
 
   /** user overrides system при совпадении name */
   loadAll(force = false): LoadedSkill[] {
-    return this.index.getAll(force).map(toLoaded);
+    const all = this.index.getAll(force).map(toLoaded);
+    this.skillCountCache = all.length;
+    return all;
+  }
+
+  /** Fast count for /health — avoids re-walk when cache warm */
+  skillCount(): number {
+    if (this.skillCountCache > 0) return this.skillCountCache;
+    return this.loadAll(false).length;
   }
 
   /**
@@ -212,9 +223,18 @@ export class SkillLoader {
       this.embedStore = getSkillEmbeddingStore(sc.embeddingsDbPath);
       this.router.setEmbedStore(this.embedStore);
     }
+    // Avoid re-hashing 800+ skills on every chat request
+    if (this.embeddingsWarm && !opts?.force && !opts?.skills) {
+      const n = this.embedStore.count();
+      if (n > 0) return { upserted: 0, skipped: n, errors: 0 };
+    }
     const skills = opts?.skills || this.index.getAll(false);
     const fn = embedFn || ((t: string) => hashEmbed(t));
-    return this.embedStore.sync(skills, fn, { force: opts?.force });
+    const result = await this.embedStore.sync(skills, fn, { force: opts?.force });
+    if (result.errors === 0 || this.embedStore.count() > 0) {
+      this.embeddingsWarm = true;
+    }
+    return result;
   }
 
   /** Apply runtime config changes (packs, lab, limits) without process restart */
@@ -227,6 +247,8 @@ export class SkillLoader {
   invalidate(): void {
     this.index.invalidate();
     this.router.invalidate();
+    this.embeddingsWarm = false;
+    this.skillCountCache = 0;
   }
 
   /** Legacy bag-of-words path (feature flag v1) */

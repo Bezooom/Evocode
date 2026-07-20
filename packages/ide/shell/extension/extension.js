@@ -65,7 +65,7 @@ function healthCheck(port, timeoutMs = 1200) {
 
 async function ensureCore(log) {
   const port = corePort(cfg());
-  const live = await healthCheck(port);
+  let live = await healthCheck(port, 1500);
   if (live.ok) {
     log?.(`Core online :${port}`);
     return { started: false, online: true, port, health: live.json };
@@ -75,6 +75,14 @@ async function ensureCore(log) {
     log?.('Core offline — EVOCODE_ROOT');
     vscode.window.showErrorMessage('Эвокод: Core offline. Запустите: PORT=8083 npm start');
     return { started: false, online: false, port, health: null };
+  }
+  // Port may be occupied by wedged Core — free it
+  try {
+    const { execSync } = require('child_process');
+    execSync(`fuser -k ${port}/tcp 2>/dev/null || true`, { stdio: 'ignore' });
+    await new Promise((r) => setTimeout(r, 400));
+  } catch {
+    /* */
   }
   const entry = path.join(root, 'dist', 'index.js');
   log?.(`Запуск Core: ${entry}`);
@@ -97,10 +105,10 @@ async function ensureCore(log) {
     },
   });
   child.unref();
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 30; i++) {
     await new Promise((r) => setTimeout(r, 400));
-    const h = await healthCheck(port);
-    if (h.ok) return { started: true, online: true, port, health: h.json };
+    live = await healthCheck(port, 1200);
+    if (live.ok) return { started: true, online: true, port, health: live.json };
   }
   return { started: true, online: false, port, health: null };
 }

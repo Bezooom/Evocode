@@ -30,11 +30,19 @@ if ! compgen -G "${EXT_DIR}/evocode.evocode-agent-*" >/dev/null 2>&1; then
   node packages/ide/scripts/preinstall-agent.mjs --target "${EXT_DIR}" 2>/dev/null || true
 fi
 
-if [[ -f "${ROOT}/dist/index.js" ]] && ! curl -sf "http://127.0.0.1:${CORE_PORT}/health" >/dev/null 2>&1; then
+if [[ -f "${ROOT}/dist/index.js" ]] && ! curl -sf --max-time 2 "http://127.0.0.1:${CORE_PORT}/health" >/dev/null 2>&1; then
   mkdir -p "${ROOT}/.evocode"
+  if command -v fuser >/dev/null 2>&1; then
+    fuser -k "${CORE_PORT}/tcp" >/dev/null 2>&1 || true
+    sleep 0.5
+  fi
   nohup env PORT="${CORE_PORT}" EVOCODE_LLAMA_MODE="${EVOCODE_LLAMA_MODE}" \
     node "${ROOT}/dist/index.js" >>"${ROOT}/.evocode/core-demo.log" 2>&1 &
   echo $! >"${ROOT}/.evocode/core-demo.pid"
+  for _ in 1 2 3 4 5 6 7 8; do
+    curl -sf --max-time 1 "http://127.0.0.1:${CORE_PORT}/health" >/dev/null 2>&1 && break
+    sleep 0.4
+  done
 fi
 
 WORKSPACE="${1:-$ROOT}"

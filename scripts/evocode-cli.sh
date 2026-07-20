@@ -25,14 +25,21 @@ fi
 if [[ -n "${ROOT:-}" && -f "$ROOT/dist/index.js" ]]; then
   export EVOCODE_ROOT="$ROOT"
   (cd "$ROOT" && EVOCODE_CORE_URL="$EVOCODE_CORE_URL" npm run agent:install-provider >/dev/null 2>&1) || true
-  if ! curl -sf "http://127.0.0.1:8083/health" >/dev/null 2>&1; then
+  # Always use --max-time: hung Core must not block IDE launch forever
+  if ! curl -sf --max-time 2 "http://127.0.0.1:8083/health" >/dev/null 2>&1; then
     mkdir -p "$ROOT/.evocode"
+    # Kill zombie Core if port half-open / process wedged
+    if command -v fuser >/dev/null 2>&1; then
+      fuser -k 8083/tcp >/dev/null 2>&1 || true
+      sleep 0.5
+    fi
     nohup env PORT=8083 EVOCODE_LLAMA_MODE="${EVOCODE_LLAMA_MODE:-attach}" \
+      EVOCODE_SKILLS_EMBED="${EVOCODE_SKILLS_EMBED:-true}" \
       node "$ROOT/dist/index.js" >>"$ROOT/.evocode/core-demo.log" 2>&1 &
     echo $! >"$ROOT/.evocode/core-demo.pid" 2>/dev/null || true
-    for _ in 1 2 3 4 5; do
-      curl -sf "http://127.0.0.1:8083/health" >/dev/null 2>&1 && break
-      sleep 0.3
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+      curl -sf --max-time 1 "http://127.0.0.1:8083/health" >/dev/null 2>&1 && break
+      sleep 0.4
     done
   fi
 fi
