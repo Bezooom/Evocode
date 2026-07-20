@@ -4,9 +4,31 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../../..');
+
+// Check if editor is currently running (to warn about SQLite overrides)
+try {
+  const psOutput = execSync('ps aux', { encoding: 'utf8' });
+  const isRunning = psOutput.split('\n').some(line => {
+    const l = line.toLowerCase();
+    return (l.includes('codium') || l.includes('evocode') || l.includes('vscode')) && 
+           !l.includes('apply-product-settings') && 
+           !l.includes('npm') &&
+           !l.includes('node') &&
+           !l.includes('git') &&
+           !l.includes('grep');
+  });
+  if (isRunning) {
+    console.warn('\n\x1b[33m%s\x1b[0m', '⚠️  ВНИМАНИЕ: Среда «Эвокод» / VSCodium сейчас запущена!');
+    console.warn('\x1b[33m%s\x1b[0m\n', '   Закройте все окна редактора полностью, чтобы применить Cursor Layout. Иначе запущенный редактор перезапишет базу данных настроек при выходе.');
+  }
+} catch (e) {
+  // ignore
+}
+
 const PROFILE = process.env.EVOCODE_USER_DATA_DIR || path.join(os.homedir(), '.evocode-ide');
 const USER = path.join(PROFILE, 'User');
 const defaultsPath = path.join(ROOT, 'packages/ide/shell/settings.json');
@@ -81,6 +103,57 @@ if (fs.existsSync(dbPath)) {
     console.log('VSCodium state.vscdb layout patched: evocode-agent moved to left auxiliary bar.');
   } catch (e) {
     console.error('Error patching VSCodium layout state:', e);
+  }
+}
+
+// Also patch all workspace-specific state databases
+const workspaceStorage = path.join(PROFILE, 'User', 'workspaceStorage');
+if (fs.existsSync(workspaceStorage)) {
+  const folders = fs.readdirSync(workspaceStorage);
+  for (const folder of folders) {
+    const wsDbPath = path.join(workspaceStorage, folder, 'state.vscdb');
+    if (fs.existsSync(wsDbPath)) {
+      try {
+        const wsDb = new Database(wsDbPath);
+        
+        // A. Remove Agent view from activity bar workspace state
+        const rowWsViewlets = wsDb.prepare("SELECT value FROM ItemTable WHERE key = 'workbench.activity.viewletsWorkspaceState'").get();
+        if (rowWsViewlets) {
+          let viewlets = JSON.parse(rowWsViewlets.value);
+          viewlets = viewlets.filter(x => x.id !== 'workbench.view.extension.evocode-agent-ActivityBar');
+          wsDb.prepare("UPDATE ItemTable SET value = ? WHERE key = 'workbench.activity.viewletsWorkspaceState'").run(JSON.stringify(viewlets));
+        }
+        
+        // B. Add Agent view to auxiliary bar workspace state and make it visible
+        const rowWsAux = wsDb.prepare("SELECT value FROM ItemTable WHERE key = 'workbench.auxiliarybar.viewContainersWorkspaceState'").get();
+        let auxPanels = [];
+        if (rowWsAux) {
+          auxPanels = JSON.parse(rowWsAux.value);
+        }
+        auxPanels = auxPanels.filter(x => x.id !== 'workbench.view.extension.evocode-agent-ActivityBar');
+        auxPanels.push({
+          id: 'workbench.view.extension.evocode-agent-ActivityBar',
+          visible: true
+        });
+        if (rowWsAux) {
+          wsDb.prepare("UPDATE ItemTable SET value = ? WHERE key = 'workbench.auxiliarybar.viewContainersWorkspaceState'").run(JSON.stringify(auxPanels));
+        } else {
+          wsDb.prepare("INSERT INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.viewContainersWorkspaceState', ?)").run(JSON.stringify(auxPanels));
+        }
+
+        // C. Force auxiliaryBar.hidden to false, and sideBar.hidden to false
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.hidden', 'false')").run();
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sideBar.hidden', 'false')").run();
+
+        // D. Set active viewlet to Explorer (so main sidebar on the right shows files!)
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sidebar.activeviewletid', 'workbench.view.explorer')").run();
+
+        wsDb.close();
+        console.log(`Patched workspace database: ${wsDbPath}`);
+      } catch (wsErr) {
+        console.error(`Error patching workspace database ${wsDbPath}:`, wsErr);
+      }
+    }
   }
 }
 
