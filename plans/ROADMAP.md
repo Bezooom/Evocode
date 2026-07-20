@@ -31,7 +31,7 @@
 | 0.5.0 | F2 done | Product IDE, packaging, premium UI |
 | **0.9.0** | **F3 done** | Trust, proxy, auth, SSRF, Operator Mode (RC1) |
 | **0.95.0** | Skill Router + FIM | Router v2 M1–M4, dual-model autocomplete (RC2) |
-| **1.0.0** | Pilot DoD | Daily-use + pilot corp |
+| **1.0.0** | Pilot DoD | Daily-use + pilot corp + **hardware detect / model tuning** |
 | 1.x+ | F4 optional | LoRA / self-evolve |
 
 ---
@@ -56,6 +56,7 @@ graph LR
 | **F2** | ✅ | Product surface, Midnight Fusion UI, portable + deb + AppImage |
 | **F3** | ✅ | Trust/security, proxy, audit, sandbox, РФ cloud, Operator Mode, polish |
 | **F4** | 📋 later | LoRA / self-improve — после daily-use |
+| **H0–H4** | 🟡 foundation | Hardware probe + model recommendations → full UI in **1.0** ([HARDWARE_PROFILES.md](./HARDWARE_PROFILES.md)) |
 
 ### F2 — закрыто (milestone → v0.5.0)
 

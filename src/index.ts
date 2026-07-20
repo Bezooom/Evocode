@@ -4,6 +4,11 @@
  */
 import { inferenceEngine, InferenceError } from './engine/inference';
 import { runtimeManager } from './engine/runtime-manager';
+import {
+  foldReasoningDelta,
+  foldReasoningMessage,
+  isAbortLikeError,
+} from './engine/openai-normalize';
 import { smartRouter } from './router/smart-router';
 import { skillSyncEngine } from './sync/skill-sync';
 import { DLPBlockedError } from './guard/dlp-guard';
@@ -11,8 +16,13 @@ import { vectorIndex } from './indexer/vector-index';
 import { skillLoader } from './skills/skill-loader';
 import { defaultConfig, initConfig, saveConfig } from './core/config';
 import { contentToText } from './core/text';
+import { probeHardware } from './core/hardware';
 import * as http from 'http';
 import { ProxyAgent } from 'undici';
+
+/** Soft cache so /health stays fast but does not always report fimReady:false */
+let cachedFimReady: boolean | null = null;
+let cachedFimReadyAt = 0;
 
 export interface ChatResult {
   answer: string;
@@ -176,6 +186,22 @@ function mapError(err: unknown): { status: number; body: Record<string, unknown>
       },
     };
   }
+  if (isAbortLikeError(err)) {
+    return {
+      status: 504,
+      body: {
+        error: {
+          message:
+            'The operation was aborted (timeout or client cancel). ' +
+            'Typical causes: thinking model filled max_tokens with reasoning_content only; ' +
+            'client idle timeout; Core AbortSignal.timeout. ' +
+            'Try larger max_tokens, restart chat with --reasoning-budget 512, EVOCODE_FOLD_REASONING=true.',
+          type: 'aborted',
+          name: 'AbortError',
+        },
+      },
+    };
+  }
   const code = (err as { code?: string })?.code;
   if (code === 'UNKNOWN_PROFILE') {
     return {
@@ -281,19 +307,39 @@ async function main(): Promise<void> {
     try {
       if (req.method === 'GET' && url === '/health') {
         // Keep health FAST — launchers poll this; never block on llama or full skill scan
+        const fimStale = Date.now() - cachedFimReadyAt > 15_000;
         sendJson(res, 200, {
           status: 'ok',
           version: defaultConfig.appVersion,
           product: 'evocode-core',
           localReady: inferenceEngine.isLocalReady(),
           fimEnabled: inferenceEngine.isFimEnabled(),
-          fimReady: false, // refreshed on /v1/runtime, not on health
+          fimReady: cachedFimReady === true,
+          fimReadyCached: cachedFimReady,
           fim: inferenceEngine.getFimInfo(),
           skills: skillLoader.skillCount(),
           runtime: inferenceEngine.getRuntimeInfo(),
         });
         // Soft refresh readiness in background (do not await)
         void inferenceEngine.refreshLocalReady().catch(() => undefined);
+        if (fimStale || cachedFimReady === null) {
+          void inferenceEngine
+            .isFimReady()
+            .then((ok) => {
+              cachedFimReady = ok;
+              cachedFimReadyAt = Date.now();
+            })
+            .catch(() => {
+              cachedFimReady = false;
+              cachedFimReadyAt = Date.now();
+            });
+        }
+        return;
+      }
+
+      if (req.method === 'GET' && url === '/v1/hardware') {
+        const report = await probeHardware();
+        sendJson(res, 200, { ok: true, ...report });
         return;
       }
 
@@ -1281,6 +1327,10 @@ async function main(): Promise<void> {
                     
                     if (data.choices) {
                       for (const choice of data.choices) {
+                        if (choice.delta) {
+                          // Thinking models (ornith etc.): only reasoning_content → agent aborts on empty content
+                          choice.delta = foldReasoningDelta(choice.delta);
+                        }
                         if (choice.delta && choice.delta.content) {
                           fullContent += choice.delta.content;
                         }
@@ -1340,9 +1390,12 @@ async function main(): Promise<void> {
             };
           }
           
-          // Корректируем tool_calls
+          // Корректируем tool_calls + fold empty content from reasoning_content
           if (data.choices) {
             for (const choice of data.choices) {
+              if (choice.message) {
+                choice.message = foldReasoningMessage(choice.message);
+              }
               if (choice.message && choice.message.tool_calls) {
                 for (const tc of choice.message.tool_calls) {
                   if (!tc.id) {
@@ -1363,6 +1416,7 @@ async function main(): Promise<void> {
             source: decision,
             skills: skillInj.skills.map((s) => s.name),
             latency,
+            foldReasoning: true,
           };
 
           if (data.choices && data.choices[0]?.message) {

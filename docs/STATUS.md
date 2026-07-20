@@ -40,6 +40,9 @@ npm run build && npm run evocode    # IDE + Core :8083; FIM :8082 auto
 | **8083** | Evocode Core |
 | 8084 | nomic embeddings (optional) |
 
+**Abort / empty agent reply:** thinking-модели пишут в `reasoning_content` → Core fold + `--reasoning-budget` (см. RUNTIME).  
+**Железо (→1.0):** `GET /v1/hardware` · [plans/HARDWARE_PROFILES.md](../plans/HARDWARE_PROFILES.md).
+
 Дистрибутивы: `Evocode-0.95.0-x86_64.AppImage`, `evocode_0.95.0_amd64.deb`.
 
 ---

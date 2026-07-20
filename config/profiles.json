@@ -28,7 +28,8 @@
         "--parallel", "1",
         "--jinja",
         "--no-warmup",
-        "-ngl", "99"
+        "-ngl", "99",
+        "--reasoning-budget", "512"
       ]
     },
     "chat-ornith": {
@@ -66,7 +67,8 @@
         "--n-predict", "32768",
         "--timeout", "900",
         "--no-warmup",
-        "--jinja"
+        "--jinja",
+        "--reasoning-budget", "512"
       ]
     },
     "embed-nomic": {
@@ -78,7 +80,7 @@
       "args": [
         "-ngl", "0",
         "--embedding",
-        "-t", "8",
+        "-t", "16",
         "-c", "8192",
         "--parallel", "2",
         "--batch-size", "512",
@@ -88,15 +90,15 @@
     },
     "fim-small": {
       "role": "fim",
-      "description": "FIM / autocomplete · small Qwen-class ~2G · CPU (-ngl 0)",
-      "binary": "$HOME/ik_llama.cpp/build/bin/llama-server",
+      "description": "FIM / autocomplete · small Qwen-class ~2G · pure CPU (buun; ik still allocates CUDA buffers at -ngl 0)",
+      "binary": "$HOME/buun-llama-cpp/build/bin/llama-server",
       "model": "$HOME/models/fim-small.Q4_K_M.gguf",
       "port": 8082,
       "args": [
         "-ngl", "0",
         "-c", "8192",
         "--parallel", "1",
-        "-t", "8",
+        "-t", "16",
         "--batch-size", "512",
         "--ubatch-size", "128",
         "--jinja",

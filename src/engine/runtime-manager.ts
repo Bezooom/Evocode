@@ -372,10 +372,23 @@ export class RuntimeManager {
         '127.0.0.1',
         ...(p.args || []),
       ];
+      // -ngl 0 alone is not enough for some ik_llama builds: they still allocate CUDA
+      // compute buffers and OOM when chat holds all VRAM. Hide GPU for CPU-only profiles.
+      const nglZero = (p.args || []).some(
+        (a, i, arr) =>
+          (a === '-ngl' || a === '--n-gpu-layers') && String(arr[i + 1] ?? '') === '0'
+      );
+      const env: NodeJS.ProcessEnv = {
+        ...process.env,
+        GGML_TURBO_DECODE_NATIVE: '1',
+      };
+      if (nglZero) {
+        env.CUDA_VISIBLE_DEVICES = '';
+      }
       child = spawn(p.binary, args, {
         detached: true,
         stdio: ['ignore', logFd, logFd],
-        env: { ...process.env, GGML_TURBO_DECODE_NATIVE: '1' },
+        env,
       });
     }
 

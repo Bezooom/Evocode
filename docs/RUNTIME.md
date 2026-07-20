@@ -63,6 +63,33 @@ npm run evocode
 Не интегрировано: нет публичного drop-in в ik/buun.  
 Оптимизация «здесь и сейчас» = ваши профили ik (`--fit`) + buun turbo.
 
+## Thinking models & «The operation was aborted»
+
+Некоторые GGUF (ornith и др.) отдают токены в `reasoning_content`, а `content` пустой, пока не кончится «думание».  
+Агент (Kilo lineage) ждёт `delta.content` → idle/timeout → **`UnknownError: The operation was aborted`**.
+
+Mitigations (Core 0.95+):
+
+1. **`--reasoning-budget 512`** в профилях chat (`coder`, `chat-buun`) — лимит thinking, затем идёт answer.  
+2. **`EVOCODE_FOLD_REASONING=true`** (default) — Core копирует reasoning → `content`, если content пустой (stream + non-stream).  
+3. У агента/запросов не ставить слишком маленький `max_tokens` (thinking съедает бюджет).  
+4. Ошибки abort мапятся в `type: aborted` с подсказкой (не голый UnknownError).
+
+Проверка:
+
+```bash
+curl -s localhost:8083/v1/chat/completions -H 'Content-Type: application/json' \
+  -d '{"model":"evocode-auto","messages":[{"role":"user","content":"Say OK"}],"max_tokens":64}' | jq '.choices[0].message'
+```
+
+## Hardware recommendations (→ 1.0)
+
+```bash
+curl -s localhost:8083/v1/hardware | jq .
+```
+
+См. [plans/HARDWARE_PROFILES.md](../plans/HARDWARE_PROFILES.md): tier, CPU threads для FIM/embed, VRAM policy.
+
 ## Порты (не путать с OOM)
 
 | Порт | Кто | Конфликт? |
