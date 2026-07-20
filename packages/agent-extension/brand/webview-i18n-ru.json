@@ -138,7 +138,7 @@
       "ru": "Бесплатный лимит"
     },
     "dialog.usageExceeded.freeTier.description": {
-      "en": "Abbonati a Kilo Go per un accesso affidabile ai migliori modelli open source, a partire da $5 al mese.",
+      "en": "Abbonati a Evocode Go per un accesso affidabile ai migliori modelli open source, a partire da $5 al mese.",
       "ru": "Abbonati a Эвокод Go per un accesso affidabile ai migliori modelli open source, a partire da $5 al mese."
     },
     "dialog.usageExceeded.freeTier.actionLabel": {
@@ -606,7 +606,7 @@
       "ru": "Свернуть"
     },
     "dialog.model.unpaid.freeModels.title": {
-      "en": "Modelli gratuiti forniti da Kilo",
+      "en": "Modelli gratuiti forniti da Evocode",
       "ru": "Модельli gratuiti forniti da Эвокод"
     },
     "dialog.provider.viewAll": {
@@ -614,7 +614,7 @@
       "ru": "Показать ещё providers"
     },
     "provider.connect.apiKey.description": {
-      "en": "Inserisci la tua API key {{provider}} per connettere l'account e usare i modelli {{provider}} in Kilo.",
+      "en": "Inserisci la tua API key {{provider}} per connettere l'account e usare i modelli {{provider}} in Evocode.",
       "ru": "Inserisci la tua API key {{provider}} per connettere l'account e usare i modelli {{provider}} in Эвокод."
     },
     "provider.connect.apiKey.placeholder.optional": {
@@ -634,11 +634,11 @@
       "ru": "ОткрытьCode Zen ti offre una selezione curata di modelli affidabili e ottimizzati per agenti di coding."
     },
     "provider.connect.oauth.code.visit.suffix": {
-      "en": " per ottenere il codice di autorizzazione, connettere l'account e usare i modelli {{provider}} in Kilo.",
+      "en": " per ottenere il codice di autorizzazione, connettere l'account e usare i modelli {{provider}} in Evocode.",
       "ru": " per ottenere il codice di autorizzazione, connettere l'account e usare i modelli {{provider}} in Эвокод."
     },
     "provider.connect.oauth.auto.visit.suffix": {
-      "en": " e inserisci il codice qui sotto per connettere l'account e usare i modelli {{provider}} in Kilo.",
+      "en": " e inserisci il codice qui sotto per connettere l'account e usare i modelli {{provider}} in Evocode.",
       "ru": " e inserisci il codice qui sotto per connettere l'account e usare i modelli {{provider}} in Эвокод."
     },
     "provider.connect.oauth.auto.confirmationCode": {
@@ -810,7 +810,7 @@
       "ru": "Поиск folders"
     },
     "dialog.server.description": {
-      "en": "Cambia il server Kilo a cui si connette questa app.",
+      "en": "Cambia il server Evocode a cui si connette questa app.",
       "ru": "Cambia il server Эвокод a cui si connette questa app."
     },
     "dialog.server.search.placeholder": {
@@ -1018,7 +1018,7 @@
       "ru": "Обновить beschikbaar"
     },
     "toast.update.description": {
-      "en": "Una nuova versione di Kilo ({{version}}) \\xE8 disponibile per l'installazione.",
+      "en": "Una nuova versione di Evocode ({{version}}) \\xE8 disponibile per l'installazione.",
       "ru": "Una nuova versione di Эвокод ({{version}}) \\xE8 disponibile per l'installazione."
     },
     "toast.update.action.installRestart": {
@@ -1042,7 +1042,7 @@
       "ru": "Обновитьn naar {{version}}"
     },
     "error.page.report.prefix": {
-      "en": "Segnala questo errore al team Kilo",
+      "en": "Segnala questo errore al team Evocode",
       "ru": "Segnala questo errore al team Эвокод"
     },
     "error.page.version": {
@@ -1298,7 +1298,7 @@
       "ru": "Выключить workspaces"
     },
     "sidebar.gettingStarted.line1": {
-      "en": "Kilo include modelli gratuiti, cos\\xEC puoi iniziare subito.",
+      "en": "Evocode include modelli gratuiti, cos\\xEC puoi iniziare subito.",
       "ru": "Эвокод include modelli gratuiti, cos\\xEC puoi iniziare subito."
     },
     "settings.tab.general": {
@@ -1322,7 +1322,7 @@
       "ru": "Язык"
     },
     "settings.general.row.language.description": {
-      "en": "Cambia la lingua di visualizzazione di Kilo",
+      "en": "Cambia la lingua di visualizzazione di Evocode",
       "ru": "Cambia la lingua di visualizzazione di Эвокод"
     },
     "settings.general.row.appearance.title": {
@@ -1330,7 +1330,7 @@
       "ru": "Оформление"
     },
     "settings.general.row.appearance.description": {
-      "en": "Personalizza l'aspetto di Kilo sul tuo dispositivo",
+      "en": "Personalizza l'aspetto di Evocode sul tuo dispositivo",
       "ru": "Personalizza l'aspetto di Эвокод sul tuo dispositivo"
     },
     "settings.general.row.theme.title": {
@@ -1338,7 +1338,7 @@
       "ru": "Тема"
     },
     "settings.general.row.theme.description": {
-      "en": "Personalizza il tema di Kilo.",
+      "en": "Personalizza il tema di Evocode.",
       "ru": "Personalizza il tema di Эвокод."
     },
     "settings.general.row.font.title": {
@@ -1358,7 +1358,7 @@
       "ru": "Beim Старт nach Обновитьs suchen"
     },
     "settings.updates.row.startup.description": {
-      "en": "Controlla automaticamente gli aggiornamenti quando Kilo si avvia",
+      "en": "Controlla automaticamente gli aggiornamenti quando Evocode si avvia",
       "ru": "Controlla automaticamente gli aggiornamenti quando Эвокод si avvia"
     },
     "settings.updates.row.check.title": {
@@ -1366,7 +1366,7 @@
       "ru": "Nach Обновитьs suchen"
     },
     "settings.updates.toast.latest.description": {
-      "en": "Stai usando la versione pi\\xF9 recente di Kilo.",
+      "en": "Stai usando la versione pi\\xF9 recente di Evocode.",
       "ru": "Stai usando la versione pi\\xF9 recente di Эвокод."
     },
     "settings.general.notifications.agent.description": {
@@ -1442,7 +1442,7 @@
       "ru": "Провайдер-instellingen zullen hier configureerbaar zijn."
     },
     "settings.providers.betaNotice": {
-      "en": "Al momento solo il provider Kilo Gateway pu\\xF2 essere configurato dall'interfaccia delle impostazioni. Il supporto per altri provider arriver\\xE0 durante il periodo beta. Nel frattempo puoi configurare i provider con la CLI o il file di configurazione. Ci impegniamo a mantenere Kilo aperto, senza lock-in.",
+      "en": "Al momento solo il provider Evocode Gateway pu\\xF2 essere configurato dall'interfaccia delle impostazioni. Il supporto per altri provider arriver\\xE0 durante il periodo beta. Nel frattempo puoi configurare i provider con la CLI o il file di configurazione. Ci impegniamo a mantenere Evocode aperto, senza lock-in.",
       "ru": "Al momento solo il provider Эвокод Core pu\\xF2 essere configurato dall'interfaccia delle impostazioni. Il supporto per altri provider arriver\\xE0 durante il periodo beta. Nel frattempo puoi configurare i provider con la CLI o il file di configurazione. Ci impegniamo a mantenere Эвокод aperto, senza lock-in."
     },
     "settings.providers.section.connected": {
@@ -1574,20 +1574,20 @@
       "ru": "Локальноe"
     },
     "settings.config.title": {
-      "en": "Apri file config Kilo {{scope}}",
+      "en": "Apri file config Evocode {{scope}}",
       "ru": "Apri file config Эвокод {{scope}}"
     },
     "settings.config.noWorkspace": {
-      "en": "Apri una cartella workspace per modificare il file config Kilo locale.",
+      "en": "Apri una cartella workspace per modificare il file config Evocode locale.",
       "ru": "Apri una cartella workspace per modificare il file config Эвокод locale."
     },
     "settings.config.openFailed": {
-      "en": "Apertura file config Kilo {{scope}} non riuscita: {{message}}",
+      "en": "Apertura file config Evocode {{scope}} non riuscita: {{message}}",
       "ru": "Apertura file config Эвокод {{scope}} non riuscita: {{message}}"
     },
     "settings.config.source.projectKilo": {
-      "en": "Project .kilo-configuratie",
-      "ru": "Проект .kilo-configuratie"
+      "en": "Project .evocode-configuratie",
+      "ru": "Проект .evocode-configuratie"
     },
     "settings.config.source.projectRoot": {
       "en": "Project root configuratie",
@@ -1718,8 +1718,8 @@
       "ru": "Импортa sessione"
     },
     "session.cloud.import.placeholder": {
-      "en": "Sessions-ID, URL eller kilo import-kommando",
-      "ru": "Сессии-ID, URL eller kilo import-kommando"
+      "en": "Sessions-ID, URL eller evocode import-kommando",
+      "ru": "Сессии-ID, URL eller evocode import-kommando"
     },
     "session.cloud.import.button": {
       "en": "Importa",
@@ -1818,19 +1818,19 @@
       "ru": "Активноr l'indexation pour cet espace de travail lorsque l'indexation globale est d\\xE9sactiv\\xE9e."
     },
     "settings.indexing.kiloModel.title": {
-      "en": "Preset modello Kilo",
+      "en": "Preset modello Evocode",
       "ru": "Preset modello Эвокод"
     },
     "settings.indexing.kiloModel.description": {
-      "en": "Scegli un modello embedding ospitato da Kilo.",
+      "en": "Scegli un modello embedding ospitato da Evocode.",
       "ru": "Scegli un modello embedding ospitato da Эвокод."
     },
     "settings.indexing.kiloSignIn.title": {
-      "en": "Accesso Kilo richiesto",
+      "en": "Accesso Evocode richiesto",
       "ru": "Accesso Эвокод richiesto"
     },
     "settings.indexing.kiloSignIn.description": {
-      "en": "Accedi a Kilo per usare gli embedding ospitati.",
+      "en": "Accedi a Evocode per usare gli embedding ospitati.",
       "ru": "Accedi a Эвокод per usare gli embedding ospitati."
     },
     "settings.indexing.providerField.description": {
@@ -1862,7 +1862,7 @@
       "ru": "Язык"
     },
     "settings.aboutKiloCode.title": {
-      "en": "Informazioni su Kilo Code",
+      "en": "Informazioni su Evocode",
       "ru": "Informazioni su Эвокод"
     },
     "session.messages.empty": {
@@ -1870,7 +1870,7 @@
       "ru": "Старт een gesprek door hieronder een bericht te typen."
     },
     "session.messages.welcome": {
-      "en": "Kilo Code \\xE8 un assistente AI per il coding. Chiedigli di creare feature, correggere bug o spiegare il codebase.",
+      "en": "Evocode \\xE8 un assistente AI per il coding. Chiedigli di creare feature, correggere bug o spiegare il codebase.",
       "ru": "Эвокод \\xE8 un assistente AI per il coding. Chiedigli di creare feature, correggere bug o spiegare il codebase."
     },
     "session.messages.taskStarting": {
@@ -1994,7 +1994,7 @@
       "ru": "Версияe:"
     },
     "settings.aboutKiloCode.extensionName": {
-      "en": "Estensione Kilo Code",
+      "en": "Estensione Evocode",
       "ru": "Estensione Эвокод"
     },
     "settings.aboutKiloCode.support.prefix": {
@@ -2030,7 +2030,7 @@
       "ru": "Импортa"
     },
     "settings.aboutKiloCode.importSettings.invalidConfig": {
-      "en": "Il file non contiene impostazioni Kilo valide.",
+      "en": "Il file non contiene impostazioni Evocode valide.",
       "ru": "Il file non contiene impostazioni Эвокод valide."
     },
     "settings.aboutKiloCode.importSettings.tooLarge": {
@@ -2038,7 +2038,7 @@
       "ru": "Файл troppo grande. I file impostazioni devono essere sotto 1 MB."
     },
     "settings.aboutKiloCode.importSettings.newerVersion": {
-      "en": "Questo file \\xE8 stato esportato da una versione pi\\xF9 recente di Kilo. Alcune impostazioni potrebbero essere ignorate.",
+      "en": "Questo file \\xE8 stato esportato da una versione pi\\xF9 recente di Evocode. Alcune impostazioni potrebbero essere ignorate.",
       "ru": "Questo file \\xE8 stato esportato da una versione pi\\xF9 recente di Эвокод. Alcune impostazioni potrebbero essere ignorate."
     },
     "settings.aboutKiloCode.importSettings.success": {
@@ -2182,11 +2182,11 @@
       "ru": "Активноr la recherche en langage naturel par IA dans toute la base de code"
     },
     "settings.experimental.speechToText.description": {
-      "en": "Abilita input vocale nei campi prompt usando il tuo account Kilo tramite Kilo Gateway.",
+      "en": "Abilita input vocale nei campi prompt usando il tuo account Evocode tramite Evocode Gateway.",
       "ru": "Abilita input vocale nei campi prompt usando il tuo account Эвокод tramite Эвокод Core."
     },
     "settings.models.speechToText.disabledDescription": {
-      "en": "Abilita e accedi al provider Kilo per usare Da voce a testo. Da voce a testo \\xE8 attualmente supportato solo tramite Kilo Gateway.",
+      "en": "Abilita e accedi al provider Evocode per usare Da voce a testo. Da voce a testo \\xE8 attualmente supportato solo tramite Evocode Gateway.",
       "ru": "Abilita e accedi al provider Эвокод per usare Da voce a testo. Da voce a testo \\xE8 attualmente supportato solo tramite Эвокод Core."
     },
     "settings.models.speechToTextModel.title": {
@@ -2194,7 +2194,7 @@
       "ru": "Модельlo Da voce a testo"
     },
     "settings.models.speechToTextModel.description": {
-      "en": "Scegli il modello di trascrizione Kilo Gateway per l'input vocale.",
+      "en": "Scegli il modello di trascrizione Evocode Gateway per l'input vocale.",
       "ru": "Scegli il modello di trascrizione Эвокод Core per l'input vocale."
     },
     "settings.experimental.continueOnDeny.title": {
@@ -2218,7 +2218,7 @@
       "ru": "Удалённый-bediening"
     },
     "settings.experimental.remote.description": {
-      "en": "Abilita controllo remoto delle sessioni tramite Kilo Cloud. Influenzer\\xE0 anche le CLI su questa macchina.",
+      "en": "Abilita controllo remoto delle sessioni tramite Evocode Cloud. Influenzer\\xE0 anche le CLI su questa macchina.",
       "ru": "Abilita controllo remoto delle sessioni tramite Эвокод Облако. Influenzer\\xE0 anche le CLI su questa macchina."
     },
     "settings.experimental.remote.active": {
@@ -2286,7 +2286,7 @@
       "ru": "Load Claude Code Файлы"
     },
     "settings.agentBehaviour.claudeCompat.description": {
-      "en": "Carica istruzioni CLAUDE.md e skill dalla directory di configurazione Claude Code nelle sessioni. Abilitalo se vuoi che Kilo usi istruzioni e skill di Claude Code. Richiede riavvio.",
+      "en": "Carica istruzioni CLAUDE.md e skill dalla directory di configurazione Claude Code nelle sessioni. Abilitalo se vuoi che Evocode usi istruzioni e skill di Claude Code. Richiede riavvio.",
       "ru": "Carica istruzioni CLAUDE.md e skill dalla directory di configurazione Claude Code nelle sessioni. Abilitalo se vuoi che Эвокод usi istruzioni e skill di Claude Code. Richiede riavvio."
     },
     "settings.agentBehaviour.editMcp": {
@@ -2498,7 +2498,7 @@
       "ru": "Шрифт Size"
     },
     "settings.display.fontSize.description": {
-      "en": "Regola la dimensione del font della webview Kilo indipendentemente da VS Code.",
+      "en": "Regola la dimensione del font della webview Evocode indipendentemente da VS Code.",
       "ru": "Regola la dimensione del font della webview Эвокод indipendentemente da VS Code."
     },
     "settings.display.reasoningAutoCollapse.title": {
@@ -2554,7 +2554,7 @@
       "ru": "Модельlen die prompts voor training gebruiken verbergen"
     },
     "settings.models.hidePromptTraining.description": {
-      "en": "Nascondi i modelli Kilo Gateway i cui provider potrebbero usare i tuoi prompt per l'addestramento.",
+      "en": "Nascondi i modelli Evocode Gateway i cui provider potrebbero usare i tuoi prompt per l'addestramento.",
       "ru": "Nascondi i modelli Эвокод Core i cui provider potrebbero usare i tuoi prompt per l'addestramento."
     },
     "settings.providers.modeModels": {
@@ -2594,7 +2594,7 @@
       "ru": "Von der Legacy-Версия migrieren"
     },
     "settings.aboutKiloCode.legacyMigration.description": {
-      "en": "Migra le impostazioni da una precedente installazione di Kilo Code, incluse API key dei provider e modello predefinito.",
+      "en": "Migra le impostazioni da una precedente installazione di Evocode, incluse API key dei provider e modello predefinito.",
       "ru": "Migra le impostazioni da una precedente installazione di Эвокод, incluse API key dei provider e modello predefinito."
     },
     "settings.aboutKiloCode.rooImport.description": {
@@ -2606,7 +2606,7 @@
       "ru": "Импортa sessioni da Roo Code"
     },
     "migration.whatsNew.title": {
-      "en": "Novit\\xE0 in Kilo Code",
+      "en": "Novit\\xE0 in Evocode",
       "ru": "Novit\\xE0 in Эвокод"
     },
     "migration.whatsNew.features.agentManager.title": {
@@ -2618,7 +2618,7 @@
       "ru": "Поделитьсяd Foundation"
     },
     "migration.whatsNew.features.foundation.detail": {
-      "en": "Un core piccolo ed efficiente per ogni prodotto Kilo. Un'esperienza familiare comunque tu scelga di lavorare.",
+      "en": "Un core piccolo ed efficiente per ogni prodotto Evocode. Un'esperienza familiare comunque tu scelga di lavorare.",
       "ru": "Un core piccolo ed efficiente per ogni prodotto Эвокод. Un'esperienza familiare comunque tu scelga di lavorare."
     },
     "migration.whatsNew.blogLink": {
@@ -2726,7 +2726,7 @@
       "ru": "เพิ่มผู้ให้บริการแบบกำหนดเองด้วย Базовый URL"
     },
     "settings.language.description": {
-      "en": "Kilo Code UIの言語を選択します。「自動」はVS Codeの表示言語を使用します。",
+      "en": "Evocode UIの言語を選択します。「自動」はVS Codeの表示言語を使用します。",
       "ru": "Эвокод UIの言語を選択します。「自動」はVS Codeの表示言語を使用します。"
     },
     "command.terminal.new": {
@@ -3118,7 +3118,7 @@
       "ru": "Модельo"
     },
     "provider.connect.oauth.code.visit.prefix": {
-      "en": "Hesabınızı bağlamak ve Kilo'da {{provider}} modellerini kullanmak için ",
+      "en": "Hesabınızı bağlamak ve Evocode'da {{provider}} modellerini kullanmak için ",
       "ru": "Hesabınızı bağlamak ve Эвокод'da {{provider}} modellerini kullanmak için "
     },
     "migration.whatsNew.badge": {
@@ -3162,11 +3162,11 @@
       "ru": "Стоимостьruisci l'endpoint dal nome della risorsa Azure"
     },
     "provider.connect.kiloGateway.line1": {
-      "en": "Kilo Gateway ti offre una selezione curata di modelli affidabili e ottimizzati per agenti di coding.",
+      "en": "Evocode Gateway ti offre una selezione curata di modelli affidabili e ottimizzati per agenti di coding.",
       "ru": "Эвокод Core ti offre una selezione curata di modelli affidabili e ottimizzati per agenti di coding."
     },
     "provider.connect.kiloGateway.byok.link": {
-      "en": "BYOK tramite Kilo's Gateway",
+      "en": "BYOK tramite Evocode's Gateway",
       "ru": "BYOK tramite Эвокод's Gateway"
     },
     "settings.providers.note.vercel": {
@@ -3372,7 +3372,7 @@
       "to": "Ожидание разрешения"
     },
     {
-      "from": "Get started with Kilo",
+      "from": "Get started with Evocode",
       "to": "Начать с Эвокод"
     },
     {
@@ -3388,7 +3388,7 @@
       "to": "Ожидание ответа"
     },
     {
-      "from": "Welcome to Kilo Code",
+      "from": "Welcome to Evocode",
       "to": "Добро пожаловать в Эвокод"
     },
     {
@@ -3508,11 +3508,11 @@
       "to": "Новый диалог"
     },
     {
-      "from": "Log in with Kilo",
+      "from": "Log in with Evocode",
       "to": "Вход (не нужен для local)"
     },
     {
-      "from": "Kilo Marketplace",
+      "from": "Evocode Marketplace",
       "to": "Каталог навыков"
     },
     {
@@ -3540,23 +3540,23 @@
       "to": "Свой провайдер"
     },
     {
-      "from": "Sign in to Kilo",
+      "from": "Sign in to Evocode",
       "to": "Войти (не нужно для local)"
     },
     {
-      "from": "Connect to Kilo",
+      "from": "Connect to Evocode",
       "to": "Подключить Core"
     },
     {
-      "from": "Powered by Kilo",
+      "from": "Powered by Evocode",
       "to": "Эвокод"
     },
     {
-      "from": "powered by Kilo",
+      "from": "powered by Evocode",
       "to": "Эвокод"
     },
     {
-      "from": "Welcome to Kilo",
+      "from": "Welcome to Evocode",
       "to": "Добро пожаловать в Эвокод"
     },
     {
@@ -3644,7 +3644,7 @@
       "to": "Токены промпта"
     },
     {
-      "from": "Kilo Settings",
+      "from": "Evocode Settings",
       "to": "Настройки Эвокод"
     },
     {
@@ -3660,7 +3660,7 @@
       "to": "Подробности"
     },
     {
-      "from": "Kilo Desktop",
+      "from": "Evocode Desktop",
       "to": "Эвокод"
     },
     {
@@ -3708,11 +3708,11 @@
       "to": "Эвокод Core"
     },
     {
-      "from": "Kilo Gateway",
+      "from": "Evocode Gateway",
       "to": "Эвокод Core"
     },
     {
-      "from": "Kilo account",
+      "from": "Evocode account",
       "to": "Аккаунт"
     },
     {
@@ -3816,7 +3816,7 @@
       "to": "Лимит запросов"
     },
     {
-      "from": "About Kilo",
+      "from": "About Evocode",
       "to": "Об Эвокод"
     },
     {
@@ -3868,7 +3868,7 @@
       "to": "Использовать фото"
     },
     {
-      "from": "Kilo Code",
+      "from": "Evocode",
       "to": "Эвокод"
     },
     {

@@ -99,6 +99,11 @@ if (fs.existsSync(dbPath)) {
     // 3. Ensure Auxiliary Bar is visible and not marked empty
     db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.empty', 'false')").run();
 
+    // 4. Set default sizes for Sidebar (260px) and Auxiliary Bar (380px)
+    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sideBar.size', '260')").run();
+    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.size', '380')").run();
+    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.lastNonMaximizedSize', '380')").run();
+
     db.close();
     console.log('VSCodium state.vscdb layout patched: evocode-agent moved to left auxiliary bar.');
   } catch (e) {
