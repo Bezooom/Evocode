@@ -540,6 +540,32 @@ function buildHtml(state) {
   }
   
   #log { margin-top: 14px; font-size: 11px; color: var(--muted); white-space: pre-wrap; font-family: monospace; }
+
+  /* Search bar styles */
+  .search-bar-container {
+    margin: 16px 20px 0 20px;
+    position: sticky;
+    top: 68px;
+    z-index: 9;
+  }
+  .search-bar-container input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(13, 18, 38, 0.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='M21 21l-4.35-4.35'%3E%3C/path%3E%3C/svg%3E") no-repeat 14px center;
+    color: var(--fg);
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    backdrop-filter: blur(16px);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .search-bar-container input:focus {
+    border-color: rgba(107, 92, 246, 0.6);
+    box-shadow: 0 0 14px rgba(107, 92, 246, 0.18);
+    background-color: rgba(13, 18, 38, 0.85);
+  }
 </style>
 </head>
 <body>
@@ -550,6 +576,10 @@ function buildHtml(state) {
     <button class="tab" data-tab="skills">📚 Навыки</button>
     <button class="tab" data-tab="mcp">🔌 MCP Серверы</button>
     <button class="tab" data-tab="core">💻 Программа</button>
+  </div>
+
+  <div class="search-bar-container">
+    <input type="text" id="settingsSearch" placeholder="Поиск настроек (навыки, ключи, модели, MCP)..." />
   </div>
 
   <section class="page active" id="models">
@@ -759,6 +789,18 @@ function buildHtml(state) {
   const log = (t) => { document.getElementById('log').textContent = t || ''; };
   document.querySelectorAll('.tab').forEach((tab) => {
     tab.onclick = () => {
+      const searchInput = document.getElementById('settingsSearch');
+      if (searchInput) {
+        searchInput.value = '';
+        const tabsContainer = document.querySelector('.top');
+        tabsContainer.style.display = 'flex';
+        document.querySelectorAll('.page').forEach(p => {
+          p.style.display = '';
+          p.querySelectorAll('.settings-group, .card, h2').forEach(g => {
+            g.style.display = '';
+          });
+        });
+      }
       document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
       document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
       tab.classList.add('active');
@@ -910,6 +952,60 @@ function buildHtml(state) {
       }
     });
   };
+
+  const searchInput = document.getElementById('settingsSearch');
+  const tabsContainer = document.querySelector('.top');
+  const pages = document.querySelectorAll('.page');
+
+  searchInput?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    if (query === '') {
+      tabsContainer.style.display = 'flex';
+      pages.forEach(p => {
+        p.classList.remove('active');
+        p.style.display = '';
+        p.querySelectorAll('.settings-group, .card, h2').forEach(g => {
+          g.style.display = '';
+        });
+      });
+      const lastActiveTab = document.querySelector('.tab.active');
+      if (lastActiveTab) {
+        document.getElementById(lastActiveTab.dataset.tab).classList.add('active');
+      }
+    } else {
+      tabsContainer.style.display = 'none';
+      pages.forEach(p => {
+        p.style.display = 'block';
+        p.classList.remove('active');
+
+        let pageHasMatches = false;
+        p.querySelectorAll('.settings-group, .card').forEach(g => {
+          const text = g.textContent.toLowerCase();
+          const matches = text.includes(query);
+          g.style.display = matches ? '' : 'none';
+          if (matches) pageHasMatches = true;
+        });
+
+        p.querySelectorAll('h2').forEach(h => {
+          h.style.display = h.textContent.toLowerCase().includes(query) ? '' : 'none';
+        });
+
+        const pageTitle = p.querySelector('h1')?.textContent.toLowerCase() || '';
+        const pageHint = p.querySelector('.hint')?.textContent.toLowerCase() || '';
+        
+        if (pageTitle.includes(query) || pageHint.includes(query)) {
+          p.style.display = 'block';
+          p.querySelectorAll('.settings-group, .card, h2').forEach(g => {
+            g.style.display = '';
+          });
+        } else if (!pageHasMatches) {
+          p.style.display = 'none';
+        } else {
+          p.style.display = 'block';
+        }
+      });
+    }
+  });
 
   window.addEventListener('message', (e) => { if (e.data?.type === 'log') log(e.data.text); });
 </script>
