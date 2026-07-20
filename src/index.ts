@@ -1201,11 +1201,13 @@ async function main(): Promise<void> {
 
         const startTime = Date.now();
         const doFetch = async (url: string, hdrs: Record<string, string>, bodyObj: unknown) => {
+          // Cloud requests should fail fast (30s) to trigger local fallback if blocked or offline
+          const timeoutSec = decision === 'cloud' ? 30 : defaultConfig.inference.local.timeout;
           const fetchOptions: any = {
             method: 'POST',
             headers: hdrs,
             body: JSON.stringify(bodyObj),
-            signal: AbortSignal.timeout(defaultConfig.inference.local.timeout * 1000),
+            signal: AbortSignal.timeout(timeoutSec * 1000),
           };
           const proxyUrl =
             defaultConfig.inference.cloud.proxyUrl ||
