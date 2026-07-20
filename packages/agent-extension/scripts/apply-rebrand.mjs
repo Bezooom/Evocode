@@ -119,8 +119,8 @@ function rebrandPackage(upstreamPkg) {
     const ab = out.contributes?.viewsContainers?.activitybar;
     if (Array.isArray(ab) && ab[0]) {
       ab[0].title = 'Эвокод';
-      ab[0].icon = 'assets/icons/evocode-activity.svg';
-      ab[0].darkIcon = 'assets/icons/evocode-activity.svg';
+      ab[0].icon = 'assets/icons/evocode-chat.svg';
+      ab[0].darkIcon = 'assets/icons/evocode-chat.svg';
       out.contributes.viewsContainers.auxiliarybar = ab;
       delete out.contributes.viewsContainers.activitybar;
     }
@@ -635,6 +635,7 @@ function materializeIcons() {
     'evocode-activity-light.png',
     'evocode-activity-dark.png',
     'evocode-app.svg',
+    'evocode-chat.svg',
   ];
   for (const name of brandFiles) {
     const src = path.join(BRAND_ICONS, name);
