@@ -124,7 +124,6 @@
   background: rgba(107, 92, 246, 0.06) !important;
 }
 
-/* 6. Evocode Floating Logo Animation */
 .evocode-logo, .kilo-logo {
   filter: drop-shadow(0 0 12px rgba(107, 92, 246, 0.6)) !important;
   animation: logo-float 4s ease-in-out infinite !important;
@@ -137,4 +136,14 @@
   50% {
     transform: translateY(-5px) scale(1.03);
   }
+}
+
+/* 7. Typography and Code blocks styling */
+body, html, input, button, textarea, select {
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+pre, code, .code-block-container, [data-component="code-block"], [class*="code-block"] {
+  background-color: rgba(13, 18, 38, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
 }

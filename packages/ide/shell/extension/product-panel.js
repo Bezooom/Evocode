@@ -293,16 +293,26 @@ function buildHtml(state) {
   }
   let agentFields = '';
   for (const [sec, items] of Object.entries(sections)) {
-    agentFields += `<h2>${esc(sec)}</h2>`;
+    agentFields += `<div class="settings-group">
+      <h2>${esc(sec)}</h2>`;
     for (const s of items) {
       const v = vals[s.key];
       if (s.type === 'boolean') {
-        agentFields += `<label class="check"><input type="checkbox" data-key="${esc(s.key)}" ${v ? 'checked' : ''}/> ${esc(s.label)}</label>`;
+        agentFields += `<div class="toggle-container">
+          <span class="toggle-label">${esc(s.label)}</span>
+          <label class="switch">
+            <input type="checkbox" data-key="${esc(s.key)}" ${v ? 'checked' : ''}/>
+            <span class="slider"></span>
+          </label>
+        </div>`;
       } else {
-        agentFields += `<label>${esc(s.label)}${s.hint ? ` <span class="hint-inline">(${esc(s.hint)})</span>` : ''}</label>
-          <input data-key="${esc(s.key)}" value="${esc(v ?? '')}" />`;
+        agentFields += `<div class="input-container">
+          <label>${esc(s.label)}${s.hint ? ` <span class="hint-inline">(${esc(s.hint)})</span>` : ''}</label>
+          <input data-key="${esc(s.key)}" value="${esc(v ?? '')}" />
+        </div>`;
       }
     }
+    agentFields += `</div>`;
   }
 
   const coreUrl = esc(agent.coreUrl || 'http://127.0.0.1:8083/v1');
@@ -313,6 +323,7 @@ function buildHtml(state) {
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     color-scheme: dark;
@@ -327,10 +338,11 @@ function buildHtml(state) {
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; font: 13px/1.5 system-ui, -apple-system, sans-serif;
+    margin: 0; font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    font-size: 13px; line-height: 1.5;
     color: var(--fg); background: linear-gradient(135deg, #060814 0%, #0d122b 100%);
     background-attachment: fixed;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
   .top {
     display: flex;
@@ -345,6 +357,7 @@ function buildHtml(state) {
     flex: 1; padding: 10px 14px; cursor: pointer; border: 0;
     background: transparent; color: var(--muted); font-weight: 600;
     border-radius: 8px;
+    font-family: inherit;
     transition: all 0.2s ease-in-out;
   }
   .tab.active {
@@ -378,6 +391,7 @@ function buildHtml(state) {
     background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
     color: #fff; border: 0; border-radius: 8px;
     padding: 9px 15px; font-size: 12px; cursor: pointer; font-weight: 600;
+    font-family: inherit;
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
     transition: all 0.2s ease;
   }
@@ -415,16 +429,18 @@ function buildHtml(state) {
   .acts button { flex: 1; }
   label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 6px; font-weight: 500; }
   label.check { color: var(--fg); display: flex; align-items: center; gap: 10px; margin: 10px 0; cursor: pointer; }
-  input[type="text"], input:not([type]), select {
+  
+  input[type="text"], input:not([type]), input[type="number"], select {
     width: 100%; padding: 10px 12px; border-radius: 8px;
-    border: 1px solid var(--border); background: rgba(13, 18, 38, 0.6); color: var(--fg);
+    border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(13, 18, 38, 0.45); color: var(--fg);
     outline: none;
-    transition: all 0.2s ease;
+    font-family: inherit;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  input[type="text"]:focus, input:not([type]):focus, select:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    background: rgba(13, 18, 38, 0.9);
+  input[type="text"]:focus, input:not([type]):focus, input[type="number"]:focus, select:focus {
+    border-color: rgba(107, 92, 246, 0.6);
+    box-shadow: 0 0 14px rgba(107, 92, 246, 0.18);
+    background: rgba(13, 18, 38, 0.7);
   }
   input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
   ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 12px; }
@@ -449,6 +465,67 @@ function buildHtml(state) {
     border-color: rgba(239, 68, 68, 0.6) !important;
     color: #f87171 !important;
   }
+
+  /* Custom switches & layouts */
+  .settings-group {
+    background: rgba(20, 26, 48, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(12px);
+  }
+  .settings-group h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+    color: #A5B4FC;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+  }
+  .toggle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 14px 0;
+  }
+  .toggle-label {
+    font-size: 13px;
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 20px;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.06);
+    transition: .25s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .slider:before {
+    position: absolute; content: ""; height: 14px; width: 14px; left: 2px; bottom: 2px;
+    background-color: var(--muted);
+    transition: .25s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 50%;
+  }
+  input:checked + .slider { background-color: var(--accent); border-color: rgba(107, 92, 246, 0.4); }
+  input:checked + .slider:before {
+    transform: translateX(18px);
+    background-color: #fff;
+  }
+  .input-container {
+    margin-bottom: 14px;
+  }
+  .input-container:last-child {
+    margin-bottom: 0;
+  }
+  
   #log { margin-top: 14px; font-size: 11px; color: var(--muted); white-space: pre-wrap; font-family: monospace; }
 </style>
 </head>
@@ -481,17 +558,25 @@ function buildHtml(state) {
     <h1>Агент</h1>
     <p class="hint">Все параметры агента здесь. Сохранение пишет в конфиг программы и settings.</p>
 
-    <h2>Подключение к Core</h2>
-    <label>URL Core (OpenAI-compatible)</label>
-    <input id="coreUrl" value="${coreUrl}" />
-    <label>Модель (provider/model)</label>
-    <input id="model" value="${model}" />
-    <label>Приватность (router Core)</label>
-    <select id="privacy">
-      <option value="auto" ${privacy === 'auto' ? 'selected' : ''}>auto — local first</option>
-      <option value="always-local" ${privacy === 'always-local' ? 'selected' : ''}>always-local</option>
-      <option value="always-cloud" ${privacy === 'always-cloud' ? 'selected' : ''}>always-cloud (+ DLP)</option>
-    </select>
+    <div class="settings-group">
+      <h2>Подключение к Core</h2>
+      <div class="input-container">
+        <label>URL Core (OpenAI-compatible)</label>
+        <input id="coreUrl" value="${coreUrl}" />
+      </div>
+      <div class="input-container">
+        <label>Модель (provider/model)</label>
+        <input id="model" value="${model}" />
+      </div>
+      <div class="input-container">
+        <label>Приватность (router Core)</label>
+        <select id="privacy">
+          <option value="auto" ${privacy === 'auto' ? 'selected' : ''}>auto — local first</option>
+          <option value="always-local" ${privacy === 'always-local' ? 'selected' : ''}>always-local</option>
+          <option value="always-cloud" ${privacy === 'always-cloud' ? 'selected' : ''}>always-cloud (+ DLP)</option>
+        </select>
+      </div>
+    </div>
 
     ${agentFields}
 
@@ -505,44 +590,64 @@ function buildHtml(state) {
     <h1>Облачные модели и Роутер</h1>
     <p class="hint">Здесь настраивается подключение к внешним LLM для решения сложных задач, если локальная модель не справляется. Умный роутер автоматически переключает запросы на основе размера и сложности задачи.</p>
 
-    <h2>Настройки провайдера</h2>
-    <label>Облачный провайдер</label>
-    <select id="cloudProvider">
-      <option value="openrouter" ${cloud.provider === 'openrouter' ? 'selected' : ''}>OpenRouter (Рекомендуется)</option>
-      <option value="openai" ${cloud.provider === 'openai' ? 'selected' : ''}>OpenAI (ChatGPT)</option>
-      <option value="anthropic" ${cloud.provider === 'anthropic' ? 'selected' : ''}>Anthropic (Claude)</option>
-      <option value="gemini" ${cloud.provider === 'gemini' ? 'selected' : ''}>Google Gemini</option>
-      <option value="openaicompatible" ${cloud.provider === 'openaicompatible' ? 'selected' : ''}>Custom OpenAI-Compatible</option>
-    </select>
+    <div class="settings-group">
+      <h2>Настройки провайдера</h2>
+      <div class="input-container">
+        <label>Облачный провайдер</label>
+        <select id="cloudProvider">
+          <option value="openrouter" ${cloud.provider === 'openrouter' ? 'selected' : ''}>OpenRouter (Рекомендуется)</option>
+          <option value="openai" ${cloud.provider === 'openai' ? 'selected' : ''}>OpenAI (ChatGPT)</option>
+          <option value="anthropic" ${cloud.provider === 'anthropic' ? 'selected' : ''}>Anthropic (Claude)</option>
+          <option value="gemini" ${cloud.provider === 'gemini' ? 'selected' : ''}>Google Gemini</option>
+          <option value="openaicompatible" ${cloud.provider === 'openaicompatible' ? 'selected' : ''}>Custom OpenAI-Compatible</option>
+        </select>
+      </div>
 
-    <label>API Ключ</label>
-    <input id="cloudApiKey" type="text" placeholder="sk-..." value="${esc(cloud.apiKey)}" />
+      <div class="input-container">
+        <label>API Ключ</label>
+        <input id="cloudApiKey" type="text" placeholder="sk-..." value="${esc(cloud.apiKey)}" />
+      </div>
 
-    <label>Модель по умолчанию</label>
-    <input id="cloudModel" placeholder="например, anthropic/claude-3-5-sonnet" value="${esc(cloud.model)}" />
+      <div class="input-container">
+        <label>Модель по умолчанию</label>
+        <input id="cloudModel" placeholder="например, anthropic/claude-3-5-sonnet" value="${esc(cloud.model)}" />
+      </div>
 
-    <label>Base URL API</label>
-    <input id="cloudBaseUrl" placeholder="https://..." value="${esc(cloud.baseUrl)}" />
+      <div class="input-container">
+        <label>Base URL API</label>
+        <input id="cloudBaseUrl" placeholder="https://..." value="${esc(cloud.baseUrl)}" />
+      </div>
 
-    <label>HTTP Proxy (необязательно)</label>
-    <input id="cloudProxyUrl" placeholder="например, http://127.0.0.1:7890" value="${esc(cloud.proxyUrl || '')}" />
+      <div class="input-container">
+        <label>HTTP Proxy (необязательно)</label>
+        <input id="cloudProxyUrl" placeholder="например, http://127.0.0.1:7890" value="${esc(cloud.proxyUrl || '')}" />
+      </div>
+    </div>
 
-    <h2>Настройки умного роутера</h2>
-    <label>Режим приватности роутера</label>
-    <select id="routerPrivacyMode">
-      <option value="auto" ${router.privacyMode === 'auto' ? 'selected' : ''}>auto — автовыбор на основе контекста</option>
-      <option value="always-local" ${router.privacyMode === 'always-local' ? 'selected' : ''}>always-local — только локальные модели (строгая приватность)</option>
-      <option value="always-cloud" ${router.privacyMode === 'always-cloud' ? 'selected' : ''}>always-cloud — всегда использовать внешнее облако</option>
-    </select>
+    <div class="settings-group">
+      <h2>Настройки умного роутера</h2>
+      <div class="input-container">
+        <label>Режим приватности роутера</label>
+        <select id="routerPrivacyMode">
+          <option value="auto" ${router.privacyMode === 'auto' ? 'selected' : ''}>auto — автовыбор на основе контекста</option>
+          <option value="always-local" ${router.privacyMode === 'always-local' ? 'selected' : ''}>always-local — только локальные модели (строгая приватность)</option>
+          <option value="always-cloud" ${router.privacyMode === 'always-cloud' ? 'selected' : ''}>always-cloud — всегда использовать внешнее облако</option>
+        </select>
+      </div>
 
-    <div id="routerThresholds" style="${router.privacyMode === 'auto' ? '' : 'display:none'}">
-      <label>Максимальный локальный контекст (в токенах)</label>
-      <input id="routerLocalMaxTokens" type="number" value="${router.localMaxTokens ?? 400}" />
-      <span class="hint-inline" style="margin-top:4px; display:block; margin-bottom:8px;">Задачи меньше этого размера всегда решаются локально.</span>
+      <div id="routerThresholds" style="${router.privacyMode === 'auto' ? '' : 'display:none'}">
+        <div class="input-container">
+          <label>Максимальный локальный контекст (в токенах)</label>
+          <input id="routerLocalMaxTokens" type="number" value="${router.localMaxTokens ?? 400}" />
+          <span class="hint-inline" style="margin-top:4px; display:block; margin-bottom:8px;">Задачи меньше этого размера всегда решаются локально.</span>
+        </div>
 
-      <label>Минимальный облачный контекст (в токенах)</label>
-      <input id="routerCloudMinTokens" type="number" value="${router.cloudMinTokens ?? 3000}" />
-      <span class="hint-inline" style="margin-top:4px; display:block; margin-bottom:8px;">Задачи больше этого размера при наличии сложности направляются в облако.</span>
+        <div class="input-container">
+          <label>Минимальный облачный контекст (в токенах)</label>
+          <input id="routerCloudMinTokens" type="number" value="${router.cloudMinTokens ?? 3000}" />
+          <span class="hint-inline" style="margin-top:4px; display:block; margin-bottom:8px;">Задачи больше этого размера при наличии сложности направляются в облако.</span>
+        </div>
+      </div>
     </div>
 
     <div class="row" style="margin-top:20px">
@@ -577,22 +682,32 @@ function buildHtml(state) {
 
     <h2>Добавить MCP-сервер</h2>
     <div class="card" style="margin-top:10px">
-      <label>Идентификатор (ID)</label>
-      <input id="newMcpId" placeholder="например, filesystem" />
-      <label>Тип</label>
-      <select id="newMcpType">
-        <option value="local" selected>local — команда (stdio)</option>
-        <option value="remote">remote — URL</option>
-      </select>
+      <div class="input-container">
+        <label>Идентификатор (ID)</label>
+        <input id="newMcpId" placeholder="например, filesystem" />
+      </div>
+      <div class="input-container">
+        <label>Тип</label>
+        <select id="newMcpType">
+          <option value="local" selected>local — команда (stdio)</option>
+          <option value="remote">remote — URL</option>
+        </select>
+      </div>
       <div id="mcpLocalFields">
-        <label>Исполняемый файл / команда</label>
-        <input id="newMcpCmd" placeholder="npx  или  /usr/bin/python3" />
-        <label>Аргументы (через запятую)</label>
-        <input id="newMcpArgs" placeholder="-y, @modelcontextprotocol/server-filesystem, /home/user" />
+        <div class="input-container">
+          <label>Исполняемый файл / команда</label>
+          <input id="newMcpCmd" placeholder="npx  или  /usr/bin/python3" />
+        </div>
+        <div class="input-container">
+          <label>Аргументы (через запятую)</label>
+          <input id="newMcpArgs" placeholder="-y, @modelcontextprotocol/server-filesystem, /home/user" />
+        </div>
       </div>
       <div id="mcpRemoteFields" style="display:none">
-        <label>URL</label>
-        <input id="newMcpUrl" placeholder="https://…/mcp  или  http://127.0.0.1:8000/mcp" />
+        <div class="input-container">
+          <label>URL</label>
+          <input id="newMcpUrl" placeholder="https://…/mcp  или  http://127.0.0.1:8000/mcp" />
+        </div>
       </div>
       <div class="row" style="margin-top:14px">
         <button id="addMcpBtn">Добавить сервер</button>
