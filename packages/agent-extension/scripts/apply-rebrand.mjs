@@ -344,6 +344,24 @@ function materializeAndPatchDist(upstream) {
   copyRecursive(srcDist, destDist);
   console.log('  copy dist/ (local, patchable)');
 
+  // Append evocode-overrides.css to all copied .css files in dist
+  const overridesPath = path.join(PKG_ROOT, 'brand/evocode-overrides.css');
+  if (fs.existsSync(overridesPath)) {
+    const cssOverrides = fs.readFileSync(overridesPath, 'utf-8');
+    const files = fs.readdirSync(destDist);
+    let cssPatchedCount = 0;
+    for (const file of files) {
+      if (file.endsWith('.css')) {
+        const filePath = path.join(destDist, file);
+        fs.appendFileSync(filePath, '\n' + cssOverrides);
+        cssPatchedCount++;
+      }
+    }
+    console.log(`  append evocode-overrides.css to ${cssPatchedCount} CSS files in dist`);
+  } else {
+    console.warn('  warn: brand/evocode-overrides.css not found — skipping CSS overrides append');
+  }
+
   const patchFiles = [
     'webview.js',
     'agent-manager.js',

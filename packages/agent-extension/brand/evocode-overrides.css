@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Evocode Midnight Fusion Overrides
+   Designed for deep, seamless layout integration and visual identity.
+   ========================================================================== */
+
+/* 1. Theme Variables Override (Enforcing premium Cosmic look) */
+:root {
+  --vscode-editor-background: #0a0b10 !important;
+  --vscode-sideBar-background: #07080c !important;
+  --vscode-button-background: #6b5cf6 !important;
+  --vscode-button-foreground: #ffffff !important;
+  --vscode-button-hoverBackground: #7f71f8 !important;
+  --vscode-button-secondaryBackground: #131524 !important;
+  --vscode-button-secondaryForeground: #e0e2ed !important;
+  --vscode-button-secondaryHoverBackground: #1b1d30 !important;
+  --vscode-button-border: #25283f !important;
+  --vscode-textLink-foreground: #a397ff !important;
+  --vscode-textLink-activeForeground: #c0b8ff !important;
+  --vscode-focusBorder: #6b5cf6 !important;
+  --vscode-panel-border: #161824 !important;
+  --vscode-dropdown-background: #12141f !important;
+  --vscode-dropdown-foreground: #e0e2ed !important;
+  --vscode-dropdown-border: #21253b !important;
+  --vscode-input-background: #12141f !important;
+  --vscode-input-foreground: #ffffff !important;
+  --vscode-input-border: #21253b !important;
+  --vscode-input-placeholderForeground: #5b5f7a !important;
+  --vscode-list-hoverBackground: #12141f !important;
+  --vscode-list-activeSelectionBackground: #1d1f30 !important;
+  --vscode-descriptionForeground: #8a8fab !important;
+  --vscode-foreground: #e0e2ed !important;
+  --vscode-progressBar-background: #6b5cf6 !important;
+}
+
+/* 2. Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(107, 92, 246, 0.4) !important;
+  border-radius: 99px !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 92, 246, 0.7) !important;
+}
+
+/* 3. Floating Composer Layout */
+.prompt-input-container {
+  margin: 16px 20px 20px 20px !important;
+  border-radius: 14px !important;
+  background: rgba(19, 21, 34, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(107, 92, 246, 0.25) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.prompt-input-container:focus-within {
+  border-color: #6b5cf6 !important;
+  box-shadow: 0 8px 32px rgba(107, 92, 246, 0.18), 0 0 8px rgba(107, 92, 246, 0.3) !important;
+}
+
+/* 4. Message Bubble Styling */
+.vscode-session-turn-user {
+  background: linear-gradient(135deg, #1b1640 0%, #13112c 100%) !important;
+  border: 1px solid rgba(107, 92, 246, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  margin-bottom: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  box-sizing: border-box !important;
+  color: #ffffff !important;
+}
+
+.vscode-session-turn-assistant {
+  background: #10121d !important;
+  border: 1px solid #1a1d2e !important;
+  border-left: 3px solid #6b5cf6 !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  margin-bottom: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure Kilo UI custom message components render cleanly within our branded shells */
+[data-component="message-part"],
+.vscode-session-turn-user *,
+.vscode-session-turn-assistant * {
+  background-color: transparent !important;
+}
+
+/* 5. Welcome & Empty States Styling */
+.work-style-welcome {
+  font-family: 'Inter', sans-serif !important;
+  background: linear-gradient(135deg, #ffffff 0%, #a397ff 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: 700 !important;
+}
+
+[data-component="card"].work-style-picker {
+  border-radius: 12px !important;
+  background: rgba(19, 21, 36, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(107, 92, 246, 0.2) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-component="button"].work-style-mode {
+  border-radius: 10px !important;
+  border: 1px solid rgba(107, 92, 246, 0.15) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease !important;
+}
+
+[data-component="button"].work-style-mode:hover {
+  transform: translateY(-2px) !important;
+  border-color: #6b5cf6 !important;
+  background: rgba(107, 92, 246, 0.06) !important;
+}
+
+/* 6. Evocode Floating Logo Animation */
+.evocode-logo, .kilo-logo {
+  filter: drop-shadow(0 0 12px rgba(107, 92, 246, 0.6)) !important;
+  animation: logo-float 4s ease-in-out infinite !important;
+}
+
+@keyframes logo-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.03);
+  }
+}
