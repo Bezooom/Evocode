@@ -319,6 +319,7 @@ function check() {
     const title =
       pkg.contributes?.viewsContainers?.activitybar?.[0]?.title ||
       pkg.contributes?.viewsContainers?.auxiliarybar?.[0]?.title ||
+      pkg.contributes?.viewsContainers?.secondarySidebar?.[0]?.title ||
       pkg.contributes?.views?.['kilo-code-ActivityBar']?.[0]?.name;
     title === 'Эвокод' || String(title).includes('Эвокод')
       ? ok(`sidebar title=${title}`)
