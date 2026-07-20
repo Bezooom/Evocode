@@ -263,3 +263,51 @@ export async function loadConfig(path: string): Promise<EvocodeConfig> {
   const partial = JSON.parse(content) as Partial<EvocodeConfig>;
   return deepMerge(defaultConfig as unknown as Record<string, unknown>, partial as Record<string, unknown>) as unknown as EvocodeConfig;
 }
+
+export function saveConfig(config: EvocodeConfig): void {
+  const fs = require('fs');
+  const pathModule = require('path');
+  const dir = pathModule.join(process.cwd(), '.evocode');
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  fs.writeFileSync(
+    pathModule.join(dir, 'config.json'),
+    JSON.stringify(
+      {
+        inference: {
+          cloud: config.inference.cloud,
+        },
+        router: {
+          privacyMode: config.router.privacyMode,
+          localMaxTokens: config.router.localMaxTokens,
+          cloudMinTokens: config.router.cloudMinTokens,
+        },
+      },
+      null,
+      2
+    ),
+    'utf-8'
+  );
+}
+
+export function initConfig(): void {
+  const fs = require('fs');
+  const pathModule = require('path');
+  const filePath = pathModule.join(process.cwd(), '.evocode', 'config.json');
+  if (fs.existsSync(filePath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+      if (data.inference?.cloud) {
+        Object.assign(defaultConfig.inference.cloud, data.inference.cloud);
+      }
+      if (data.router) {
+        Object.assign(defaultConfig.router, data.router);
+      }
+      console.log('✅ Конфигурация загружена из .evocode/config.json');
+    } catch (e) {
+      console.error('⚠️ Ошибка загрузки .evocode/config.json:', e);
+    }
+  }
+}
+

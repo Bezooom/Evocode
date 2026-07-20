@@ -200,6 +200,9 @@ function readAgentSettings() {
 function buildHtml(state) {
   const rt = state.runtime || {};
   const skillsList = state.skills || [];
+  const config = state.config || {};
+  const cloud = config.inference?.cloud || {};
+  const router = config.router || {};
   const skillCards = skillsList.length > 0
     ? skillsList.map((s) => {
         const isUser = s.source === 'user';
@@ -453,6 +456,7 @@ function buildHtml(state) {
   <div class="top">
     <button class="tab active" data-tab="models">Модели</button>
     <button class="tab" data-tab="agent">Агент</button>
+    <button class="tab" data-tab="cloud">Облако / Роутер</button>
     <button class="tab" data-tab="skills">Навыки</button>
     <button class="tab" data-tab="mcp">MCP Серверы</button>
     <button class="tab" data-tab="core">Программа</button>
@@ -494,6 +498,55 @@ function buildHtml(state) {
     <div class="row" style="margin-top:16px">
       <button id="saveAgent">Сохранить всё</button>
       <button class="ghost" id="focusAgent">Открыть чат агента</button>
+    </div>
+  </section>
+
+  <section class="page" id="cloud">
+    <h1>Облачные модели и Роутер</h1>
+    <p class="hint">Здесь настраивается подключение к внешним LLM для решения сложных задач, если локальная модель не справляется. Умный роутер автоматически переключает запросы на основе размера и сложности задачи.</p>
+
+    <h2>Настройки провайдера</h2>
+    <label>Облачный провайдер</label>
+    <select id="cloudProvider">
+      <option value="openrouter" ${cloud.provider === 'openrouter' ? 'selected' : ''}>OpenRouter (Рекомендуется)</option>
+      <option value="openai" ${cloud.provider === 'openai' ? 'selected' : ''}>OpenAI (ChatGPT)</option>
+      <option value="anthropic" ${cloud.provider === 'anthropic' ? 'selected' : ''}>Anthropic (Claude)</option>
+      <option value="gemini" ${cloud.provider === 'gemini' ? 'selected' : ''}>Google Gemini</option>
+      <option value="openaicompatible" ${cloud.provider === 'openaicompatible' ? 'selected' : ''}>Custom OpenAI-Compatible</option>
+    </select>
+
+    <label>API Ключ</label>
+    <input id="cloudApiKey" type="text" placeholder="sk-..." value="${esc(cloud.apiKey)}" />
+
+    <label>Модель по умолчанию</label>
+    <input id="cloudModel" placeholder="например, anthropic/claude-3-5-sonnet" value="${esc(cloud.model)}" />
+
+    <label>Base URL API</label>
+    <input id="cloudBaseUrl" placeholder="https://..." value="${esc(cloud.baseUrl)}" />
+
+    <label>HTTP Proxy (необязательно)</label>
+    <input id="cloudProxyUrl" placeholder="например, http://127.0.0.1:7890" value="${esc(cloud.proxyUrl || '')}" />
+
+    <h2>Настройки умного роутера</h2>
+    <label>Режим приватности роутера</label>
+    <select id="routerPrivacyMode">
+      <option value="auto" ${router.privacyMode === 'auto' ? 'selected' : ''}>auto — автовыбор на основе контекста</option>
+      <option value="always-local" ${router.privacyMode === 'always-local' ? 'selected' : ''}>always-local — только локальные модели (строгая приватность)</option>
+      <option value="always-cloud" ${router.privacyMode === 'always-cloud' ? 'selected' : ''}>always-cloud — всегда использовать внешнее облако</option>
+    </select>
+
+    <div id="routerThresholds" style="${router.privacyMode === 'auto' ? '' : 'display:none'}">
+      <label>Максимальный локальный контекст (в токенах)</label>
+      <input id="routerLocalMaxTokens" type="number" value="${router.localMaxTokens ?? 400}" />
+      <span class="hint-inline" style="margin-top:4px; display:block; margin-bottom:8px;">Задачи меньше этого размера всегда решаются локально.</span>
+
+      <label>Минимальный облачный контекст (в токенах)</label>
+      <input id="routerCloudMinTokens" type="number" value="${router.cloudMinTokens ?? 3000}" />
+      <span class="hint-inline" style="margin-top:4px; display:block; margin-bottom:8px;">Задачи больше этого размера при наличии сложности направляются в облако.</span>
+    </div>
+
+    <div class="row" style="margin-top:20px">
+      <button id="saveCloudBtn">Сохранить настройки облака</button>
     </div>
   </section>
 
@@ -671,6 +724,59 @@ function buildHtml(state) {
     }
   });
 
+  // Облачные модели и Роутер
+  const providerEl = document.getElementById('cloudProvider');
+  const baseUrlEl = document.getElementById('cloudBaseUrl');
+  const modelEl = document.getElementById('cloudModel');
+  const urlTemplates = {
+    openrouter: 'https://openrouter.ai/api/v1',
+    openai: 'https://api.openai.com/v1',
+    anthropic: 'https://api.anthropic.com/v1',
+    gemini: 'https://generativelanguage.googleapis.com/v1beta/openai/v1',
+    openaicompatible: ''
+  };
+  const modelTemplates = {
+    openrouter: 'anthropic/claude-3-5-sonnet',
+    openai: 'gpt-4o',
+    anthropic: 'claude-3-5-sonnet-20241022',
+    gemini: 'gemini-1.5-pro',
+    openaicompatible: ''
+  };
+  providerEl?.addEventListener('change', () => {
+    const val = providerEl.value;
+    if (urlTemplates[val] !== undefined) {
+      if (urlTemplates[val]) baseUrlEl.value = urlTemplates[val];
+    }
+    if (modelTemplates[val] !== undefined) {
+      if (modelTemplates[val]) modelEl.value = modelTemplates[val];
+    }
+  });
+
+  const privacyEl = document.getElementById('routerPrivacyMode');
+  const thresholdsEl = document.getElementById('routerThresholds');
+  privacyEl?.addEventListener('change', () => {
+    thresholdsEl.style.display = privacyEl.value === 'auto' ? '' : 'none';
+  });
+
+  document.getElementById('saveCloudBtn').onclick = () => {
+    post('saveCloud', {
+      inference: {
+        cloud: {
+          provider: document.getElementById('cloudProvider').value,
+          apiKey: document.getElementById('cloudApiKey').value.trim(),
+          model: document.getElementById('cloudModel').value.trim(),
+          baseUrl: document.getElementById('cloudBaseUrl').value.trim(),
+          proxyUrl: document.getElementById('cloudProxyUrl').value.trim()
+        }
+      },
+      router: {
+        privacyMode: document.getElementById('routerPrivacyMode').value,
+        localMaxTokens: Number(document.getElementById('routerLocalMaxTokens').value),
+        cloudMinTokens: Number(document.getElementById('routerCloudMinTokens').value)
+      }
+    });
+  };
+
   window.addEventListener('message', (e) => { if (e.data?.type === 'log') log(e.data.text); });
 </script>
 </body>
@@ -727,49 +833,38 @@ class ProductPanel {
     } catch {
       /* */
     }
-    const kilo = readKiloConfig();
-    const baseURL =
-      kilo?.provider?.evocode?.options?.baseURL ||
-      process.env.EVOCODE_CORE_URL ||
-      `http://127.0.0.1:${port}/v1`;
-    const conf = vscode.workspace.getConfiguration();
-    return {
-      corePort: port,
-      coreOnline,
-      coreHealth,
-      runtime,
-      agent: {
-        coreUrl: baseURL,
-        model:
-          kilo.model ||
-          `${conf.get('evocode-agent.new.model.providerID') || 'evocode'}/${conf.get('evocode-agent.new.model.modelID') || 'evocode-auto'}`,
-        privacyMode: process.env.EVOCODE_PRIVACY_MODE || 'auto',
-      },
-      agentSettings: readAgentSettings(),
-      mcpServers: kilo.mcp || {},
-    };
-  }
-
-  async gatherState() {
-    const port = corePort(this.getCfg());
-    let runtime = { localReady: false, message: 'Core offline', profiles: [], forks: {} };
-    let coreOnline = false;
-    let coreHealth = null;
-    try {
-      const h = await httpJson('GET', '/health', null, port, 3000);
-      coreOnline = h.status === 200;
-      coreHealth = h.json;
-      const rt = await httpJson('GET', '/v1/runtime', null, port, 8000);
-      if (rt.json) runtime = rt.json;
-    } catch {
-      /* */
-    }
     let skills = [];
     if (coreOnline) {
       try {
         const sk = await httpJson('GET', '/v1/skills', null, port, 5000);
         if (sk.json && sk.json.skills) {
           skills = sk.json.skills;
+        }
+      } catch {
+        /* */
+      }
+    }
+    let config = {
+      inference: {
+        cloud: {
+          provider: 'openrouter',
+          model: 'anthropic/claude-sonnet-4',
+          apiKey: '',
+          baseUrl: 'https://openrouter.ai/api/v1',
+          proxyUrl: ''
+        }
+      },
+      router: {
+        privacyMode: 'auto',
+        localMaxTokens: 400,
+        cloudMinTokens: 3000
+      }
+    };
+    if (coreOnline) {
+      try {
+        const cfgRes = await httpJson('GET', '/v1/config', null, port, 5000);
+        if (cfgRes.json) {
+          config = cfgRes.json;
         }
       } catch {
         /* */
@@ -787,6 +882,7 @@ class ProductPanel {
       coreHealth,
       runtime,
       skills,
+      config,
       agent: {
         coreUrl: baseURL,
         model:
@@ -940,6 +1036,24 @@ class ProductPanel {
       }
       if (msg.type === 'installDesktop') {
         await vscode.commands.executeCommand('evocode.shell.installDesktop');
+        return;
+      }
+      if (msg.type === 'saveCloud') {
+        try {
+          const r = await httpJson('POST', '/v1/config', msg, port, 10000);
+          if (r.status === 200) {
+            vscode.window.showInformationMessage('Эвокод: Настройки облачных моделей и роутера сохранены.');
+            log('Настройки облака сохранены');
+          } else {
+            const err = r.json?.error?.message || 'ошибка сервера';
+            vscode.window.showErrorMessage(`Не удалось сохранить настройки: ${err}`);
+            log(`Ошибка: ${err}`);
+          }
+        } catch (e) {
+          vscode.window.showErrorMessage(`Ошибка сохранения: ${e.message}`);
+          log(`Ошибка: ${e.message}`);
+        }
+        await this.refresh();
         return;
       }
       if (msg.type === 'syncSkills') {

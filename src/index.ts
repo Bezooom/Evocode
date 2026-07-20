@@ -9,7 +9,7 @@ import { skillSyncEngine } from './sync/skill-sync';
 import { DLPBlockedError } from './guard/dlp-guard';
 import { vectorIndex } from './indexer/vector-index';
 import { skillLoader } from './skills/skill-loader';
-import { defaultConfig } from './core/config';
+import { defaultConfig, initConfig, saveConfig } from './core/config';
 import { contentToText } from './core/text';
 import * as http from 'http';
 import { ProxyAgent } from 'undici';
@@ -26,6 +26,7 @@ export interface ChatResult {
 }
 
 async function initialize(): Promise<void> {
+  initConfig();
   console.log('🧬 Инициализация Эвокод Core...');
   console.log(`   mode=${defaultConfig.mode}, privacy=${defaultConfig.router.privacyMode}`);
 
@@ -392,6 +393,41 @@ async function main(): Promise<void> {
         return;
       }
 
+      if (req.method === 'GET' && url === '/v1/config') {
+        sendJson(res, 200, {
+          inference: {
+            cloud: defaultConfig.inference.cloud,
+          },
+          router: {
+            privacyMode: defaultConfig.router.privacyMode,
+            localMaxTokens: defaultConfig.router.localMaxTokens,
+            cloudMinTokens: defaultConfig.router.cloudMinTokens,
+          },
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/config') {
+        const body = JSON.parse(await readBody(req) || '{}');
+        if (body.inference?.cloud) {
+          Object.assign(defaultConfig.inference.cloud, body.inference.cloud);
+        }
+        if (body.router) {
+          if (body.router.privacyMode !== undefined) {
+            defaultConfig.router.privacyMode = body.router.privacyMode;
+          }
+          if (body.router.localMaxTokens !== undefined) {
+            defaultConfig.router.localMaxTokens = Number(body.router.localMaxTokens);
+          }
+          if (body.router.cloudMinTokens !== undefined) {
+            defaultConfig.router.cloudMinTokens = Number(body.router.cloudMinTokens);
+          }
+        }
+        saveConfig(defaultConfig);
+        sendJson(res, 200, { success: true });
+        return;
+      }
+
       if (req.method === 'GET' && (url === '/v1/models' || url === '/models')) {
         sendJson(res, 200, {
           object: 'list',
@@ -534,12 +570,49 @@ async function main(): Promise<void> {
           });
 
           const cloud = defaultConfig.inference.cloud;
-          targetUrl = `${cloud.baseUrl}/chat/completions`;
-          headers['Authorization'] = `Bearer ${cloud.apiKey}`;
-          headers['HTTP-Referer'] = 'https://github.com/evocode/evocode';
-          headers['X-Title'] = 'Evocode';
+          const isAnthropic = cloud.provider === 'anthropic' || cloud.baseUrl.includes('api.anthropic.com');
+          const isGemini = cloud.provider === 'gemini' || cloud.baseUrl.includes('googleapis.com');
 
-          requestBody = { ...body, messages: maskedMessages };
+          if (isAnthropic) {
+            targetUrl = `${cloud.baseUrl}/messages`;
+            headers['x-api-key'] = cloud.apiKey;
+            headers['anthropic-version'] = '2023-06-01';
+
+            const systemMsg = maskedMessages.find(m => m.role === 'system')?.content || '';
+            const userMsgs = maskedMessages
+              .filter(m => m.role !== 'system')
+              .map(m => ({
+                role: m.role === 'assistant' ? 'assistant' : 'user',
+                content: m.content
+              }));
+
+            requestBody = {
+              model: body.model || cloud.model || 'claude-3-5-sonnet-20241022',
+              messages: userMsgs,
+              system: systemMsg || undefined,
+              max_tokens: body.max_tokens || 4096,
+              temperature: body.temperature ?? 0.7,
+              stream: body.stream || false
+            };
+          } else {
+            let actualBaseUrl = cloud.baseUrl;
+            if (actualBaseUrl.endsWith('/')) {
+              actualBaseUrl = actualBaseUrl.slice(0, -1);
+            }
+            targetUrl = `${actualBaseUrl}/chat/completions`;
+            if (isGemini && !actualBaseUrl.includes('key=')) {
+              targetUrl += `?key=${cloud.apiKey}`;
+            } else {
+              headers['Authorization'] = `Bearer ${cloud.apiKey}`;
+            }
+
+            if (cloud.provider === 'openrouter' || actualBaseUrl.includes('openrouter.ai')) {
+              headers['HTTP-Referer'] = 'https://github.com/evocode/evocode';
+              headers['X-Title'] = 'Evocode';
+            }
+
+            requestBody = { ...body, messages: maskedMessages };
+          }
         }
 
         const startTime = Date.now();
@@ -607,6 +680,51 @@ async function main(): Promise<void> {
             let buffer = '';
             const decoder = new TextDecoder();
             
+            const cloud = defaultConfig.inference.cloud;
+            const isAnthropic = cloud.provider === 'anthropic' || cloud.baseUrl.includes('api.anthropic.com');
+
+            if (decision === 'cloud' && isAnthropic) {
+              for await (const byteChunk of response.body as any) {
+                buffer += decoder.decode(byteChunk, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop() || '';
+
+                for (const line of lines) {
+                  const trimmed = line.trim();
+                  if (!trimmed) continue;
+                  if (trimmed.startsWith('data: ')) {
+                    try {
+                      const data = JSON.parse(trimmed.slice(6));
+                      if (data.type === 'content_block_delta' && data.delta?.text) {
+                        const openaiChunk = {
+                          id: 'chatcmpl-anthropic',
+                          object: 'chat.completion.chunk',
+                          created: Math.floor(Date.now() / 1000),
+                          model: body.model || cloud.model,
+                          choices: [
+                            {
+                              index: 0,
+                              delta: {
+                                content: data.delta.text
+                              },
+                              finish_reason: null
+                            }
+                          ]
+                        };
+                        res.write(`data: ${JSON.stringify(openaiChunk)}\n\n`);
+                      } else if (data.type === 'message_stop') {
+                        res.write('data: [DONE]\n\n');
+                      }
+                    } catch {
+                      /* */
+                    }
+                  }
+                }
+              }
+              res.end();
+              return;
+            }
+
             // Читаем поток из fetch
             for await (const byteChunk of response.body as any) {
               buffer += decoder.decode(byteChunk, { stream: true });
@@ -654,7 +772,34 @@ async function main(): Promise<void> {
           return;
         } else {
           // Не-стриминговый ответ
-          const data = (await response.json()) as any;
+          let data = (await response.json()) as any;
+
+          const cloud = defaultConfig.inference.cloud;
+          const isAnthropic = cloud.provider === 'anthropic' || cloud.baseUrl.includes('api.anthropic.com');
+
+          if (decision === 'cloud' && isAnthropic) {
+            data = {
+              id: data.id || 'msg-anthropic',
+              object: 'chat.completion',
+              created: Math.floor(Date.now() / 1000),
+              model: data.model || body.model || cloud.model,
+              choices: [
+                {
+                  index: 0,
+                  message: {
+                    role: 'assistant',
+                    content: data.content?.[0]?.text || ''
+                  },
+                  finish_reason: data.stop_reason === 'end_turn' ? 'stop' : data.stop_reason
+                }
+              ],
+              usage: {
+                prompt_tokens: data.usage?.input_tokens || 0,
+                completion_tokens: data.usage?.output_tokens || 0,
+                total_tokens: (data.usage?.input_tokens || 0) + (data.usage?.output_tokens || 0)
+              }
+            };
+          }
           
           // Корректируем tool_calls
           if (data.choices) {
