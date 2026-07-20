@@ -2,7 +2,7 @@
 
 # 🧬 Эвокод
 
-**Российская privacy-first AI-IDE: VSCodium + agent + локальный Core**
+**Российская privacy-first AI-IDE на базе VSCodium, локальных моделей и DLP-фильтрации**
 
 [![Version](https://img.shields.io/badge/version-0.95.0-blue.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -12,156 +12,196 @@
 
 ---
 
-## Статус
+## 🚀 Статус
 
-| | |
-|--|--|
-| **Версия** | **0.95.0** — Release Candidate 2 |
-| **Фаза** | F3 ✅ · Skill Router v2 + dual-model FIM |
-| **Срез** | [docs/STATUS.md](docs/STATUS.md) · [plans/ROADMAP.md](plans/ROADMAP.md) · [CHANGELOG](CHANGELOG.md) |
-| **SoT для агентов** | [plans/FULL_DEV_ROADMAP.md](plans/FULL_DEV_ROADMAP.md) |
+| Характеристика | Значение |
+|----------------|----------|
+| **Текущая версия** | **0.95.0** — Release Candidate 2 |
+| **Текущая фаза** | F3 ✅ (Skill Router v2 + dual-model FIM) |
+| **Сводка статуса** | [docs/STATUS.md](docs/STATUS.md) |
+| **План разработки** | [plans/ROADMAP.md](plans/ROADMAP.md) · [plans/FULL_DEV_ROADMAP.md](plans/FULL_DEV_ROADMAP.md) |
+| **Список изменений** | [CHANGELOG.md](CHANGELOG.md) |
 
-> **v0.95.0 RC2** — pilot-ready AI-IDE: Operator Mode, DLP/auth, Skill Router (M1–M4), dual local models (chat + FIM).  
-> Не «сертифицировано»; цель 1.0.0 — после пилотов.
-
----
-
-## Архитектура
-
-```
-Adapters: VSCodium «Эвокод» · Extension Host · shell extension
-              │ HTTP+SSE
-              ▼
-     Agent runtime (Kilo/OpenCode as-is, rebrand UI)
-              │ OpenAI-compat
-              ▼
-     Evocode Core :8083  (DLP · router · skills · RAG · runtime · attach)
-              │
-     :8080 llama chat · :8082 FIM · :8084 embed · cloud via DLP/proxy
-```
-
-Заимствования: [docs/ARCHITECTURE_BORROW.md](docs/ARCHITECTURE_BORROW.md) · third-party: [NOTICE](NOTICE).
+> v0.95.0 RC2 — готовая к пилотированию AI-IDE: режим оператора, DLP и авторизация, Skill Router (M1–M4), двухмодельный локальный инференс (chat + FIM). Решение не сертифицировано; цель 1.0.0 — стабилизация по итогам пилотов.
 
 ---
 
-## Quick start
+## 🏗️ Архитектура
+
+Потоки управления и запросов между интерфейсом VSCodium[^1], фоновым агентом, управляющим ядром Evocode Core и локальными/облачными провайдерами:
+
+```mermaid
+flowchart TD
+    accTitle: Evocode System Architecture & Data Flow
+    accDescr: High-level overview of Evocode's request processing pipeline, routing local completions to llama-server or cloud completions through DLP Guard.
+
+    user[Пользователь в VSCodium] -->|Запрос| ext[Агент расширения Эвокод]
+    ext -->|OpenAI API на порт :8083| core[Evocode Core]
+
+    subgraph CoreComponents["🧬 Сервисы Evocode Core"]
+        core -->|Анализ и роутинг| router[Smart Router]
+        router -->|Загрузка контекста| skills[Skill Router v2]
+        router -->|Поиск по базе кода| rag[VectorIndex RAG]
+        router -->|Маскирование и аудит| dlp[DLP Guard]
+    end
+
+    subgraph Backends["🧠 Локальные и облачные бэкенды"]
+        router -->|Локальный Чат| llama_chat[llama-server :8080]
+        router -->|Локальный FIM| llama_fim[llama-server :8082]
+        router -->|Локальные эмбеддинги| llama_embed[llama-server :8084]
+        router -->|Облачный провайдер| cloud[Внешний API / Прокси]
+    end
+
+    classDef default fill:#1e1e2e,stroke:#313244,color:#cdd6f4;
+    classDef highlight fill:#11111b,stroke:#89b4fa,stroke-width:2px,color:#89b4fa;
+    classDef backend fill:#181825,stroke:#f38ba8,color:#f38ba8;
+
+    class core,router,skills,rag,dlp highlight;
+    class llama_chat,llama_fim,llama_embed,cloud backend;
+```
+
+Заимствования и используемые сторонние компоненты приведены в [docs/ARCHITECTURE_BORROW.md](docs/ARCHITECTURE_BORROW.md) и [NOTICE](NOTICE).
+
+---
+
+## ⏱️ Quick start
 
 ### Требования
 
-- Node.js ≥ 20
-- (опционально) `llama-server` + GGUF **вне** репозитория — пути в `config/profiles.json`
-- (для сборки agent) upstream kilo-vscode: `export KILO_SRC=...`
+* Node.js версии 20 или выше
+* Установленный `llama-server` и GGUF-модели вне репозитория (пути настраиваются в `config/profiles.json`)
+* Для сборки агента: upstream kilo-vscode[^2] (`export KILO_SRC=...`)
 
-### Core + IDE (dev)
+### Развертывание Core + IDE (dev)
 
+1. Клонируйте репозиторий и перейдите в его корень:
+   ```bash
+   git clone https://github.com/Bezooom/Evocode.git && cd Evocode
+   ```
+2. Подготовьте конфигурацию:
+   ```bash
+   cp .env.example .env
+   # Настройте config/profiles.json под ваши локальные пути к моделям
+   ```
+3. Установите зависимости и соберите проект:
+   ```bash
+   npm ci && npm run build
+   ```
+4. Если llama-server для чата уже запущен на порту 8080:
+   ```bash
+   PORT=8083 EVOCODE_LLAMA_MODE=attach npm start
+   ```
+5. Запустите готовую сборку IDE с автоматическим стартом Core:
+   ```bash
+   npm run evocode
+   ```
+
+Для установки ярлыка запуска «Эвокод» в Ubuntu выполните:
 ```bash
-git clone <repo-url> Evocode && cd Evocode
-cp .env.example .env
-# отредактируйте config/profiles.json под свои бинарники/модели ($HOME/...)
-npm ci && npm run build
-
-# если chat llama уже на :8080:
-PORT=8083 EVOCODE_LLAMA_MODE=attach npm start
-
-# branded IDE + auto Core:
+npm run ide:install-desktop
 npm run evocode
 ```
 
-```bash
-npm run ide:install-desktop   # ярлык Ubuntu «Эвокод»
-npm run evocode
-```
-
-Профиль IDE: `~/.evocode-ide`.  
-**Ctrl+Shift+M** — модели · **Ctrl+L** — чат · product panel — Модели / Агент / Cloud / Навыки / MCP / Программа.  
-См. [PRODUCT_SHELL.md](docs/PRODUCT_SHELL.md) · [RUNTIME.md](docs/RUNTIME.md).
-
-### Порты
-
-| Порт | Сервис |
-|------|--------|
-| 8080 | llama chat |
-| 8082 | FIM / autocomplete (лёгкая модель, обычно CPU) |
-| **8083** | **Evocode Core** |
-| 8084 | embeddings (профиль) |
-
-Профили: [`config/profiles.json`](config/profiles.json) · шаблон: [`config/profiles.example.json`](config/profiles.example.json).  
-Пути поддерживают `$HOME`, `${ENV}`, `~`.
-
-### Дистрибутивы
-
-```bash
-npm run ide:package-portable
-npm run ide:package-deb        # → packages/ide/dist/evocode_0.95.0_amd64.deb
-npm run ide:package-appimage   # → Evocode-0.95.0-x86_64.AppImage
-```
+По умолчанию профиль настроек IDE сохраняется в директорию `~/.evocode-ide`. 
+Для переключения моделей используйте сочетание **Ctrl+Shift+M**, для открытия чата — **Ctrl+L**. Управление агентом, навыками и MCP доступно через боковую панель настроек. Подробности см. в [PRODUCT_SHELL.md](docs/PRODUCT_SHELL.md) и [RUNTIME.md](docs/RUNTIME.md).
 
 ---
 
-## Документация
+## 🔌 Порты
 
-| Документ | О чём |
-|----------|--------|
-| [**FULL_DEV_ROADMAP**](plans/FULL_DEV_ROADMAP.md) | полная карта (source of truth) |
-| [STATUS](docs/STATUS.md) | текущий срез |
-| [ROADMAP](plans/ROADMAP.md) | фазы F0–F4 |
-| [FORK_STRATEGY](plans/FORK_STRATEGY.md) | IDE + agent + Core |
-| [ARCHITECTURE](docs/ARCHITECTURE.md) | модули Core |
-| [SMOKE](docs/SMOKE.md) | checklist E2E |
-| [OPENAPI](specs/OPENAPI.md) | API Core |
-| [SECURITY](SECURITY.md) | политика безопасности |
-| [CONTRIBUTING](CONTRIBUTING.md) | как собирать и слать PR |
-| [skills/NOTICE](skills/NOTICE.md) | происхождение skills |
+Сервисы и используемые ими сетевые порты по умолчанию:
+
+| Порт | Сервис | Описание |
+|------|--------|----------|
+| 8080 | llama chat | Сервер локальной чат-модели (GPU, ~35B) |
+| 8082 | FIM / autocomplete | Автодополнение кода на базе легкой модели (CPU, Neurocontrol) |
+| **8083** | **Evocode Core** | Точка входа для агента, DLP-фильтрации и роутинга |
+| 8084 | embeddings | Локальный сервер эмбеддингов |
+
+Шаблоны профилей и путей к файлам описаны в [`config/profiles.json`](config/profiles.json) (пример в [`config/profiles.example.json`](config/profiles.example.json)). Пути поддерживают переменные окружения и сокращения `$HOME`, `${ENV}`, `~`.
 
 ---
 
-## npm scripts (главные)
+## 📦 Дистрибутивы
+
+Для упаковки дистрибутивов используются следующие команды:
 
 ```bash
-npm test / npm run type-check
-npm run evocode                 # product launch
-npm run agent:f1                # rebrand + provider
-npm run ide:refresh-brand       # rebrand + preinstall + shell + settings
-npm run ide:package-portable
-npm run local:stack
+npm run ide:package-portable    # Сборка портативной версии
+npm run ide:package-deb         # Сборка deb-пакета (packages/ide/dist/evocode_0.95.0_amd64.deb)
+npm run ide:package-appimage    # Сборка AppImage (Evocode-0.95.0-x86_64.AppImage)
 ```
 
 ---
 
-## Core modules
+## 📚 Документация
 
-| Модуль | Поведение |
-|--------|-----------|
-| InferenceEngine | attach-first к llama; spawn optional; no silent stubs |
-| Smart Router | complexity + tokens + privacyMode; local→cloud |
-| DLP Guard | cloud path |
-| SkillLoader / Router v2 | system+user, packs, hybrid embeddings |
-| VectorIndex | SQLite-vec RAG |
-| Runtime API | `/v1/runtime/*` — start/stop/switch профилей |
-| OpenAI API | `/v1/chat/completions`, `/v1/models`, FIM |
-
----
-
-## Roadmap (кратко)
-
-| Фаза | Версия-ориентир | Статус |
-|------|-----------------|--------|
-| F0 Core | 0.1 | ✅ |
-| F1 Agent rebrand | 0.1–0.2 | ✅ |
-| F1.5 Smoke + Policy | 0.2–0.3 | ✅ |
-| **F2 Product IDE** | **→ 0.5.0** | ✅ |
-| **F3 Hardening РФ** | **→ 0.9.0 RC1** | ✅ |
-| Skill Router + dual FIM | **→ 0.95.0 RC2** | ✅ |
-| F4 Self-evolve | post-1.0 optional | 📋 later |
-| Product DoD | **1.0.0** | 📋 |
+| Раздел | Ссылка | Описание |
+|--------|--------|----------|
+| **Карта разработки** | [FULL_DEV_ROADMAP](plans/FULL_DEV_ROADMAP.md) | Полная и актуальная карта задач (source of truth) |
+| Статус проекта | [STATUS](docs/STATUS.md) | Текущий технический срез проекта |
+| Дорожная карта | [ROADMAP](plans/ROADMAP.md) | Этапы реализации фаз F0–F4 |
+| Стратегия форка | [FORK_STRATEGY](plans/FORK_STRATEGY.md) | Интеграция IDE, расширения и Core |
+| Архитектура ядра | [ARCHITECTURE](docs/ARCHITECTURE.md) | Описание внутренних модулей Core |
+| Тестирование | [SMOKE](docs/SMOKE.md) | Сценарии проведения E2E-тестов |
+| Спецификация API | [OPENAPI](specs/OPENAPI.md) | Описание REST API Core |
+| Безопасность | [SECURITY](SECURITY.md) | Политика безопасности и DLP |
+| Инструкции | [CONTRIBUTING](CONTRIBUTING.md) | Руководство по сборке и отправке PR |
+| Лицензии навыков | [skills/NOTICE](skills/NOTICE.md) | Происхождение и условия использования skills |
 
 ---
 
-## Лицензия
+## 🛠️ Скрипты npm
 
-[MIT](LICENSE). Upstream и skills: [NOTICE](NOTICE).  
-Уважайте лицензии VSCodium / Kilocode / OpenCode / отдельных skills при сборках и дистрибуции.
+Наиболее важные команды автоматизации в корне проекта:
+
+```bash
+npm test / npm run type-check       # Запуск тестов и проверка типов TypeScript
+npm run evocode                     # Запуск IDE с автоматическим стартом Core
+npm run agent:f1                    # Пересборка агента (ребрендинг + инсталляция провайдера)
+npm run ide:refresh-brand           # Сброс кэша и обновление брендинга (иконки, ярлыки, профили)
+npm run ide:package-portable        # Сборка переносимой версии Codium
+npm run local:stack                 # Запуск локального стека моделей (llama.cpp)
+```
 
 ---
 
-**Эвокод 0.95.0 RC2** — Приватность. Dual local LLM (chat + FIM). Skill Router v2. Operator Mode.
+## 🧬 Модули ядра
+
+| Модуль | Назначение |
+|--------|------------|
+| **InferenceEngine** | Взаимодействие с API llama.cpp и внешними провайдерами |
+| **Smart Router** | Динамический роутинг запросов локально/облако на основе объема контекста и приватности |
+| **DLP Guard** | Сканирование и маскирование секретов/ключей в отправляемых облачных провайдерам промптах |
+| **SkillLoader** | Менеджер агентных навыков (поддержка формата `.md` с гибридными эмбеддингами) |
+| **VectorIndex** | Локальная база векторов на основе расширения SQLite-vec[^3] для RAG |
+| **Runtime API** | Управление запущенными инстансами и профилями локальных моделей |
+
+---
+
+## 🗺️ Дорожная карта
+
+Этапы разработки и готовность фаз:
+
+| Фаза | Версия-ориентир | Описание | Статус |
+|------|-----------------|----------|--------|
+| **F0 Core** | 0.1 | Базовое ядро, API и локальный инференс | ✅ |
+| **F1 Agent** | 0.1–0.2 | Ребрендинг и интеграция Kilo Agent | ✅ |
+| **F1.5 Smoke** | 0.2–0.3 | Базовое тестирование и интеграция DLP | ✅ |
+| **F2 Product** | 0.5.0 | Полноценный интерфейс и интеграция с VSCodium | ✅ |
+| **F3 Hardening** | 0.9.0 RC1 | Усиление безопасности, изоляция и профили | ✅ |
+| **Skill Router** | 0.95.0 RC2 | Skill Router v2 и дуал-режим FIM | ✅ **текущий** |
+| **Product DoD** | 1.0.0 | Полноценный релиз по итогам пилотов | 📋 в работе |
+| **F4 Self-evolve** | post-1.0 | Добавление самообучающихся агентов | 📋 запланировано |
+
+---
+
+## ⚖️ Лицензия
+
+Исходный код распространяется под лицензией [MIT](LICENSE). Лицензии сторонних заимствований и навыков приведены в [NOTICE](NOTICE). При распространении и пересборке проекта сохраняйте указания авторства upstream-компонентов VSCodium, Kilo Code и OpenCode.
+
+---
+
+[^1]: VSCodium: Free/Libre Open Source Software Binaries of VSCode. https://github.com/VSCodium/vscodium
+[^2]: Kilo Code: An open-source AI agent for coding. https://github.com/Kilo-Org/kilocode
+[^3]: sqlite-vec: A vector search SQLite extension. https://github.com/asg017/sqlite-vec
