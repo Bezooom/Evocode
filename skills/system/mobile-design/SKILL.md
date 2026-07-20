@@ -1,5 +1,10 @@
 ---
 name: mobile-design
+domain: general
+pack: general
+tier: optional
+triggers:
+  - mobile design
 description: Mobile-first design thinking and decision-making for iOS and Android apps.
 category: design
 version: 4.1.0-fractal

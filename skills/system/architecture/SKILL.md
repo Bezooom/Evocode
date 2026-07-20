@@ -1,5 +1,10 @@
 ---
 name: architecture
+domain: general
+pack: general
+tier: optional
+triggers:
+  - architecture
 description: Architectural decision-making framework.
 category: architecture
 version: 4.1.0-fractal

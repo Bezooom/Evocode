@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: error-detective
+domain: general
+pack: general
+tier: optional
+triggers:
+  - error detective
 description: Search logs and codebases for error patterns, stack traces, and
   anomalies. Correlates errors across systems and identifies root causes. Use
   PROACTIVELY when debugging issues, analyzing logs, or investigating production

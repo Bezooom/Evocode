@@ -1,5 +1,10 @@
 ---
 name: internal-comms
+domain: general
+pack: general
+tier: optional
+triggers:
+  - internal comms
 description: >-
   A set of resources to help me write all kinds of internal communications,
   using the formats that my company likes to use. The agent should use this skill

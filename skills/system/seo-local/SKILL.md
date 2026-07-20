@@ -1,5 +1,10 @@
 ---
 name: seo-local
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo local
 description: >
   Local SEO analysis covering Google Business Profile optimization, NAP
   consistency, citation health, review signals, local schema markup,

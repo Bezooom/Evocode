@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: browser-extension-builder
+domain: general
+pack: general
+tier: optional
+triggers:
+  - browser extension builder
 description: "Expert in building browser extensions that solve real problems - Chrome, Firefox, and cross-browser extensions. Covers extension architecture, manifest v3, content scripts, popup UIs, monetization strategies, and Chrome Web Store publishing. Use when: browser extension, chrome extension, firefox addon, extension, manifest v3."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

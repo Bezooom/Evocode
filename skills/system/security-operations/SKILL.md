@@ -1,5 +1,25 @@
 ---
 name: security-operations
+domain: security
+pack: security
+tier: optional
+triggers:
+  - управление уязвимостями vulnerability management
+  - sdl secure development lifecycle
+  - penetration testing / pentest
+  - threat modeling stride
+  - compliance pci/gdpr
+  - penetration testing
+  - security operations
+  - безопасность / иб
+  - гост р 56939-2024
+  - incident response
+  - security scanning
+  - фаззинг fuzzing
+  - threat modeling
+  - аутентификация
+  - sast / dast
+  - security
 description: |
   [RU] Макро-навык для операций информационной безопасности: threat modeling, SAST, DAST, фаззинг, реагирование на инциденты, penetration testing, аутентификация, compliance (включая ГОСТ Р 56939-2024). Используй при запросах: "провести threat modeling", "настроить SAST/DAST/Fuzzing", "инцидент ИБ", "pentest", "attack tree / STRIDE", "PCI-compliance", "ГОСТ Р 56939-2024", "SDL / безопасная разработка", "аудит безопасности", "анализ бинарей", "post-mortem".
   [EN] Macro-skill for security operations: threat modeling, SAST, DAST, fuzzing, incident response, penetration testing, authentication, security compliance (incl. GOST R 56939-2024). Triggers: security, pentest, SDL, fuzzing.

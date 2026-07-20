@@ -1,16 +1,19 @@
 ---
 name: scaffold-exercises
+domain: general
+pack: general
+tier: optional
+triggers:
+  - scaffold упражнения
+  - scaffold exercises
+  - stub для exercises
+  - создать exercises
+  - учебные задания
+  - course section
+  - exercise stubs
 description: |
   [RU] Создание exercise-структуры каталогов (sections, problems, solutions, explainers), проходящей линтинг. Используй когда пользователь хочет заскаффолдить упражнения, создать stub-и для exercises или настроить новую секцию курса.
   [EN] Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.
-triggers:
-  - scaffold упражнения
-  - создать exercises
-  - учебные задания
-  - stub для exercises
-  - exercise stubs
-  - course section
-  - scaffold exercises
 ---
 
 # Scaffold Exercises

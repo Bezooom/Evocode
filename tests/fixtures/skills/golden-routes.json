@@ -1,0 +1,80 @@
+[
+  {
+    "id": "angular-forms-ru",
+    "query": "почини баг в angular форме signal forms",
+    "expectAnyOf": ["angular-forms", "angular-migration", "angular"],
+    "reject": ["frontend-mobile-security-xss-scan"]
+  },
+  {
+    "id": "code-review",
+    "query": "код ревью pull request code review checklist",
+    "expectAnyOf": ["code-reviewer", "requesting-code-review", "codex-review", "code-review-checklist"],
+    "reject": ["unity-development"]
+  },
+  {
+    "id": "presentation",
+    "query": "создай презентацию pptx slides",
+    "expectAnyOf": ["pptx", "pptx-official", "scientific-slides", "latex-posters"]
+  },
+  {
+    "id": "solidity",
+    "query": "solidity smart contract audit security",
+    "expectAnyOf": ["solidity-security", "web3-testing", "web3-blockchain"]
+  },
+  {
+    "id": "k8s",
+    "query": "разверни kubernetes helm chart",
+    "expectAnyOf": ["kubernetes-architect", "k8s-manifest-generator", "helm-chart-scaffolding", "k8s-security-policies"]
+  },
+  {
+    "id": "empty-hello",
+    "query": "hello",
+    "expectAnyOf": [],
+    "allowEmpty": true
+  },
+  {
+    "id": "react-component",
+    "query": "напиши react компонент next.js",
+    "expectAnyOf": ["senior-fullstack", "frontend-engineering", "react-bits", "web-artifacts-builder", "ui-ux-pro-max"]
+  },
+  {
+    "id": "tdd",
+    "query": "test driven development tdd workflow",
+    "expectAnyOf": ["tdd-workflow", "tdd-orchestrator", "tdd-workflows-tdd-refactor", "agentic-coordination"]
+  },
+  {
+    "id": "seo",
+    "query": "seo оптимизация сайта structure",
+    "expectAnyOf": ["seo", "seo-flow", "seo-structure-architect"]
+  },
+  {
+    "id": "security-auth",
+    "query": "security review auth threat modeling owasp",
+    "expectAnyOf": ["security-auditor", "threat-modeling-expert", "code-review-checklist", "agent-security-review"]
+  },
+  {
+    "id": "caveman",
+    "query": "use caveman mode меньше токенов",
+    "expectAnyOf": ["caveman"]
+  },
+  {
+    "id": "docker-k8s",
+    "query": "docker compose kubernetes deploy",
+    "expectAnyOf": ["kubernetes-architect", "gitops-workflow", "helm-chart-scaffolding"]
+  },
+  {
+    "id": "python-refactor",
+    "query": "refactor python tdd",
+    "expectAnyOf": ["tdd-workflow", "tdd-workflows-tdd-refactor", "request-refactor-plan", "codebase-cleanup-refactor-clean"]
+  },
+  {
+    "id": "hr",
+    "query": "hr pro hiring onboarding policy",
+    "expectAnyOf": ["hr-pro"]
+  },
+  {
+    "id": "scientific-viz",
+    "query": "scientific visualization publication figure matplotlib",
+    "expectAnyOf": ["scientific-visualization"]
+  }
+]

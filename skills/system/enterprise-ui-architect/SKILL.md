@@ -1,5 +1,10 @@
 ---
 name: enterprise-ui-architect
+domain: general
+pack: general
+tier: optional
+triggers:
+  - enterprise ui architect
 description: Проектирует сложные enterprise-интерфейсы: дашборды, таблицы, формы, навигация, состояния
 version: 1.0.0
 proactive: true

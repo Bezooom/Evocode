@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: github-actions-templates
+domain: general
+pack: general
+tier: optional
+triggers:
+  - github actions templates
 description: Create production-ready GitHub Actions workflows for automated testing, building, and deploying applications. Use when setting up CI/CD with GitHub Actions, automating development workflows, or creating reusable workflow templates.
 ---
 

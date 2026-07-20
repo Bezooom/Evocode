@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: codex-review
+domain: general
+pack: general
+tier: optional
+triggers:
+  - codex review
 description: Professional code review with auto CHANGELOG generation, integrated with Codex AI
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: security-scanning-security-sast
+domain: security
+pack: security
+tier: optional
+triggers:
+  - security scanning security sast
 description: Static Application Security Testing (SAST) for code vulnerability
   analysis across multiple languages and frameworks
 metadata:

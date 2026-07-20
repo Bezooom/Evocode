@@ -1,5 +1,10 @@
 ---
 name: agent-project-guidelines-example
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent project guidelines example
 description: Project Guidelines Skill (Example)
 author: affaan-m
 version: 4.1.0-fractal

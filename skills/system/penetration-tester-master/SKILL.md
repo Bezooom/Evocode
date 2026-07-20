@@ -1,5 +1,10 @@
 ---
 name: penetration-tester-master
+domain: general
+pack: general
+tier: optional
+triggers:
+  - penetration tester master
 description: Ultimate Offensive Security Master Skill.
 category: security
 version: 4.1.0-fractal

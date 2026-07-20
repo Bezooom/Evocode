@@ -1,5 +1,10 @@
 ---
 name: angular-forms
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular forms
 description: >-
   Build signal-based forms in Angular v21+ using the new Signal Forms API. Use
   for form creation with automatic two-way binding, schema-based validation,

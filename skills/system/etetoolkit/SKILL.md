@@ -1,5 +1,10 @@
 ---
 name: etetoolkit
+domain: general
+pack: general
+tier: optional
+triggers:
+  - etetoolkit
 description: Phylogenetic tree toolkit (ETE). Tree manipulation (Newick/NHX), evolutionary event detection, orthology/paralogy, NCBI taxonomy, visualization (PDF/SVG), for phylogenomics.
 license: GPL-3.0 license
 metadata:
@@ -618,4 +623,3 @@ tree.write(outfile="tree.nhx", features=["habitat", "temperature", "depth"])
 8. **PhyloTree for phylogenetics**: Use PhyloTree class for gene trees and evolutionary analysis
 9. **Copy method selection**: "newick" for speed, "cpickle" for full fidelity, "deepcopy" for complex objects
 10. **NCBI query caching**: Store NCBI taxonomy query results to avoid repeated database access
-

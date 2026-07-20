@@ -1,3 +1,11 @@
+---
+name: universal-build-tool
+triggers:
+  - universal build tool
+tier: optional
+pack: general
+domain: general
+---
 # Universal Build Tool Skill
 
 ## Overview

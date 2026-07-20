@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ui-ux-designer
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - ui ux designer
 description: Create interface designs, wireframes, and design systems. Masters
   user research, accessibility standards, and modern design tools. Specializes
   in design tokens, component libraries, and inclusive design. Use PROACTIVELY

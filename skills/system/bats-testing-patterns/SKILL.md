@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: bats-testing-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - bats testing patterns
 description: Master Bash Automated Testing System (Bats) for comprehensive shell script testing. Use when writing tests for shell scripts, CI/CD pipelines, or requiring test-driven development of shell utilities.
 ---
 

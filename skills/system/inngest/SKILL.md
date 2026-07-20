@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: inngest
+domain: general
+pack: general
+tier: optional
+triggers:
+  - inngest
 description: "Inngest expert for serverless-first background jobs, event-driven workflows, and durable execution without managing queues or workers. Use when: inngest, serverless background job, event-driven workflow, step function, durable execution."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

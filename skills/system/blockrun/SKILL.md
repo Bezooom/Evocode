@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: blockrun
+domain: general
+pack: general
+tier: optional
+triggers:
+  - blockrun
 description: Use when user needs capabilities Claude lacks (image generation, real-time X/Twitter data) or explicitly requests external models ("blockrun", "use grok", "use gpt", "dall-e", "deepseek")
 allowed-tools: Read, Bash(python:*), Bash(python3:*), Bash(pip:*), Bash(source:*)
 ---

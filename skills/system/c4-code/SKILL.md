@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: c4-code
+domain: general
+pack: general
+tier: optional
+triggers:
+  - c4 code
 description: Expert C4 Code-level documentation specialist. Analyzes code
   directories to create comprehensive C4 code-level documentation including
   function signatures, arguments, dependencies, and code structure. Use when

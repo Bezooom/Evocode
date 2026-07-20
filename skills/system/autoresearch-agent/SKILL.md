@@ -1,5 +1,10 @@
 ---
 name: autoresearch-agent
+domain: research
+pack: science
+tier: optional
+triggers:
+  - autoresearch agent
 description: "Unified implementation/review agent workflow: abstracts tool calls, self-check, feedback loop, and cross-iteration learning. Works with any LLM/model."
 ---
 

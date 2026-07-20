@@ -1,5 +1,10 @@
 ---
 name: deployment-engineer
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - deployment engineer
 description: MASTER DEPLOY: CI/CD Pipelines, Docker, K8s, GitOps.
 category: infrastructure
 version: 4.1.0-fractal

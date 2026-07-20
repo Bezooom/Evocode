@@ -1,5 +1,10 @@
 ---
 name: dpo-program
+domain: general
+pack: general
+tier: optional
+triggers:
+  - dpo program
 description: >-
   Разработка программ дополнительного профессионального образования (ДПО):
   повышение квалификации (от 16 ч.) и профессиональная переподготовка (от 250 ч.).

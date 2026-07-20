@@ -1,5 +1,10 @@
 ---
 name: AWS Penetration Testing
+domain: general
+pack: general
+tier: optional
+triggers:
+  - aws penetration testing
 description: This skill should be used when the user asks to "pentest AWS", "test AWS security", "enumerate IAM", "exploit cloud infrastructure", "AWS privilege escalation", "S3 bucket testing", "metadata SSRF", "Lambda exploitation", or needs guidance on Amazon Web Services security assessment.
 metadata:
   author: zebbern

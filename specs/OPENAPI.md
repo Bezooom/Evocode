@@ -1,8 +1,8 @@
 # API Reference — Evocode Core
 
 **Base URL (local):** `http://127.0.0.1:8083`  
-**Версия:** 0.5.0  
-**Обновлено:** 2026-07-20
+**Версия:** 0.95.0  
+**Обновлено:** 2026-07-20 (Skill Router v2 M1)
 
 Core — privacy plane. Agent (Kilo/OpenCode) ходит сюда как на OpenAI-compatible provider.
 
@@ -155,6 +155,72 @@ OpenAI-compatible. Основной вход для Kilo agent.
 | 400 | `invalid_request` | нет user message |
 
 При `stream: true` — SSE chunks (упрощённо, один data + `[DONE]`).
+
+---
+
+### Dual-model FIM / autocomplete
+
+| | Chat | FIM |
+|--|------|-----|
+| Порт llama | **8080** | **8082** |
+| Профиль | `coder` | `fim-small` (Neurocontrol ~2G, CPU) |
+| Model id | `evocode-auto` | **`evocode-fim`** |
+| API | `POST /v1/chat/completions` | **`POST /v1/completions`** · `/v1/fim` |
+
+```bash
+curl -s localhost:8083/v1/completions -H 'Content-Type: application/json' \
+  -d '{"model":"evocode-fim","prompt":"def foo():\n    ","max_tokens":48}'
+```
+
+`GET /health` → `fimEnabled`, `fimReady`, `fim: { port, modelId, … }`.  
+Env: `LLAMA_FIM_ENABLED=true` (default), `LLAMA_FIM_PORT=8082`.
+
+---
+
+### Skill Router v2
+
+#### `GET /v1/skills`
+
+Список навыков из индекса (meta, без полного body).
+
+#### `POST /v1/skills/route`
+
+Dry-run маршрутизации (без inference):
+
+```json
+{ "query": "solidity smart contract audit", "mode": "dev", "maxSkills": 2 }
+```
+
+Ответ: `selected[]` (name, score, reasons, pack, tier), `injectChars`, `rejected[]`, `textPreview`.
+
+#### `POST /v1/skills/reindex`
+
+Пересканировать `skills/system` + `skills/user`, обновить lexical index + **skill embeddings** (M4).
+
+```json
+{ "forceEmbed": false }
+```
+
+Ответ: `{ count, embeddings: { upserted, skipped, errors }, useEmbeddings, embedBackend }`.
+
+#### `POST /v1/skills/route`
+
+Hybrid dry-run (lexical + embeddings). Response includes `hybrid`, `embedBackend`, reasons like `embed:0.42`.
+
+#### `POST /v1/skills/sync`
+
+Синхронизация remote + invalidate index (как раньше).
+
+Конфиг env:
+
+| Var | Default |
+|-----|---------|
+| `EVOCODE_SKILL_ROUTER` | `v2` |
+| `EVOCODE_SKILLS_EMBED` | `true` |
+| `EVOCODE_SKILLS_EMBED_BACKEND` | `hash` \| `inference` |
+| `EVOCODE_SKILLS_EMBED_WEIGHT` | `40` |
+| `EVOCODE_SKILLS_EMBED_DB` | `.evocode/skills-embeddings.db` |
+| `EVOCODE_SKILLS_MAX` / `MAX_INJECT` / `ALLOW_LAB` / `PACKS` | см. config |
 
 ---
 

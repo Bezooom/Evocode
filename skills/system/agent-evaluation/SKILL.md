@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-evaluation
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent evaluation
 description: "Testing and benchmarking LLM agents including behavioral testing, capability assessment, reliability metrics, and production monitoring—where even top agents achieve less than 50% on real-world benchmarks Use when: agent testing, agent evaluation, benchmark agents, agent reliability, test agent."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

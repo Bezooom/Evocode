@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: full-stack-orchestration-full-stack-feature
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - full stack orchestration full stack feature
 description: "Use when working with full stack orchestration full stack feature"
 ---
 

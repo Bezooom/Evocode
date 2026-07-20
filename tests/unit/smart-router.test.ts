@@ -25,6 +25,19 @@ describe('SmartRouter', () => {
     expect(decision).toBe('local');
   });
 
+  it('форсирует local если имя модели содержит local', async () => {
+    const context: RouterContext = {
+      request: { prompt: 'спроектируй сложную архитектуру', model: 'evocode/evocode-local' },
+      contextSize: 5000,
+      taskComplexity: 'complex',
+      isCodeGeneration: false,
+      hasAttachments: true,
+    };
+    const { decision, reason } = await router.route(context);
+    expect(decision).toBe('local');
+    expect(reason).toContain('выбор локальной модели');
+  });
+
   it('маршрутизирует complex → cloud (when api key set)', async () => {
     const context: RouterContext = {
       request: { prompt: 'спроектируй архитектуру' },

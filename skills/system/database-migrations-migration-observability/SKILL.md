@@ -1,5 +1,10 @@
 ---
 name: database-migrations-migration-observability
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - database migrations migration observability
 description: Migration monitoring, CDC, and observability infrastructure
 allowed-tools: Read Write Edit Bash WebFetch
 metadata:

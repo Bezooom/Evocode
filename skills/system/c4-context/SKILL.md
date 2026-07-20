@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: c4-context
+domain: general
+pack: general
+tier: optional
+triggers:
+  - c4 context
 description: Expert C4 Context-level documentation specialist. Creates
   high-level system context diagrams, documents personas, user journeys, system
   features, and external dependencies. Synthesizes container and component

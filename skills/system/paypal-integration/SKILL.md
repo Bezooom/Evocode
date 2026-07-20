@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: paypal-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - paypal integration
 description: Integrate PayPal payment processing with support for express checkout, subscriptions, and refund management. Use when implementing PayPal payments, processing online transactions, or building e-commerce checkout flows.
 ---
 

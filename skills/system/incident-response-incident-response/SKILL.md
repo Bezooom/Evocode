@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: incident-response-incident-response
+domain: general
+pack: general
+tier: optional
+triggers:
+  - incident response incident response
 description: "Use when working with incident response incident response"
 ---
 

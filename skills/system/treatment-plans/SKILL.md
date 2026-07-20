@@ -1,5 +1,10 @@
 ---
 name: treatment-plans
+domain: general
+pack: general
+tier: optional
+triggers:
+  - treatment plans
 description: Generate concise (3-4 page), focused medical treatment plans in LaTeX/PDF format for all clinical specialties. Supports general medical treatment, rehabilitation therapy, mental health care, chronic disease management, perioperative care, and pain management. Includes SMART goal frameworks, evidence-based interventions with minimal text citations, regulatory compliance (HIPAA), and professional formatting. Prioritizes brevity and clinical actionability.
 allowed-tools: Read Write Edit Bash
 license: MIT license
@@ -1576,5 +1581,3 @@ Balance medical recommendations with patient autonomy and values while promoting
 ## License
 
 Part of the Claude Scientific Writer project. See main LICENSE file.
-
-

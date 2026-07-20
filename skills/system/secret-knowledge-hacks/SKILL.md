@@ -1,5 +1,10 @@
 ---
 name: secret-knowledge-hacks
+domain: general
+pack: general
+tier: optional
+triggers:
+  - secret knowledge hacks
 description: >
   Collection of powerful CLI tools, shell one-liners, hacks, and cheatsheets for DevOps,
   system administration, security, and penetration testing. Use when: "CLI tools",

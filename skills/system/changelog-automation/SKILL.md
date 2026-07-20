@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: changelog-automation
+domain: general
+pack: general
+tier: optional
+triggers:
+  - changelog automation
 description: Automate changelog generation from commits, PRs, and releases following Keep a Changelog format. Use when setting up release workflows, generating release notes, or standardizing commit conventions.
 ---
 

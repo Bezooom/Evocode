@@ -1,5 +1,10 @@
 ---
 name: 3d-games
+domain: general
+pack: general
+tier: optional
+triggers:
+  - 3d games
 description: 3D game development principles.
 category: development
 version: 4.0.5

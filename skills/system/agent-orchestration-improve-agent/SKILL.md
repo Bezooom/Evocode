@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-orchestration-improve-agent
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent orchestration improve agent
 description: "Systematic improvement of existing agents through performance analysis, prompt engineering, and continuous iteration."
 ---
 

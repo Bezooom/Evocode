@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: shopify-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - shopify development
 description: |
   Build Shopify apps, extensions, themes using GraphQL Admin API, Shopify CLI, Polaris UI, and Liquid.
   TRIGGER: "shopify", "shopify app", "checkout extension", "admin extension", "POS extension",

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: startup-business-analyst-financial-projections
+domain: general
+pack: general
+tier: optional
+triggers:
+  - startup business analyst financial projections
 description: Create detailed 3-5 year financial model with revenue, costs, cash
   flow, and scenarios
 allowed-tools: Read Write Edit Glob Grep Bash WebSearch WebFetch

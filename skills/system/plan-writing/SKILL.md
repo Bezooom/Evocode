@@ -1,5 +1,10 @@
 ---
 name: plan-writing
+domain: general
+pack: general
+tier: optional
+triggers:
+  - plan writing
 description: Structured task planning with clear breakdowns, dependencies, and verification criteria.
 category: tools
 version: 4.1.0-fractal

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: typescript-expert
+domain: general
+pack: general
+tier: optional
+triggers:
+  - typescript expert
 description: >-
   TypeScript and JavaScript expert with deep knowledge of type-level
   programming, performance optimization, monorepo management, migration

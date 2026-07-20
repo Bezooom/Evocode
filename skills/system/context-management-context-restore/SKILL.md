@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: context-management-context-restore
+domain: general
+pack: general
+tier: optional
+triggers:
+  - context management context restore
 description: "Use when working with context management context restore"
 ---
 

@@ -1,16 +1,19 @@
 ---
 name: domain-model
+domain: general
+pack: general
+tier: optional
+triggers:
+  - проверить против context
+  - стресс-тест плана
+  - domain модель
+  - adr обновить
+  - domain model
+  - context.md
+  - adr
 description: |
   [RU] Сессия "grilling" плана против существующей domain-модели проекта: уточнение терминологии, обновление CONTEXT.md и ADR прямо по ходу кристаллизации решений. Используй когда пользователь хочет стресс-тест плана против языка и зафиксированных решений проекта.
   [EN] Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. Use when user wants to stress-test a plan against their project's language and documented decisions.
-triggers:
-  - стресс-тест плана
-  - domain модель
-  - проверить против CONTEXT
-  - ADR обновить
-  - domain model
-  - CONTEXT.md
-  - ADR
 disable-model-invocation: true
 ---
 

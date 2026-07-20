@@ -1,5 +1,10 @@
 ---
 name: game-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - game development
 description: Game development orchestrator.
 category: development
 version: 4.1.0-fractal

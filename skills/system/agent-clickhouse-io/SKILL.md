@@ -1,5 +1,10 @@
 ---
 name: agent-clickhouse-io
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent clickhouse io
 description: ClickHouse database patterns, query optimization, analytics, and data engineering best practices for high-performance analytical workloads.
 author: affaan-m
 version: 4.1.0-fractal

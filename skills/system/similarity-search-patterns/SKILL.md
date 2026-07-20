@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: similarity-search-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - similarity search patterns
 description: Implement efficient similarity search with vector databases. Use when building semantic search, implementing nearest neighbor queries, or optimizing retrieval performance.
 ---
 

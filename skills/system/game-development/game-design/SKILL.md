@@ -1,5 +1,10 @@
 ---
 name: game-design
+domain: general
+pack: general
+tier: optional
+triggers:
+  - game design
 description: Game design principles.
 category: development
 version: 4.0.5

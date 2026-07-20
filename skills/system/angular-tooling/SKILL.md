@@ -1,5 +1,10 @@
 ---
 name: angular-tooling
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular tooling
 description: >-
   Use Angular CLI and development tools effectively in Angular v20+ projects.
   Use for project setup, code generation, building, testing, and configuration.

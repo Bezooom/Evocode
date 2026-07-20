@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: devops-troubleshooter
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - devops troubleshooter
 description: Expert DevOps troubleshooter specializing in rapid incident
   response, advanced debugging, and modern observability. Masters log analysis,
   distributed tracing, Kubernetes debugging, performance optimization, and root

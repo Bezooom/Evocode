@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: framework-migration-deps-upgrade
+domain: general
+pack: general
+tier: optional
+triggers:
+  - framework migration deps upgrade
 description: "You are a dependency management expert specializing in safe, incremental upgrades of project dependencies. Plan and execute dependency updates with minimal risk, proper testing, and clear migration pa"
 ---
 

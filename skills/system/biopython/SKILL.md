@@ -1,5 +1,10 @@
 ---
 name: biopython
+domain: general
+pack: general
+tier: optional
+triggers:
+  - biopython
 description: Comprehensive molecular biology toolkit. Use for sequence manipulation, file parsing (FASTA/GenBank/PDB), phylogenetics, and programmatic NCBI/PubMed access (Bio.Entrez). Best for batch processing, custom bioinformatics pipelines, BLAST automation. For quick lookups use gget; for multi-service integration use bioservices.
 license: Unknown
 metadata:
@@ -438,4 +443,3 @@ Biopython provides comprehensive tools for computational molecular biology. When
 5. **Follow best practices** for file handling, error checking, and data management
 
 The modular reference documentation ensures detailed, searchable information for every major Biopython capability.
-

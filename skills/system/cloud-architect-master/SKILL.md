@@ -1,5 +1,10 @@
 ---
 name: cloud-architect-master
+domain: general
+pack: general
+tier: optional
+triggers:
+  - cloud architect master
 description: Elite Cloud and Multi-Cloud Architect Master Skill.
 category: infrastructure
 version: 4.1.0-fractal

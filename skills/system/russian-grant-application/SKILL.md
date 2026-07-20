@@ -1,5 +1,10 @@
 ---
 name: russian-grant-application
+domain: general
+pack: general
+tier: optional
+triggers:
+  - russian grant application
 description: "Генерация заявок на гранты РФ: РНФ, Фонд содействия инновациям (Старт/Развитие/Коммерциализация), Сколково. Поддержка полного цикла: от выбора программы до финансовой модели и презентации."
 version: "1.0.0"
 ---

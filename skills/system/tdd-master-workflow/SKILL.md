@@ -1,5 +1,10 @@
 ---
 name: tdd-master-workflow
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tdd master workflow
 description: Comprehensive Test-Driven Development (TDD) cycle.
 category: development
 version: 4.1.0-fractal

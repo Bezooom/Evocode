@@ -27,6 +27,8 @@ export interface ChatResult {
 
 async function initialize(): Promise<void> {
   initConfig();
+  // SkillLoader constructed at import time — re-bind after .evocode/config.json
+  skillLoader.applyConfig(defaultConfig);
   console.log('🧬 Инициализация Эвокод Core...');
   console.log(`   mode=${defaultConfig.mode}, privacy=${defaultConfig.router.privacyMode}`);
 
@@ -51,12 +53,34 @@ async function initialize(): Promise<void> {
 
   const skills = skillLoader.loadAll();
   console.log(`✅ Эвокод готов (${skills.length} навыков на диске)`);
+
+  if (defaultConfig.skills.useEmbeddings) {
+    try {
+      let embedFn: ((t: string) => Promise<number[]>) | undefined;
+      if (defaultConfig.skills.embedBackend === 'inference') {
+        embedFn = async (t: string) => {
+          try {
+            return await inferenceEngine.getEmbeddings(t.slice(0, 2000));
+          } catch {
+            const { hashEmbed } = await import('./skills/skill-embeddings');
+            return hashEmbed(t);
+          }
+        };
+      }
+      const emb = await skillLoader.ensureEmbeddings(embedFn);
+      console.log(
+        `🧠 Skill embeddings: upserted=${emb.upserted} skipped=${emb.skipped} errors=${emb.errors} (backend=${defaultConfig.skills.embedBackend})`
+      );
+    } catch (e) {
+      console.warn('Skill embeddings skipped:', (e as Error).message);
+    }
+  }
 }
 
 /** Полный pipeline: skills → RAG → router → (DLP only if cloud) → inference */
 export async function handleRequest(query: string | unknown): Promise<ChatResult> {
   const text = contentToText(query);
-  const skillInj = skillLoader.buildInjection(text);
+  const skillInj = await skillLoader.buildInjectionAsync(text);
 
   let ragContext = '';
   try {
@@ -255,11 +279,15 @@ async function main(): Promise<void> {
     try {
       if (req.method === 'GET' && url === '/health') {
         await inferenceEngine.refreshLocalReady();
+        const fimReady = await inferenceEngine.isFimReady();
         sendJson(res, 200, {
           status: 'ok',
           version: defaultConfig.appVersion,
           product: 'evocode-core',
           localReady: inferenceEngine.isLocalReady(),
+          fimEnabled: inferenceEngine.isFimEnabled(),
+          fimReady,
+          fim: inferenceEngine.getFimInfo(),
           skills: skillLoader.loadAll().length,
           runtime: inferenceEngine.getRuntimeInfo(),
         });
@@ -270,7 +298,14 @@ async function main(): Promise<void> {
       if (req.method === 'GET' && (url === '/v1/runtime' || url === '/v1/runtime/status')) {
         await inferenceEngine.refreshLocalReady();
         const status = await runtimeManager.getStatus(inferenceEngine.isLocalReady());
-        sendJson(res, 200, status);
+        const fimReady = await inferenceEngine.isFimReady();
+        sendJson(res, 200, {
+          ...status,
+          fim: {
+            ...inferenceEngine.getFimInfo(),
+            ready: fimReady,
+          },
+        });
         return;
       }
 
@@ -351,9 +386,111 @@ async function main(): Promise<void> {
         return;
       }
 
+      if (req.method === 'POST' && url === '/v1/skills/reindex') {
+        const body = JSON.parse(await readBody(req) || '{}');
+        let embedFn: ((t: string) => Promise<number[]>) | undefined;
+        if (defaultConfig.skills.embedBackend === 'inference') {
+          embedFn = async (t: string) => {
+            try {
+              return await inferenceEngine.getEmbeddings(t.slice(0, 2000));
+            } catch {
+              const { hashEmbed } = await import('./skills/skill-embeddings');
+              return hashEmbed(t);
+            }
+          };
+        }
+        const result = await skillLoader.reindexAll({
+          forceEmbed: !!body.forceEmbed,
+          embedFn,
+        });
+        sendJson(res, 200, {
+          ok: true,
+          ...result,
+          routerVersion: defaultConfig.skills.routerVersion,
+          useEmbeddings: defaultConfig.skills.useEmbeddings,
+          embedBackend: defaultConfig.skills.embedBackend,
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/skills/route') {
+        const body = JSON.parse(await readBody(req) || '{}');
+        const query = String(body.query || body.q || '');
+        if (!query.trim()) {
+          sendJson(res, 400, { error: { message: 'query обязателен', type: 'invalid_request' } });
+          return;
+        }
+        let embedFn: ((t: string) => Promise<number[]>) | undefined;
+        if (defaultConfig.skills.embedBackend === 'inference') {
+          embedFn = async (t: string) => {
+            try {
+              return await inferenceEngine.getEmbeddings(t.slice(0, 2000));
+            } catch {
+              const { hashEmbed } = await import('./skills/skill-embeddings');
+              return hashEmbed(t);
+            }
+          };
+        }
+        const route = await skillLoader.routeAsync(query, {
+          mode: body.mode,
+          explicitSkills: Array.isArray(body.explicitSkills) ? body.explicitSkills : undefined,
+          maxSkills: body.maxSkills,
+          embedFn,
+        });
+        sendJson(res, 200, {
+          query,
+          routerVersion: route.routerVersion,
+          hybrid: defaultConfig.skills.useEmbeddings,
+          embedBackend: defaultConfig.skills.embedBackend,
+          injectChars: route.injectChars,
+          selected: route.selected.map((s) => ({
+            name: s.skill.name,
+            score: Math.round(s.score * 100) / 100,
+            reasons: s.reasons,
+            tier: s.skill.tier,
+            pack: s.skill.pack,
+            domain: s.skill.domain,
+            injectMode: s.skill.injectMode,
+            chars: s.skill.chars,
+            path: s.skill.path,
+            persona: s.skill.persona,
+          })),
+          rejected: route.rejected.slice(0, 20),
+          textPreview: route.text.slice(0, 500),
+        });
+        return;
+      }
+
       if (req.method === 'GET' && url === '/v1/skills') {
-        const all = skillLoader.loadAll(true);
-        sendJson(res, 200, { skills: all });
+        const { PACK_CATALOG } = await import('./skills/skill-index');
+        const detailed = skillLoader.listDetailed(false);
+        sendJson(res, 200, {
+          routerVersion: defaultConfig.skills.routerVersion,
+          count: detailed.length,
+          packs: PACK_CATALOG,
+          skillsConfig: {
+            enableLab: defaultConfig.skills.enableLab,
+            enabledPacks: defaultConfig.skills.enabledPacks,
+            maxSkills: defaultConfig.skills.maxSkills,
+            maxInjectChars: defaultConfig.skills.maxInjectChars,
+            minScore: defaultConfig.skills.minScore,
+            routerVersion: defaultConfig.skills.routerVersion,
+          },
+          skills: detailed.map((d) => ({
+            name: d.name,
+            path: d.path,
+            source: d.source,
+            description: (d.description || '').slice(0, 280),
+            triggers: d.triggers.slice(0, 16),
+            tier: d.tier,
+            pack: d.pack,
+            domain: d.domain,
+            injectMode: d.injectMode,
+            persona: d.persona,
+            chars: d.chars,
+            priority: d.priority,
+          })),
+        });
         return;
       }
 
@@ -380,12 +517,42 @@ async function main(): Promise<void> {
           finalContent = [
             '---',
             `name: ${name}`,
-            'description: Описание вашего кастомного навыка',
-            `triggers: [${name}]`,
+            'version: "1.0.0"',
+            'description: >',
+            `  [RU] Пользовательский навык ${name}.`,
+            `  [EN] User skill ${name}.`,
+            'tier: optional',
+            'domain: general',
+            'pack: general',
+            'lang: [ru, en]',
+            'persona: false',
+            'inject_mode: core_only',
+            'triggers:',
+            `  - ${name.replace(/-/g, ' ')}`,
+            `  - ${name}`,
             '---',
-            `# Навык: ${name}`,
             '',
-            'Инструкции для AI-агента...',
+            `# ${name}`,
+            '',
+            '## When to use',
+            '',
+            '- …',
+            '',
+            '## When NOT to use',
+            '',
+            '- …',
+            '',
+            '## Procedure',
+            '',
+            '1. …',
+            '',
+            '## Constraints',
+            '',
+            '- …',
+            '',
+            '## Verification',
+            '',
+            '- [ ] …',
             '',
           ].join('\n');
         }
@@ -426,6 +593,7 @@ async function main(): Promise<void> {
       }
 
       if (req.method === 'GET' && url === '/v1/config') {
+        const { PACK_CATALOG } = await import('./skills/skill-index');
         sendJson(res, 200, {
           inference: {
             cloud: defaultConfig.inference.cloud,
@@ -434,6 +602,22 @@ async function main(): Promise<void> {
             privacyMode: defaultConfig.router.privacyMode,
             localMaxTokens: defaultConfig.router.localMaxTokens,
             cloudMinTokens: defaultConfig.router.cloudMinTokens,
+          },
+          skills: {
+            enableLab: defaultConfig.skills.enableLab,
+            enabledPacks: defaultConfig.skills.enabledPacks,
+            maxSkills: defaultConfig.skills.maxSkills,
+            maxInjectChars: defaultConfig.skills.maxInjectChars,
+            minScore: defaultConfig.skills.minScore,
+            routerVersion: defaultConfig.skills.routerVersion,
+            useEmbeddings: defaultConfig.skills.useEmbeddings,
+            embedBackend: defaultConfig.skills.embedBackend,
+            embedWeight: defaultConfig.skills.embedWeight,
+            packsCatalog: PACK_CATALOG,
+          },
+          fim: {
+            ...inferenceEngine.getFimInfo(),
+            ready: await inferenceEngine.isFimReady(),
           },
         });
         return;
@@ -455,8 +639,59 @@ async function main(): Promise<void> {
             defaultConfig.router.cloudMinTokens = Number(body.router.cloudMinTokens);
           }
         }
+        if (body.skills) {
+          if (body.skills.enableLab !== undefined) {
+            defaultConfig.skills.enableLab = !!body.skills.enableLab;
+          }
+          if (Array.isArray(body.skills.enabledPacks)) {
+            defaultConfig.skills.enabledPacks = body.skills.enabledPacks.map(String);
+          }
+          if (body.skills.maxSkills !== undefined) {
+            defaultConfig.skills.maxSkills = Math.max(1, Math.min(5, Number(body.skills.maxSkills) || 2));
+          }
+          if (body.skills.maxInjectChars !== undefined) {
+            defaultConfig.skills.maxInjectChars = Math.max(2000, Number(body.skills.maxInjectChars) || 8000);
+          }
+          if (body.skills.minScore !== undefined) {
+            defaultConfig.skills.minScore = Number(body.skills.minScore) || 15;
+          }
+          if (body.skills.routerVersion === 'v1' || body.skills.routerVersion === 'v2') {
+            defaultConfig.skills.routerVersion = body.skills.routerVersion;
+          }
+          if (body.skills.useEmbeddings !== undefined) {
+            defaultConfig.skills.useEmbeddings = !!body.skills.useEmbeddings;
+          }
+          if (body.skills.embedBackend === 'hash' || body.skills.embedBackend === 'inference') {
+            defaultConfig.skills.embedBackend = body.skills.embedBackend;
+          }
+          if (body.skills.embedWeight !== undefined) {
+            defaultConfig.skills.embedWeight = Number(body.skills.embedWeight) || 40;
+          }
+          skillLoader.applyConfig(defaultConfig);
+        }
+        if (body.fim) {
+          if (body.fim.enabled !== undefined) {
+            defaultConfig.inference.fim.enabled = !!body.fim.enabled;
+          }
+          if (body.fim.port !== undefined) {
+            defaultConfig.inference.fim.port = Number(body.fim.port) || 8082;
+          }
+          if (body.fim.modelId) {
+            defaultConfig.inference.fim.modelId = String(body.fim.modelId);
+          }
+          if (body.fim.profileId) {
+            defaultConfig.inference.fim.profileId = String(body.fim.profileId);
+          }
+          // InferenceEngine holds its own config snapshot
+          Object.assign(inferenceEngine.getConfig().inference.fim, defaultConfig.inference.fim);
+        }
         saveConfig(defaultConfig);
-        sendJson(res, 200, { success: true });
+        sendJson(res, 200, { success: true, skills: {
+          enableLab: defaultConfig.skills.enableLab,
+          enabledPacks: defaultConfig.skills.enabledPacks,
+          maxSkills: defaultConfig.skills.maxSkills,
+          routerVersion: defaultConfig.skills.routerVersion,
+        }});
         return;
       }
 
@@ -588,26 +823,107 @@ async function main(): Promise<void> {
       }
 
       if (req.method === 'GET' && (url === '/v1/models' || url === '/models')) {
-        sendJson(res, 200, {
-          object: 'list',
-          data: [
+        const models: Array<Record<string, unknown>> = [
+          { id: 'evocode-local', object: 'model', owned_by: 'evocode', purpose: 'chat' },
+          { id: 'evocode-auto', object: 'model', owned_by: 'evocode', purpose: 'chat' },
+          {
+            id: defaultConfig.inference.local.model,
+            object: 'model',
+            owned_by: 'evocode-local',
+            purpose: 'chat',
+          },
+        ];
+        if (defaultConfig.inference.fim.enabled) {
+          const fid = defaultConfig.inference.fim.modelId || 'evocode-fim';
+          models.push(
             {
-              id: 'evocode-local',
+              id: fid,
               object: 'model',
-              owned_by: 'evocode',
+              owned_by: 'evocode-fim',
+              purpose: 'fim',
+              description: 'Лёгкая FIM/autocomplete (Neurocontrol ~2G)',
             },
             {
-              id: 'evocode-auto',
+              id: 'evocode-autocomplete',
               object: 'model',
-              owned_by: 'evocode',
+              owned_by: 'evocode-fim',
+              purpose: 'fim',
             },
             {
-              id: defaultConfig.inference.local.model,
+              id: 'fim-small',
               object: 'model',
-              owned_by: 'evocode-local',
+              owned_by: 'evocode-fim',
+              purpose: 'fim',
+            }
+          );
+        }
+        sendJson(res, 200, { object: 'list', data: models });
+        return;
+      }
+
+      // OpenAI Completions — autocomplete / FIM → лёгкая модель :8082
+      if (req.method === 'POST' && (url === '/v1/completions' || url === '/v1/fim')) {
+        const body = JSON.parse(await readBody(req) || '{}');
+        const prompt = contentToText(
+          body.prompt != null
+            ? body.suffix
+              ? `${body.prompt}${body.suffix}`
+              : body.prompt
+            : body.input || ''
+        );
+        if (!prompt) {
+          sendJson(res, 400, { error: { message: 'prompt required', type: 'invalid_request' } });
+          return;
+        }
+        if (!defaultConfig.inference.fim.enabled) {
+          sendJson(res, 503, {
+            error: {
+              message: 'FIM отключён. Включите LLAMA_FIM_ENABLED=true или inference.fim.enabled',
+              type: 'fim_disabled',
             },
-          ],
-        });
+          });
+          return;
+        }
+        try {
+          const result = await inferenceEngine.fim({
+            prompt,
+            maxTokens: body.max_tokens || body.n_predict || 128,
+            temperature: body.temperature ?? 0.1,
+            model: body.model,
+          });
+          sendJson(res, 200, {
+            id: `cmpl-evocode-${Date.now()}`,
+            object: 'text_completion',
+            created: Math.floor(Date.now() / 1000),
+            model: result.model,
+            choices: [
+              {
+                index: 0,
+                text: result.text,
+                finish_reason: 'stop',
+              },
+            ],
+            usage: {
+              prompt_tokens: result.usage.promptTokens,
+              completion_tokens: result.usage.completionTokens,
+              total_tokens: result.usage.totalTokens,
+            },
+            evocode: {
+              source: result.source,
+              latency: result.latency,
+              purpose: 'fim',
+              port: defaultConfig.inference.fim.port,
+            },
+          });
+        } catch (e) {
+          const err = e as Error & { code?: string };
+          sendJson(res, 503, {
+            error: {
+              message: err.message,
+              type: err.code || 'local_unavailable',
+            },
+          });
+        }
         return;
       }
 
@@ -644,7 +960,7 @@ async function main(): Promise<void> {
           .map((m) => contentToText(m.content))
           .join('\n');
 
-        const skillInj = skillLoader.buildInjection(userText);
+        const skillInj = await skillLoader.buildInjectionAsync(userText);
         let ragContext = '';
         
         const uaRaw = req.headers['user-agent'] || '';
@@ -671,7 +987,28 @@ async function main(): Promise<void> {
           }
         }
 
-        const systemPrompt = [systemFromClient, skillInj.text, ragContext]
+        const artifactInstructions = `
+[СИСТЕМНОЕ РУКОВОДСТВО: ВРЕМЕННЫЕ АРТЕФАКТЫ]
+Если оператор запрашивает отчет, документ, аналитическую записку, презентацию, документацию, или готовую HTML/Markdown страницу, вы должны вынести её в отдельный временный артефакт.
+Оберните этот контент в XML-тег:
+<artifact title="Название_файла.md">
+содержимое в формате Markdown...
+</artifact>
+или для HTML:
+<artifact title="Название_файла.html">
+содержимое в формате HTML...
+</artifact>
+
+Важные правила:
+1. В атрибуте 'title' обязательно должно быть расширение (.md или .html).
+2. Сам ответ в чате оставляйте кратким и резюмирующим (1-3 абзаца). Не дублируйте весь текст артефакта в чат. Напишите, что подробный документ открыт на панели справа.
+3. Артефакт будет автоматически сохранен во временной папке и выведен справа на предпросмотр в красивом отрендеренном виде без исходного кода.
+
+[ОФОРМЛЕНИЕ ОТВЕТА]
+Критически важно: НИКОГДА не выводите технические заголовки или маркеры вроде "[PLAN]" или "[EXECUTE]" в чат. Пишите ваши мысли и действия простым, естественным языком на русском.
+`;
+
+        const systemPrompt = [systemFromClient, skillInj.text, ragContext, artifactInstructions]
           .filter(Boolean)
           .join('\n\n');
 
@@ -686,6 +1023,11 @@ async function main(): Promise<void> {
         } else if (systemPrompt) {
           updatedMessages.unshift({ role: 'system', content: systemPrompt });
         }
+
+        // Автоматическое уплотнение/компакт сессии при превышении лимита токенов (~250k токенов)
+        const compactedMessages = compactHistory(updatedMessages, 250000);
+        // Гарантируем чередование ролей (user/assistant) и то, что первый не-system месседж — это 'user'
+        const finalMessages = ensureRoleAlternation(compactedMessages);
 
         // Решение о маршрутизации
         const context = smartRouter.analyzeTask({
@@ -708,7 +1050,7 @@ async function main(): Promise<void> {
           'Content-Type': 'application/json',
         };
 
-        let requestBody: Record<string, unknown> = { ...body, messages: updatedMessages };
+        let requestBody: Record<string, unknown> = { ...body, messages: finalMessages };
 
         if (decision === 'local') {
           const port = defaultConfig.inference.local.port;
@@ -719,14 +1061,14 @@ async function main(): Promise<void> {
           if (isVirtual) {
             modelToUse = defaultConfig.inference.local.model;
           }
-          requestBody = { ...body, model: modelToUse, messages: updatedMessages };
+          requestBody = { ...body, model: modelToUse, messages: finalMessages };
         } else {
           // Применяем DLP Guard на облачном пути
           const { dlpGuard } = await import('./guard/dlp-guard');
           const dlpResult = await dlpGuard.processRequest({
             prompt: userText,
             systemPrompt,
-            messages: updatedMessages,
+            messages: finalMessages,
           });
 
           if (dlpResult.blocked) {
@@ -753,12 +1095,7 @@ async function main(): Promise<void> {
 
           // Умный роутер для бесплатных моделей OpenRouter
           if (modelToUse === 'openrouter-auto') {
-            const isCoding = /code|function|class|def |fn |refactor|debug|fix|test|regex|module|import|css|html|js|ts|rust|golang|python|c\+\+|java/i.test(userText);
-            if (isCoding) {
-              modelToUse = 'qwen/qwen-2.5-coder-32b-instruct:free';
-            } else {
-              modelToUse = 'google/gemini-2.5-flash';
-            }
+            modelToUse = 'openrouter/free';
           }
 
           if (isAnthropic) {
@@ -823,19 +1160,23 @@ async function main(): Promise<void> {
 
         let response = await doFetch(targetUrl, headers, requestBody);
 
-        // Cloud 401/403 without valid key → retry local once
+        // Cloud failure (any status >= 400, e.g. 401, 402, 403, 404, 5xx) → retry local once
         if (
           !response.ok &&
-          decision === 'cloud' &&
-          (response.status === 401 || response.status === 403)
+          decision === 'cloud'
         ) {
-          console.warn(`Cloud ${response.status} → fallback local`);
+          console.warn(`Cloud request failed (status ${response.status}) → falling back to local`);
           decision = 'local';
-          reason = `${reason}; fallback local after cloud ${response.status}`;
+          reason = `${reason}; fallback local after cloud error ${response.status}`;
           const port = defaultConfig.inference.local.port;
           targetUrl = `http://127.0.0.1:${port}/v1/chat/completions`;
           headers = { 'Content-Type': 'application/json' };
-          requestBody = { ...body, messages: updatedMessages };
+          
+          let fallbackModel = body.model;
+          if (!fallbackModel || fallbackModel.startsWith('evocode')) {
+            fallbackModel = defaultConfig.inference.local.model;
+          }
+          requestBody = { ...body, messages: finalMessages, model: fallbackModel };
           response = await doFetch(targetUrl, headers, requestBody);
         }
 
@@ -853,6 +1194,8 @@ async function main(): Promise<void> {
         res.setHeader('X-Evocode-Route', decision);
         res.setHeader('X-Evocode-Source', decision);
         res.setHeader('X-Evocode-Latency', String(latency));
+
+        let fullContent = '';
 
         if (body.stream) {
           res.writeHead(200, {
@@ -884,6 +1227,7 @@ async function main(): Promise<void> {
                     try {
                       const data = JSON.parse(trimmed.slice(6));
                       if (data.type === 'content_block_delta' && data.delta?.text) {
+                        fullContent += data.delta.text;
                         const openaiChunk = {
                           id: 'chatcmpl-anthropic',
                           object: 'chat.completion.chunk',
@@ -910,6 +1254,7 @@ async function main(): Promise<void> {
                 }
               }
               res.end();
+              processArtifacts(fullContent);
               return;
             }
 
@@ -931,9 +1276,11 @@ async function main(): Promise<void> {
                     const jsonText = trimmed.slice(6);
                     const data = JSON.parse(jsonText);
                     
-                    // Инжектируем id и type в tool_calls в choices.delta
                     if (data.choices) {
                       for (const choice of data.choices) {
+                        if (choice.delta && choice.delta.content) {
+                          fullContent += choice.delta.content;
+                        }
                         if (choice.delta && choice.delta.tool_calls) {
                           for (const tc of choice.delta.tool_calls) {
                             if (!tc.id) {
@@ -957,11 +1304,12 @@ async function main(): Promise<void> {
             }
           }
           res.end();
+          processArtifacts(fullContent);
           return;
         } else {
           // Не-стриминговый ответ
           let data = (await response.json()) as any;
-
+          
           const cloud = defaultConfig.inference.cloud;
           const isAnthropic = cloud.provider === 'anthropic' || cloud.baseUrl.includes('api.anthropic.com');
 
@@ -1014,7 +1362,12 @@ async function main(): Promise<void> {
             latency,
           };
 
+          if (data.choices && data.choices[0]?.message) {
+            fullContent = data.choices[0].message.content || '';
+          }
+
           sendJson(res, 200, data);
+          processArtifacts(fullContent);
           return;
         }
       }
@@ -1060,10 +1413,111 @@ async function main(): Promise<void> {
   server.listen(PORT, HOST, () => {
     console.log(`🚀 Evocode Core http://${HOST}:${PORT}`);
     console.log(`   OpenAI-compat: POST http://${HOST}:${PORT}/v1/chat/completions`);
+    if (defaultConfig.inference.fim.enabled) {
+      console.log(
+        `   FIM/autocomplete: POST http://${HOST}:${PORT}/v1/completions → :${defaultConfig.inference.fim.port} (${defaultConfig.inference.fim.modelId})`
+      );
+    }
     console.log(`   Health:        GET  http://${HOST}:${PORT}/health`);
     console.log(`   Runtime API:   GET  /v1/runtime  POST /v1/runtime/start|stop|switch`);
     console.log(`   Runtime:       ${JSON.stringify(inferenceEngine.getRuntimeInfo())}`);
   });
+}
+
+function processArtifacts(fullText: string) {
+  const fs = require('fs');
+  const path = require('path');
+  const os = require('os');
+  
+  const regex = /<artifact\s+title=["']([^"']+)["']\s*>([^]*?)<\/artifact>/gi;
+  let match;
+  const artifactDir = path.join(os.homedir(), '.config', 'evocode', 'artifacts');
+  
+  if (!fs.existsSync(artifactDir)) {
+    fs.mkdirSync(artifactDir, { recursive: true });
+  }
+
+  while ((match = regex.exec(fullText)) !== null) {
+    const originalTitle = match[1];
+    const content = match[2];
+    
+    const safeTitle = originalTitle
+      .replace(/[^a-zA-Z0-9А-Яа-яЁё._-]/g, '_')
+      .replace(/_+/g, '_');
+      
+    const filePath = path.join(artifactDir, safeTitle);
+    try {
+      fs.writeFileSync(filePath, content.trim(), 'utf-8');
+      console.log(`[Artifact] Created artifact file: ${filePath}`);
+    } catch (e: any) {
+      console.error(`[Artifact] Failed to write artifact file: ${e.message}`);
+    }
+  }
+}
+
+function estimateTokens(text: string): number {
+  if (!text) return 0;
+  return Math.ceil(text.length / 2);
+}
+
+function compactHistory(messages: any[], maxTokens: number = 250000): any[] {
+  const systemMessages = messages.filter((m) => m.role === 'system');
+  const nonSystemMessages = messages.filter((m) => m.role !== 'system');
+  
+  if (nonSystemMessages.length <= 1) {
+    return messages;
+  }
+  
+  const lastMessage = nonSystemMessages[nonSystemMessages.length - 1];
+  const historyToPrune = nonSystemMessages.slice(0, nonSystemMessages.length - 1);
+  
+  const systemTokens = systemMessages.reduce((sum, m) => sum + estimateTokens(contentToText(m.content)), 0);
+  const lastMessageTokens = estimateTokens(contentToText(lastMessage.content));
+  
+  let currentTokens = systemTokens + lastMessageTokens;
+  if (currentTokens >= maxTokens) {
+    return [...systemMessages, lastMessage];
+  }
+  
+  const keptHistory: any[] = [];
+  for (let i = historyToPrune.length - 1; i >= 0; i--) {
+    const msg = historyToPrune[i];
+    const msgTokens = estimateTokens(contentToText(msg.content));
+    if (currentTokens + msgTokens > maxTokens) {
+      console.warn(`[Core Router] Pruned conversation history: context limit reached (${currentTokens} tokens)`);
+      break;
+    }
+    currentTokens += msgTokens;
+    keptHistory.unshift(msg);
+  }
+  
+  return [...systemMessages, ...keptHistory, lastMessage];
+}
+
+function ensureRoleAlternation(messages: any[]): any[] {
+  const system = messages.filter((m) => m.role === 'system');
+  const others = messages.filter((m) => m.role !== 'system');
+  
+  if (others.length === 0) return system;
+  
+  const temp: any[] = [];
+  let currentExpectedRole = others[others.length - 1].role;
+  
+  for (let i = others.length - 1; i >= 0; i--) {
+    const msg = others[i];
+    if (msg.role === currentExpectedRole) {
+      temp.unshift(msg);
+      currentExpectedRole = currentExpectedRole === 'user' ? 'assistant' : 'user';
+    } else {
+      console.warn(`[Core Router] Propagating role check: skipping message with role ${msg.role}`);
+    }
+  }
+  
+  while (temp.length > 0 && temp[0].role !== 'user') {
+    temp.shift();
+  }
+  
+  return [...system, ...temp];
 }
 
 if (require.main === module) {
@@ -1073,4 +1527,4 @@ if (require.main === module) {
   });
 }
 
-export { initialize, inferenceEngine, runtimeManager, smartRouter, skillLoader };
+export { initialize, inferenceEngine, runtimeManager, smartRouter, skillLoader, ensureRoleAlternation, compactHistory };

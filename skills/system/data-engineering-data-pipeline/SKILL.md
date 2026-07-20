@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: data-engineering-data-pipeline
+domain: data
+pack: data
+tier: optional
+triggers:
+  - data engineering data pipeline
 description: "You are a data pipeline architecture expert specializing in scalable, reliable, and cost-effective data pipelines for batch and streaming data processing."
 ---
 

@@ -138,10 +138,43 @@ async function main() {
     },
   });
 
-  const skillPaths = new Set([
+  // Копируем навыки из папки проекта в ~/.config/evocode/skills
+  const PROJECT_ROOT = path.resolve(PKG_ROOT, '..', '..');
+  const srcSkillsDir = path.join(PROJECT_ROOT, 'skills');
+  const dstSkillsDir = path.join(os.homedir(), '.config', 'evocode', 'skills');
+
+  function copyRecursiveSync(src, dest) {
+    if (!fs.existsSync(src)) return;
+    const stats = fs.statSync(src);
+    if (stats.isDirectory()) {
+      if (!fs.existsSync(dest)) {
+        fs.mkdirSync(dest, { recursive: true });
+      }
+      fs.readdirSync(src).forEach((child) => {
+        copyRecursiveSync(path.join(src, child), path.join(dest, child));
+      });
+    } else {
+      fs.copyFileSync(src, dest);
+    }
+  }
+
+  try {
+    if (fs.existsSync(srcSkillsDir)) {
+      console.log(`Копирование навыков из ${srcSkillsDir} в ${dstSkillsDir}...`);
+      copyRecursiveSync(srcSkillsDir, dstSkillsDir);
+      console.log('✅ Навыки скопированы успешно');
+    }
+  } catch (err) {
+    console.error('⚠️ Ошибка копирования навыков:', err.message);
+  }
+
+  const rawPaths = [
     ...((existing.skills && existing.skills.paths) || []),
     ...((template.skills && template.skills.paths) || []),
-  ]);
+  ];
+  // Фильтруем пути, чтобы исключить kilo/skills
+  const filteredPaths = rawPaths.filter(p => p && !p.includes('kilo/skills'));
+  const skillPaths = new Set(filteredPaths);
   if (skillPaths.size) {
     merged.skills = { ...(existing.skills || {}), ...(template.skills || {}), paths: [...skillPaths] };
   }

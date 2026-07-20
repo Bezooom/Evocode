@@ -1,5 +1,10 @@
 ---
 name: skill-share
+domain: general
+pack: general
+tier: optional
+triggers:
+  - skill share
 description: >-
   A skill that creates new agent skills and automatically shares them on Slack
   using Rube for seamless team collaboration and skill discovery.

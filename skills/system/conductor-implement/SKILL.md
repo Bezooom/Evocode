@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: conductor-implement
+domain: general
+pack: general
+tier: optional
+triggers:
+  - conductor implement
 description: Execute tasks from a track's implementation plan following TDD workflow
 metadata:
   argument-hint: "[track-id] [--task X.Y] [--phase N]"

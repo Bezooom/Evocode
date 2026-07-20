@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: business-analyst
+domain: general
+pack: general
+tier: optional
+triggers:
+  - business analyst
 description: Master modern business analysis with AI-powered analytics,
   real-time dashboards, and data-driven insights. Build comprehensive KPI
   frameworks, predictive models, and strategic recommendations. Use PROACTIVELY

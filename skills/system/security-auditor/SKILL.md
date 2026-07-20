@@ -1,5 +1,10 @@
 ---
 name: security-auditor
+domain: security
+pack: security
+tier: optional
+triggers:
+  - security auditor
 description: MASTER SECURITY: OWASP Top 10, SAST/DAST, PenTest.
 category: security
 version: 4.1.0-fractal

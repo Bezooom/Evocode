@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: unity-ecs-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - unity ecs patterns
 description: Master Unity ECS (Entity Component System) with DOTS, Jobs, and Burst for high-performance game development. Use when building data-oriented games, optimizing performance, or working with large entity counts.
 ---
 

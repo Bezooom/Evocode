@@ -411,6 +411,16 @@ function materializeAndPatchDist(upstream) {
     let text = fs.readFileSync(p, 'utf-8');
     let n = 0;
 
+    // F3: Limit official supported languages to en and ru only in UI bundles
+    if (name === 'webview.js' || name === 'agent-manager.js') {
+      const localesFrom = 'var LOCALES = [\n    "en",\n    "zh",\n    "zht",\n    "ko",\n    "de",\n    "es",\n    "fr",\n    "da",\n    "ja",\n    "pl",\n    "ru",\n    "ar",\n    "no",\n    "br",\n    "th",\n    "bs",\n    "tr",\n    "nl",\n    "uk",\n    "it"\n  ];';
+      const localesTo = 'var LOCALES = [\n    "en",\n    "ru"\n  ];';
+      if (text.includes(localesFrom)) {
+        text = text.replace(localesFrom, localesTo);
+        n++;
+      }
+    }
+
     // Single-pass replacement for key patches
     text = text.replace(/"([a-zA-Z0-9\._\-]+)":\s*"([^"]*)"/g, (match, key, val) => {
       const patch = keyPatchMap.get(key);

@@ -1,5 +1,10 @@
 ---
 name: fabric-compliance
+domain: general
+pack: general
+tier: optional
+triggers:
+  - fabric compliance
 description: AI Safety and Ethics Enforcement using Fabric Patterns.
 category: security
 version: 4.1.0-fractal

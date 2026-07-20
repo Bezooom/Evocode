@@ -1,5 +1,10 @@
 ---
 name: process-mining
+domain: general
+pack: general
+tier: optional
+triggers:
+  - process mining
 description: >
   TRIGGER when: user asks to discover processes from event logs, generate event logs,
   analyze process conformance, visualize business processes, BPMN diagrams, XES files,

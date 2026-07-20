@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: file-organizer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - file organizer
 description: Intelligently organizes files and folders by understanding context, finding duplicates, and suggesting better organizational structures. Use when user wants to clean up directories, organize downloads, remove duplicates, or restructure projects.
 ---
 

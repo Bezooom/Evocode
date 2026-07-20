@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: error-diagnostics-smart-debug
+domain: general
+pack: general
+tier: optional
+triggers:
+  - error diagnostics smart debug
 description: "Use when working with error diagnostics smart debug"
 ---
 

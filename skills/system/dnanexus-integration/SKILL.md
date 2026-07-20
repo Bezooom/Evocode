@@ -1,5 +1,10 @@
 ---
 name: dnanexus-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - dnanexus integration
 description: DNAnexus cloud genomics platform. Build apps/applets, manage data (upload/download), dxpy Python SDK, run workflows, FASTQ/BAM/VCF, for genomics pipeline development and execution.
 license: Unknown
 compatibility: Requires a DNAnexus account
@@ -378,4 +383,3 @@ Load these references when you need detailed information about specific operatio
 - API reference: http://autodoc.dnanexus.com/
 - GitHub repository: https://github.com/dnanexus/dx-toolkit
 - Support: support@dnanexus.com
-

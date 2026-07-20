@@ -1,9 +1,18 @@
-// Загрузка system + user skills и сборка system-prompt injection
-import * as fs from 'fs';
-import * as path from 'path';
+// Загрузка system + user skills и сборка system-prompt injection (Router v2/M4 facade)
 import { defaultConfig, EvocodeConfig } from '../core/config';
 import { contentToText } from '../core/text';
+import { SkillRouter } from './skill-router';
+import { SkillIndex } from './skill-index';
+import {
+  getSkillEmbeddingStore,
+  hashEmbed,
+  resetSkillEmbeddingStore,
+  SkillEmbeddingStore,
+  skillEmbedText,
+} from './skill-embeddings';
+import { ProductMode, SkillRecord } from './types';
 
+/** @deprecated shape kept for API/UI compatibility */
 export interface LoadedSkill {
   name: string;
   path: string;
@@ -13,108 +22,217 @@ export interface LoadedSkill {
   triggers: string[];
 }
 
+function toLoaded(r: SkillRecord): LoadedSkill {
+  return {
+    name: r.name,
+    path: r.path,
+    content: r.content,
+    source: r.source,
+    description: r.description,
+    triggers: r.triggers,
+  };
+}
+
+function mergeConfig(partial?: Partial<EvocodeConfig>): EvocodeConfig {
+  if (!partial) return defaultConfig;
+  return {
+    ...defaultConfig,
+    ...partial,
+    skills: { ...defaultConfig.skills, ...(partial.skills || {}) },
+  } as EvocodeConfig;
+}
+
 export class SkillLoader {
   private config: EvocodeConfig;
-  private cache: LoadedSkill[] | null = null;
+  private index: SkillIndex;
+  private router: SkillRouter;
+  private embedStore: SkillEmbeddingStore | null = null;
 
   constructor(config?: Partial<EvocodeConfig>) {
-    this.config = config
-      ? ({ ...defaultConfig, ...config } as EvocodeConfig)
-      : defaultConfig;
+    this.config = mergeConfig(config);
+    this.index = new SkillIndex(this.config);
+    this.router = new SkillRouter(this.config, this.index, null);
   }
 
   /** user overrides system при совпадении name */
   loadAll(force = false): LoadedSkill[] {
-    if (this.cache && !force) return this.cache;
-
-    const system = this.loadDir(this.config.skills.systemPath, 'system');
-    const user = this.loadDir(this.config.skills.userPath, 'user');
-
-    const byName = new Map<string, LoadedSkill>();
-    for (const s of system) byName.set(s.name, s);
-    for (const s of user) byName.set(s.name, s); // override
-
-    this.cache = [...byName.values()];
-    return this.cache;
-  }
-
-  private loadDir(dir: string, source: 'system' | 'user'): LoadedSkill[] {
-    const out: LoadedSkill[] = [];
-    if (!fs.existsSync(dir)) return out;
-
-    const walk = (current: string) => {
-      let entries: fs.Dirent[];
-      try {
-        entries = fs.readdirSync(current, { withFileTypes: true });
-      } catch {
-        return;
-      }
-
-      for (const entry of entries) {
-        const full = path.join(current, entry.name);
-        if (entry.isDirectory()) {
-          if (entry.name.startsWith('.')) continue;
-          walk(full);
-        } else if (entry.name === 'SKILL.md' || entry.name.endsWith('.md')) {
-          if (entry.name !== 'SKILL.md' && !full.includes(`${path.sep}skills${path.sep}`)) {
-            // only SKILL.md as primary units at skill roots; allow nested refs later
-          }
-          if (entry.name !== 'SKILL.md') continue;
-          try {
-            const content = fs.readFileSync(full, 'utf-8');
-            const name = this.extractName(content, path.basename(path.dirname(full)));
-            const description = this.extractField(content, 'description');
-            const triggers = this.extractTriggers(content, name);
-            out.push({ name, path: full, content, source, description, triggers });
-          } catch {
-            /* skip unreadable */
-          }
-        }
-      }
-    };
-
-    walk(dir);
-    return out;
-  }
-
-  private extractName(content: string, fallback: string): string {
-    const m = content.match(/^---[\s\S]*?^name:\s*["']?([^\n"']+)/m);
-    return (m?.[1] || fallback).trim();
-  }
-
-  private extractField(content: string, field: string): string | undefined {
-    const m = content.match(new RegExp(`^${field}:\\s*["']?(.+?)$`, 'm'));
-    return m?.[1]?.trim();
-  }
-
-  private extractTriggers(content: string, name: string): string[] {
-    const triggers = [name.toLowerCase().replace(/-/g, ' ')];
-    const m = content.match(/^triggers:\s*\[([^\]]*)\]/m);
-    if (m) {
-      triggers.push(
-        ...m[1]
-          .split(',')
-          .map((s) => s.replace(/["']/g, '').trim().toLowerCase())
-          .filter(Boolean)
-      );
-    }
-    // keywords from description
-    const desc = this.extractField(content, 'description');
-    if (desc) {
-      for (const w of desc.toLowerCase().split(/\W+/)) {
-        if (w.length > 4) triggers.push(w);
-      }
-    }
-    return [...new Set(triggers)];
+    return this.index.getAll(force).map(toLoaded);
   }
 
   /**
    * Подбирает навыки по query и склеивает в блок для system prompt.
-   * User skills уже перекрыли system в loadAll.
+   * v2/M4: hybrid lexical + hash embeddings (sync).
    */
-  buildInjection(query: string | unknown, maxSkills = 3): { text: string; skills: LoadedSkill[] } {
+  buildInjection(
+    query: string | unknown,
+    maxSkills?: number,
+    opts?: { mode?: ProductMode; explicitSkills?: string[]; queryEmbedding?: number[] }
+  ): { text: string; skills: LoadedSkill[]; meta?: ReturnType<SkillRouter['route']> } {
+    const q = contentToText(query);
+    const sc = this.config.skills;
+
+    if (sc.routerVersion === 'v1') {
+      return this.buildInjectionV1(q, maxSkills ?? sc.maxSkills ?? 3);
+    }
+
+    const result = this.router.route({
+      query: q,
+      maxSkills: maxSkills ?? sc.maxSkills,
+      maxInjectChars: sc.maxInjectChars,
+      mode: opts?.mode || 'auto',
+      explicitSkills: opts?.explicitSkills,
+      allowLab: sc.enableLab,
+      minScore: sc.minScore,
+      queryEmbedding: opts?.queryEmbedding,
+      useEmbeddings: sc.useEmbeddings,
+    });
+
+    return {
+      text: result.text,
+      skills: result.selected.map((s) => toLoaded(s.skill)),
+      meta: result,
+    };
+  }
+
+  /**
+   * Async inject with optional inference embeddings + ensure embed index warm.
+   */
+  async buildInjectionAsync(
+    query: string | unknown,
+    maxSkills?: number,
+    opts?: {
+      mode?: ProductMode;
+      explicitSkills?: string[];
+      embedFn?: (text: string) => Promise<number[]> | number[];
+    }
+  ) {
+    const q = contentToText(query);
+    if (this.config.skills.useEmbeddings) {
+      await this.ensureEmbeddings(opts?.embedFn);
+    }
+    let queryEmbedding: number[] | undefined;
+    if (this.config.skills.useEmbeddings) {
+      try {
+        const fn = opts?.embedFn || hashEmbed;
+        queryEmbedding = await Promise.resolve(fn(q));
+      } catch {
+        queryEmbedding = hashEmbed(q);
+      }
+    }
+    return this.buildInjection(q, maxSkills, {
+      mode: opts?.mode,
+      explicitSkills: opts?.explicitSkills,
+      queryEmbedding,
+    });
+  }
+
+  /** Dry-run routing for API / debug */
+  route(
+    query: string,
+    opts?: {
+      mode?: ProductMode;
+      explicitSkills?: string[];
+      maxSkills?: number;
+      queryEmbedding?: number[];
+      useEmbeddings?: boolean;
+    }
+  ) {
+    return this.router.route({
+      query,
+      mode: opts?.mode || 'auto',
+      explicitSkills: opts?.explicitSkills,
+      maxSkills: opts?.maxSkills ?? this.config.skills.maxSkills,
+      maxInjectChars: this.config.skills.maxInjectChars,
+      allowLab: this.config.skills.enableLab,
+      minScore: this.config.skills.minScore,
+      queryEmbedding: opts?.queryEmbedding,
+      useEmbeddings: opts?.useEmbeddings ?? this.config.skills.useEmbeddings,
+    });
+  }
+
+  async routeAsync(
+    query: string,
+    opts?: {
+      mode?: ProductMode;
+      explicitSkills?: string[];
+      maxSkills?: number;
+      embedFn?: (text: string) => Promise<number[]> | number[];
+    }
+  ) {
+    if (this.config.skills.useEmbeddings) {
+      await this.ensureEmbeddings(opts?.embedFn);
+    }
+    let queryEmbedding: number[] | undefined;
+    if (this.config.skills.useEmbeddings) {
+      try {
+        const fn = opts?.embedFn || hashEmbed;
+        queryEmbedding = await Promise.resolve(fn(query));
+      } catch {
+        queryEmbedding = hashEmbed(query);
+      }
+    }
+    return this.route(query, {
+      mode: opts?.mode,
+      explicitSkills: opts?.explicitSkills,
+      maxSkills: opts?.maxSkills,
+      queryEmbedding,
+    });
+  }
+
+  /** Full SkillRecord list for UI / API */
+  listDetailed(force = false): SkillRecord[] {
+    return this.index.getAll(force);
+  }
+
+  reindex(): { count: number } {
+    const all = this.index.getAll(true);
+    return { count: all.length };
+  }
+
+  /** Rebuild lexical index + skill embedding vectors */
+  async reindexAll(opts?: {
+    forceEmbed?: boolean;
+    embedFn?: (text: string) => Promise<number[]> | number[];
+  }): Promise<{ count: number; embeddings?: { upserted: number; skipped: number; errors: number } }> {
+    const all = this.index.getAll(true);
+    let embeddings: { upserted: number; skipped: number; errors: number } | undefined;
+    if (this.config.skills.useEmbeddings) {
+      embeddings = await this.ensureEmbeddings(opts?.embedFn, { force: opts?.forceEmbed, skills: all });
+    }
+    return { count: all.length, embeddings };
+  }
+
+  async ensureEmbeddings(
+    embedFn?: (text: string) => Promise<number[]> | number[],
+    opts?: { force?: boolean; skills?: SkillRecord[] }
+  ) {
+    const sc = this.config.skills;
+    if (!sc.useEmbeddings) return { upserted: 0, skipped: 0, errors: 0 };
+    if (!this.embedStore) {
+      this.embedStore = getSkillEmbeddingStore(sc.embeddingsDbPath);
+      this.router.setEmbedStore(this.embedStore);
+    }
+    const skills = opts?.skills || this.index.getAll(false);
+    const fn = embedFn || ((t: string) => hashEmbed(t));
+    return this.embedStore.sync(skills, fn, { force: opts?.force });
+  }
+
+  /** Apply runtime config changes (packs, lab, limits) without process restart */
+  applyConfig(partial?: Partial<EvocodeConfig>): void {
+    this.config = mergeConfig({ ...this.config, ...partial, skills: { ...this.config.skills, ...(partial?.skills || {}) } });
+    this.index = new SkillIndex(this.config);
+    this.router = new SkillRouter(this.config, this.index, this.embedStore);
+  }
+
+  invalidate(): void {
+    this.index.invalidate();
+    this.router.invalidate();
+  }
+
+  /** Legacy bag-of-words path (feature flag v1) */
+  private buildInjectionV1(query: string, maxSkills: number): { text: string; skills: LoadedSkill[] } {
     const all = this.loadAll();
-    const q = contentToText(query).toLowerCase();
+    const q = query.toLowerCase();
     const scored = all
       .map((skill) => {
         let score = 0;
@@ -131,7 +249,6 @@ export class SkillLoader {
       .slice(0, maxSkills)
       .map((x) => x.skill);
 
-    // если ничего не матчится — не пихаем все навыки (экономия контекста)
     if (scored.length === 0) {
       return { text: '', skills: [] };
     }
@@ -141,7 +258,6 @@ export class SkillLoader {
       'Следуй инструкциям навыков, релевантных запросу пользователя.',
       '',
     ];
-
     let total = parts.join('\n').length;
     const used: LoadedSkill[] = [];
     const limit = this.config.skills.maxInjectChars;
@@ -156,10 +272,9 @@ export class SkillLoader {
 
     return { text: parts.join('\n'), skills: used };
   }
-
-  invalidate(): void {
-    this.cache = null;
-  }
 }
 
 export const skillLoader = new SkillLoader();
+
+// re-export helpers for tests / API
+export { hashEmbed, skillEmbedText, resetSkillEmbeddingStore };

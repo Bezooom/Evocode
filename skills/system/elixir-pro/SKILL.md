@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: elixir-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - elixir pro
 description: Write idiomatic Elixir code with OTP patterns, supervision trees,
   and Phoenix LiveView. Masters concurrency, fault tolerance, and distributed
   systems. Use PROACTIVELY for Elixir refactoring, OTP design, or complex BEAM

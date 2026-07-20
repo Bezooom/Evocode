@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: sast-configuration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - sast configuration
 description: Configure Static Application Security Testing (SAST) tools for automated vulnerability detection in application code. Use when setting up security scanning, implementing DevSecOps practices, or automating code vulnerability detection.
 ---
 

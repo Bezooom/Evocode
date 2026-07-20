@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: frontend-security-coder
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - frontend security coder
 description: Expert in secure frontend coding practices specializing in XSS
   prevention, output sanitization, and client-side security patterns. Use
   PROACTIVELY for frontend security implementations or client-side security code

@@ -1,5 +1,10 @@
 ---
 name: scientific-slides
+domain: research
+pack: science
+tier: optional
+triggers:
+  - scientific slides
 description: Build slide decks and presentations for research talks. Use this for making PowerPoint slides, conference presentations, seminar talks, research presentations, thesis defense slides, or any scientific talk. Provides slide structure, design templates, timing guidance, and visual validation. Works with PowerPoint and LaTeX Beamer.
 allowed-tools: Read Write Edit Bash
 license: MIT license
@@ -1151,4 +1156,3 @@ See `scientific-skills/pptx/SKILL.md` for complete PowerPoint workflow.
 - **Boring = Forgotten**: Dry, text-heavy slides fail to communicate your science
 - **Visual + Research = Impact**: Combine compelling visuals with research-backed context
 - **You are the presentation, slides are visual support**: They should enhance, not replace your talk
-

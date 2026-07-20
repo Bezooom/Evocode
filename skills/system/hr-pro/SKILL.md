@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: hr-pro
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - hr pro
 description: Professional, ethical HR partner for hiring,
   onboarding/offboarding, PTO and leave, performance, compliant policies, and
   employee relations. Ask for jurisdiction and company context before advising;

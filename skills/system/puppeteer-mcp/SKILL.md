@@ -1,5 +1,10 @@
 ---
 name: puppeteer-mcp
+domain: general
+pack: general
+tier: optional
+triggers:
+  - puppeteer mcp
 description: Official Puppeteer Model Context Protocol Server for browser automation.
 category: tools
 version: 4.1.0-fractal

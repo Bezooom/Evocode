@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: code-documentation-code-explain
+domain: docs
+pack: docs
+tier: optional
+triggers:
+  - code documentation code explain
 description: "You are a code education expert specializing in explaining complex code through clear narratives, visual diagrams, and step-by-step breakdowns. Transform difficult concepts into understandable explanations."
 ---
 

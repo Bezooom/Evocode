@@ -1,5 +1,14 @@
 ---
 name: kubernetes-operators
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - kubernetes controllers
+  - kubernetes operators
+  - operator sdk
+  - gitops
+  - crd
 description: >-
   Разработка и управление кастомными операторами Kubernetes. Автоматизация сложных задач 
   через controller pattern, reconciliation loops и custom resources.

@@ -1,5 +1,10 @@
 ---
 name: bash-linux
+domain: general
+pack: general
+tier: optional
+triggers:
+  - bash linux
 description: Bash/Linux terminal patterns and critical commands.
 category: tools
 version: 4.1.0-fractal

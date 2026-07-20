@@ -1,5 +1,10 @@
 ---
 name: tdd-workflows-tdd-refactor
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tdd workflows tdd refactor
 description: "Use when working with tdd workflows tdd refactor"
 ---
 

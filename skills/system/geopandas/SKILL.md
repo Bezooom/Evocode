@@ -1,5 +1,10 @@
 ---
 name: geopandas
+domain: research
+pack: science
+tier: optional
+triggers:
+  - geopandas
 description: Python library for working with geospatial vector data including shapefiles, GeoJSON, and GeoPackage files. Use when working with geographic data for spatial analysis, geometric operations, coordinate transformations, spatial joins, overlay operations, choropleth mapping, or any task involving reading/writing/analyzing vector geographic data. Supports PostGIS databases, interactive maps, and integration with matplotlib/folium/cartopy. Use for tasks like buffer analysis, spatial joins between datasets, dissolving boundaries, clipping data, calculating areas/distances, reprojecting coordinate systems, creating maps, or converting between spatial file formats.
 license: BSD-3-Clause license
 metadata:
@@ -246,4 +251,3 @@ buildings_near_roads = buildings[buildings.geometry.distance(roads.union_all()) 
 6. **Preserve topology** when simplifying for analysis
 7. **Use GeoPackage** format for modern workflows (better than Shapefile)
 8. **Set max_distance** in sjoin_nearest for better performance
-

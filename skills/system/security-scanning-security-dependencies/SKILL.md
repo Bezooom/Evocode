@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: security-scanning-security-dependencies
+domain: security
+pack: security
+tier: optional
+triggers:
+  - security scanning security dependencies
 description: "You are a security expert specializing in dependency vulnerability analysis, SBOM generation, and supply chain security. Scan project dependencies across ecosystems to identify vulnerabilities, assess risks, and recommend remediation."
 ---
 

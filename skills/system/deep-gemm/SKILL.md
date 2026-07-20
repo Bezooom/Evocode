@@ -1,5 +1,10 @@
 ---
 name: deep-gemm
+domain: general
+pack: general
+tier: optional
+triggers:
+  - deep gemm
 description: >
   High-performance CUDA tensor core kernel library for NVIDIA GPUs (SM90/SM100).
   Use for: GEMM kernels (FP8, FP4, BF16), fused MoE with overlapped communication,

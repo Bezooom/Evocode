@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: langchain-architecture
+domain: general
+pack: general
+tier: optional
+triggers:
+  - langchain architecture
 description: Design LLM applications using the LangChain framework with agents, memory, and tool integration patterns. Use when building LangChain applications, implementing AI agents, or creating complex LLM workflows.
 ---
 

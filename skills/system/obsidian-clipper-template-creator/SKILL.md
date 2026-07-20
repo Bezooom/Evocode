@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: obsidian-clipper-template-creator
+domain: docs
+pack: docs
+tier: optional
+triggers:
+  - obsidian clipper template creator
 description: Guide for creating templates for the Obsidian Web Clipper. Use when you want to create a new clipping template, understand available variables, or format clipped content.
 ---
 

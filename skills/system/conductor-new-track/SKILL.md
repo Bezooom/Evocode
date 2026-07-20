@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: conductor-new-track
+domain: general
+pack: general
+tier: optional
+triggers:
+  - conductor new track
 description: Create a new track with specification and phased implementation plan
 metadata:
   argument-hint: <feature|bug|chore|refactor> <name>

@@ -1,16 +1,20 @@
 ---
 name: to-issues
+domain: general
+pack: general
+tier: optional
+triggers:
+  - разбить план на issues
+  - implementation tickets
+  - декомпозировать план
+  - vertical slices
+  - создать тикеты
+  - issues из prd
+  - tracer-bullet
+  - to issues
 description: |
   [RU] Разбить план, spec или PRD на независимо-берущиеся GitHub issues через tracer-bullet вертикальные срезы. Используй когда пользователь хочет превратить план в issues, создать тикеты на реализацию или декомпозировать работу.
   [EN] Break a plan, spec, or PRD into independently-grabbable GitHub issues using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues.
-triggers:
-  - разбить план на issues
-  - создать тикеты
-  - декомпозировать план
-  - issues из PRD
-  - tracer-bullet
-  - vertical slices
-  - implementation tickets
 ---
 
 # To Issues

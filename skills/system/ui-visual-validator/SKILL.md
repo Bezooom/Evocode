@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ui-visual-validator
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ui visual validator
 description: Rigorous visual validation expert specializing in UI testing,
   design system compliance, and accessibility verification. Masters screenshot
   analysis, visual regression testing, and component validation. Use PROACTIVELY

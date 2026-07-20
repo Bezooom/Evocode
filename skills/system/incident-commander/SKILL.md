@@ -1,5 +1,25 @@
 ---
 name: incident-commander
+domain: general
+pack: general
+tier: optional
+triggers:
+  - высокая нагрузка cpu / утечка памяти
+  - самовосстановление self-healing
+  - инцидент / авария на сервере
+  - сервер упал / service down
+  - алерт сработал / on-call
+  - high cpu / memory leak
+  - health-check сервера
+  - deployment failure
+  - incident commander
+  - диск переполнен
+  - service crash
+  - alert firing
+  - health check
+  - упал деплой
+  - server down
+  - on-call
 description: |
   [RU] Автономный SRE-агент: обнаружение инцидентов, root-cause анализ и самовосстановление (self-healing) для production-окружений Linux/Docker. Активируй при запросах: "сервер упал", "высокая нагрузка CPU / утечка памяти", "диск переполнен", "сервис крашится", "деплой сломался", "алерт сработал", "я на дежурстве / on-call", "инфраструктурная авария", а также для плановых health-check ("проверь сервер"). НЕ активируй для общих кодовых вопросов.
   [EN] Autonomous incident detection, root-cause analysis, and self-healing for Linux/Docker production environments. Activate when the user mentions: server down, high CPU, memory leak, disk full, service crash, deployment failure, alert firing, on-call page, or any infrastructure emergency. Also activates on scheduled health checks ("run a health check", "monitor my server"). Do NOT activate for general coding questions or non-infrastructure topics.

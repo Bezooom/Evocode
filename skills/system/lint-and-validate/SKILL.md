@@ -1,5 +1,10 @@
 ---
 name: lint-and-validate
+domain: general
+pack: general
+tier: optional
+triggers:
+  - lint and validate
 description: Automatic quality control, linting, and static analysis procedures.
 category: tools
 version: 4.1.0-fractal

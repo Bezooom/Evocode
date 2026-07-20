@@ -1,5 +1,10 @@
 ---
 name: autoresearch-program
+domain: research
+pack: science
+tier: optional
+triggers:
+  - autoresearch program
 description: "Universal code standards, quality gates, language-specific check commands, and CLAUDE.md accumulation rules. Model-agnostic implementation rules."
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: pricing-strategy
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - pricing strategy
 description: Design pricing, packaging, and monetization strategies based on value, customer willingness to pay, and growth objectives.
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: game-audio
+domain: general
+pack: general
+tier: optional
+triggers:
+  - game audio
 description: Game audio principles.
 category: development
 version: 4.0.5

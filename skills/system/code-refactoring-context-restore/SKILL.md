@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: code-refactoring-context-restore
+domain: general
+pack: general
+tier: optional
+triggers:
+  - code refactoring context restore
 description: "Use when working with code refactoring context restore"
 ---
 

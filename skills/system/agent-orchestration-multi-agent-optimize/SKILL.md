@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-orchestration-multi-agent-optimize
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent orchestration multi agent optimize
 description: "Optimize multi-agent systems with coordinated profiling, workload distribution, and cost-aware orchestration. Use when improving agent performance, throughput, or reliability."
 ---
 

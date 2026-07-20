@@ -1,5 +1,10 @@
 ---
 name: cognee
+domain: general
+pack: general
+tier: optional
+triggers:
+  - cognee
 description: >
   Use this skill whenever the user asks about Cognee, AI memory, persistent agent memory,
   self-improving agents, agents learning from feednack, knowledge graphs, graph-based RAG,

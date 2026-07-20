@@ -1,5 +1,10 @@
 ---
 name: autoresearch-implementation
+domain: research
+pack: science
+tier: optional
+triggers:
+  - autoresearch implementation
 description: "Universal implementation + review workflow: understand requirements → analyze code → implement → self-check → submit for review → iterate on feedback. Works with any agent/model."
 ---
 

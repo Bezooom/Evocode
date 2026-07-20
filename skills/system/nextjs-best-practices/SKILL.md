@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: nextjs-best-practices
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - nextjs best practices
 description: Next.js App Router principles. Server Components, data fetching, routing patterns.
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---

@@ -1,5 +1,10 @@
 ---
 name: web3-testing
+domain: backend
+pack: web3
+tier: optional
+triggers:
+  - web3 testing
 description: Test smart contracts comprehensively using Hardhat and Foundry with unit tests, integration tests, and mainnet forking. Use when testing Solidity contracts, setting up blockchain test suites, or validating DeFi protocols.
 ---
 

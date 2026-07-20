@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: terraform-specialist
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - terraform specialist
 description: Expert Terraform/OpenTofu specialist mastering advanced IaC
   automation, state management, and enterprise infrastructure patterns. Handles
   complex module design, multi-cloud deployments, GitOps workflows, policy as

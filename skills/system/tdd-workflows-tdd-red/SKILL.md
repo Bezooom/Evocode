@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: tdd-workflows-tdd-red
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tdd workflows tdd red
 description: Generate failing tests for the TDD red phase to define expected behavior and edge cases.
 ---
 

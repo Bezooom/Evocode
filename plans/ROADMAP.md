@@ -1,7 +1,7 @@
 # 🗺️ Дорожная карта Эвокод
 
 **Обновлено:** 2026-07-20  
-**Продукт:** **v0.9.0 (Release Candidate 1)** — branded VSCodium + agent + Evocode Core  
+**Продукт:** **v0.95.0 (Release Candidate 2)** — branded VSCodium + agent + Core + Skill Router + dual FIM  
 **Продуктовый путь:** native UX «Эвокод» + privacy plane (Core)
 
 > **Source of truth для агентов:** [FULL_DEV_ROADMAP.md](./FULL_DEV_ROADMAP.md)  
@@ -29,8 +29,9 @@
 | 0.1.x | F0–F1 | Core + rebrand tooling |
 | 0.2–0.4 | F1.5 + mid-F2 | Smoke, policy, early shell |
 | 0.5.0 | F2 done | Product IDE, packaging, premium UI |
-| **0.9.0** | **F3 done** | Trust, proxy, auth, SSRF-защита, Operator Mode (RC1) |
-| **1.0.0** | F3 DoD | Daily-use + pilot corp |
+| **0.9.0** | **F3 done** | Trust, proxy, auth, SSRF, Operator Mode (RC1) |
+| **0.95.0** | Skill Router + FIM | Router v2 M1–M4, dual-model autocomplete (RC2) |
+| **1.0.0** | Pilot DoD | Daily-use + pilot corp |
 | 1.x+ | F4 optional | LoRA / self-evolve |
 
 ---
@@ -92,11 +93,11 @@ graph LR
 
 ---
 
-## Очередь работ (P0) — v0.9.0 → 1.0.0
+## Очередь работ (P0) — v0.95.0 → 1.0.0
 
-1. Проведение пилотных испытаний с участием операторов.
-2. Сбор обратной связи по визуальному режиму отображения документов.
-3. Финализация и подготовка стабильного релиза **1.0.0**.
+1. Пилоты: Operator preview + FIM autocomplete + skills route.
+2. Пересборка/smoke deb+AppImage **0.95.0**.
+3. Фидбек → стабильный **1.0.0**.
 4. **Не делать сейчас:** F4 LoRA, второй MCP host, hard-fork microsoft/vscode
 
 ---

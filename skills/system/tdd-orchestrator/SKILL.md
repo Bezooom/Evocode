@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: tdd-orchestrator
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - tdd orchestrator
 description: Master TDD orchestrator specializing in red-green-refactor
   discipline, multi-agent workflow coordination, and comprehensive test-driven
   development practices. Enforces TDD best practices across teams with

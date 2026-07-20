@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: conductor-setup
+domain: general
+pack: general
+tier: optional
+triggers:
+  - conductor setup
 description: Initialize project with Conductor artifacts (product definition,
   tech stack, workflow, style guides)
 metadata:

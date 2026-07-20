@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: debugger
+domain: general
+pack: general
+tier: optional
+triggers:
+  - debugger
 description: Debugging specialist for errors, test failures, and unexpected
   behavior. Use proactively when encountering any issues.
 metadata:

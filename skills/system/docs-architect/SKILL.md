@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: docs-architect
+domain: general
+pack: general
+tier: optional
+triggers:
+  - docs architect
 description: Creates comprehensive technical documentation from existing
   codebases. Analyzes architecture, design patterns, and implementation details
   to produce long-form technical manuals and ebooks. Use PROACTIVELY for system

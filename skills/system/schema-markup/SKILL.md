@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: schema-markup
+domain: general
+pack: general
+tier: optional
+triggers:
+  - schema markup
 description: >
   Design, validate, and optimize schema.org structured data for eligibility,
   correctness, and measurable SEO impact. Use when the user wants to add, fix,

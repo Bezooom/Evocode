@@ -1,5 +1,10 @@
 ---
 name: agent-security-review
+domain: security
+pack: security
+tier: optional
+triggers:
+  - agent security review
 description: Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive features. Provides comprehensive security checklist and patterns.
 author: affaan-m
 version: 4.1.0-fractal

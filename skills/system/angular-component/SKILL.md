@@ -1,5 +1,10 @@
 ---
 name: angular-component
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular component
 description: >-
   Create modern Angular standalone components following v20+ best practices. Use
   for building UI components with signal-based inputs/outputs, OnPush change

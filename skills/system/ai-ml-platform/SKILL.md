@@ -1,5 +1,21 @@
 ---
 name: ai-ml-platform
+domain: general
+pack: general
+tier: optional
+triggers:
+  - архитектура ml-системы
+  - ml system architecture
+  - трекинг экспериментов
+  - experiment tracking
+  - mlops-оркестрация
+  - llm в production
+  - ai ml platform
+  - llm deployment
+  - model serving
+  - продакшн rag
+  - rag pipeline
+  - mlops
 description: |
   [RU] Комплексный навык ML/AI-платформенной инженерии: MLOps-оркестрация, трекинг экспериментов, model serving и RAG-архитектуры для продакшн AI-систем. Используй при запросах: "спроектировать ML-платформу", "развернуть LLM в production", "настроить трекинг экспериментов (MLflow/W&B)", "model serving", "продакшн RAG-архитектура", "MLOps-пайплайн". См. также: `ai-ml-engineering` — для соседних задач обучения моделей, fine-tuning и оптимизации inference.
   [EN] Comprehensive ML/AI platform engineering skill integrating MLOps orchestration, experiment tracking, model serving, and RAG architectures for production-grade AI systems. Triggers: ML system architecture design, experiment tracking, RAG pipeline, LLM deployment.

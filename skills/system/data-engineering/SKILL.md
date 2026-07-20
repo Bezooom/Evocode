@@ -1,5 +1,21 @@
 ---
 name: data-engineering
+domain: data
+pack: data
+tier: optional
+triggers:
+  - база данных / postgresql
+  - data engineering
+  - качество данных
+  - дата-инженерия
+  - apache spark
+  - airflow dag
+  - kpi-дашборд
+  - etl / elt
+  - database
+  - spark
+  - dbt
+  - etl
 description: |
   [RU] Макро-навык для дата-инженерии: миграция БД, dbt, PostgreSQL, Spark, Airflow, оптимизация SQL, KPI-дашборды, контроль качества данных. Используй при запросах: "построить ETL/ELT пайплайн", "DAG в Airflow", "трансформации в dbt", "оптимизация запроса PostgreSQL", "Spark-джоба", "миграция базы", "KPI-дашборд", "data storytelling".
   [EN] Macro-skill for data engineering: database migration, dbt, PostgreSQL, Spark, Airflow, SQL optimization, KPI dashboards, data quality. Triggers: data pipelines, ETL, databases.

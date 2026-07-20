@@ -1,5 +1,10 @@
 ---
 name: react-best-practices
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - react best practices
 description: React & Next.js engineering standards.
 category: development
 version: 4.1.0-fractal

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: bazel-build-optimization
+domain: general
+pack: general
+tier: optional
+triggers:
+  - bazel build optimization
 description: Optimize Bazel builds for large-scale monorepos. Use when configuring Bazel, implementing remote execution, or optimizing build performance for enterprise codebases.
 ---
 

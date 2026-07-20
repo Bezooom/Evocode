@@ -1,5 +1,10 @@
 ---
 name: mcp-builder
+domain: general
+pack: general
+tier: optional
+triggers:
+  - mcp builder
 description: MCP (Model Context Protocol) server building principles.
 category: tools
 version: 4.1.0-fractal

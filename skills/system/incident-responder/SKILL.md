@@ -1,5 +1,10 @@
 ---
 name: incident-responder
+domain: general
+pack: general
+tier: optional
+triggers:
+  - incident responder
 description: Expert SRE incident responder specializing in rapid problem resolution.
 category: infrastructure
 version: 4.1.0-fractal

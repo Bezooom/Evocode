@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: php-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - php pro
 description: Write idiomatic PHP code with generators, iterators, SPL data
   structures, and modern OOP features. Use PROACTIVELY for high-performance PHP
   applications.

@@ -1,5 +1,10 @@
 ---
 name: angular-directives
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular directives
 description: >-
   Create custom directives in Angular v20+ for DOM manipulation and behavior
   extension. Use for attribute directives that modify element

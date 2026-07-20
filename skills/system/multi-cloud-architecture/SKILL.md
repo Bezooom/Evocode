@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: multi-cloud-architecture
+domain: general
+pack: general
+tier: optional
+triggers:
+  - multi cloud architecture
 description: Design multi-cloud architectures using a decision framework to select and integrate services across AWS, Azure, and GCP. Use when building multi-cloud systems, avoiding vendor lock-in, or leveraging best-of-breed services from multiple providers.
 ---
 

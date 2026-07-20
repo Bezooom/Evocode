@@ -1,5 +1,10 @@
 ---
 name: pymatgen
+domain: general
+pack: general
+tier: optional
+triggers:
+  - pymatgen
 description: Materials science toolkit. Crystal structures (CIF, POSCAR), phase diagrams, band structure, DOS, Materials Project integration, format conversion, for computational materials science.
 license: MIT license
 metadata:
@@ -686,4 +691,3 @@ Requirements:
 - Python 3.10 or higher
 - pymatgen >= 2023.x
 - mp-api (for Materials Project access)
-

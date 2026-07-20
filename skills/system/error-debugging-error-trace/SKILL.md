@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: error-debugging-error-trace
+domain: general
+pack: general
+tier: optional
+triggers:
+  - error debugging error trace
 description: "You are an error tracking and observability expert specializing in implementing comprehensive error monitoring solutions. Set up error tracking systems, configure alerts, implement structured logging, and ensure teams can quickly identify and resolve production issues."
 ---
 

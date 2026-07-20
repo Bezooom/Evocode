@@ -1,16 +1,19 @@
 ---
 name: zoom-out
+domain: general
+pack: general
+tier: optional
+triggers:
+  - higher-level perspective
+  - широкий контекст
+  - высокий уровень
+  - bigger picture
+  - общая картина
+  - zoom out
+  - отзумь
 description: |
   [RU] Попросить агента отзумиться и дать более широкий контекст или взгляд высокого уровня. Используй когда незнаком с участком кода или нужно понять, как он вписывается в общую картину.
   [EN] Tell the agent to zoom out and give broader context or a higher-level perspective. Use when you're unfamiliar with a section of code or need to understand how it fits into the bigger picture.
-triggers:
-  - zoom out
-  - отзумь
-  - высокий уровень
-  - широкий контекст
-  - общая картина
-  - bigger picture
-  - higher-level perspective
 ---
 
 # Zoom Out

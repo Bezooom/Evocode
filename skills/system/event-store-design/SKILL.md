@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: event-store-design
+domain: general
+pack: general
+tier: optional
+triggers:
+  - event store design
 description: Design and implement event stores for event-sourced systems. Use when building event sourcing infrastructure, choosing event store technologies, or implementing event persistence patterns.
 ---
 

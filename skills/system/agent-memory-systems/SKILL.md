@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-memory-systems
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent memory systems
 description: "Memory is the cornerstone of intelligent agents. Without it, every interaction starts from zero. This skill covers the architecture of agent memory: short-term (context window), long-term (vector stores), and the cognitive architectures that organize them.  Key insight: Memory isn't just storage - it's retrieval. A million stored facts mean nothing if you can't find the right one. Chunking, embedding, and retrieval strategies determine whether your agent remembers or forgets.  The field is fragm"
 source: vibeship-spawner-skills (Apache 2.0)
 ---

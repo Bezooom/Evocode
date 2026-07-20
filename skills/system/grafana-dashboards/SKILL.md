@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: grafana-dashboards
+domain: general
+pack: general
+tier: optional
+triggers:
+  - grafana dashboards
 description: Create and manage production Grafana dashboards for real-time visualization of system and application metrics. Use when building monitoring dashboards, visualizing metrics, or creating operational observability interfaces.
 ---
 

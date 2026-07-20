@@ -1,16 +1,20 @@
 ---
 name: setup-pre-commit
-description: |
-  [RU] Настройка Husky pre-commit хуков с lint-staged (Prettier), type checking и тестами в текущем репозитории. Используй когда пользователь хочет добавить pre-commit хуки, настроить Husky, сконфигурировать lint-staged или включить форматирование/typecheck/тесты при коммите.
-  [EN] Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.
+domain: general
+pack: general
+tier: optional
 triggers:
+  - форматирование при коммите
+  - commit-time formatting
+  - pre-commit hooks
+  - setup pre commit
   - pre-commit хуки
   - настрой husky
   - lint-staged
-  - форматирование при коммите
-  - Husky
-  - pre-commit hooks
-  - commit-time formatting
+  - husky
+description: |
+  [RU] Настройка Husky pre-commit хуков с lint-staged (Prettier), type checking и тестами в текущем репозитории. Используй когда пользователь хочет добавить pre-commit хуки, настроить Husky, сконфигурировать lint-staged или включить форматирование/typecheck/тесты при коммите.
+  [EN] Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.
 ---
 
 # Setup Pre-Commit Hooks

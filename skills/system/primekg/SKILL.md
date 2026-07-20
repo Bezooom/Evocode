@@ -1,5 +1,10 @@
 ---
 name: primekg
+domain: general
+pack: general
+tier: optional
+triggers:
+  - primekg
 description: Query the Precision Medicine Knowledge Graph (PrimeKG) for multiscale biological data including genes, drugs, diseases, phenotypes, and more.
 license: Unknown
 metadata:

@@ -1,5 +1,17 @@
 ---
 name: infocard
+domain: general
+pack: general
+tier: optional
+triggers:
+  - инфо-карточка / info-card
+  - журнальная типографика
+  - редакторская карточка
+  - knowledge summary
+  - editorial cards
+  - knowledge card
+  - info cards
+  - infocard
 description: |
   [RU] Создание редакторских информационных карточек в стиле журнальной типографики через HTML/CSS в Markdown. Подходит для кратких summary, выделения ключевых данных, анонсов событий и одно-тематических карточек. Используй при запросах: "сделать info-card", "редакторская карточка", "knowledge card", "карточка в стиле журнала", "magazine-style оформление", "оформить факт красиво", "infocard".
   [EN] Create editorial-style information cards using HTML/CSS in Markdown. Best for knowledge summaries, data highlights, event announcements, and single-topic content cards with magazine-quality typography. Use when user wants info cards, editorial cards, knowledge cards, or mentions infocard.

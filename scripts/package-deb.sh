@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IDE_DIST="${ROOT}/packages/ide/dist"
 PORTABLE_DIR="${IDE_DIST}/evocode-ide"
 DEB_BUILD_DIR="${IDE_DIST}/deb-build"
-VERSION="0.9.0"
+VERSION="0.95.0"
 DEB_PACKAGE_DIR="${DEB_BUILD_DIR}/evocode_${VERSION}_amd64"
 
 echo "=== Сборка deb-пакета Эвокод ==="
@@ -29,6 +29,13 @@ mkdir -p "${DEB_PACKAGE_DIR}/usr/share/pixmaps"
 
 echo "→ Копирование файлов приложения..."
 cp -R "${PORTABLE_DIR}"/* "${DEB_PACKAGE_DIR}/usr/share/evocode/"
+
+echo "→ Копирование файлов Core сервера..."
+mkdir -p "${DEB_PACKAGE_DIR}/usr/share/evocode/core"
+cp -R "${ROOT}/dist" "${DEB_PACKAGE_DIR}/usr/share/evocode/core/"
+cp -R "${ROOT}/skills" "${DEB_PACKAGE_DIR}/usr/share/evocode/core/"
+cp "${ROOT}/package.json" "${DEB_PACKAGE_DIR}/usr/share/evocode/core/"
+cp -R "${ROOT}/node_modules" "${DEB_PACKAGE_DIR}/usr/share/evocode/core/"
 
 echo "→ Создание исполняемого файла /usr/bin/evocode..."
 # Isolated profile + agent env (never stock ~/.config/Code or ~/.config/kilo)

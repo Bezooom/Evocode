@@ -1,5 +1,10 @@
 ---
 name: seo-hreflang
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo hreflang
 description: >
   Hreflang and international SEO audit, validation, and generation. Detects
   common mistakes, validates language/region codes, and generates correct

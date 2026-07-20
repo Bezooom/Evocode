@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: kubernetes-architect
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - kubernetes architect
 description: Expert Kubernetes architect specializing in cloud-native
   infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise
   container orchestration. Masters EKS/AKS/GKE, service mesh (Istio/Linkerd),

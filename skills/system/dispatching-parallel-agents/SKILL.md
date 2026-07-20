@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: dispatching-parallel-agents
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - dispatching parallel agents
 description: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
 ---
 

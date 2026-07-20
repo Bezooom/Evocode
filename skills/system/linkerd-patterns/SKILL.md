@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: linkerd-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - linkerd patterns
 description: Implement Linkerd service mesh patterns for lightweight, security-focused service mesh deployments. Use when setting up Linkerd, configuring traffic policies, or implementing zero-trust networking with minimal overhead.
 ---
 

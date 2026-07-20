@@ -1,5 +1,10 @@
 ---
 name: generate-image
+domain: general
+pack: general
+tier: optional
+triggers:
+  - generate image
 description: Generate or edit images using AI models (FLUX, Nano Banana 2). Use for general-purpose image generation including photos, illustrations, artwork, visual assets, concept art, and any image that is not a technical diagram or schematic. For flowcharts, circuits, pathways, and technical diagrams, use the scientific-schematics skill instead.
 license: MIT license
 compatibility: Requires an OpenRouter API key
@@ -180,4 +185,3 @@ If the script fails, read the error message and address the issue before retryin
 - **generate-image**: Use for photos, illustrations, artwork, visual concepts
 - **scientific-slides**: Combine with generate-image for visually rich presentations
 - **latex-posters**: Use generate-image for poster visuals and hero images
-

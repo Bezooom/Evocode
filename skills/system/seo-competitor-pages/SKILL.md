@@ -1,5 +1,10 @@
 ---
 name: seo-competitor-pages
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo competitor pages
 description: >
   Generate SEO-optimized competitor comparison and alternatives pages. Covers
   "X vs Y" layouts, "alternatives to X" pages, feature matrices, schema markup,

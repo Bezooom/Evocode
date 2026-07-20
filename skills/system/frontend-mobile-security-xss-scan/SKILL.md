@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: frontend-mobile-security-xss-scan
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - frontend mobile security xss scan
 description: "You are a frontend security specialist focusing on Cross-Site Scripting (XSS) vulnerability detection and prevention. Analyze React, Vue, Angular, and vanilla JavaScript code to identify injection poi"
 ---
 

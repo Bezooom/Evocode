@@ -1,5 +1,10 @@
 ---
 name: planning-with-files
+domain: general
+pack: general
+tier: optional
+triggers:
+  - planning with files
 version: 4.1.0-fractal
 description: Implements Manus-style file-based planning for complex tasks. Creates task_plan.md, findings.md, and progress.md. Use when starting complex multi-step tasks, research projects, or any task requiring >5 tool calls.
 user-invocable: true

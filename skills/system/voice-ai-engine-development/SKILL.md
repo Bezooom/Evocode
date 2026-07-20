@@ -1,5 +1,10 @@
 ---
 name: voice-ai-engine-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - voice ai engine development
 description: Architecting real-time Voice AI agents.
 category: development
 version: 4.1.0-fractal

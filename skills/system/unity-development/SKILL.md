@@ -1,5 +1,10 @@
 ---
 name: unity-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - unity development
 description: "[RU] Макро-навык для разработки на Unity от TheOne Studio. Включает архитектурные паттерны (UniTask, VContainer, DOTS/ECS), строгие стандарты C# (качество, логгирование), выбор MCP-инструментов и жесткие правила код-ревью.
 [EN] Comprehensive guide for Unity development. Provides architecture patterns, DOTS/ECS guidelines, strict TheOne Studio C# standards (quality, VContainer, logging), MCP tool selection, and code review rules."
 allowed-tools: Read, Grep, Glob, Bash, Edit, Write

@@ -1,5 +1,10 @@
 ---
 name: full-stack-scaffold
+domain: general
+pack: general
+tier: optional
+triggers:
+  - full stack scaffold
 description: Unified project scaffolding for Node.js, Python, Rust, and Mobile.
 category: development
 version: 4.1.0-fractal

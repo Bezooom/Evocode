@@ -1,5 +1,10 @@
 ---
 name: nodejs-best-practices
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - nodejs best practices
 description: Node.js development principles and decision-making.
 category: development
 version: 4.1.0-fractal

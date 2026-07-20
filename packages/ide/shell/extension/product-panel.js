@@ -224,35 +224,64 @@ function buildHtml(state) {
         </span>
         <button class="ghost" id="openFolderBtn" style="padding: 4px 10px; font-size: 11px;">Сменить папку</button>
        </div>`;
+  const skillsCfg = state.skillsConfig || config.skills || {};
+  const packsCatalog = state.packs || skillsCfg.packsCatalog || [];
+  const enabledPacks = new Set(skillsCfg.enabledPacks || []);
+  const packToggles =
+    packsCatalog.length > 0
+      ? packsCatalog
+          .map((p) => {
+            const on = enabledPacks.size === 0 || enabledPacks.has(p.id);
+            return `<label class="pack-toggle" title="${esc(p.description || '')}">
+              <input type="checkbox" data-pack="${esc(p.id)}" ${on ? 'checked' : ''}/>
+              <span>${esc(p.label || p.id)}</span>
+            </label>`;
+          })
+          .join('')
+      : '<span class="muted">Каталог packs недоступен (Core offline?)</span>';
+
   const skillCards = skillsList.length > 0
-    ? skillsList.map((s) => {
+    ? skillsList
+        .slice()
+        .sort((a, b) => {
+          const pa = a.pack === 'evocode-core' ? 0 : 1;
+          const pb = b.pack === 'evocode-core' ? 0 : 1;
+          if (pa !== pb) return pa - pb;
+          return String(a.name).localeCompare(String(b.name));
+        })
+        .slice(0, 80)
+        .map((s) => {
         const isUser = s.source === 'user';
-        const sourceLabel = isUser ? 'Пользовательский' : 'Системный';
+        const sourceLabel = isUser ? 'user' : 'system';
         const badgeClass = isUser ? 'badge-user' : 'badge-system';
-        const triggers = (s.triggers || []).map(t => `<span class="pill">${esc(t)}</span>`).join(' ');
+        const tier = s.tier || 'optional';
+        const triggers = (s.triggers || []).slice(0, 8).map(t => `<span class="pill">${esc(t)}</span>`).join(' ');
         
-        return `<div class="card">
+        return `<div class="card" data-skill-pack="${esc(s.pack || '')}" data-skill-tier="${esc(tier)}">
           <div class="head">
             <span class="dot ${isUser ? 'on' : 'system-dot'}"></span>
             <div style="flex: 1; min-width: 0;">
               <div class="t">
                 ${esc(s.name)} 
                 <span class="badge ${badgeClass}">${sourceLabel}</span>
+                <span class="badge badge-tier">${esc(tier)}</span>
+                <span class="badge badge-pack">${esc(s.pack || 'general')}</span>
               </div>
-              <div class="s" style="margin-top: 6px; word-break: break-all;"><code>${esc(s.path)}</code></div>
-              <div class="s muted" style="margin-top: 6px; font-style: italic;">${esc(s.description || 'Нет описания')}</div>
+              <div class="s muted" style="margin-top: 6px; font-style: italic;">${esc((s.description || 'Нет описания').slice(0, 160))}</div>
               <div class="pills-container" style="margin-top: 8px;">${triggers}</div>
             </div>
           </div>
           <div class="acts" style="margin-top: 12px;">
-            <button class="ghost" data-act="openFile" data-path="${esc(s.path)}">Редактировать в IDE</button>
+            <button class="ghost" data-act="openFile" data-path="${esc(s.path)}">Открыть</button>
             ${isUser ? `<button class="ghost delete-btn" data-act="deleteSkill" data-name="${esc(s.name)}">Удалить</button>` : ''}
           </div>
         </div>`;
-      }).join('')
+      }).join('') + (skillsList.length > 80 ? `<div class="banner">Показаны 80 из ${skillsList.length}. Полный список — индекс Core.</div>` : '')
     : `<div class="banner">Нет загруженных навыков.</div>`;
   const profiles = rt.profiles || [];
-  const cards = profiles
+  const roleOrder = { chat: 0, fim: 1, embed: 2 };
+  const cards = [...profiles]
+    .sort((a, b) => (roleOrder[a.role] ?? 9) - (roleOrder[b.role] ?? 9) || String(a.id).localeCompare(b.id))
     .map((p) => {
       const on = p.online ? 'on' : 'off';
       const ready =
@@ -261,11 +290,17 @@ function buildHtml(state) {
           : !p.ready?.binary
             ? ' · нет бинарника'
             : ' · нет GGUF';
-      return `<div class="card">
+      const roleBadge =
+        p.role === 'fim'
+          ? '<span class="badge badge-fim">FIM / autocomplete</span>'
+          : p.role === 'embed'
+            ? '<span class="badge badge-pack">embed</span>'
+            : '<span class="badge badge-tier">chat</span>';
+      return `<div class="card" style="${p.role === 'fim' ? 'border-color: rgba(16,185,129,0.35)' : ''}">
         <div class="head">
           <span class="dot ${on}"></span>
           <div>
-            <div class="t">${esc(p.label || p.id)}</div>
+            <div class="t">${esc(p.label || p.id)} ${roleBadge}</div>
             <div class="s">:${p.port} · ${esc(p.fork)}${ready}</div>
             <div class="s muted">${esc(p.description || p.modelName || '')}</div>
           </div>
@@ -281,6 +316,9 @@ function buildHtml(state) {
       </div>`;
     })
     .join('');
+  const fimState = state.fim || rt.fim || config.fim || {};
+  const fimEnabled = fimState.enabled !== false;
+  const fimReady = !!fimState.ready;
 
   const forks = Object.entries(rt.forks || {})
     .map(([k, v]) => `<li><b>${esc(k)}</b> — ${esc(v)}</li>`)
@@ -393,6 +431,21 @@ function buildHtml(state) {
   }
   .tab.active .tab-icon, .tab:hover .tab-icon {
     opacity: 1;
+  }
+  .pack-grid {
+    display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 8px;
+  }
+  .pack-toggle {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--fg); cursor: pointer;
+    padding: 4px 8px; border-radius: 8px;
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  }
+  .badge-tier { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+  .badge-pack { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; }
+  .route-result {
+    background: rgba(0,0,0,0.35); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px; color: var(--muted);
   }
   .tab.active {
     background: rgba(99, 102, 241, 0.15);
@@ -640,13 +693,32 @@ function buildHtml(state) {
 
   <section class="page active" id="models">
     <h1>Настройки Эвокод</h1>
-    <p class="hint"><b>Единый интерфейс</b> программы: модели, агент, Core. Ctrl+Shift+M · Ctrl+, · status bar.</p>
+    <p class="hint"><b>Dual-model:</b> chat/agent (большая, :8080) + FIM/autocomplete (лёгкая Neurocontrol ~2G, :8082). Ctrl+Shift+M</p>
     ${folderBanner}
     <h2>Локальные модели</h2>
-    <div class="banner ${rt.localReady ? 'ok' : 'warn'}">${esc(rt.message || '…')}</div>
+    <div class="banner ${rt.localReady ? 'ok' : 'warn'}">Chat: ${esc(rt.message || '…')}</div>
+    <div class="banner ${fimReady ? 'ok' : 'warn'}">
+      FIM / autocomplete: ${fimEnabled ? (fimReady ? 'online :' + esc(String(fimState.port || 8082)) : 'offline — запустите fim-small') : 'выключен в Core'}
+      · model <code>${esc(fimState.modelId || 'evocode-fim')}</code>
+    </div>
+    <div class="settings-group">
+      <h2>Лёгкая модель (FIM)</h2>
+      <p class="hint">Autocomplete идёт в <code>POST /v1/completions</code> → :8082. CPU (-ngl 0), не занимает VRAM chat-модели.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">FIM enabled в Core (LLAMA_FIM_ENABLED)</span>
+        <label class="switch">
+          <input type="checkbox" id="fimEnabledToggle" ${fimEnabled ? 'checked' : ''}/>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="row" style="margin-top:12px; flex-wrap:wrap; gap:8px">
+        <button id="saveFimConfigBtn">Сохранить FIM</button>
+        <button class="ghost" id="startFimBtn">Запустить fim-small</button>
+      </div>
+    </div>
     <div class="row">
       <button id="refresh">Обновить</button>
-      <button class="ghost" id="startCoder">Запустить coder (ik)</button>
+      <button class="ghost" id="startCoder">Запустить coder (chat)</button>
       <button class="ghost" id="stopAll">Остановить все</button>
     </div>
     <div id="list">${cards || '<div class="banner warn">Нет профилей — Core offline?</div>'}</div>
@@ -768,17 +840,50 @@ function buildHtml(state) {
 
   <section class="page" id="skills">
     <h1>Навыки Эвокод</h1>
-    <p class="hint">Навыки — это расширенные инструкции агента. Системные навыки (system) обновляются из репозитория, а пользовательские (user) позволяют добавлять свои инструкции или переопределять системные.</p>
-    
-    <div class="row">
-      <button id="syncSkills">Синхронизировать сейчас</button>
+    <p class="hint">Router <b>v2</b>: точный activate playbook’ов. Seed pack <code>evocode-*</code> · authoring: docs/SKILL_AUTHORING.md · RFC: specs/SKILL_ROUTER_V2.md</p>
+
+    <div class="settings-group">
+      <h2>Проверка маршрутизации (dry-run)</h2>
+      <p class="hint">Без вызова LLM — только score / inject preview.</p>
+      <div class="input-container">
+        <label>Запрос</label>
+        <input id="routeQuery" placeholder="например: режим оператора HTML · solidity audit · always-local" />
+      </div>
+      <div class="row" style="gap:10px; flex-wrap:wrap; align-items:center;">
+        <select id="routeMode" style="min-width:120px">
+          <option value="auto">mode: auto</option>
+          <option value="dev">mode: dev</option>
+          <option value="operator">mode: operator</option>
+        </select>
+        <button id="routeTestBtn">Проверить route</button>
+        <button class="ghost" id="reindexSkills">Переиндексировать</button>
+        <button class="ghost" id="syncSkills">Синхронизировать remote</button>
+      </div>
+      <pre id="routeResult" class="route-result" style="display:none; margin-top:12px; white-space:pre-wrap; font-size:12px; max-height:220px; overflow:auto;"></pre>
     </div>
 
+    <div class="settings-group">
+      <h2>Пакеты (packs)</h2>
+      <p class="hint">Отключённый pack не участвует в auto-route (кроме tier=core и user). Lab — отдельно.</p>
+      <div class="pack-grid" id="packGrid">${packToggles}</div>
+      <div class="toggle-container" style="margin-top:12px">
+        <span class="toggle-label">Разрешить lab / offensive skills</span>
+        <label class="switch">
+          <input type="checkbox" id="enableLabSkills" ${skillsCfg.enableLab ? 'checked' : ''}/>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button id="saveSkillsConfigBtn">Сохранить packs / lab</button>
+      </div>
+    </div>
+
+    <h2>Каталог <span class="muted">(${skillsList.length})</span></h2>
     <div id="skills-list" style="margin-top: 12px;">${skillCards}</div>
 
-    <h2>Создать новый навык</h2>
+    <h2>Создать user-навык</h2>
     <div class="card" style="margin-top: 10px;">
-      <label>Имя нового навыка (только латиница, цифры, дефисы)</label>
+      <label>Имя (латиница, цифры, дефисы) — шаблон v2 frontmatter</label>
       <input id="newSkillName" placeholder="например, my-custom-skill" />
       <div class="row" style="margin-top: 14px;">
         <button id="createSkillBtn">Создать и редактировать</button>
@@ -877,6 +982,15 @@ function buildHtml(state) {
   const post = (type, extra = {}) => vscode.postMessage({ type, ...extra });
   document.getElementById('refresh').onclick = () => post('refresh');
   document.getElementById('startCoder').onclick = () => { log('Запуск coder…'); post('start', { id: 'coder' }); };
+  document.getElementById('startFimBtn')?.addEventListener('click', () => {
+    log('Запуск FIM…');
+    post('start', { id: 'fim-small' });
+  });
+  document.getElementById('saveFimConfigBtn')?.addEventListener('click', () => {
+    const enabled = !!document.getElementById('fimEnabledToggle')?.checked;
+    log('Сохранение FIM…');
+    post('saveFimConfig', { enabled });
+  });
   document.getElementById('stopAll').onclick = () => { log('Стоп…'); post('stopAll'); };
   
   const openFolderBtn = document.getElementById('openFolderBtn');
@@ -946,9 +1060,23 @@ function buildHtml(state) {
   document.getElementById('openOutput').onclick = () => post('openOutput');
   document.getElementById('installDesktop').onclick = () => post('installDesktop');
 
-  // Навыки
-  document.getElementById('syncSkills').onclick = () => { log('Синхронизация навыков…'); post('syncSkills'); };
-  document.getElementById('createSkillBtn').onclick = () => {
+  // Навыки / Router v2
+  document.getElementById('syncSkills')?.addEventListener('click', () => { log('Синхронизация навыков…'); post('syncSkills'); });
+  document.getElementById('reindexSkills')?.addEventListener('click', () => { log('Reindex…'); post('reindexSkills'); });
+  document.getElementById('routeTestBtn')?.addEventListener('click', () => {
+    const query = document.getElementById('routeQuery')?.value?.trim() || '';
+    const mode = document.getElementById('routeMode')?.value || 'auto';
+    if (!query) { log('Введите запрос для route'); return; }
+    log('Route…');
+    post('routeSkills', { query, mode });
+  });
+  document.getElementById('saveSkillsConfigBtn')?.addEventListener('click', () => {
+    const enabledPacks = [...document.querySelectorAll('#packGrid input[data-pack]:checked')].map((el) => el.dataset.pack);
+    const enableLab = !!document.getElementById('enableLabSkills')?.checked;
+    log('Сохранение packs…');
+    post('saveSkillsConfig', { enabledPacks, enableLab });
+  });
+  document.getElementById('createSkillBtn')?.addEventListener('click', () => {
     const name = document.getElementById('newSkillName').value.trim();
     if (!name) {
       log('Укажите имя навыка');
@@ -956,7 +1084,7 @@ function buildHtml(state) {
     }
     log('Создание навыка ' + name + '…');
     post('createSkill', { name });
-  };
+  });
   document.getElementById('skills-list')?.addEventListener('click', (e) => {
     const b = e.target.closest('button[data-act]');
     if (!b) return;
@@ -964,6 +1092,15 @@ function buildHtml(state) {
       post('openFile', { path: b.dataset.path });
     } else if (b.dataset.act === 'deleteSkill') {
       post('deleteSkill', { name: b.dataset.name });
+    }
+  });
+  window.addEventListener('message', (event) => {
+    const m = event.data;
+    if (m?.type === 'routeResult') {
+      const el = document.getElementById('routeResult');
+      if (!el) return;
+      el.style.display = 'block';
+      el.textContent = m.text || JSON.stringify(m.data, null, 2);
     }
   });
 
@@ -1183,6 +1320,13 @@ function buildHtml(state) {
   window.addEventListener('message', (e) => {
     const msg = e.data;
     if (msg?.type === 'log') log(msg.text);
+    if (msg?.type === 'routeResult') {
+      const el = document.getElementById('routeResult');
+      if (el) {
+        el.style.display = 'block';
+        el.textContent = msg.text || JSON.stringify(msg.data, null, 2);
+      }
+    }
     if (msg?.type === 'modelsFetched') {
       if (msg.success && Array.isArray(msg.models)) {
         if (msg.models.length === 0) {
@@ -1255,11 +1399,22 @@ class ProductPanel {
       /* */
     }
     let skills = [];
+    let packs = [];
+    let skillsConfig = {
+      enableLab: false,
+      enabledPacks: [],
+      maxSkills: 2,
+      maxInjectChars: 8000,
+      minScore: 15,
+      routerVersion: 'v2',
+    };
     if (coreOnline) {
       try {
-        const sk = await httpJson('GET', '/v1/skills', null, port, 5000);
-        if (sk.json && sk.json.skills) {
-          skills = sk.json.skills;
+        const sk = await httpJson('GET', '/v1/skills', null, port, 20000);
+        if (sk.json && sk.json.skills) skills = sk.json.skills;
+        if (sk.json && sk.json.packs) packs = sk.json.packs;
+        if (sk.json && sk.json.skillsConfig) {
+          skillsConfig = { ...skillsConfig, ...sk.json.skillsConfig };
         }
       } catch {
         /* */
@@ -1279,18 +1434,34 @@ class ProductPanel {
         privacyMode: 'auto',
         localMaxTokens: 400,
         cloudMinTokens: 3000
-      }
+      },
+      skills: skillsConfig,
     };
     if (coreOnline) {
       try {
         const cfgRes = await httpJson('GET', '/v1/config', null, port, 5000);
         if (cfgRes.json) {
-          config = cfgRes.json;
+          config = { ...config, ...cfgRes.json };
+          if (cfgRes.json.skills) {
+            skillsConfig = { ...skillsConfig, ...cfgRes.json.skills };
+            if (cfgRes.json.skills.packsCatalog?.length) {
+              packs = cfgRes.json.skills.packsCatalog;
+            }
+          }
         }
       } catch {
         /* */
       }
     }
+    const fim = {
+      enabled: true,
+      port: 8082,
+      modelId: 'evocode-fim',
+      ...(runtime.fim || {}),
+      ...(config.fim || {}),
+      ...(coreHealth?.fim || {}),
+      ready: !!(runtime.fim?.ready ?? coreHealth?.fimReady),
+    };
     const kilo = readKiloConfig();
     const baseURL =
       kilo?.provider?.evocode?.options?.baseURL ||
@@ -1303,7 +1474,10 @@ class ProductPanel {
       coreOnline,
       coreHealth,
       runtime,
+      fim,
       skills,
+      packs,
+      skillsConfig,
       config,
       hasFolder: !!(folders && folders.length > 0),
       folderPath: folders && folders.length > 0 ? folders[0].uri.fsPath : '',
@@ -1526,6 +1700,100 @@ class ProductPanel {
             await this.refresh();
           }
         );
+        return;
+      }
+      if (msg.type === 'reindexSkills') {
+        try {
+          const r = await httpJson('POST', '/v1/skills/reindex', {}, port, 60000);
+          log(`Reindex: ${r.json?.count ?? '?'} skills (${r.json?.routerVersion || 'v2'})`);
+          vscode.window.showInformationMessage(`Эвокод: индекс навыков ${r.json?.count ?? 0}`);
+          await this.refresh();
+        } catch (e) {
+          log(`Reindex error: ${e.message}`);
+          vscode.window.showErrorMessage(`Reindex: ${e.message}`);
+        }
+        return;
+      }
+      if (msg.type === 'routeSkills') {
+        try {
+          const r = await httpJson(
+            'POST',
+            '/v1/skills/route',
+            { query: msg.query, mode: msg.mode || 'auto' },
+            port,
+            30000,
+          );
+          const lines = [];
+          lines.push(`router: ${r.json?.routerVersion || '?'} · injectChars: ${r.json?.injectChars ?? 0}`);
+          lines.push('selected:');
+          for (const s of r.json?.selected || []) {
+            lines.push(`  • ${s.name}  score=${s.score}  pack=${s.pack}  tier=${s.tier}`);
+            lines.push(`    reasons: ${(s.reasons || []).join(', ')}`);
+          }
+          if (!(r.json?.selected || []).length) lines.push('  (none)');
+          if ((r.json?.rejected || []).length) {
+            lines.push('rejected (sample):');
+            for (const x of (r.json.rejected || []).slice(0, 8)) {
+              lines.push(`  • ${x.name}: ${x.reason} (${x.score})`);
+            }
+          }
+          this.panel?.webview.postMessage({ type: 'routeResult', text: lines.join('\n'), data: r.json });
+          log(`Route: ${(r.json?.selected || []).map((s) => s.name).join(', ') || 'none'}`);
+        } catch (e) {
+          this.panel?.webview.postMessage({ type: 'routeResult', text: `Error: ${e.message}` });
+          log(`Route error: ${e.message}`);
+        }
+        return;
+      }
+      if (msg.type === 'saveSkillsConfig') {
+        try {
+          const r = await httpJson(
+            'POST',
+            '/v1/config',
+            {
+              skills: {
+                enabledPacks: msg.enabledPacks || [],
+                enableLab: !!msg.enableLab,
+              },
+            },
+            port,
+            10000,
+          );
+          if (r.status === 200) {
+            vscode.window.showInformationMessage('Эвокод: packs / lab сохранены');
+            log(`Packs: ${(msg.enabledPacks || []).join(', ') || '(all)'} · lab=${!!msg.enableLab}`);
+            await this.refresh();
+          } else {
+            log(`Config error: ${r.json?.error?.message || r.status}`);
+          }
+        } catch (e) {
+          log(`Config error: ${e.message}`);
+          vscode.window.showErrorMessage(`Не удалось сохранить packs: ${e.message}`);
+        }
+        return;
+      }
+      if (msg.type === 'saveFimConfig') {
+        try {
+          const r = await httpJson(
+            'POST',
+            '/v1/config',
+            { fim: { enabled: !!msg.enabled, profileId: 'fim-small', modelId: 'evocode-fim' } },
+            port,
+            10000,
+          );
+          if (r.status === 200) {
+            vscode.window.showInformationMessage(
+              msg.enabled ? 'FIM включён (лёгкая модель / autocomplete)' : 'FIM выключен',
+            );
+            log(`FIM enabled=${!!msg.enabled}`);
+            await this.refresh();
+          } else {
+            log(`FIM config error: ${r.json?.error?.message || r.status}`);
+          }
+        } catch (e) {
+          log(`FIM config: ${e.message}`);
+          vscode.window.showErrorMessage(`FIM: ${e.message}`);
+        }
         return;
       }
       if (msg.type === 'openFile') {

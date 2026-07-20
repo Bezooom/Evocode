@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: programmatic-seo
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - programmatic seo
 description: >
   Design and evaluate programmatic SEO strategies for creating SEO-driven pages
   at scale using templates and structured data. Use when the user mentions

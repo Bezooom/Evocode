@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: concise-planning
+domain: general
+pack: general
+tier: optional
+triggers:
+  - concise planning
 description: Use when a user asks for a plan for a coding task, to generate a clear, actionable, and atomic checklist.
 ---
 

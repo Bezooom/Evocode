@@ -1,5 +1,10 @@
 ---
 name: seo-schema
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo schema
 description: >
   Detect, validate, and generate Schema.org structured data. JSON-LD format
   preferred. Use when user says "schema", "structured data", "rich results",

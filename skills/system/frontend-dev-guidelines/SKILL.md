@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: frontend-dev-guidelines
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - frontend dev guidelines
 description: Opinionated frontend development standards for modern React + TypeScript applications. Covers Suspense-first data fetching, lazy loading, feature-based architecture, MUI v7 styling, TanStack Router, performance optimization, and strict TypeScript practices.
 ---
 

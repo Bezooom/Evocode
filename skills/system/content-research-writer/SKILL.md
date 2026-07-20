@@ -1,5 +1,10 @@
 ---
 name: content-research-writer
+domain: research
+pack: science
+tier: optional
+triggers:
+  - content research writer
 description: >-
   Assists in writing high-quality content by conducting research, adding
   citations, improving hooks, iterating on outlines, and providing real-time
@@ -544,4 +549,3 @@ Recommended structure for writing projects:
 - Creating presentation content
 - Writing case studies
 - Developing course outlines
-

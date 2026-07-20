@@ -1,5 +1,10 @@
 ---
 name: i18n-localization
+domain: general
+pack: general
+tier: optional
+triggers:
+  - i18n localization
 description: Internationalization and localization patterns.
 category: development
 version: 4.1.0-fractal

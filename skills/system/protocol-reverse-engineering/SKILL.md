@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: protocol-reverse-engineering
+domain: general
+pack: general
+tier: optional
+triggers:
+  - protocol reverse engineering
 description: Master network protocol reverse engineering including packet analysis, protocol dissection, and custom protocol documentation. Use when analyzing network traffic, understanding proprietary protocols, or debugging network communication.
 ---
 

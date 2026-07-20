@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: nosql-expert
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - nosql expert
 description: "Expert guidance for distributed NoSQL databases (Cassandra, DynamoDB). Focuses on mental models, query-first modeling, single-table design, and avoiding hot partitions in high-scale systems."
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: cro-expert-kit
+domain: general
+pack: general
+tier: optional
+triggers:
+  - cro expert kit
 description: Elite Conversion Rate Optimization Toolkit.
 category: marketing
 version: 4.1.0-fractal

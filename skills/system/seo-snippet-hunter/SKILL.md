@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-snippet-hunter
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo snippet hunter
 description: Formats content to be eligible for featured snippets and SERP
   features. Creates snippet-optimized content blocks based on best practices.
   Use PROACTIVELY for question-based content.

@@ -1,5 +1,10 @@
 ---
 name: seo-ecommerce
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo ecommerce
 description: >
   E-commerce SEO analysis: Google Shopping visibility, Amazon marketplace
   intelligence, product schema validation, competitor pricing analysis, and

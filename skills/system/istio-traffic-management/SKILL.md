@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: istio-traffic-management
+domain: general
+pack: general
+tier: optional
+triggers:
+  - istio traffic management
 description: Configure Istio traffic management including routing, load balancing, circuit breakers, and canary deployments. Use when implementing service mesh traffic policies, progressive delivery, or resilience patterns.
 ---
 

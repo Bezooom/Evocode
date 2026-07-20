@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: form-cro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - form cro
 description: >
   Optimize any form that is NOT signup or account registration — including lead
   capture, contact, demo request, application, survey, quote, and checkout forms.

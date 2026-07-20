@@ -1,5 +1,21 @@
 ---
 name: frontend-engineering
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - мобильная разработка
+  - frontend engineering
+  - react / next.js
+  - дизайн-система
+  - ui components
+  - ui-компоненты
+  - tailwind css
+  - фронтенд
+  - frontend
+  - angular
+  - react
+  - vue
 description: |
   [RU] Макро-навык для фронтенд-разработки: React, Next.js, Angular, Vue, мобильная разработка (React Native), UI-компоненты, доступность (accessibility), дизайн-системы. Используй при запросах: "создать компонент", "написать страницу на React/Next.js/Angular", "мобильное приложение", "адаптивная вёрстка", "Tailwind дизайн-система", "view transitions", "миграция React/Angular".
   [EN] Macro-skill for frontend engineering: React, Next.js, Angular, Vue, mobile (React Native), UI components, accessibility, design systems. Triggers: frontend development, UI components.

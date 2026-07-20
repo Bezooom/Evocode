@@ -3,7 +3,7 @@
   "keyPatches": {
     "ui.sessionReview.title": {
       "en": "Sessions\\xE6ndringer",
-      "ru": "Сессии\\xE6ndringer"
+      "ru": "Изменения сессии"
     },
     "ui.sessionReview.title.git": {
       "en": "Git changes",
@@ -11,7 +11,7 @@
     },
     "ui.sessionReview.title.branch": {
       "en": "Branch-wijzigingen",
-      "ru": "Ветка-wijzigingen"
+      "ru": "Изменения ветки"
     },
     "ui.sessionReview.title.lastTurn": {
       "en": "Last turn changes",
@@ -27,7 +27,7 @@
     },
     "ui.sessionReview.expandAll": {
       "en": "Expandir tudo",
-      "ru": "Развернутьir tudo"
+      "ru": "Развернуть всё"
     },
     "ui.sessionReview.collapseAll": {
       "en": "Collapse all",
@@ -51,7 +51,7 @@
     },
     "ui.sessionReview.image.placeholder": {
       "en": "Imagem",
-      "ru": "Изображениеm"
+      "ru": "Изображение"
     },
     "ui.sessionReview.largeDiff.title": {
       "en": "Diff too large to render",
@@ -59,15 +59,15 @@
     },
     "ui.sessionReview.largeDiff.renderAnyway": {
       "en": "Render anyway",
-      "ru": "Всё равно показать"
+      "ru": "Всё равно Показать"
     },
     "ui.sessionReview.openFile": {
       "en": "Open file",
-      "ru": "Открыть файл"
+      "ru": "Открыть Файл"
     },
     "ui.fileMedia.state.removed": {
       "en": "File {{kind}} rimosso.",
-      "ru": "Файл {{kind}} rimosso."
+      "ru": "Файл {{kind}} удален."
     },
     "ui.fileMedia.state.loading": {
       "en": "Loading {{kind}}...",
@@ -75,7 +75,7 @@
     },
     "ui.fileMedia.binary.title": {
       "en": "File binario",
-      "ru": "Файл binario"
+      "ru": "Бинарный файл"
     },
     "ui.fileMedia.binary.description.default": {
       "en": "Binary content",
@@ -83,11 +83,11 @@
     },
     "ui.lineComment.label.prefix": {
       "en": "Commenta ",
-      "ru": "Комментарийa "
+      "ru": "Комментарий "
     },
     "ui.lineComment.editorLabel.prefix": {
       "en": "Commento su ",
-      "ru": "Комментарийo su "
+      "ru": "Комментарий к "
     },
     "ui.lineComment.placeholder": {
       "en": "Add comment",
@@ -95,15 +95,15 @@
     },
     "ui.lineComment.submit": {
       "en": "Commenta",
-      "ru": "Комментарийa"
+      "ru": "Комментарий"
     },
     "ui.sessionTurn.steps.show": {
       "en": "Show steps",
-      "ru": "Показать шаги"
+      "ru": "Показать Шаги"
     },
     "ui.sessionTurn.steps.hide": {
       "en": "Hide steps",
-      "ru": "Скрыть шаги"
+      "ru": "Скрыть Шаги"
     },
     "ui.sessionTurn.summary.response": {
       "en": "Response",
@@ -111,7 +111,7 @@
     },
     "ui.sessionTurn.diff.showMore": {
       "en": "Show more changes ({{count}})",
-      "ru": "Показать ещё changes ({{count}})"
+      "ru": "Показать ещё изменения ({{count}})"
     },
     "ui.sessionTurn.diffs.changed": {
       "en": "Changed",
@@ -139,7 +139,7 @@
     },
     "dialog.usageExceeded.freeTier.description": {
       "en": "Abbonati a Evocode Go per un accesso affidabile ai migliori modelli open source, a partire da $5 al mese.",
-      "ru": "Abbonati a Эвокод Go per un accesso affidabile ai migliori modelli open source, a partire da $5 al mese."
+      "ru": "Подпишитесь на Эвокод Go для надежного доступа к лучшим моделям с открытым исходным кодом от $5 в месяц."
     },
     "dialog.usageExceeded.freeTier.actionLabel": {
       "en": "Subscribe",
@@ -151,11 +151,11 @@
     },
     "dialog.usageExceeded.accountRateLimit.description": {
       "en": "Nutzungslimit erreicht. Um dieses Modell jetzt weiter zu nutzen, aktiviere die Nutzung \\xFCber dein verf\\xFCgbares Guthaben",
-      "ru": "Nutzungslimit erreicht. Um dieses Модельl jetzt weiter zu nutzen, aktiviere die Nutzung \\xFCber dein verf\\xFCgbares Guthaben"
+      "ru": "Лимит использования достигнут. Чтобы продолжить использование этой модели, пополните баланс вашего аккаунта."
     },
     "dialog.usageExceeded.accountRateLimit.actionLabel": {
       "en": "Open settings",
-      "ru": "Открыть настройки"
+      "ru": "Открыть Настройки"
     },
     "ui.sessionTurn.status.delegating": {
       "en": "Delegating work",
@@ -163,15 +163,15 @@
     },
     "ui.sessionTurn.status.delegatingWaitingPermission": {
       "en": "Subagent in attesa di autorizzazione",
-      "ru": "Субагент in attesa di autorizzazione"
+      "ru": "Субагент ожидает разрешения"
     },
     "ui.sessionTurn.status.delegatingWaitingQuestion": {
       "en": "Subagent in attesa di risposta",
-      "ru": "Субагент in attesa di risposta"
+      "ru": "Субагент ожидает ответа"
     },
     "ui.sessionTurn.status.planning": {
       "en": "Planning next steps",
-      "ru": "Планирую следующие шаги"
+      "ru": "Планирую следующие Шаги"
     },
     "ui.sessionTurn.status.gatheringContext": {
       "en": "Exploring",
@@ -187,7 +187,7 @@
     },
     "ui.sessionTurn.status.searchingWeb": {
       "en": "Searching the web",
-      "ru": "Ищу в интернете"
+      "ru": "Ищу в Интернете"
     },
     "ui.sessionTurn.status.makingEdits": {
       "en": "Making edits",
@@ -199,11 +199,11 @@
     },
     "ui.sessionTurn.status.thinking": {
       "en": "Thinking...",
-      "ru": "Думаю..."
+      "ru": "Рассуждаю..."
     },
     "ui.sessionTurn.status.thinkingWithTopic": {
       "en": "Thinking - {{topic}}",
-      "ru": "Думаю - {{topic}}"
+      "ru": "Рассуждаю - {{topic}}"
     },
     "ui.sessionTurn.status.gatheringThoughts": {
       "en": "Gathering thoughts",
@@ -215,7 +215,7 @@
     },
     "ui.messagePart.diagnostic.error": {
       "en": "Errore",
-      "ru": "Ошибкаe"
+      "ru": "Ошибка"
     },
     "ui.messagePart.mcp.input": {
       "en": "Input",
@@ -227,7 +227,7 @@
     },
     "ui.messagePart.title.edit": {
       "en": "Editar",
-      "ru": "Правкаar"
+      "ru": "Редактировать"
     },
     "ui.messagePart.title.write": {
       "en": "Write",
@@ -235,7 +235,7 @@
     },
     "ui.messagePart.review.title": {
       "en": "Review your answers",
-      "ru": "Проверка your answers"
+      "ru": "Проверьте предложенные изменения"
     },
     "ui.messagePart.compaction": {
       "en": "Session komprimeret",
@@ -251,31 +251,31 @@
     },
     "ui.list.clearFilter": {
       "en": "Cancella filtro",
-      "ru": "Отменаla filtro"
+      "ru": "Сбросить фильтр"
     },
     "ui.list.emptyWithFilter.prefix": {
       "en": "No results for",
-      "ru": "Нет результатов for"
+      "ru": "Нет результатов для"
     },
     "ui.fileSearch.nextMatch": {
       "en": "Next match",
-      "ru": "Далее match"
+      "ru": "Далее"
     },
     "ui.fileSearch.close": {
       "en": "Close search",
-      "ru": "Закрыть search"
+      "ru": "Закрыть поиск"
     },
     "ui.textField.copyToClipboard": {
       "en": "Copy to clipboard",
-      "ru": "Копировать to clipboard"
+      "ru": "Копировать в буфер"
     },
     "ui.textField.copyLink": {
       "en": "Copy link",
-      "ru": "Копировать link"
+      "ru": "Копировать ссылку"
     },
     "ui.imagePreview.alt": {
       "en": "Image preview",
-      "ru": "Изображение preview"
+      "ru": "Предпросмотр изображения"
     },
     "ui.mermaid.download": {
       "en": "Download",
@@ -283,7 +283,7 @@
     },
     "ui.mermaid.copySource": {
       "en": "Copy Mermaid source",
-      "ru": "Копировать Mermaid source"
+      "ru": "Копировать исходный код Mermaid"
     },
     "ui.mermaid.copySvg": {
       "en": "Copy SVG",
@@ -315,7 +315,7 @@
     },
     "ui.tool.todos.read": {
       "en": "Read to-dos",
-      "ru": "Чтение to-dos"
+      "ru": "Чтение списка задач"
     },
     "ui.toolErrorCard.failed": {
       "en": "Failed",
@@ -323,7 +323,7 @@
     },
     "ui.toolErrorCard.copyError": {
       "en": "Copy error",
-      "ru": "Копировать error"
+      "ru": "Копировать ошибку"
     },
     "ui.common.back": {
       "en": "Back",
@@ -331,11 +331,11 @@
     },
     "ui.common.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "ui.common.confirm": {
       "en": "Confirmar",
-      "ru": "Подтвердитьar"
+      "ru": "Подтвердить"
     },
     "ui.common.close": {
       "en": "Close",
@@ -347,7 +347,7 @@
     },
     "ui.common.submit": {
       "en": "Send inn",
-      "ru": "Отправить inn"
+      "ru": "Отправить"
     },
     "ui.permission.deny": {
       "en": "Deny",
@@ -355,19 +355,19 @@
     },
     "ui.permission.allowAlways": {
       "en": "Allow always",
-      "ru": "Разрешить always"
+      "ru": "Разрешить всегда"
     },
     "ui.permission.allowOnce": {
       "en": "Allow once",
-      "ru": "Разрешить once"
+      "ru": "Разрешить один раз"
     },
     "ui.message.expand": {
       "en": "Expandir mensagem",
-      "ru": "Развернутьir mensagem"
+      "ru": "Развернуть сообщение"
     },
     "ui.message.collapse": {
       "en": "Collapse message",
-      "ru": "Свернуть message"
+      "ru": "Свернуть сообщение"
     },
     "ui.message.copy": {
       "en": "Copy",
@@ -375,15 +375,15 @@
     },
     "ui.message.copyMessage": {
       "en": "Copy message",
-      "ru": "Копировать сообщение"
+      "ru": "Копировать Сообщение"
     },
     "ui.message.revertMessage": {
       "en": "Resetuj na ovu tačku",
-      "ru": "Сбросuj na ovu tačku"
+      "ru": "Откатить к этой точке"
     },
     "ui.message.copyResponse": {
       "en": "Copy response",
-      "ru": "Копировать response"
+      "ru": "Копировать ответ"
     },
     "ui.message.queued": {
       "en": "Queued",
@@ -391,7 +391,7 @@
     },
     "ui.patch.action.deleted": {
       "en": "Deleted",
-      "ru": "Удалитьd"
+      "ru": "Удалено"
     },
     "ui.message.revert": {
       "en": "Revert to here",
@@ -399,11 +399,11 @@
     },
     "ui.fileMedia.state.error": {
       "en": "Error en el archivo de {{kind}}",
-      "ru": "Ошибка en el archivo de {{kind}}"
+      "ru": "Ошибка в файле {{kind}}"
     },
     "ui.mermaid.renderError": {
       "en": "Error al renderizar Mermaid: {{message}}",
-      "ru": "Ошибка al renderizar Mermaid: {{message}}"
+      "ru": "Ошибка рендеринга Mermaid: {{message}}"
     },
     "ui.tool.shell": {
       "en": "Terminal",
@@ -411,7 +411,7 @@
     },
     "ui.fileSearch.placeholder": {
       "en": "Localizar",
-      "ru": "Локальноizar"
+      "ru": "Найти"
     },
     "ui.tool.codesearch": {
       "en": "Code Search",
@@ -427,7 +427,7 @@
     },
     "command.category.session": {
       "en": "Sessione",
-      "ru": "Сессияe"
+      "ru": "Сессия"
     },
     "command.category.theme": {
       "en": "Theme",
@@ -447,11 +447,11 @@
     },
     "command.category.terminal": {
       "en": "Terminale",
-      "ru": "Терминалe"
+      "ru": "Терминал"
     },
     "command.category.model": {
       "en": "Modello",
-      "ru": "Модельlo"
+      "ru": "Модель"
     },
     "command.category.permissions": {
       "en": "Permissions",
@@ -459,7 +459,7 @@
     },
     "command.category.workspace": {
       "en": "Workspace",
-      "ru": "Рабочая область"
+      "ru": "Рабочая Область"
     },
     "command.category.settings": {
       "en": "Settings",
@@ -467,23 +467,23 @@
     },
     "command.sidebar.toggle": {
       "en": "Toggle sidebar",
-      "ru": "Переключить sidebar"
+      "ru": "Свернуть/развернуть боковую панель"
     },
     "command.project.open": {
       "en": "Project openen",
-      "ru": "Проект openen"
+      "ru": "Открыть проект"
     },
     "command.settings.open": {
       "en": "Open settings",
-      "ru": "Открыть настройки"
+      "ru": "Открыть Настройки"
     },
     "command.session.next": {
       "en": "Sessione successiva",
-      "ru": "Сессияe successiva"
+      "ru": "Следующая сессия"
     },
     "command.session.next.unseen": {
       "en": "Sessione non letta successiva",
-      "ru": "Сессияe non letta successiva"
+      "ru": "Следующая непрочитанная сессия"
     },
     "command.palette": {
       "en": "Command palette",
@@ -499,55 +499,55 @@
     },
     "command.file.open": {
       "en": "Open file",
-      "ru": "Открыть файл"
+      "ru": "Открыть Файл"
     },
     "command.tab.close": {
       "en": "Close tab",
-      "ru": "Закрыть tab"
+      "ru": "Закрыть вкладку"
     },
     "command.terminal.toggle": {
       "en": "Terminal in-/uitschakelen",
-      "ru": "Терминал in-/uitschakelen"
+      "ru": "Показать/скрыть терминал"
     },
     "command.fileTree.toggle": {
       "en": "Toggle file tree",
-      "ru": "Переключить file tree"
+      "ru": "Показать/скрыть дерево файлов"
     },
     "command.review.toggle": {
       "en": "Review in-/uitschakelen",
-      "ru": "Проверка in-/uitschakelen"
+      "ru": "Показать/скрыть изменения"
     },
     "command.steps.toggle": {
       "en": "Toggle steps",
-      "ru": "Переключить steps"
+      "ru": "Показать/скрыть шаги"
     },
     "command.steps.toggle.description": {
       "en": "Show or hide steps for the current message",
-      "ru": "Показать or hide steps for the current message"
+      "ru": "Показать или скрыть шаги выполнения текущего сообщения"
     },
     "command.message.next": {
       "en": "Message suivant",
-      "ru": "Сообщение suivant"
+      "ru": "Следующее сообщение"
     },
     "command.mcp.toggle": {
       "en": "Toggle MCPs",
-      "ru": "Переключить MCPs"
+      "ru": "Показать/скрыть инструменты MCP"
     },
     "command.mcp.toggle.description": {
       "en": "Toggle MCPs",
-      "ru": "Переключить MCPs"
+      "ru": "Показать/скрыть инструменты MCP"
     },
     "command.permissions.autoaccept.disable": {
       "en": "Stop automatisk accept af \\xE6ndringer",
-      "ru": "Стоп automatisk accept af \\xE6ndringer"
+      "ru": "Отключить автоматическое одобрение изменений"
     },
     "command.workspace.toggle": {
       "en": "Toggle workspaces",
-      "ru": "Переключить workspaces"
+      "ru": "Переключить рабочие области"
     },
     "command.workspace.toggle.description": {
       "en": "Activer ou d\\xE9sactiver les espaces de travail multiples dans la barre lat\\xE9rale",
-      "ru": "Активноr ou d\\xE9sactiver les espaces de travail multiples dans la barre lat\\xE9rale"
+      "ru": "Показать или скрыть несколько рабочих областей в боковой панели"
     },
     "command.session.undo": {
       "en": "Undo",
@@ -555,7 +555,7 @@
     },
     "command.session.undo.description": {
       "en": "Undo the last message",
-      "ru": "Отменить the last message"
+      "ru": "Отменить последнее сообщение"
     },
     "command.session.redo": {
       "en": "Redo",
@@ -563,27 +563,27 @@
     },
     "command.session.redo.description": {
       "en": "Redo the last undone message",
-      "ru": "Повторить the last undone message"
+      "ru": "Повторить последнее отмененное сообщение"
     },
     "command.session.share": {
       "en": "Share session",
-      "ru": "Поделиться session"
+      "ru": "Поделиться сессией"
     },
     "command.session.share.description": {
       "en": "Share this session and copy the URL to clipboard",
-      "ru": "Поделиться this session and copy the URL to clipboard"
+      "ru": "Поделиться сессией и скопировать URL в буфер"
     },
     "command.session.unshare.description": {
       "en": "Stop met het delen van deze sessie",
-      "ru": "Стоп met het delen van deze sessie"
+      "ru": "Прекратить общий доступ к этой сессии"
     },
     "command.session.export": {
       "en": "Exportar transcri\\xE7\\xE3o da sess\\xE3o",
-      "ru": "Экспортar transcri\\xE7\\xE3o da sess\\xE3o"
+      "ru": "Экспортировать историю сессии"
     },
     "dialog.provider.search.placeholder": {
       "en": "Providers zoeken",
-      "ru": "Провайдерs zoeken"
+      "ru": "Поиск провайдеров"
     },
     "dialog.provider.group.other": {
       "en": "Other",
@@ -591,7 +591,7 @@
     },
     "dialog.model.search.placeholder": {
       "en": "Modellen zoeken",
-      "ru": "Модельlen zoeken"
+      "ru": "Поиск моделей"
     },
     "dialog.model.manage.description": {
       "en": "Model seçicide hangi modellerin görüneceğini özelleştirin.",
@@ -599,7 +599,7 @@
     },
     "dialog.model.expand": {
       "en": "Expandir",
-      "ru": "Развернутьir"
+      "ru": "Развернуть"
     },
     "dialog.model.collapse": {
       "en": "Collapse",
@@ -607,43 +607,43 @@
     },
     "dialog.model.unpaid.freeModels.title": {
       "en": "Modelli gratuiti forniti da Evocode",
-      "ru": "Модельli gratuiti forniti da Эвокод"
+      "ru": "Бесплатные модели, предоставляемые Эвокод"
     },
     "dialog.provider.viewAll": {
       "en": "Show more providers",
-      "ru": "Показать ещё providers"
+      "ru": "Показать всех провайдеров"
     },
     "provider.connect.apiKey.description": {
       "en": "Inserisci la tua API key {{provider}} per connettere l'account e usare i modelli {{provider}} in Evocode.",
-      "ru": "Inserisci la tua API key {{provider}} per connettere l'account e usare i modelli {{provider}} in Эвокод."
+      "ru": "Введите API-ключ {{provider}} для подключения аккаунта и использования моделей {{provider}} в Эвокод."
     },
     "provider.connect.apiKey.placeholder.optional": {
       "en": "Leave empty for local server",
-      "ru": "Пусто = локальный сервер"
+      "ru": "Пусто = локальный Сервер"
     },
     "provider.connect.azure.endpointType.baseURL.hint": {
       "en": "Usa un endpoint Azure OpenAI personalizzato",
-      "ru": "Usa un endpoint Azure ОткрытьAI personalizzato"
+      "ru": "Usa un endpoint Azure OpenAI personalizzato"
     },
     "provider.connect.azure.baseURL.label": {
       "en": "URL endpoint Azure OpenAI",
-      "ru": "URL endpoint Azure ОткрытьAI"
+      "ru": "URL endpoint Azure OpenAI"
     },
     "provider.connect.opencodeZen.line1": {
       "en": "OpenCode Zen ti offre una selezione curata di modelli affidabili e ottimizzati per agenti di coding.",
-      "ru": "ОткрытьCode Zen ti offre una selezione curata di modelli affidabili e ottimizzati per agenti di coding."
+      "ru": "OpenCode Zen предлагает коллекцию надежных и оптимизированных моделей для написания кода."
     },
     "provider.connect.oauth.code.visit.suffix": {
       "en": " per ottenere il codice di autorizzazione, connettere l'account e usare i modelli {{provider}} in Evocode.",
-      "ru": " per ottenere il codice di autorizzazione, connettere l'account e usare i modelli {{provider}} in Эвокод."
+      "ru": " для получения кода авторизации, подключения аккаунта и использования моделей {{provider}} в Эвокод."
     },
     "provider.connect.oauth.auto.visit.suffix": {
       "en": " e inserisci il codice qui sotto per connettere l'account e usare i modelli {{provider}} in Evocode.",
-      "ru": " e inserisci il codice qui sotto per connettere l'account e usare i modelli {{provider}} in Эвокод."
+      "ru": " и введите код ниже для подключения аккаунта и использования моделей {{provider}} в Эвокод."
     },
     "provider.connect.oauth.auto.confirmationCode": {
       "en": "Confirmation code",
-      "ru": "Подтвердитьation code"
+      "ru": "Код подтверждения"
     },
     "model.tag.free": {
       "en": "Free",
@@ -651,7 +651,7 @@
     },
     "model.group.favorites": {
       "en": "Favoriten",
-      "ru": "В избранноеn"
+      "ru": "Избранное"
     },
     "model.group.collapse": {
       "en": "Collapse {{group}}",
@@ -659,23 +659,23 @@
     },
     "model.group.expand": {
       "en": "Expandir {{group}}",
-      "ru": "Развернутьir {{group}}"
+      "ru": "Развернуть {{group}}"
     },
     "model.provider.openai": {
       "en": "OpenAI",
-      "ru": "ОткрытьAI"
+      "ru": "OpenAI"
     },
     "model.tooltip.allows": {
       "en": "Allows: {{inputs}}",
-      "ru": "Разрешитьs: {{inputs}}"
+      "ru": "Поддерживает: {{inputs}}"
     },
     "model.tooltip.reasoning.allowed": {
       "en": "Allows reasoning",
-      "ru": "Разрешитьs reasoning"
+      "ru": "Поддерживает рассуждения"
     },
     "model.tooltip.context": {
       "en": "Contextlimiet {{limit}}",
-      "ru": "Контекстlimiet {{limit}}"
+      "ru": "Лимит контекста {{limit}}"
     },
     "model.preview.label.input": {
       "en": "Input",
@@ -687,7 +687,7 @@
     },
     "model.preview.label.average": {
       "en": "Costo medio stimato",
-      "ru": "Стоимостьo medio stimato"
+      "ru": "Средняя стоимость"
     },
     "model.preview.label.context": {
       "en": "Context",
@@ -703,7 +703,7 @@
     },
     "model.preview.modality.image": {
       "en": "Imagens",
-      "ru": "Изображениеns"
+      "ru": "Изображения"
     },
     "common.search.placeholder": {
       "en": "Search",
@@ -719,11 +719,11 @@
     },
     "common.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "common.submit": {
       "en": "Send inn",
-      "ru": "Отправить inn"
+      "ru": "Отправить"
     },
     "common.save": {
       "en": "Save",
@@ -735,19 +735,19 @@
     },
     "prompt.example.9": {
       "en": "Help me dit probleem te debuggen",
-      "ru": "Справка me dit probleem te debuggen"
+      "ru": "Помоги мне отладить эту проблему"
     },
     "prompt.example.15": {
       "en": "Review my code for best practices",
-      "ru": "Проверка my code for best practices"
+      "ru": "Проверь мой код на соответствие лучшим практикам"
     },
     "prompt.example.21": {
       "en": "Help me een migratiescript te schrijven",
-      "ru": "Справка me een migratiescript te schrijven"
+      "ru": "Помоги мне написать скрипт миграции"
     },
     "prompt.action.attachFile": {
       "en": "Attach file",
-      "ru": "Прикрепить file"
+      "ru": "Прикрепить файл"
     },
     "prompt.action.send": {
       "en": "Send",
@@ -759,11 +759,11 @@
     },
     "prompt.action.enhance": {
       "en": "Prompt verbeteren",
-      "ru": "Промпт verbeteren"
+      "ru": "Улучшить промпт"
     },
     "prompt.action.autoApprove.enable": {
       "en": "Activer l'approbation automatique",
-      "ru": "Активноr l'approbation automatique"
+      "ru": "Включить авто-одобрение"
     },
     "prompt.action.autoApprove.disable": {
       "en": "Disable auto-approve",
@@ -771,63 +771,63 @@
     },
     "prompt.action.autoApprove.enabled": {
       "en": "Auto-approve is enabled. Permission prompts will be approved automatically.",
-      "ru": "Авто-одобрение is enabled. Разрешение prompts will be approved automatically."
+      "ru": "Авто-одобрение включено. Запросы разрешений будут одобряться автоматически."
     },
     "prompt.action.autoApprove.disabled": {
       "en": "Auto-approve is disabled. Click to approve permission prompts automatically.",
-      "ru": "Авто-одобрение is disabled. Click to approve permission prompts automatically."
+      "ru": "Авто-одобрение выключено. Нажмите, чтобы включить авто-одобрение."
     },
     "prompt.action.resetModel": {
       "en": "Model terugzetten naar standaard",
-      "ru": "Модель terugzetten naar standaard"
+      "ru": "Сбросить модель по умолчанию"
     },
     "prompt.action.enhanceDescription": {
       "en": "De knop 'Prompt verbeteren' helpt je prompt te verbeteren door extra context, verduidelijking of herformulering te bieden. Typ hier een prompt en klik nogmaals op de knop om te zien hoe het werkt.",
-      "ru": "De knop 'Промпт verbeteren' helpt je prompt te verbeteren door extra context, verduidelijking of herformulering te bieden. Typ hier een prompt en klik nogmaals op de knop om te zien hoe het werkt."
+      "ru": "De knop 'Промпт улучшить' helpt je prompt te улучшить door extra context, verduidelijking of herformulering te bieden. Typ hier een prompt en klik nogmaals op de knop om te zien hoe het werkt."
     },
     "prompt.toast.worktreeCreateFailed.title": {
       "en": "Failed to create worktree",
-      "ru": "Ошибка to create worktree"
+      "ru": "Не удалось создать рабочую ветку"
     },
     "prompt.toast.sessionCreateFailed.title": {
       "en": "Failed to create session",
-      "ru": "Ошибка to create session"
+      "ru": "Не удалось создать сессию"
     },
     "prompt.toast.shellSendFailed.title": {
       "en": "Failed to send shell command",
-      "ru": "Ошибка to send shell command"
+      "ru": "Не удалось отправить команду в терминал"
     },
     "prompt.toast.commandSendFailed.title": {
       "en": "Failed to send command",
-      "ru": "Ошибка to send command"
+      "ru": "Не удалось отправить команду"
     },
     "prompt.toast.promptSendFailed.title": {
       "en": "Failed to send prompt",
-      "ru": "Ошибка to send prompt"
+      "ru": "Не удалось отправить запрос"
     },
     "dialog.directory.search.placeholder": {
       "en": "Search folders",
-      "ru": "Поиск folders"
+      "ru": "Поиск папок"
     },
     "dialog.server.description": {
       "en": "Cambia il server Evocode a cui si connette questa app.",
-      "ru": "Cambia il server Эвокод a cui si connette questa app."
+      "ru": "Изменить сервер Эвокод, к которому подключается это приложение."
     },
     "dialog.server.search.placeholder": {
       "en": "Search servers",
-      "ru": "Поиск servers"
+      "ru": "Поиск серверов"
     },
     "dialog.server.default.title": {
       "en": "Default server",
-      "ru": "По умолчанию server"
+      "ru": "Сервер по умолчанию"
     },
     "dialog.server.default.clear": {
       "en": "Cancella",
-      "ru": "Отменаla"
+      "ru": "Отменить"
     },
     "dialog.server.menu.edit": {
       "en": "Editar",
-      "ru": "Правкаar"
+      "ru": "Редактировать"
     },
     "dialog.server.menu.delete": {
       "en": "Delete",
@@ -839,7 +839,7 @@
     },
     "dialog.project.edit.title": {
       "en": "Project bewerken",
-      "ru": "Проект bewerken"
+      "ru": "Редактировать проект"
     },
     "dialog.project.edit.name": {
       "en": "Name",
@@ -847,19 +847,19 @@
     },
     "dialog.project.edit.icon.alt": {
       "en": "Projecticoon",
-      "ru": "Проектicoon"
+      "ru": "Иконка проекта"
     },
     "dialog.project.edit.worktree.startup": {
       "en": "Startup-Skript f\\xFCr Arbeitsbereich",
-      "ru": "Стартup-Skript f\\xFCr Arbeitsbereich"
+      "ru": "Скрипт автозапуска рабочей области"
     },
     "context.breakdown.title": {
       "en": "Contextspecificatie",
-      "ru": "Контекстspecificatie"
+      "ru": "Спецификация контекста"
     },
     "context.breakdown.tool": {
       "en": "Tool-aanroepen",
-      "ru": "Инструмент-aanroepen"
+      "ru": "Вызовы инструментов"
     },
     "context.breakdown.other": {
       "en": "Other",
@@ -867,11 +867,11 @@
     },
     "context.systemPrompt.title": {
       "en": "Prompt di sistema",
-      "ru": "Промпт di sistema"
+      "ru": "Системный промпт"
     },
     "context.stats.session": {
       "en": "Sessione",
-      "ru": "Сессияe"
+      "ru": "Сессия"
     },
     "context.stats.messages": {
       "en": "Messages",
@@ -883,15 +883,15 @@
     },
     "context.stats.model": {
       "en": "Modello",
-      "ru": "Модельlo"
+      "ru": "Модель"
     },
     "context.stats.limit": {
       "en": "Contextlimiet",
-      "ru": "Контекстlimiet"
+      "ru": "Лимит контекста"
     },
     "context.stats.totalTokens": {
       "en": "Token totali",
-      "ru": "Токен totali"
+      "ru": "Всего токенов"
     },
     "context.stats.usage": {
       "en": "Usage",
@@ -899,35 +899,35 @@
     },
     "context.stats.inputTokens": {
       "en": "Token input",
-      "ru": "Токен input"
+      "ru": "Входные токены"
     },
     "context.stats.outputTokens": {
       "en": "Token output",
-      "ru": "Токен output"
+      "ru": "Выходные токены"
     },
     "context.stats.reasoningTokens": {
       "en": "Token ragionamento",
-      "ru": "Токен ragionamento"
+      "ru": "Токены рассуждений"
     },
     "context.stats.cacheTokens": {
       "en": "Token cache (lettura/scrittura)",
-      "ru": "Токен cache (lettura/scrittura)"
+      "ru": "Токены кэша (чтение/запись)"
     },
     "context.stats.userMessages": {
       "en": "Messages utilisateur",
-      "ru": "Сообщения utilisateur"
+      "ru": "Сообщения пользователя"
     },
     "context.stats.assistantMessages": {
       "en": "Messages assistant",
-      "ru": "Сообщения assistant"
+      "ru": "Сообщения ассистента"
     },
     "context.stats.totalCost": {
       "en": "Costo totale",
-      "ru": "Стоимостьo totale"
+      "ru": "Полная стоимость"
     },
     "context.stats.sessionCreated": {
       "en": "Sessione creata",
-      "ru": "Сессияe creata"
+      "ru": "Сессия создана"
     },
     "context.usage.tokens": {
       "en": "Token",
@@ -939,11 +939,11 @@
     },
     "context.usage.cost": {
       "en": "Costo",
-      "ru": "Стоимостьo"
+      "ru": "Стоимость"
     },
     "language.br": {
       "en": "Portugu\\xEAs (Brasil)",
-      "ru": "Портugu\\xEAs (Brasil)"
+      "ru": "Португальский (Бразилия)"
     },
     "toast.language.title": {
       "en": "Language",
@@ -951,51 +951,51 @@
     },
     "toast.theme.title": {
       "en": "Theme switched",
-      "ru": "Тема switched"
+      "ru": "Тема изменена"
     },
     "toast.workspace.enabled.title": {
       "en": "Workspace abilitati",
-      "ru": "Рабочая область abilitati"
+      "ru": "Рабочие области включены"
     },
     "toast.workspace.disabled.title": {
       "en": "Workspace disabilitati",
-      "ru": "Рабочая область disabilitati"
+      "ru": "Рабочие области отключены"
     },
     "toast.permissions.autoaccept.on.description": {
       "en": "Edit and write permissions will be automatically approved",
-      "ru": "Правка and write permissions will be automatically approved"
+      "ru": "Разрешения на изменение и запись будут одобряться автоматически"
     },
     "toast.permissions.autoaccept.off.title": {
       "en": "Stoppede automatisk accept af \\xE6ndringer",
-      "ru": "Остановленоe automatisk accept af \\xE6ndringer"
+      "ru": "Авто-одобрение изменений отключено"
     },
     "toast.permissions.autoaccept.off.description": {
       "en": "Edit and write permissions will require approval",
-      "ru": "Правка and write permissions will require approval"
+      "ru": "Разрешения на изменение и запись потребуют подтверждения"
     },
     "toast.file.loadFailed.title": {
       "en": "Failed to load file",
-      "ru": "Ошибка to load file"
+      "ru": "Не удалось загрузить файл"
     },
     "toast.file.listFailed.title": {
       "en": "Failed to list files",
-      "ru": "Ошибка to list files"
+      "ru": "Не удалось получить список файлов"
     },
     "toast.session.share.copyFailed.title": {
       "en": "Failed to copy URL to clipboard",
-      "ru": "Ошибка to copy URL to clipboard"
+      "ru": "Не удалось скопировать URL"
     },
     "toast.session.share.success.title": {
       "en": "Sessione condivisa",
-      "ru": "Сессияe condivisa"
+      "ru": "Сессия доступна по ссылке"
     },
     "toast.session.share.success.description": {
       "en": "Share URL copied to clipboard!",
-      "ru": "Поделиться URL copied to clipboard!"
+      "ru": "Ссылка скопирована в буфер обмена!"
     },
     "toast.session.share.failed.title": {
       "en": "Failed to share session",
-      "ru": "Ошибка to share session"
+      "ru": "Не удалось поделиться сессией"
     },
     "toast.session.unshare.success.title": {
       "en": "Session non partag\\xE9e",
@@ -1003,27 +1003,27 @@
     },
     "toast.session.unshare.success.description": {
       "en": "Session non partag\\xE9e avec succ\\xE8s !",
-      "ru": "Сессия non partag\\xE9e avec succ\\xE8s !"
+      "ru": "Сессия non partag\\xE9e avec наcc\\xE8s !"
     },
     "toast.session.unshare.failed.title": {
       "en": "Failed to unshare session",
-      "ru": "Ошибка to unshare session"
+      "ru": "Не удалось закрыть доступ к сессии"
     },
     "toast.session.listFailed.title": {
       "en": "Failed to load sessions for {{project}}",
-      "ru": "Ошибка to load sessions for {{project}}"
+      "ru": "Не удалось загрузить сессии для {{project}}"
     },
     "toast.update.title": {
       "en": "Update beschikbaar",
-      "ru": "Обновить beschikbaar"
+      "ru": "Доступно обновление"
     },
     "toast.update.description": {
       "en": "Una nuova versione di Evocode ({{version}}) \\xE8 disponibile per l'installazione.",
-      "ru": "Una nuova versione di Эвокод ({{version}}) \\xE8 disponibile per l'installazione."
+      "ru": "Доступна новая версия Эвокод ({{version}) для установки."
     },
     "toast.update.action.installRestart": {
       "en": "Installa e riavvia",
-      "ru": "Установитьa e riavvia"
+      "ru": "Установить и перезапустить"
     },
     "error.page.title": {
       "en": "Something went wrong",
@@ -1031,35 +1031,35 @@
     },
     "error.page.details.label": {
       "en": "Error Details",
-      "ru": "Ошибка Подробности"
+      "ru": "Подробности ошибки"
     },
     "error.page.action.checkUpdates": {
       "en": "Nach Updates suchen",
-      "ru": "Nach Обновитьs suchen"
+      "ru": "Проверить обновления"
     },
     "error.page.action.updateTo": {
       "en": "Updaten naar {{version}}",
-      "ru": "Обновитьn naar {{version}}"
+      "ru": "Обновить до {{version}}"
     },
     "error.page.report.prefix": {
       "en": "Segnala questo errore al team Evocode",
-      "ru": "Segnala questo errore al team Эвокод"
+      "ru": "Сообщить об этой ошибке команде Эвокод"
     },
     "error.page.version": {
       "en": "Versione: {{version}}",
-      "ru": "Версияe: {{version}}"
+      "ru": "Версия: {{version}}"
     },
     "error.paidModel.description": {
       "en": "Log in of maak een account aan om toegang te krijgen tot meer dan 500 modellen, credits tegen kostprijs te gebruiken, of je eigen sleutel mee te nemen.",
-      "ru": "Войти of maak een account aan om toegang te krijgen tot meer dan 500 modellen, credits tegen kostprijs te gebruiken, of je eigen sleutel mee te nemen."
+      "ru": "Подключите кастомного провайдера или используйте локальную модель для доступа к инференсу."
     },
     "error.providerAuth.chatgpt.title": {
       "en": "OpenAI ti ha disconnesso",
-      "ru": "ОткрытьAI ti ha disconnesso"
+      "ru": "OpenAI отключен"
     },
     "error.providerAuth.chatgpt.description": {
       "en": "Log ind med ChatGPT igen, og send din besked p\\xE5 ny for at forts\\xE6tte med at bruge Codex-modeller.",
-      "ru": "Войтиd med ChatGPT igen, og send din besked p\\xE5 ny for at forts\\xE6tte med at bruge Codex-modeller."
+      "ru": "Войдите через ChatGPT повторно для использования моделей Codex."
     },
     "error.chain.status": {
       "en": "Status: {{status}}",
@@ -1071,31 +1071,31 @@
     },
     "error.chain.responseBody": {
       "en": "Response body:\\n{{body}}",
-      "ru": "Ответ body:\\n{{body}}"
+      "ru": "Тело ответа:\\n{{body}}"
     },
     "error.chain.modelNotFound": {
       "en": "Modello non trovato: {{provider}}/{{model}}",
-      "ru": "Модельlo non trovato: {{provider}}/{{model}}"
+      "ru": "Модель не найдена: {{provider}}/{{model}}"
     },
     "error.chain.providerAuthFailed": {
       "en": "Provider-authenticatie mislukt ({{provider}}): {{message}}",
-      "ru": "Провайдер-authenticatie mislukt ({{provider}}): {{message}}"
+      "ru": "Аутентификация провайдера {{provider}} не удалась: {{message}}"
     },
     "error.chain.configFrontmatterError": {
       "en": "Failed to parse frontmatter in {{path}}:\\n{{message}}",
-      "ru": "Ошибка to parse frontmatter in {{path}}:\\n{{message}}"
+      "ru": "Не удалось разобрать метаданные (frontmatter) в {{path}}:\\n{{message}}"
     },
     "ui.permission.manageAutoApprove": {
       "en": "Manage Auto-Approve Rules",
-      "ru": "Manage Auto-Одобрить Rules"
+      "ru": "Настройка авто-одобрения"
     },
     "ui.permission.doomLoop.prompt": {
       "en": "Boucle potentielle détectée pour l’outil {{tool}}. Continuer l’exécution ?",
-      "ru": "Boucle potentielle détectée pour l’outil {{tool}}. Продолжитьr l’exécution ?"
+      "ru": "Обнаружен бесконечный цикл вызовов для инструмента {{tool}}. Продолжить выполнение?"
     },
     "ui.permission.doomLoop.rule": {
       "en": "Continuer les appels \\xE0 {{tool}}",
-      "ru": "Продолжитьr les appels \\xE0 {{tool}}"
+      "ru": "Продолжить вызовы {{tool}}"
     },
     "ui.permission.toolLabel.read": {
       "en": "Read",
@@ -1103,7 +1103,7 @@
     },
     "ui.permission.toolLabel.edit": {
       "en": "Editar",
-      "ru": "Правкаar"
+      "ru": "Редактировать"
     },
     "ui.permission.toolLabel.write": {
       "en": "Write",
@@ -1111,11 +1111,11 @@
     },
     "ui.permission.toolLabel.globSearch": {
       "en": "Glob Search",
-      "ru": "Glob Поиск"
+      "ru": "Поиск по маске (Glob)"
     },
     "ui.permission.toolLabel.grepSearch": {
       "en": "Grep Search",
-      "ru": "Grep Поиск"
+      "ru": "Поиск текста (Grep)"
     },
     "ui.permission.toolLabel.webSearch": {
       "en": "Web Search",
@@ -1123,7 +1123,7 @@
     },
     "ui.permission.toolLabel.externalDirectory": {
       "en": "Read External Directory",
-      "ru": "Чтение External Directory"
+      "ru": "Чтение внешней директории"
     },
     "ui.permission.toolLabel.task": {
       "en": "Task",
@@ -1131,11 +1131,11 @@
     },
     "ui.permission.toolLabel.todoRead": {
       "en": "Todo Read",
-      "ru": "Todo Чтение"
+      "ru": "Чтение списка задач"
     },
     "ui.permission.toolLabel.todoWrite": {
       "en": "Todo Write",
-      "ru": "Todo Запись"
+      "ru": "Запись списка задач"
     },
     "ui.permission.toolLabel.codeSearch": {
       "en": "Code Search",
@@ -1143,7 +1143,7 @@
     },
     "ui.permission.toggleWrap": {
       "en": "Toggle word wrap",
-      "ru": "Переключить word wrap"
+      "ru": "Перенос строк"
     },
     "ui.permission.copyCommand": {
       "en": "Copy",
@@ -1151,7 +1151,7 @@
     },
     "session.tab.session": {
       "en": "Sessione",
-      "ru": "Сессияe"
+      "ru": "Сессия"
     },
     "session.tab.review": {
       "en": "Review",
@@ -1163,11 +1163,11 @@
     },
     "session.panel.reviewAndFiles": {
       "en": "Review and files",
-      "ru": "Проверка and files"
+      "ru": "Проверка изменений"
     },
     "session.review.filesChanged": {
       "en": "{{count}} Filer \\xE6ndret",
-      "ru": "{{count}} Файлr \\xE6ndret"
+      "ru": "{{count}} файлов изменено"
     },
     "session.review.change.other": {
       "en": "Changes",
@@ -1175,43 +1175,43 @@
     },
     "session.review.loadingChanges": {
       "en": "Loading changes...",
-      "ru": "Загрузка changes..."
+      "ru": "Загрузка изменений..."
     },
     "session.files.binaryContent": {
       "en": "File binario (il contenuto non pu\\xF2 essere mostrato)",
-      "ru": "Файл binario (il contenuto non pu\\xF2 essere mostrato)"
+      "ru": "Бинарный файл (содержимое не может быть показано)"
     },
     "session.messages.loadingEarlier": {
       "en": "Loading earlier messages...",
-      "ru": "Загрузка earlier messages..."
+      "ru": "Загрузка предыдущих сообщений..."
     },
     "session.messages.loading": {
       "en": "Loading messages...",
-      "ru": "Загрузка messages..."
+      "ru": "Загрузка сообщений..."
     },
     "session.header.search.placeholder": {
       "en": "Search {{project}}",
-      "ru": "Поиск {{project}}"
+      "ru": "Поиск по проекту {{project}}"
     },
     "session.header.searchFiles": {
       "en": "Search files",
-      "ru": "Поиск files"
+      "ru": "Поиск файлов"
     },
     "session.header.openIn": {
       "en": "Open in",
-      "ru": "Открыть in"
+      "ru": "Открыть в"
     },
     "session.header.open.action": {
       "en": "Open {{app}}",
-      "ru": "Открыть {{app}}"
+      "ru": "Открыть в {{app}}"
     },
     "session.header.open.ariaLabel": {
       "en": "Open in {{app}}",
-      "ru": "Открыть in {{app}}"
+      "ru": "Открыть в {{app}}"
     },
     "session.header.open.menu": {
       "en": "Open opties",
-      "ru": "Открыть opties"
+      "ru": "Варианты открытия"
     },
     "session.header.open.copyPath": {
       "en": "Copy Path",
@@ -1223,7 +1223,7 @@
     },
     "session.share.popover.description.unshared": {
       "en": "Share session publicly on the web. It will be accessible to anyone with the link.",
-      "ru": "Поделиться session publicly on the web. It will be accessible to anyone with the link."
+      "ru": "Сделать сессию общедоступной в сети. Любой человек со ссылкой сможет просмотреть ее."
     },
     "session.share.action.share": {
       "en": "Share",
@@ -1231,23 +1231,23 @@
     },
     "session.share.copy.copyLink": {
       "en": "Copy link",
-      "ru": "Копировать link"
+      "ru": "Копировать ссылку"
     },
     "prompt.loading": {
       "en": "Prompt laden...",
-      "ru": "Промпт laden..."
+      "ru": "Загрузка промпта..."
     },
     "common.closeTab": {
       "en": "Close tab",
-      "ru": "Закрыть tab"
+      "ru": "Закрыть вкладку"
     },
     "common.signIn": {
       "en": "Log ind",
-      "ru": "Войтиd"
+      "ru": "Войти"
     },
     "common.moreOptions": {
       "en": "More options",
-      "ru": "Ещё options"
+      "ru": "Дополнительно"
     },
     "common.learnMore": {
       "en": "Learn more",
@@ -1271,15 +1271,15 @@
     },
     "common.edit": {
       "en": "Editar",
-      "ru": "Правкаar"
+      "ru": "Редактировать"
     },
     "sidebar.menu.toggle": {
       "en": "Toggle menu",
-      "ru": "Переключить menu"
+      "ru": "Свернуть/развернуть меню"
     },
     "sidebar.nav.projectsAndSessions": {
       "en": "Projecten en sessies",
-      "ru": "Проектen en sessies"
+      "ru": "Проекты и сессии"
     },
     "sidebar.settings": {
       "en": "Settings",
@@ -1287,23 +1287,23 @@
     },
     "sidebar.help": {
       "en": "Help",
-      "ru": "Справка"
+      "ru": "Средактировать"
     },
     "sidebar.workspaces.enable": {
       "en": "Activer les espaces de travail",
-      "ru": "Активноr les espaces de travail"
+      "ru": "Включить рабочие области"
     },
     "sidebar.workspaces.disable": {
       "en": "Disable workspaces",
-      "ru": "Выключить workspaces"
+      "ru": "Выключить рабочие области"
     },
     "sidebar.gettingStarted.line1": {
       "en": "Evocode include modelli gratuiti, cos\\xEC puoi iniziare subito.",
-      "ru": "Эвокод include modelli gratuiti, cos\\xEC puoi iniziare subito."
+      "ru": "Эвокод поставляется со встроенными бесплатными моделями, вы можете начать немедленно."
     },
     "settings.tab.general": {
       "en": "Generale",
-      "ru": "Общиеe"
+      "ru": "Общие"
     },
     "settings.general.section.appearance": {
       "en": "Appearance",
@@ -1311,11 +1311,11 @@
     },
     "settings.general.section.updates": {
       "en": "Updates",
-      "ru": "Обновитьs"
+      "ru": "Обновления"
     },
     "settings.general.section.sounds": {
       "en": "Soundeffekte",
-      "ru": "Звукeffekte"
+      "ru": "Звуковые эффекты"
     },
     "settings.general.row.language.title": {
       "en": "Language",
@@ -1323,7 +1323,7 @@
     },
     "settings.general.row.language.description": {
       "en": "Cambia la lingua di visualizzazione di Evocode",
-      "ru": "Cambia la lingua di visualizzazione di Эвокод"
+      "ru": "Изменить язык интерфейса Эвокод"
     },
     "settings.general.row.appearance.title": {
       "en": "Appearance",
@@ -1331,7 +1331,7 @@
     },
     "settings.general.row.appearance.description": {
       "en": "Personalizza l'aspetto di Evocode sul tuo dispositivo",
-      "ru": "Personalizza l'aspetto di Эвокод sul tuo dispositivo"
+      "ru": "Настроить внешний вид Эвокод на вашем устройстве"
     },
     "settings.general.row.theme.title": {
       "en": "Theme",
@@ -1339,39 +1339,39 @@
     },
     "settings.general.row.theme.description": {
       "en": "Personalizza il tema di Evocode.",
-      "ru": "Personalizza il tema di Эвокод."
+      "ru": "Настроить тему интерфейса Эвокод."
     },
     "settings.general.row.font.title": {
       "en": "Font codice",
-      "ru": "Шрифт codice"
+      "ru": "Шрифт кода"
     },
     "settings.general.row.font.description": {
       "en": "Customise the mono font used in code blocks",
-      "ru": "Свойise the mono font used in code blocks"
+      "ru": "Настроить моноширинный шрифт для блоков кода"
     },
     "settings.general.row.releaseNotes.description": {
       "en": "Show What's New popups after updates",
-      "ru": "Показать What's New popups after updates"
+      "ru": "Показывать окно изменений после обновлений"
     },
     "settings.updates.row.startup.title": {
       "en": "Beim Start nach Updates suchen",
-      "ru": "Beim Старт nach Обновитьs suchen"
+      "ru": "Проверять обновления при запуске"
     },
     "settings.updates.row.startup.description": {
       "en": "Controlla automaticamente gli aggiornamenti quando Evocode si avvia",
-      "ru": "Controlla automaticamente gli aggiornamenti quando Эвокод si avvia"
+      "ru": "Автоматически проверять обновления при запуске Эвокод"
     },
     "settings.updates.row.check.title": {
       "en": "Nach Updates suchen",
-      "ru": "Nach Обновитьs suchen"
+      "ru": "Проверить обновления"
     },
     "settings.updates.toast.latest.description": {
       "en": "Stai usando la versione pi\\xF9 recente di Evocode.",
-      "ru": "Stai usando la versione pi\\xF9 recente di Эвокод."
+      "ru": "Вы используете новейшую версию Эвокод."
     },
     "settings.general.notifications.agent.description": {
       "en": "Show system notification when the agent is complete or needs attention",
-      "ru": "Показать system notification when the agent is complete or needs attention"
+      "ru": "Показывать системное уведомление при завершении работы агента"
     },
     "settings.general.notifications.permissions.title": {
       "en": "Permissions",
@@ -1379,15 +1379,15 @@
     },
     "settings.general.notifications.permissions.description": {
       "en": "Show system notification when a permission is required",
-      "ru": "Показать system notification when a permission is required"
+      "ru": "Показывать системное уведомление, когда требуется разрешение"
     },
     "settings.general.notifications.errors.title": {
       "en": "Errori",
-      "ru": "Ошибкаi"
+      "ru": "Ошибки"
     },
     "settings.general.notifications.errors.description": {
       "en": "Show system notification when an error occurs",
-      "ru": "Показать system notification when an error occurs"
+      "ru": "Показывать системное уведомление при возникновении ошибки"
     },
     "settings.general.sounds.permissions.title": {
       "en": "Permissions",
@@ -1395,7 +1395,7 @@
     },
     "settings.general.sounds.errors.title": {
       "en": "Errori",
-      "ru": "Ошибкаi"
+      "ru": "Ошибки"
     },
     "settings.shortcuts.title": {
       "en": "Keyboard shortcuts",
@@ -1403,31 +1403,31 @@
     },
     "settings.shortcuts.reset.button": {
       "en": "Reset naar standaard",
-      "ru": "Сброс naar standaard"
+      "ru": "Сбросить по умолчанию"
     },
     "settings.shortcuts.reset.toast.description": {
       "en": "Keyboard shortcuts have been reset to defaults.",
-      "ru": "Горячие клавиши have been reset to defaults."
+      "ru": "Горячие клавиши сброшены по умолчанию."
     },
     "settings.shortcuts.search.placeholder": {
       "en": "Search shortcuts",
-      "ru": "Поиск shortcuts"
+      "ru": "Поиск горячих клавиш"
     },
     "settings.shortcuts.group.general": {
       "en": "Generale",
-      "ru": "Общиеe"
+      "ru": "Общие"
     },
     "settings.shortcuts.group.session": {
       "en": "Sessione",
-      "ru": "Сессияe"
+      "ru": "Сессия"
     },
     "settings.shortcuts.group.modelAndAgent": {
       "en": "Modello e agente",
-      "ru": "Модельlo e agente"
+      "ru": "Модель и агент"
     },
     "settings.shortcuts.group.terminal": {
       "en": "Terminale",
-      "ru": "Терминалe"
+      "ru": "Терминал"
     },
     "settings.shortcuts.group.prompt": {
       "en": "Prompt",
@@ -1439,15 +1439,15 @@
     },
     "settings.providers.description": {
       "en": "Provider-instellingen zullen hier configureerbaar zijn.",
-      "ru": "Провайдер-instellingen zullen hier configureerbaar zijn."
+      "ru": "Настройки провайдера будут доступны здесь."
     },
     "settings.providers.betaNotice": {
       "en": "Al momento solo il provider Evocode Gateway pu\\xF2 essere configurato dall'interfaccia delle impostazioni. Il supporto per altri provider arriver\\xE0 durante il periodo beta. Nel frattempo puoi configurare i provider con la CLI o il file di configurazione. Ci impegniamo a mantenere Evocode aperto, senza lock-in.",
-      "ru": "Al momento solo il provider Эвокод Core pu\\xF2 essere configurato dall'interfaccia delle impostazioni. Il supporto per altri provider arriver\\xE0 durante il periodo beta. Nel frattempo puoi configurare i provider con la CLI o il file di configurazione. Ci impegniamo a mantenere Эвокод aperto, senza lock-in."
+      "ru": "Al momento solo il provider Эвокод Core pu\\xF2 essere configurato dall'interfaccia delle impostazioni. Il наpporto per altri provider arriver\\xE0 durante il periodo beta. Nel frattempo puoi configurare i provider con la CLI o il file di configurazione. Ci impegniamo a mantenere Эвокод aperto, senza lock-in."
     },
     "settings.providers.section.connected": {
       "en": "Provider connessi",
-      "ru": "Провайдер connessi"
+      "ru": "Подключенные провайдеры"
     },
     "settings.providers.tag.custom": {
       "en": "Custom",
@@ -1455,7 +1455,7 @@
     },
     "settings.providers.tag.customProvider": {
       "en": "Provider personalizzato",
-      "ru": "Провайдер personalizzato"
+      "ru": "Кастомный провайдер"
     },
     "settings.providers.tag.other": {
       "en": "Other",
@@ -1463,23 +1463,23 @@
     },
     "settings.providers.connected.environmentDescription": {
       "en": "Connected from your environment variables",
-      "ru": "Подключено from your environment variables"
+      "ru": "Подключено через переменные окружения"
     },
     "settings.providers.action.signInChatGPT": {
       "en": "Log ind med ChatGPT",
-      "ru": "Войтиd med ChatGPT"
+      "ru": "Войти через ChatGPT"
     },
     "provider.custom.title": {
       "en": "Provider personalizzato",
-      "ru": "Провайдер personalizzato"
+      "ru": "Кастомный провайдер"
     },
     "provider.custom.field.providerID.label": {
       "en": "Provider-ID",
-      "ru": "Провайдер-ID"
+      "ru": "ID провайдера"
     },
     "provider.custom.field.name.placeholder": {
       "en": "Mijn AI Provider",
-      "ru": "Mijn AI Провайдер"
+      "ru": "Мой AI провайдер"
     },
     "provider.custom.field.package.label": {
       "en": "Provider API",
@@ -1495,7 +1495,7 @@
     },
     "provider.custom.models.label": {
       "en": "Modelli",
-      "ru": "Модельli"
+      "ru": "Модели"
     },
     "provider.custom.models.name.label": {
       "en": "Name",
@@ -1503,7 +1503,7 @@
     },
     "provider.custom.models.name.placeholder": {
       "en": "Display Name",
-      "ru": "Display Имя"
+      "ru": "Отображаемое имя"
     },
     "provider.custom.models.variants.name.label": {
       "en": "Name",
@@ -1511,55 +1511,55 @@
     },
     "provider.custom.models.variants.enableThinking.label": {
       "en": "Activer la r\\xE9flexion (ex. Alibaba)",
-      "ru": "Активноr la r\\xE9flexion (ex. Alibaba)"
+      "ru": "Включить рассуждения (например, Alibaba)"
     },
     "provider.custom.models.variants.thinking.label": {
       "en": "Thinking type (e.g. Z.ai)",
-      "ru": "Думаю type (e.g. Z.ai)"
+      "ru": "Тип рассуждений (например, Z.ai)"
     },
     "provider.custom.models.variants.splitReasoning.label": {
       "en": "Split reasoning (required for e.g. MiniMax)",
-      "ru": "Раздельно reasoning (required for e.g. MiniMax)"
+      "ru": "Раздельное рассуждение (требуется для MiniMax)"
     },
     "provider.custom.models.variants.chatTemplateArgs.label": {
       "en": "Enable thinking via chat template args (e.g. Hugging Face)",
-      "ru": "Включить thinking via chat template args (e.g. Hugging Face)"
+      "ru": "Включить рассуждения через шаблоны чата (Hugging Face)"
     },
     "provider.custom.models.variants.outputEffort.label": {
       "en": "Output effort (e.g. Anthropic)",
-      "ru": "Вывод effort (e.g. Anthropic)"
+      "ru": "Уровень рассуждений (например, Anthropic)"
     },
     "provider.custom.models.fetch.error": {
       "en": "Modeller getirilemedi: {{error}}",
-      "ru": "Модельler getirilemedi: {{error}}"
+      "ru": "Не удалось загрузить модели: {{error}}"
     },
     "provider.custom.models.fetch.added": {
       "en": "{{count}} Modell(e) hinzugef\\xFCgt.",
-      "ru": "{{count}} Модельl(e) hinzugef\\xFCgt."
+      "ru": "{{count}} моделей добавлено."
     },
     "provider.custom.models.fetch.showing": {
       "en": "Showing {{shown}} of {{total}}",
-      "ru": "Показатьing {{shown}} of {{total}}"
+      "ru": "Показано {{shown}} из {{total}}"
     },
     "provider.custom.models.fetch.search": {
       "en": "Modellen zoeken…",
-      "ru": "Модельlen zoeken…"
+      "ru": "Поиск моделей…"
     },
     "provider.custom.edit.title": {
       "en": "Provider bewerken",
-      "ru": "Провайдер bewerken"
+      "ru": "Редактировать провайдера"
     },
     "provider.custom.headers.key.placeholder": {
       "en": "Header-Name",
-      "ru": "Header-Имя"
+      "ru": "Имя заголовка"
     },
     "provider.custom.error.providerID.required": {
       "en": "Provider ID is vereist",
-      "ru": "Провайдер ID is vereist"
+      "ru": "Требуется ID провайдера"
     },
     "provider.custom.error.baseURL.required": {
       "en": "Base URL is required",
-      "ru": "Базовый URL is required"
+      "ru": "Базовый URL обязателен"
     },
     "provider.custom.error.required": {
       "en": "Required",
@@ -1567,35 +1567,35 @@
     },
     "settings.openLocalConfig": {
       "en": "คอนฟิก Local",
-      "ru": "คอนฟิก Локально"
+      "ru": "Локальная конфигурация"
     },
     "settings.config.scope.local": {
       "en": "Locale",
-      "ru": "Локальноe"
+      "ru": "Локальная"
     },
     "settings.config.title": {
       "en": "Apri file config Evocode {{scope}}",
-      "ru": "Apri file config Эвокод {{scope}}"
+      "ru": "Открыть файл конфигурации Эвокод {{scope}}"
     },
     "settings.config.noWorkspace": {
       "en": "Apri una cartella workspace per modificare il file config Evocode locale.",
-      "ru": "Apri una cartella workspace per modificare il file config Эвокод locale."
+      "ru": "Откройте папку проекта для изменения локальной конфигурации Эвокод."
     },
     "settings.config.openFailed": {
       "en": "Apertura file config Evocode {{scope}} non riuscita: {{message}}",
-      "ru": "Apertura file config Эвокод {{scope}} non riuscita: {{message}}"
+      "ru": "Не удалось открыть файл конфигурации Эвокод {{scope}}: {{message}}"
     },
     "settings.config.source.projectKilo": {
       "en": "Project .evocode-configuratie",
-      "ru": "Проект .evocode-configuratie"
+      "ru": "Конфигурация проекта (.evocode-config)"
     },
     "settings.config.source.projectRoot": {
       "en": "Project root configuratie",
-      "ru": "Проект root configuratie"
+      "ru": "Конфигурация корня проекта"
     },
     "settings.models.title": {
       "en": "Modelli",
-      "ru": "Модельli"
+      "ru": "Модели"
     },
     "settings.models.description": {
       "en": "Model-instellingen zullen hier configureerbaar zijn.",
@@ -1615,7 +1615,7 @@
     },
     "settings.permissions.toast.updateFailed.title": {
       "en": "Updaten van toestemmingen is mislukt",
-      "ru": "Обновитьn van toestemmingen is mislukt"
+      "ru": "Обновить van toestemmingen is mislukt"
     },
     "settings.permissions.action.allow": {
       "en": "Allow",
@@ -1635,7 +1635,7 @@
     },
     "settings.permissions.tool.edit.title": {
       "en": "Modifica (Edit)",
-      "ru": "Modifica (Правка)"
+      "ru": "Modifica (редактировать)"
     },
     "settings.permissions.tool.grep.description": {
       "en": "Search file contents using regular expressions",
@@ -1679,15 +1679,15 @@
     },
     "session.delete.failed.title": {
       "en": "Failed to delete session",
-      "ru": "Ошибка to delete session"
+      "ru": "Не удалось delete Сессия"
     },
     "session.delete.title": {
       "en": "Delete session",
-      "ru": "Удалить session"
+      "ru": "Удалить Сессия"
     },
     "session.delete.button": {
       "en": "Delete session",
-      "ru": "Удалить session"
+      "ru": "Удалить Сессия"
     },
     "session.showHistory": {
       "en": "Show History",
@@ -1699,11 +1699,11 @@
     },
     "session.search.placeholder": {
       "en": "Search sessions...",
-      "ru": "Поиск sessions..."
+      "ru": "Поиск Сессияs..."
     },
     "session.tab.local": {
       "en": "Locale",
-      "ru": "Локальноe"
+      "ru": "Локальная"
     },
     "session.tab.cloud": {
       "en": "Cloud",
@@ -1711,11 +1711,11 @@
     },
     "session.cloud.import": {
       "en": "Importa sessione",
-      "ru": "Импортa sessione"
+      "ru": "Импортa Сессияe"
     },
     "session.cloud.import.title": {
       "en": "Importa sessione",
-      "ru": "Импортa sessione"
+      "ru": "Импортa Сессияe"
     },
     "session.cloud.import.placeholder": {
       "en": "Sessions-ID, URL eller evocode import-kommando",
@@ -1727,51 +1727,51 @@
     },
     "session.cloud.import.failed": {
       "en": "Importazione sessione cloud non riuscita",
-      "ru": "Импортazione sessione cloud non riuscita"
+      "ru": "Импортazione Сессияe cloud Ошибка"
     },
     "workspace.create.failed.title": {
       "en": "Failed to create workspace",
-      "ru": "Ошибка to create workspace"
+      "ru": "Не удалось создать рабочая Область"
     },
     "workspace.delete.failed.title": {
       "en": "Failed to delete workspace",
-      "ru": "Ошибка to delete workspace"
+      "ru": "Не удалось delete рабочая Область"
     },
     "workspace.resetting.title": {
       "en": "Reset workspace",
-      "ru": "Сброс workspace"
+      "ru": "Сброс рабочая Область"
     },
     "workspace.reset.failed.title": {
       "en": "Reset workspace non riuscito",
-      "ru": "Сброс workspace non riuscito"
+      "ru": "Сброс рабочая Область non riuscito"
     },
     "workspace.reset.success.title": {
       "en": "Workspace resettato",
-      "ru": "Рабочая область resettato"
+      "ru": "Рабочая Область resettato"
     },
     "workspace.reset.success.description": {
       "en": "Workspace komt nu overeen met de standaard branch.",
-      "ru": "Рабочая область komt nu overeen met de standaard branch."
+      "ru": "Рабочая Область komt nu overeen met de standaard branch."
     },
     "workspace.error.stillPreparing": {
       "en": "Workspace wordt nog voorbereid",
-      "ru": "Рабочая область wordt nog voorbereid"
+      "ru": "Рабочая Область wordt nog voorbereid"
     },
     "workspace.delete.title": {
       "en": "Delete workspace",
-      "ru": "Удалить workspace"
+      "ru": "Удалить рабочая Область"
     },
     "workspace.delete.button": {
       "en": "Delete workspace",
-      "ru": "Удалить workspace"
+      "ru": "Удалить рабочая Область"
     },
     "workspace.reset.title": {
       "en": "Reset workspace",
-      "ru": "Сброс workspace"
+      "ru": "Сброс рабочая Область"
     },
     "workspace.reset.button": {
       "en": "Reset workspace",
-      "ru": "Сброс workspace"
+      "ru": "Сброс рабочая Область"
     },
     "common.retry": {
       "en": "Retry",
@@ -1799,23 +1799,23 @@
     },
     "settings.indexing.enable.title": {
       "en": "Activer l'indexation",
-      "ru": "Активноr l'indexation"
+      "ru": "Включить l'indexation"
     },
     "settings.indexing.globalEnable.title": {
       "en": "Activer globalement",
-      "ru": "Активноr globalement"
+      "ru": "Включить globalement"
     },
     "settings.indexing.globalEnable.description": {
       "en": "Activer l'indexation pour chaque espace de travail.",
-      "ru": "Активноr l'indexation pour chaque espace de travail."
+      "ru": "Включить l'indexation pour chaque espace de travail."
     },
     "settings.indexing.projectEnable.title": {
       "en": "Activer pour ce projet",
-      "ru": "Активноr pour ce projet"
+      "ru": "Включить pour ce projet"
     },
     "settings.indexing.projectEnable.description": {
       "en": "Activer l'indexation pour cet espace de travail lorsque l'indexation globale est d\\xE9sactiv\\xE9e.",
-      "ru": "Активноr l'indexation pour cet espace de travail lorsque l'indexation globale est d\\xE9sactiv\\xE9e."
+      "ru": "Включить l'indexation pour cet espace de travail lorsque l'indexation globale est d\\xE9sactiv\\xE9e."
     },
     "settings.indexing.kiloModel.title": {
       "en": "Preset modello Evocode",
@@ -1863,7 +1863,7 @@
     },
     "settings.aboutKiloCode.title": {
       "en": "Informazioni su Evocode",
-      "ru": "Informazioni su Эвокод"
+      "ru": "Informazioni на Эвокод"
     },
     "session.messages.empty": {
       "en": "Start een gesprek door hieronder een bericht te typen.",
@@ -1895,7 +1895,7 @@
     },
     "session.outcome.unknown": {
       "en": "Zug ohne Modell-Abschlussgrund beendet",
-      "ru": "Zug ohne Модельl-Abschlussgrund beendet"
+      "ru": "Zug ohne Модель-Abschlussgrund beendet"
     },
     "session.outcome.unexpected": {
       "en": "Responsen ble avsluttet uventet og kan v\\xE6re ufullstendig.",
@@ -1931,7 +1931,7 @@
     },
     "sidebar.session.agentManager.tooltip": {
       "en": "Apri Agent Manager per una panoramica completa di sessioni parallele e worktree, cos\\xEC puoi coordinare task lunghi in un unico posto.",
-      "ru": "Apri Менеджер агентов per una panoramica completa di sessioni parallele e worktree, cos\\xEC puoi coordinare task lunghi in un unico posto."
+      "ru": "Apri Менеджер агентов per una panoramica completa di Сессияi parallele e worktree, cos\\xEC puoi coordinare task lunghi in un unico posto."
     },
     "sidebar.session.openAgentManager": {
       "en": "Apri Agent Manager",
@@ -1947,11 +1947,11 @@
     },
     "sidebar.session.progress.failed": {
       "en": "Failed to continue in worktree",
-      "ru": "Ошибка to continue in worktree"
+      "ru": "Не удалось continue in worktree"
     },
     "ui.sessionTurn.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "prompt.placeholder.connecting": {
       "en": "Connecting to server...",
@@ -1959,7 +1959,7 @@
     },
     "context.usage.sessionCost": {
       "en": "Costo sessione",
-      "ru": "Стоимостьo sessione"
+      "ru": "Стоимостьo Сессияe"
     },
     "settings.aboutKiloCode.status.connected": {
       "en": "Connected",
@@ -1975,7 +1975,7 @@
     },
     "settings.aboutKiloCode.status.error": {
       "en": "Errore",
-      "ru": "Ошибкаe"
+      "ru": "Ошибка"
     },
     "settings.aboutKiloCode.status.label": {
       "en": "Status:",
@@ -1991,7 +1991,7 @@
     },
     "settings.aboutKiloCode.version.label": {
       "en": "Versione:",
-      "ru": "Версияe:"
+      "ru": "Версия:"
     },
     "settings.aboutKiloCode.extensionName": {
       "en": "Estensione Evocode",
@@ -1999,7 +1999,7 @@
     },
     "settings.aboutKiloCode.support.prefix": {
       "en": "For billing or account questions, contact Customer Support at",
-      "ru": "For billing or account questions, contact Свойer Support at"
+      "ru": "For billing or account questions, contact Свойer наpport at"
     },
     "settings.aboutKiloCode.resetSettings.title": {
       "en": "Resetovanje postavki",
@@ -2007,11 +2007,11 @@
     },
     "settings.aboutKiloCode.resetSettings.description": {
       "en": "This resets only VS Code extension-specific settings to their default values. Settings shared with the CLI, such as modes and auto-approve rules, are stored in the CLI configuration and will not be reset.",
-      "ru": "This resets only VS Code extension-specific settings to their default values. Настройки shared with the CLI, such as modes and auto-approve rules, are stored in the CLI configuration and will not be reset."
+      "ru": "This resets only VS Code extension-specific settings to their default values. Настройки shared with the CLI, наch as modes and auto-approve rules, are stored in the CLI configuration and will not be reset."
     },
     "settings.aboutKiloCode.resetSettings.button": {
       "en": "Resetuj sve postavke",
-      "ru": "Сбросuj sve postavke"
+      "ru": "Сбросить sve postavke"
     },
     "settings.aboutKiloCode.settingsTransfer.title": {
       "en": "Settings Transfer",
@@ -2039,7 +2039,7 @@
     },
     "settings.aboutKiloCode.importSettings.newerVersion": {
       "en": "Questo file \\xE8 stato esportato da una versione pi\\xF9 recente di Evocode. Alcune impostazioni potrebbero essere ignorate.",
-      "ru": "Questo file \\xE8 stato esportato da una versione pi\\xF9 recente di Эвокод. Alcune impostazioni potrebbero essere ignorate."
+      "ru": "Questo file \\xE8 stato esportato da una Версия новейшую версию Эвокод. Alcune impostazioni potrebbero essere ignorate."
     },
     "settings.aboutKiloCode.importSettings.success": {
       "en": "Settings imported. Review the changes above, then click Save.",
@@ -2059,7 +2059,7 @@
     },
     "settings.browser.enable.title": {
       "en": "Activer l'automatisation du navigateur",
-      "ru": "Активноr l'automatisation du navigateur"
+      "ru": "Включить l'automatisation du navigateur"
     },
     "settings.browser.headless.title": {
       "en": "Mode headless",
@@ -2067,23 +2067,23 @@
     },
     "settings.autocomplete.autoTrigger.title": {
       "en": "Activer la compl\\xE9tion automatique en ligne",
-      "ru": "Активноr la compl\\xE9tion automatique en ligne"
+      "ru": "Включить la compl\\xE9tion automatique en ligne"
     },
     "settings.autocomplete.smartKeybinding.title": {
       "en": "Activer le raccourci intelligent de t\\xE2che en ligne",
-      "ru": "Активноr le raccourci intelligent de t\\xE2che en ligne"
+      "ru": "Включить le raccourci intelligent de t\\xE2che en ligne"
     },
     "settings.autocomplete.chatAutocomplete.title": {
       "en": "Activer l'autocompl\\xE9tion du chat",
-      "ru": "Активноr l'autocompl\\xE9tion du chat"
+      "ru": "Включить l'autocompl\\xE9tion du chat"
     },
     "settings.autocomplete.chatAutocomplete.description": {
       "en": "Show autocomplete suggestions in the chat textarea",
-      "ru": "Показать autocomplete suggestions in the chat textarea"
+      "ru": "Показать autocomplete наggestions in the chat textarea"
     },
     "settings.autocomplete.modelsHint": {
       "en": "Per scegliere quale modello usare per l'autocompletamento, vedi le impostazioni Modelli.",
-      "ru": "Per scegliere quale modello usare per l'autocompletamento, vedi le impostazioni Модельli."
+      "ru": "Per scegliere quale modello usare per l'autocompletamento, vedi le impostazioni Модели."
     },
     "settings.notifications.agent.description": {
       "en": "Show notification when agent completes a task",
@@ -2099,7 +2099,7 @@
     },
     "settings.notifications.errors.title": {
       "en": "Errori",
-      "ru": "Ошибкаi"
+      "ru": "Ошибки"
     },
     "settings.notifications.errors.description": {
       "en": "Show notification on errors",
@@ -2111,7 +2111,7 @@
     },
     "settings.notifications.enable.title": {
       "en": "Activer les notifications sonores",
-      "ru": "Активноr les notifications sonores"
+      "ru": "Включить les notifications sonores"
     },
     "settings.notifications.agentSound.title": {
       "en": "Agent Completion Sound",
@@ -2159,7 +2159,7 @@
     },
     "settings.experimental.formatter.description": {
       "en": "Activer le formateur de code automatique",
-      "ru": "Активноr le formateur de code automatique"
+      "ru": "Включить le formateur de code automatique"
     },
     "settings.experimental.lsp.description": {
       "en": "เปิดใช้งานการรวม Language Server Protocol",
@@ -2171,7 +2171,7 @@
     },
     "settings.experimental.batch.description": {
       "en": "Activer le traitement par lot d'appels d'outils",
-      "ru": "Активноr le traitement par lot d'appels d'outils"
+      "ru": "Включить le traitement par lot d'appels d'outils"
     },
     "settings.experimental.codebaseSearch.title": {
       "en": "Codebase Search",
@@ -2179,7 +2179,7 @@
     },
     "settings.experimental.codebaseSearch.description": {
       "en": "Activer la recherche en langage naturel par IA dans toute la base de code",
-      "ru": "Активноr la recherche en langage naturel par IA dans toute la base de code"
+      "ru": "Включить la recherche en langage naturel par IA dans toute la base de code"
     },
     "settings.experimental.speechToText.description": {
       "en": "Abilita input vocale nei campi prompt usando il tuo account Evocode tramite Evocode Gateway.",
@@ -2187,11 +2187,11 @@
     },
     "settings.models.speechToText.disabledDescription": {
       "en": "Abilita e accedi al provider Evocode per usare Da voce a testo. Da voce a testo \\xE8 attualmente supportato solo tramite Evocode Gateway.",
-      "ru": "Abilita e accedi al provider Эвокод per usare Da voce a testo. Da voce a testo \\xE8 attualmente supportato solo tramite Эвокод Core."
+      "ru": "Abilita e accedi al provider Эвокод per usare Da voce a testo. Da voce a testo \\xE8 attualmente наpportato solo tramite Эвокод Core."
     },
     "settings.models.speechToTextModel.title": {
       "en": "Modello Da voce a testo",
-      "ru": "Модельlo Da voce a testo"
+      "ru": "Модель Da voce a testo"
     },
     "settings.models.speechToTextModel.description": {
       "en": "Scegli il modello di trascrizione Evocode Gateway per l'input vocale.",
@@ -2219,7 +2219,7 @@
     },
     "settings.experimental.remote.description": {
       "en": "Abilita controllo remoto delle sessioni tramite Evocode Cloud. Influenzer\\xE0 anche le CLI su questa macchina.",
-      "ru": "Abilita controllo remoto delle sessioni tramite Эвокод Облако. Influenzer\\xE0 anche le CLI su questa macchina."
+      "ru": "Abilita controllo remoto delle Сессияi tramite Эвокод Облако. Influenzer\\xE0 anche le CLI на questa macchina."
     },
     "settings.experimental.remote.active": {
       "en": "Active",
@@ -2243,7 +2243,7 @@
     },
     "settings.agentBehaviour.modelOverride.title": {
       "en": "Modello personalizzato",
-      "ru": "Модельlo personalizzato"
+      "ru": "Модель personalizzato"
     },
     "settings.agentBehaviour.prompt.title": {
       "en": "Prompt personalizzato",
@@ -2279,7 +2279,7 @@
     },
     "settings.agentBehaviour.instructionFiles.description": {
       "en": "Pfade zu zus\\xE4tzlichen Anweisungsdateien im System-Prompt",
-      "ru": "Pfade zu zus\\xE4tzlichen Anweisungsdateien im System-Промпт"
+      "ru": "Pfade zu zus\\xE4tzlichen Anweiнаngsdateien im System-Промпт"
     },
     "settings.agentBehaviour.claudeCompat.title": {
       "en": "Load Claude Code Files",
@@ -2287,15 +2287,15 @@
     },
     "settings.agentBehaviour.claudeCompat.description": {
       "en": "Carica istruzioni CLAUDE.md e skill dalla directory di configurazione Claude Code nelle sessioni. Abilitalo se vuoi che Evocode usi istruzioni e skill di Claude Code. Richiede riavvio.",
-      "ru": "Carica istruzioni CLAUDE.md e skill dalla directory di configurazione Claude Code nelle sessioni. Abilitalo se vuoi che Эвокод usi istruzioni e skill di Claude Code. Richiede riavvio."
+      "ru": "Carica istruzioni CLAUDE.md e skill dalla directory di configurazione Claude Code nelle Сессияi. Abilitalo se vuoi che Эвокод usi istruzioni e skill di Claude Code. Richiede riavvio."
     },
     "settings.agentBehaviour.editMcp": {
       "en": "Editar Servidor MCP",
-      "ru": "Правкаar Servidor MCP"
+      "ru": "Редактировать Servidor MCP"
     },
     "settings.agentBehaviour.editMcp.transportLocal": {
       "en": "Local server (stdio transport)",
-      "ru": "Локальный сервер (stdio transport)"
+      "ru": "Локальный Сервер (stdio transport)"
     },
     "settings.agentBehaviour.editMcp.transportRemote": {
       "en": "Remote-Server (SSE/HTTP-Transport)",
@@ -2331,11 +2331,11 @@
     },
     "settings.agentBehaviour.createMode.prompt": {
       "en": "Prompt di sistema",
-      "ru": "Промпт di sistema"
+      "ru": "Системный промпт"
     },
     "settings.agentBehaviour.createMode.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "settings.agentBehaviour.createMode.nameRequired": {
       "en": "Name ist erforderlich",
@@ -2363,7 +2363,7 @@
     },
     "settings.agentBehaviour.editMode": {
       "en": "Editar Modo",
-      "ru": "Правкаar Modo"
+      "ru": "Редактировать Modo"
     },
     "settings.agentBehaviour.editMode.description": {
       "en": "Description",
@@ -2371,7 +2371,7 @@
     },
     "settings.agentBehaviour.editMode.prompt": {
       "en": "Prompt di sistema",
-      "ru": "Промпт di sistema"
+      "ru": "Системный промпт"
     },
     "settings.agentBehaviour.editMode.save": {
       "en": "Done",
@@ -2415,23 +2415,23 @@
     },
     "settings.autoApprove.tool.read": {
       "en": "Read files. Allows the agent to read files matching the specified path.",
-      "ru": "Чтение files. Разрешитьs the agent to read files matching the specified path."
+      "ru": "Чтение files. Разрешить the agent to read files matching the specified path."
     },
     "settings.autoApprove.tool.edit": {
       "en": "Modify files. Allows the agent to create or edit files, including patches and multi-file updates.",
-      "ru": "Modify files. Разрешитьs the agent to create or edit files, including patches and multi-file updates."
+      "ru": "Modify files. Разрешить the agent to create or edit files, including patches and multi-file updates."
     },
     "settings.autoApprove.tool.glob": {
       "en": "Match files by pattern. Allows file matching using glob patterns (e.g., src/**/*.ts).",
-      "ru": "Match files by pattern. Разрешитьs file matching using glob patterns (e.g., src/**/*.ts)."
+      "ru": "Match files by pattern. Разрешить file matching using glob patterns (e.g., src/**/*.ts)."
     },
     "settings.autoApprove.tool.grep": {
       "en": "Search file contents. Allows regex-based search inside files.",
-      "ru": "Поиск file contents. Разрешитьs regex-based search inside files."
+      "ru": "Поиск file contents. Разрешить regex-based search inside files."
     },
     "settings.autoApprove.tool.list": {
       "en": "List directory contents. Allows viewing files and folders within a directory.",
-      "ru": "List directory contents. Разрешитьs viewing files and folders within a directory."
+      "ru": "List directory contents. Разрешить viewing files and folders within a directory."
     },
     "settings.autoApprove.tool.task": {
       "en": "Start underagenter. Tillater start av spesialiserte underagenter for spesifikke oppgaver.",
@@ -2439,7 +2439,7 @@
     },
     "settings.autoApprove.tool.skill": {
       "en": "Skills laden. Staat het laden van vooraf gedefinieerde skills op naam toe.",
-      "ru": "Навыки laden. Staat het laden van vooraf gedefinieerde skills op naam toe."
+      "ru": "Навыки Загрузка. Staat het Загрузка van vooraf gedefinieerde skills op naam toe."
     },
     "settings.autoApprove.tool.lsp": {
       "en": "Language server raadplegen. Staat het uitvoeren van language server queries toe voor code-intelligentie.",
@@ -2447,19 +2447,19 @@
     },
     "settings.autoApprove.tool.todoreadwrite": {
       "en": "Manage task list. Allows reading and updating the internal task list.",
-      "ru": "Manage task list. Разрешитьs reading and updating the internal task list."
+      "ru": "Manage task list. Разрешить reading and updating the internal task list."
     },
     "settings.autoApprove.tool.webfetch": {
       "en": "Fetch a URL. Allows retrieving content from a specific URL.",
-      "ru": "Fetch a URL. Разрешитьs retrieving content from a specific URL."
+      "ru": "Fetch a URL. Разрешить retrieving content from a specific URL."
     },
     "settings.autoApprove.tool.websearch": {
       "en": "Search the web. Allows performing external web searches.",
-      "ru": "Поиск the web. Разрешитьs performing external web searches."
+      "ru": "Поиск the web. Разрешить performing external web searches."
     },
     "settings.checkpoints.enable.title": {
       "en": "Activer les instantan\\xE9s",
-      "ru": "Активноr les instantan\\xE9s"
+      "ru": "Включить les instantan\\xE9s"
     },
     "settings.context.prune.title": {
       "en": "Prune Old Outputs",
@@ -2523,7 +2523,7 @@
     },
     "settings.display.codeEdit.title": {
       "en": "Code Edit Blocks",
-      "ru": "Code Правка Blocks"
+      "ru": "Code редактировать Blocks"
     },
     "settings.display.codeEdit.expanded": {
       "en": "Expandidos",
@@ -2535,23 +2535,23 @@
     },
     "settings.providers.defaultModel.title": {
       "en": "Modello predefinito",
-      "ru": "Модельlo predefinito"
+      "ru": "Модель predefinito"
     },
     "settings.providers.smallModel.title": {
       "en": "Modello leggero",
-      "ru": "Модельlo leggero"
+      "ru": "Модель leggero"
     },
     "settings.providers.subagentModel.title": {
       "en": "Modello sub-agent",
-      "ru": "Модельlo sub-agent"
+      "ru": "Модель наb-agent"
     },
     "settings.providers.subagentModel.description": {
       "en": "Modello e sforzo di ragionamento predefiniti per i sub-agent del tool task. Lascia non impostato per ereditare il modello dell'agente chiamante.",
-      "ru": "Модельlo e sforzo di ragionamento predefiniti per i sub-agent del tool task. Lascia non impostato per ereditare il modello dell'agente chiamante."
+      "ru": "Модель e sforzo di ragionamento predefiniti per i наb-agent del tool task. Lascia non impostato per ereditare il modello dell'agente chiamante."
     },
     "settings.models.hidePromptTraining.title": {
       "en": "Modellen die prompts voor training gebruiken verbergen",
-      "ru": "Модельlen die prompts voor training gebruiken verbergen"
+      "ru": "Модели die prompts voor training gebruiken verbergen"
     },
     "settings.models.hidePromptTraining.description": {
       "en": "Nascondi i modelli Evocode Gateway i cui provider potrebbero usare i tuoi prompt per l'addestramento.",
@@ -2559,11 +2559,11 @@
     },
     "settings.providers.modeModels": {
       "en": "Modello per modalit\\xE0",
-      "ru": "Модельlo per modalit\\xE0"
+      "ru": "Модель per modalit\\xE0"
     },
     "settings.providers.disabled": {
       "en": "Provider disabilitati",
-      "ru": "Провайдер disabilitati"
+      "ru": "Провайдер disвключены"
     },
     "settings.providers.disabled.description": {
       "en": "Provider da nascondere dalla lista provider",
@@ -2571,11 +2571,11 @@
     },
     "settings.providers.disabled.enable": {
       "en": "Activer",
-      "ru": "Активноr"
+      "ru": "Включить"
     },
     "settings.providers.enabled": {
       "en": "Provider abilitati (allowlist)",
-      "ru": "Провайдер abilitati (allowlist)"
+      "ru": "Провайдер включены (Разрешитьlist)"
     },
     "settings.providers.search.placeholder": {
       "en": "Search providers",
@@ -2603,7 +2603,7 @@
     },
     "settings.aboutKiloCode.rooImport.button": {
       "en": "Importa sessioni da Roo Code",
-      "ru": "Импортa sessioni da Roo Code"
+      "ru": "Импортa Сессияi da Roo Code"
     },
     "migration.whatsNew.title": {
       "en": "Novit\\xE0 in Evocode",
@@ -2651,7 +2651,7 @@
     },
     "migration.select.defaultModel": {
       "en": "Modello predefinito",
-      "ru": "Модельlo predefinito"
+      "ru": "Модель predefinito"
     },
     "migration.select.language": {
       "en": "UI Language",
@@ -2679,7 +2679,7 @@
     },
     "migration.error.toast.copied": {
       "en": "Errore copiato negli appunti",
-      "ru": "Ошибкаe copiato negli appunti"
+      "ru": "Ошибка copiato negli appunti"
     },
     "migration.sessionSummary.copy": {
       "en": "Copy Report",
@@ -2691,7 +2691,7 @@
     },
     "migration.sessionSummary.errored": {
       "en": "Errored",
-      "ru": "Ошибкаed"
+      "ru": "Ошибкаd"
     },
     "migration.sessionSummary.none": {
       "en": "None",
@@ -2699,7 +2699,7 @@
     },
     "migration.sessionProgress.skipped": {
       "en": "Sessione saltata",
-      "ru": "Сессияe saltata"
+      "ru": "Сессия saltata"
     },
     "error.details.show": {
       "en": "Details",
@@ -2719,7 +2719,7 @@
     },
     "settings.saveBar.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "settings.providers.custom.note": {
       "en": "เพิ่มผู้ให้บริการแบบกำหนดเองด้วย Base URL",
@@ -2743,7 +2743,7 @@
     },
     "command.model.choose.description": {
       "en": "Ein anderes Modell ausw\\xE4hlen",
-      "ru": "Ein anderes Модельl ausw\\xE4hlen"
+      "ru": "Ein anderes Модель ausw\\xE4hlen"
     },
     "dialog.model.select.title": {
       "en": "Model selecteren",
@@ -2755,15 +2755,15 @@
     },
     "dialog.model.manage": {
       "en": "Modellen beheren",
-      "ru": "Модельlen beheren"
+      "ru": "Модели beheren"
     },
     "dialog.model.unpaid.addMore.title": {
       "en": "Weitere Modelle von beliebten Anbietern hinzuf\\xFCgen",
-      "ru": "Weitere Модельle von beliebten Anbietern hinzuf\\xFCgen"
+      "ru": "Weitere Модельe von beliebten Anbietern hinzuf\\xFCgen"
     },
     "provider.connect.opencodeZen.line2": {
       "en": "Mit einem einzigen API-Schl\\xFCssel erhalten Sie Zugriff auf Modelle wie Claude, GPT, Gemini, GLM und mehr.",
-      "ru": "Mit einem einzigen API-Schl\\xFCssel erhalten Sie Zugriff auf Модельle wie Claude, GPT, Gemini, GLM und mehr."
+      "ru": "Mit einem einzigen API-Schl\\xFCssel erhalten Sie Zugriff auf Модельe wie Claude, GPT, Gemini, GLM und mehr."
     },
     "provider.connect.toast.connected.description": {
       "en": "Modelos do {{provider}} agora est\\xE3o dispon\\xEDveis para uso.",
@@ -2771,7 +2771,7 @@
     },
     "provider.disconnect.toast.disconnected.description": {
       "en": "Modeller fra {{provider}} er ikke lenger tilgjengelige.",
-      "ru": "Модельler fra {{provider}} er ikke lenger tilgjengelige."
+      "ru": "Модели fra {{provider}} er ikke lenger tilgjengelige."
     },
     "model.favorite.add": {
       "en": "Zu Favoriten hinzuf\\xFCgen",
@@ -2787,11 +2787,11 @@
     },
     "prompt.toast.modelAgentRequired.title": {
       "en": "W\\xE4hlen Sie einen Agenten und ein Modell",
-      "ru": "W\\xE4hlen Sie einen Agenten und ein Модельl"
+      "ru": "W\\xE4hlen Sie einen Agenten und ein Модель"
     },
     "prompt.toast.modelAgentRequired.description": {
       "en": "W\\xE4hlen Sie einen Agenten und ein Modell, bevor Sie eine Eingabe senden.",
-      "ru": "W\\xE4hlen Sie einen Agenten und ein Модельl, bevor Sie eine Eingabe senden."
+      "ru": "W\\xE4hlen Sie einen Agenten und ein Модель, bevor Sie eine Eingabe senden."
     },
     "dialog.server.default.description": {
       "en": "Beim App-Start mit diesem Server verbinden, anstatt einen lokalen Server zu starten. Erfordert Neustart.",
@@ -2803,15 +2803,15 @@
     },
     "error.paidModel.title": {
       "en": "Du musst dich anmelden, um dieses Modell zu nutzen",
-      "ru": "Du musst dich anmelden, um dieses Модельl zu nutzen"
+      "ru": "Du musst dich anmelden, um dieses Модель zu nutzen"
     },
     "error.promotionLimit.description": {
       "en": "Registriere dich kostenlos, um weiterzumachen und \\xFCber 500 Modelle zu entdecken. Dauert 2 Minuten, keine Kreditkarte n\\xF6tig. Oder komm sp\\xE4ter wieder.",
-      "ru": "Registriere dich kostenlos, um weiterzumachen und \\xFCber 500 Модельle zu entdecken. Dauert 2 Minuten, keine Kreditkarte n\\xF6tig. Oder komm sp\\xE4ter wieder."
+      "ru": "Registriere dich kostenlos, um weiterzumachen und \\xFCber 500 Модельe zu entdecken. Dauert 2 Minuten, keine Kreditkarte n\\xF6tig. Oder komm sp\\xE4ter wieder."
     },
     "error.chain.checkConfig": {
       "en": "\\xDCberpr\\xFCfen Sie Ihre Konfiguration (opencode.json) auf Anbieter-/Modellnamen",
-      "ru": "\\xDCberpr\\xFCfen Sie Ihre Konfiguration (opencode.json) auf Anbieter-/Модельlnamen"
+      "ru": "\\xDCberpr\\xFCfen Sie Ihre Konfiguration (opencode.json) auf Anbieter-/Модельnamen"
     },
     "session.new.worktree.main": {
       "en": "Branch principale",
@@ -2831,7 +2831,7 @@
     },
     "sidebar.gettingStarted.line2": {
       "en": "Verbinden Sie einen beliebigen Anbieter, um Modelle wie Claude, GPT, Gemini usw. zu nutzen.",
-      "ru": "Verbinden Sie einen beliebigen Anbieter, um Модельle wie Claude, GPT, Gemini usw. zu nutzen."
+      "ru": "Verbinden Sie einen beliebigen Anbieter, um Модельe wie Claude, GPT, Gemini usw. zu nutzen."
     },
     "settings.general.row.releaseNotes.title": {
       "en": "Versionshinweise",
@@ -2839,7 +2839,7 @@
     },
     "settings.updates.row.check.description": {
       "en": "Manuell nach Updates suchen und installieren, wenn verf\\xFCgbar",
-      "ru": "Manuell nach Обновитьs suchen und installieren, wenn verf\\xFCgbar"
+      "ru": "Manuell после Обновления наchen und installieren, wenn verf\\xFCgbar"
     },
     "settings.indexing.dimension.description": {
       "en": "Modelden yerleştirme boyutunu otomatik algılamak için boş bırakın.",
@@ -2847,11 +2847,11 @@
     },
     "settings.indexing.model.description": {
       "en": "Das Standard-Embedding-Modell f\\xFCr den ausgew\\xE4hlten Anbieter \\xFCberschreiben.",
-      "ru": "Das Standard-Embedding-Модельl f\\xFCr den ausgew\\xE4hlten Anbieter \\xFCberschreiben."
+      "ru": "Das Standard-Embedding-Модель f\\xFCr den ausgew\\xE4hlten Anbieter \\xFCberschreiben."
     },
     "settings.indexing.model.title": {
       "en": "Modello embedding",
-      "ru": "Модельlo embedding"
+      "ru": "Модель embedding"
     },
     "provider.custom.models.remove": {
       "en": "Model verwijderen",
@@ -2863,23 +2863,23 @@
     },
     "provider.custom.models.fetch": {
       "en": "Modellen ophalen",
-      "ru": "Модельlen ophalen"
+      "ru": "Модели ophalen"
     },
     "provider.custom.models.fetch.empty": {
       "en": "Keine Modelle auf diesem Server gefunden.",
-      "ru": "Keine Модельle auf diesem Server gefunden."
+      "ru": "Keine Модельe auf diesem Server gefunden."
     },
     "provider.custom.models.fetch.allExist": {
       "en": "Alle abgerufenen Modelle sind bereits hinzugef\\xFCgt.",
-      "ru": "Alle abgerufenen Модельle sind bereits hinzugef\\xFCgt."
+      "ru": "Alle abgerufenen Модельe sind bereits hinzugef\\xFCgt."
     },
     "provider.custom.models.fetch.found": {
       "en": "{{count}} Modelle gefunden",
-      "ru": "{{count}} Модельle gefunden"
+      "ru": "{{count}} Модельe gefunden"
     },
     "provider.custom.models.fetch.add": {
       "en": "{{count}} Modell(e) hinzuf\\xFCgen",
-      "ru": "{{count}} Модельl(e) hinzuf\\xFCgen"
+      "ru": "{{count}} Модель(e) hinzuf\\xFCgen"
     },
     "settings.permissions.description": {
       "en": "Steuern Sie, welche Tools der Server standardm\\xE4\\xDFig verwenden darf.",
@@ -2887,7 +2887,7 @@
     },
     "settings.permissions.tool.skill.description": {
       "en": "Eine F\\xE4higkeit nach Namen laden",
-      "ru": "Eine F\\xE4higkeit nach Имяn laden"
+      "ru": "Eine F\\xE4higkeit после Имяn Загрузка"
     },
     "settings.permissions.tool.lsp.description": {
       "en": "Language-Server-Abfragen ausf\\xFChren",
@@ -2899,23 +2899,23 @@
     },
     "workspace.reset.note": {
       "en": "Dadurch wird der Arbeitsbereich auf den Standard-Branch zur\\xFCckgesetzt.",
-      "ru": "Dadurch wird der Arbeitsbereich auf den Standard-Ветка zur\\xFCckgesetzt."
+      "ru": "Dadurch wird der рабочая Область auf den Standard-Ветка zur\\xFCckgesetzt."
     },
     "settings.autocomplete.model.title": {
       "en": "Modello autocompletamento",
-      "ru": "Модельlo autocompletamento"
+      "ru": "Модель autocompletamento"
     },
     "settings.autocomplete.model.description": {
       "en": "W\\xE4hlen Sie das Modell f\\xFCr Inline-Code-Vervollst\\xE4ndigungen",
-      "ru": "W\\xE4hlen Sie das Модельl f\\xFCr Inline-Code-Vervollst\\xE4ndigungen"
+      "ru": "W\\xE4hlen Sie das Модель f\\xFCr Inline-Code-Vervollst\\xE4ndigungen"
     },
     "prompt.placeholder.default": {
       "en": "Nachricht eingeben... (Enter zum Senden, Shift+Enter f\\xFCr neue Zeile)",
-      "ru": "Nachricht eingeben... (Enter zum Отправитьen, Shift+Enter f\\xFCr neue Zeile)"
+      "ru": "послеricht eingeben... (Enter zum Отправитьen, Shift+Enter f\\xFCr neue Zeile)"
     },
     "settings.aboutKiloCode.feedback.prefix": {
       "en": "Bei Fragen oder Feedback k\\xF6nnen Sie ein Issue er\\xF6ffnen auf",
-      "ru": "Bei Fragen oder Отзыв k\\xF6nnen Sie ein Issue er\\xF6ffnen auf"
+      "ru": "Bei Fragen oder Отзыв k\\xF6nnen Sie ein Isнаe er\\xF6ffnen auf"
     },
     "settings.browser.enable.description": {
       "en": "Den Playwright-MCP-Server beim CLI-Backend registrieren.",
@@ -2927,11 +2927,11 @@
     },
     "settings.experimental.remote.startup": {
       "en": "Automatisch beim Start aktivieren:",
-      "ru": "Automatisch beim Старт aktivieren:"
+      "ru": "Automatisch При Запуске aktivieren:"
     },
     "settings.agentBehaviour.variantOverride.description": {
       "en": "Modellvariante f\\xFCr diesen Agent \\xFCberschreiben",
-      "ru": "Модельlvariante f\\xFCr diesen Agent \\xFCberschreiben"
+      "ru": "Модельvariante f\\xFCr diesen Agent \\xFCberschreiben"
     },
     "settings.agentBehaviour.prompt.description": {
       "en": "Prompt di sistema aggiuntivo per questo agente",
@@ -2959,27 +2959,27 @@
     },
     "settings.agentBehaviour.permissions.hint": {
       "en": "Regeln werden der Reihe nach ausgewertet — die letzte übereinstimmende Regel gewinnt. Dies ist das aufgelöste Regelwerk vom CLI-Backend.",
-      "ru": "Regeln werden der Reihe nach ausgewertet — die letzte übereinstimmende Regel gewinnt. Dies ist das aufgelöste Regelwerk vom CLI-Назадend."
+      "ru": "Regeln werden der Reihe после ausgewertet — die letzte übereinstimmende Regel gewinnt. Dies ist das aufgelöste Regelwerk vom CLI-Назадend."
     },
     "settings.agentBehaviour.rules.description": {
       "en": "Regeln sind Anweisungsdateien, die das Verhalten des Agenten steuern. Sie werden in den System-Prompt f\\xFCr jede Konversation eingebunden. F\\xFCgen Sie unten Dateipfade hinzu, um zus\\xE4tzliche Regeln einzubinden.",
-      "ru": "Regeln sind Anweisungsdateien, die das Verhalten des Agenten steuern. Sie werden in den System-Промпт f\\xFCr jede Konversation eingebunden. F\\xFCgen Sie unten Dateipfade hinzu, um zus\\xE4tzliche Regeln einzubinden."
+      "ru": "Regeln sind Anweiнаngsdateien, die das Verhalten des Agenten steuern. Sie werden in den System-Промпт f\\xFCr jede Konversation eingebunden. F\\xFCgen Sie unten Dateipfade hinzu, um zus\\xE4tzliche Regeln einzubinden."
     },
     "settings.context.compactionLimit.description": {
       "en": "Komprimieren, wenn der Kontext diesen Prozentsatz des Modellfensters erreicht. Leer lassen, um nur den Sicherheitspuffer zu verwenden.",
-      "ru": "Komprimieren, wenn der Kontext diesen Prozentsatz des Модельlfensters erreicht. Leer lassen, um nur den Sicherheitspuffer zu verwenden."
+      "ru": "Komprimieren, wenn der Kontext diesen Prozentsatz des Модельfensters erreicht. Leer lassen, um nur den Sicherheitspuffer zu verwenden."
     },
     "settings.providers.defaultModel.description": {
       "en": "Modello principale per le conversazioni",
-      "ru": "Модельlo principale per le conversazioni"
+      "ru": "Модель principale per le conversazioni"
     },
     "settings.providers.smallModel.description": {
       "en": "Modello leggero per generazione titoli, messaggi di commit, miglioramento prompt e altri task rapidi",
-      "ru": "Модельlo leggero per generazione titoli, messaggi di commit, miglioramento prompt e altri task rapidi"
+      "ru": "Модель leggero per generazione titoli, messaggi di commit, miglioramento prompt e altri task rapidi"
     },
     "migration.migrate.subtitle": {
       "en": "Wir haben Einstellungen aus Ihrer vorherigen Installation gefunden. Hier ist, was wir \\xFCbernehmen k\\xF6nnen.",
-      "ru": "Wir haben Einstellungen aus Ihrer vorherigen Установитьation gefunden. Hier ist, was wir \\xFCbernehmen k\\xF6nnen."
+      "ru": "Wir haben Einstellungen aus Ihrer vorherigen установитьtion gefunden. Hier ist, was wir \\xFCbernehmen k\\xF6nnen."
     },
     "migration.forceReimport.title": {
       "en": "Erneuten Import erzwingen",
@@ -2987,7 +2987,7 @@
     },
     "migration.forceReimport.description": {
       "en": "Ein erneuter Import von {{target}} \\xFCberschreibt diese und l\\xF6scht alle neuen Nachrichten, die in diesen Sitzungen bereits erstellt wurden.",
-      "ru": "Ein erneuter Импорт von {{target}} \\xFCberschreibt diese und l\\xF6scht alle neuen Nachrichten, die in diesen Sitzungen bereits erstellt wurden."
+      "ru": "Ein erneuter Импорт von {{target}} \\xFCberschreibt diese und l\\xF6scht alle neuen послеrichten, die in diesen Sitzungen bereits erstellt wurden."
     },
     "migration.forceReimport.button": {
       "en": "Erneuten Import erzwingen",
@@ -3003,11 +3003,11 @@
     },
     "error.chain.unknown": {
       "en": "Errore sconosciuto",
-      "ru": "Ошибкаe sconosciuto"
+      "ru": "Ошибка sconosciuto"
     },
     "error.chain.apiError": {
       "en": "Errore API",
-      "ru": "Ошибкаe API"
+      "ru": "Ошибка API"
     },
     "migration.sessionSummary.title": {
       "en": "Resumen:",
@@ -3015,15 +3015,15 @@
     },
     "migration.sessionFormat.unknownError": {
       "en": "Errore sconosciuto",
-      "ru": "Ошибкаe sconosciuto"
+      "ru": "Ошибка sconosciuto"
     },
     "command.session.previous": {
       "en": "Sessione precedente",
-      "ru": "Сессияe precedente"
+      "ru": "Сессия precedente"
     },
     "command.session.previous.unseen": {
       "en": "Sessione non letta precedente",
-      "ru": "Сессияe non letta precedente"
+      "ru": "Сессия непрочитанный precedente"
     },
     "command.message.previous": {
       "en": "Message pr\\xE9c\\xE9dent",
@@ -3063,11 +3063,11 @@
     },
     "settings.indexing.enable.description": {
       "en": "Activer ou d\\xE9sactiver l'indexation s\\xE9mantique de la base de code.",
-      "ru": "Активноr ou d\\xE9sactiver l'indexation s\\xE9mantique de la base de code."
+      "ru": "Включить ou d\\xE9sвключить l'indexation s\\xE9mantique de la base de code."
     },
     "session.current": {
       "en": "Sessione corrente",
-      "ru": "Сессияe corrente"
+      "ru": "Сессия corrente"
     },
     "migration.forceReimport.proceed": {
       "en": "Continuer",
@@ -3079,7 +3079,7 @@
     },
     "command.session.unshare": {
       "en": "Stop deling af session",
-      "ru": "Стоп deling af session"
+      "ru": "Стоп deling af Сессия"
     },
     "provider.connect.title.anthropicProMax": {
       "en": "Log ind med Claude Pro/Max",
@@ -3087,7 +3087,7 @@
     },
     "error.paidModel.action": {
       "en": "Log ind",
-      "ru": "Войтиd"
+      "ru": "Войти"
     },
     "settings.permissions.tool.task.description": {
       "en": "Start underagenter",
@@ -3107,7 +3107,7 @@
     },
     "session.share.action.unpublish": {
       "en": "Cancelar publica\\xE7\\xE3o",
-      "ru": "Отменаar publica\\xE7\\xE3o"
+      "ru": "Отмена publica\\xE7\\xE3o"
     },
     "session.share.action.unpublishing": {
       "en": "Cancelando publica\\xE7\\xE3o...",
@@ -3171,7 +3171,7 @@
     },
     "settings.providers.note.vercel": {
       "en": "Einheitlicher Zugriff auf KI-Modelle mit intelligentem Routing",
-      "ru": "Einheitlicher Zugriff auf KI-Модельle mit intelligentem Routing"
+      "ru": "Einheitlicher Zugriff auf KI-Модельe mit intelligentem Routing"
     },
     "ui.permission.run": {
       "en": "Run",
@@ -3187,11 +3187,11 @@
     },
     "marketplace.card.installed": {
       "en": "Installato",
-      "ru": "Установитьato"
+      "ru": "установитьto"
     },
     "marketplace.card.install": {
       "en": "Installa",
-      "ru": "Установитьa"
+      "ru": "установить"
     },
     "marketplace.card.showMore": {
       "en": "Show more",
@@ -3203,7 +3203,7 @@
     },
     "marketplace.install.title": {
       "en": "Installa {{name}}",
-      "ru": "Установитьa {{name}}"
+      "ru": "установить {{name}}"
     },
     "marketplace.install.scope.project": {
       "en": "Project",
@@ -3211,19 +3211,19 @@
     },
     "marketplace.install.installing": {
       "en": "Installazione...",
-      "ru": "Установитьazione..."
+      "ru": "установитьzione..."
     },
     "marketplace.install.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "marketplace.install.success": {
       "en": "Installato correttamente!",
-      "ru": "Установитьato correttamente!"
+      "ru": "установитьto correttamente!"
     },
     "marketplace.install.failed": {
       "en": "Installazione non riuscita",
-      "ru": "Установитьazione non riuscita"
+      "ru": "установитьzione Ошибка"
     },
     "marketplace.install.done": {
       "en": "Done",
@@ -3235,7 +3235,7 @@
     },
     "marketplace.remove.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "marketplace.tab.agents": {
       "en": "Agents",
@@ -3259,7 +3259,7 @@
     },
     "marketplace.install.method": {
       "en": "Installatiemethode",
-      "ru": "Установитьatiemethode"
+      "ru": "установитьtiemethode"
     },
     "marketplace.remove.failed": {
       "en": "Error al eliminar {{name}}",
@@ -3267,19 +3267,19 @@
     },
     "marketplace.install": {
       "en": "Installa",
-      "ru": "Установитьa"
+      "ru": "установить"
     },
     "marketplace.filter.installed": {
       "en": "Installati",
-      "ru": "Установитьati"
+      "ru": "установитьti"
     },
     "marketplace.warning.installAnyway": {
       "en": "Installa comunque",
-      "ru": "Установитьa comunque"
+      "ru": "установить comunque"
     },
     "marketplace.warning.cancel": {
       "en": "Cancelar",
-      "ru": "Отменаar"
+      "ru": "Отмена"
     },
     "marketplace.migration.notice": {
       "en": "Modi wurden durch Agenten ersetzt. Wenn Sie zuvor Marketplace-Modi installiert haben, entfernen Sie diese bitte und installieren Sie sie als Agenten neu, um zum neuen Format zu migrieren.",
@@ -3299,43 +3299,43 @@
     },
     "ui.message.feedback.clearRating": {
       "en": "Cancella valutazione",
-      "ru": "Отменаla valutazione"
+      "ru": "Отменить valutazione"
     },
     "provider.connect.kiloGateway.line2": {
       "en": "Mit einem einzigen API-Schl\\xFCssel erhalten Sie Zugang zu Modellen wie Claude, GPT, Gemini, GLM und mehr.",
-      "ru": "Mit einem einzigen API-Schl\\xFCssel erhalten Sie Zugang zu Модельlen wie Claude, GPT, Gemini, GLM und mehr."
+      "ru": "Mit einem einzigen API-Schl\\xFCssel erhalten Sie Zugang zu Модели wie Claude, GPT, Gemini, GLM und mehr."
     },
     "settings.providers.note.kilo": {
       "en": "Zugriff auf 500+ KI-Modelle",
-      "ru": "Zugriff auf 500+ KI-Модельle"
+      "ru": "Zugriff auf 500+ KI-Модельe"
     },
     "settings.providers.note.opencode": {
       "en": "Modelli selezionati, inclusi Claude, GPT, Gemini e altri",
-      "ru": "Модельli selezionati, inclusi Claude, GPT, Gemini e altri"
+      "ru": "Модели selezionati, inclusi Claude, GPT, Gemini e altri"
     },
     "settings.providers.note.anthropic": {
       "en": "Direkter Zugriff auf Claude-Modelle, einschlie\\xDFlich Pro und Max",
-      "ru": "Direkter Zugriff auf Claude-Модельle, einschlie\\xDFlich Pro und Max"
+      "ru": "Direkter Zugriff auf Claude-Модельe, einschlie\\xDFlich Pro und Max"
     },
     "settings.providers.note.deepseek": {
       "en": "Modelli DeepSeek per attivit\\xE0 di ragionamento e programmazione",
-      "ru": "Модельli DeepSeek per attivit\\xE0 di ragionamento e programmazione"
+      "ru": "Модели DeepSeek per attivit\\xE0 di ragionamento e programmazione"
     },
     "settings.providers.note.copilot": {
       "en": "Modelli Claude per assistenza alla programmazione",
-      "ru": "Модельli Claude per assistenza alla programmazione"
+      "ru": "Модели Claude per assistenza alla programmazione"
     },
     "settings.providers.note.openai": {
       "en": "Modelli GPT e Codex con chiave API o accesso ChatGPT",
-      "ru": "Модельli GPT e Codex con chiave API o accesso ChatGPT"
+      "ru": "Модели GPT e Codex con chiave API o accesso ChatGPT"
     },
     "settings.providers.note.google": {
       "en": "Modelli Gemini per risposte rapide e strutturate",
-      "ru": "Модельli Gemini per risposte rapide e strutturate"
+      "ru": "Модели Gemini per risposte rapide e strutturate"
     },
     "settings.providers.note.openrouter": {
       "en": "Zugriff auf alle unterst\\xFCtzten Modelle \\xFCber einen Anbieter",
-      "ru": "Zugriff auf alle unterst\\xFCtzten Модельle \\xFCber einen Anbieter"
+      "ru": "Zugriff auf alle unterst\\xFCtzten Модельe \\xFCber einen Anbieter"
     },
     "marketplace.install.scope": {
       "en": "Port\\xE9e",

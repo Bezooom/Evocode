@@ -1,5 +1,10 @@
 ---
 name: seo-sxo
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo sxo
 description: >
   Search Experience Optimization: reads Google SERPs backwards to detect page-type
   mismatches, derives user stories from search intent signals, and scores pages

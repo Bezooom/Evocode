@@ -1,5 +1,10 @@
 ---
 name: powershell-windows
+domain: general
+pack: general
+tier: optional
+triggers:
+  - powershell windows
 description: PowerShell Windows patterns and pitfalls.
 category: tools
 version: 4.1.0-fractal

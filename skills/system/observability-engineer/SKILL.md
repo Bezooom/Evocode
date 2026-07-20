@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: observability-engineer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - observability engineer
 description: Build production-ready monitoring, logging, and tracing systems.
   Implements comprehensive observability strategies, SLI/SLO management, and
   incident response workflows. Use PROACTIVELY for monitoring infrastructure,

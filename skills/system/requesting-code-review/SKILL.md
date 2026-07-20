@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: requesting-code-review
+domain: general
+pack: general
+tier: optional
+triggers:
+  - requesting code review
 description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
 ---
 

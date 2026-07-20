@@ -1,5 +1,21 @@
 ---
 name: personal-api
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - knowledge palace / второй мозг
+  - система управления знаниями
+  - настроить obsidian под ai
+  - para / zettelkasten / moc
+  - identity contract для ai
+  - онбординг ai-ассистента
+  - obsidian vault for ai
+  - knowledge management
+  - me.md / agent.md
+  - identity layer
+  - personal api
+  - second brain
 description: |
   [RU] Превращает Obsidian-хранилище в персональный identity-слой для AI. Любой агент читает ME.md и AGENT.md — и сразу знает, кто ты, как ты мыслишь и как с тобой работать. Разворачивает полную систему Knowledge Palace v2 ("второй мозг": PARA + Johnny.Decimal + Zettelkasten + MOC + LLM Wiki + Memory Palace). Используй при запросах: "настроить Obsidian под AI", "онбординг AI-ассистента", "создать ME.md и AGENT.md", "построить систему управления знаниями", "personal API / identity contract", "второй мозг".
   [EN] Turn your Obsidian vault into a personal identity layer for AI. Any agent reads ME.md and AGENT.md and instantly knows who you are, how you think, and how to work with you. Scaffolds a complete Knowledge Palace v2 second-brain system (PARA + Johnny.Decimal + Zettelkasten + MOC + LLM Wiki + Memory Palace). Use when setting up a new Obsidian vault for AI collaboration, onboarding AI assistants, or building a structured knowledge management system.

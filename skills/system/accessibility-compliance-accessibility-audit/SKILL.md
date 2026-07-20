@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: accessibility-compliance-accessibility-audit
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - accessibility compliance accessibility audit
 description: "You are an accessibility expert specializing in WCAG compliance, inclusive design, and assistive technology compatibility. Conduct audits, identify barriers, and provide remediation guidance."
 ---
 

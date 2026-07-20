@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-manager-skill
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent manager skill
 description: Manage multiple local CLI agents via tmux sessions (start/stop/monitor/assign) with cron-friendly scheduling.
 ---
 

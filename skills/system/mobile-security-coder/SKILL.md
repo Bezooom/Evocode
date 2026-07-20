@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: mobile-security-coder
+domain: security
+pack: security
+tier: optional
+triggers:
+  - mobile security coder
 description: Expert in secure mobile coding practices specializing in input
   validation, WebView security, and mobile-specific security patterns. Use
   PROACTIVELY for mobile security implementations or mobile security code

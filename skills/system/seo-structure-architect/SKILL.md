@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-structure-architect
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo structure architect
 description: Analyzes and optimizes content structure including header
   hierarchy, suggests schema markup, and internal linking opportunities. Creates
   search-friendly content organization. Use PROACTIVELY for content structuring.

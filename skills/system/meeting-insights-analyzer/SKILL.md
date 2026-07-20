@@ -1,5 +1,10 @@
 ---
 name: meeting-insights-analyzer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - meeting insights analyzer
 description: Analyzes meeting transcripts and recordings to uncover behavioral patterns, communication insights, and actionable feedback. Identifies when you avoid conflict, use filler words, dominate conversations, or miss opportunities to listen. Perfect for professionals seeking to improve their communication and leadership skills.
 ---
 
@@ -324,4 +329,3 @@ today."
 - Coaching direct reports on their communication
 - Analyzing customer calls for sales or support patterns
 - Studying negotiation tactics and outcomes
-

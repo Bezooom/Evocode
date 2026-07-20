@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: anti-reversing-techniques
+domain: general
+pack: general
+tier: optional
+triggers:
+  - anti reversing techniques
 description: Understand anti-reversing, obfuscation, and protection techniques encountered during software analysis. Use when analyzing protected binaries, bypassing anti-debugging for authorized analysis, or understanding software protection mechanisms.
 ---
 

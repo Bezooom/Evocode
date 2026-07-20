@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: design-orchestration
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - design orchestration
 description: >
   Orchestrates design workflows by routing work through
   brainstorming, multi-agent review, and execution readiness

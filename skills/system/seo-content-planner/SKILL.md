@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-content-planner
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo content planner
 description: Creates comprehensive content outlines and topic clusters for SEO.
   Plans content calendars and identifies topic gaps. Use PROACTIVELY for content
   strategy and planning.

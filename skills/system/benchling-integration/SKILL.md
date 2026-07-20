@@ -1,5 +1,10 @@
 ---
 name: benchling-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - benchling integration
 description: Benchling R&D platform integration. Access registry (DNA, proteins), inventory, ELN entries, workflows via API, build Benchling Apps, query Data Warehouse, for lab data management automation.
 license: Unknown
 compatibility: Requires a Benchling account and API key
@@ -475,4 +480,3 @@ with open("sequences.csv", "w") as f:
 - **Python SDK Reference:** https://benchling.com/sdk-docs/
 - **API Reference:** https://benchling.com/api/reference
 - **Support:** [email protected]
-

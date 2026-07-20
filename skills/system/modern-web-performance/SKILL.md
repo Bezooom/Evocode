@@ -1,5 +1,10 @@
 ---
 name: modern-web-performance
+domain: general
+pack: general
+tier: optional
+triggers:
+  - modern web performance
 description: High-Performance Web Engineering.
 category: performance
 version: 4.1.0-fractal

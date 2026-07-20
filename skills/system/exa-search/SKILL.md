@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: exa-search
+domain: general
+pack: general
+tier: optional
+triggers:
+  - exa search
 description: Semantic search, similar content discovery, and structured research using Exa API
 ---
 

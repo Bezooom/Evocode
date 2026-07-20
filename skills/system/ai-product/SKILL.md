@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ai-product
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ai product
 description: "Every product will be AI-powered. The question is whether you'll build it right or ship a demo that falls apart in production.  This skill covers LLM integration patterns, RAG architecture, prompt engineering that scales, AI UX that users trust, and cost optimization that doesn't bankrupt you. Use when: keywords, file_patterns, code_patterns."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

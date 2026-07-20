@@ -1,5 +1,10 @@
 ---
 name: seo-maps
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo maps
 description: >
   Maps intelligence for local SEO — geo-grid rank tracking, GBP profile
   auditing via API, review intelligence across Google/Tripadvisor/Trustpilot,

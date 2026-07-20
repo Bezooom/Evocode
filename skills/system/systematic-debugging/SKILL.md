@@ -1,5 +1,10 @@
 ---
 name: systematic-debugging
+domain: general
+pack: general
+tier: optional
+triggers:
+  - systematic debugging
 description: 4-phase systematic debugging methodology with root cause analysis and evidence-based verification.
 category: tools
 version: 4.1.0-fractal

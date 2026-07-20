@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: c-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - c pro
 description: Write efficient C code with proper memory management, pointer
   arithmetic, and system calls. Handles embedded systems, kernel modules, and
   performance-critical code. Use PROACTIVELY for C optimization, memory issues,

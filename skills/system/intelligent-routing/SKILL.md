@@ -1,5 +1,10 @@
 ---
 name: intelligent-routing
+domain: general
+pack: general
+tier: optional
+triggers:
+  - intelligent routing
 description: Automatic agent selection and intelligent task routing.
 category: tools
 version: 4.1.0-fractal

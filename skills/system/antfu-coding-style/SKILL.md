@@ -1,5 +1,10 @@
 ---
 name: antfu-coding-style
+domain: general
+pack: general
+tier: optional
+triggers:
+  - antfu coding style
 description: Opinionated coding style and tooling preferences by Anthony Fu.
 category: development
 version: 4.1.0-fractal

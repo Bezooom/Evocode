@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: data-scientist
+domain: data
+pack: data
+tier: optional
+triggers:
+  - data scientist
 description: Expert data scientist for advanced analytics, machine learning, and
   statistical modeling. Handles complex data analysis, predictive modeling, and
   business intelligence. Use PROACTIVELY for data analysis tasks, ML modeling,

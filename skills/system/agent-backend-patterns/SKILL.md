@@ -1,3 +1,11 @@
+---
+name: agent-backend-patterns
+triggers:
+  - agent backend patterns
+tier: optional
+pack: dev-backend
+domain: backend
+---
 
 Backend architecture patterns and best practices for scalable server-side applications.
 

@@ -1,5 +1,10 @@
 ---
 name: bioservices
+domain: general
+pack: general
+tier: optional
+triggers:
+  - bioservices
 description: Unified Python interface to 40+ bioinformatics services. Use when querying multiple databases (UniProt, KEGG, ChEMBL, Reactome) in a single workflow with consistent API. Best for cross-database analysis, ID mapping across services. For quick single-database lookups use gget; for sequence/file manipulation use biopython.
 license: GPLv3 license
 metadata:
@@ -356,4 +361,3 @@ For detailed API documentation and advanced features, refer to:
 - Official documentation: https://bioservices.readthedocs.io/
 - Source code: https://github.com/cokelaer/bioservices
 - Service-specific references in `references/services_reference.md`
-

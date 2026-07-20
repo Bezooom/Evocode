@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: scala-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - scala pro
 description: Master enterprise-grade Scala development with functional
   programming, distributed systems, and big data processing. Expert in Apache
   Pekko, Akka, Spark, ZIO/Cats Effect, and reactive architectures. Use

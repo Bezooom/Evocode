@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-content-refresher
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo content refresher
 description: Identifies outdated elements in provided content and suggests
   updates to maintain freshness. Finds statistics, dates, and examples that need
   updating. Use PROACTIVELY for older content.

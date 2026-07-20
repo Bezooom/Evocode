@@ -1,5 +1,10 @@
 ---
 name: headroom-compressor
+domain: general
+pack: general
+tier: optional
+triggers:
+  - headroom compressor
 description: >
   Сжатие контекста запросов, RAG-фрагментов, логов и кода с помощью Headroom.
   Позволяет сократить потребление токенов на 60–95% за счет локальных алгоритмов сжатия

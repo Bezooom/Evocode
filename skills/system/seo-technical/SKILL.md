@@ -1,5 +1,10 @@
 ---
 name: seo-technical
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo technical
 description: >
   Technical SEO audit across 9 categories: crawlability, indexability, security,
   URL structure, mobile, Core Web Vitals, structured data, JavaScript rendering,

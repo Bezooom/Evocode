@@ -1,5 +1,10 @@
 ---
 name: nature-reader
+domain: general
+pack: general
+tier: optional
+triggers:
+  - nature reader
 description: Build full-text bilingual, figure-aware, source-grounded Markdown reading files for journal or conference papers from PDF, DOI, arXiv, publisher HTML, or pasted text. Use whenever the user asks to translate an entire paper, make a complete markdown reader, preserve figure or table placement near the relevant prose, or keep exact source anchors for every block. Do not use this for summaries, bullet-keyword notes, or citation-only tasks.
 ---
 

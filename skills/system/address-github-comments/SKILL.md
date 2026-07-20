@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: address-github-comments
+domain: general
+pack: general
+tier: optional
+triggers:
+  - address github comments
 description: Use when you need to address review or issue comments on an open GitHub Pull Request using the gh CLI.
 ---
 

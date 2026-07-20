@@ -1,19 +1,22 @@
 ---
 name: tdd
+domain: general
+pack: general
+tier: optional
+triggers:
+  - test-driven development
+  - test-first development
+  - red-green-refactor
+  - integration tests
+  - тест-разработка
+  - сделай по tdd
+  - сначала тест
+  - test-first
+  - red-green
+  - tdd
 description: |
   [RU] Test-Driven Development с red-green-refactor loop. Используй когда пользователь говорит "TDD", "сделай по TDD", "сначала тест", "red-green-refactor", "test-first", хочет integration-тесты или просит test-first разработку.
   [EN] Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions "red-green-refactor", wants integration tests, or asks for test-first development.
-triggers:
-  - TDD
-  - тест-разработка
-  - red-green
-  - test-first
-  - сначала тест
-  - сделай по TDD
-  - red-green-refactor
-  - integration tests
-  - test-first development
-  - test-driven development
 ---
 metadata:
   version: "1.0.0"

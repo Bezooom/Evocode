@@ -1,5 +1,10 @@
 ---
 name: context-driven-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - context driven development
 description: Use this skill when working with Conductor's context-driven
   development methodology, managing project context artifacts, or understanding
   the relationship between product.md, tech-stack.md, and workflow.md files.

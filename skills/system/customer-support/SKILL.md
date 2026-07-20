@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: customer-support
+domain: general
+pack: general
+tier: optional
+triggers:
+  - customer support
 description: Elite AI-powered customer support specialist mastering
   conversational AI, automated ticketing, sentiment analysis, and omnichannel
   support experiences. Integrates modern support tools, chatbot platforms, and

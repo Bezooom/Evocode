@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: auth-implementation-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - auth implementation patterns
 description: Master authentication and authorization patterns including JWT, OAuth2, session management, and RBAC to build secure, scalable access control systems. Use when implementing auth systems, securing APIs, or debugging security issues.
 ---
 

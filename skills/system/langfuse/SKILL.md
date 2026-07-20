@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: langfuse
+domain: general
+pack: general
+tier: optional
+triggers:
+  - langfuse
 description: "Expert in Langfuse - the open-source LLM observability platform. Covers tracing, prompt management, evaluation, datasets, and integration with LangChain, LlamaIndex, and OpenAI. Essential for debugging, monitoring, and improving LLM applications in production. Use when: langfuse, llm observability, llm tracing, prompt management, llm evaluation."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

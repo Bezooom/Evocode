@@ -1,5 +1,10 @@
 ---
 name: autonovel
+domain: general
+pack: general
+tier: optional
+triggers:
+  - autonovel
 description: Автономный агент для написания, пересмотра и публикации романов. Автоматизированный pipeline от концепта до PDF/ePub/аудиокниги через 5 слоёв (voice, world, characters, outline, chapters) с механической оценкой качества.
 ---
 

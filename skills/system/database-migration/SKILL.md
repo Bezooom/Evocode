@@ -1,5 +1,10 @@
 ---
 name: database-migration
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - database migration
 description: MASTER DB: Zero-Downtime, Schema Design (3NF), SQL/NoSQL.
 category: database
 version: 4.1.0-fractal

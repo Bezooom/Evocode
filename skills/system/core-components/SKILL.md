@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: core-components
+domain: general
+pack: general
+tier: optional
+triggers:
+  - core components
 description: Core component library and design system patterns. Use when building UI, using design tokens, or working with the component library.
 ---
 

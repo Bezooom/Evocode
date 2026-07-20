@@ -1,5 +1,10 @@
 ---
 name: agent-loop-skill
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent loop skill
 description: Build and run long-running AI agent workflows for Codex, Claude Code, Cursor, and other coding agents with contracts, disk-backed state, role separation, verification traces, restart criteria, subjective scoring, and harness cleanup. Use when a user asks an agent to complete multi-step coding, product, research, content, design, debugging, batch generation, or cross-session tasks that require planning, repeated execution, evidence, or recovery after failures.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: multi-agent-brainstorming
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - multi agent brainstorming
 description: >
   Use this skill when a design or idea requires higher confidence,
   risk reduction, or formal review. This skill orchestrates a

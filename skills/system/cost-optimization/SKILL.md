@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: cost-optimization
+domain: general
+pack: general
+tier: optional
+triggers:
+  - cost optimization
 description: Optimize cloud costs through resource rightsizing, tagging strategies, reserved instances, and spending analysis. Use when reducing cloud expenses, analyzing infrastructure costs, or implementing cost governance policies.
 ---
 

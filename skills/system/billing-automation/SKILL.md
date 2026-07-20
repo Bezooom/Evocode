@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: billing-automation
+domain: general
+pack: general
+tier: optional
+triggers:
+  - billing automation
 description: Build automated billing systems for recurring payments, invoicing, subscription lifecycle, and dunning management. Use when implementing subscription billing, automating invoicing, or managing recurring payment systems.
 ---
 

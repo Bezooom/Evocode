@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: pci-compliance
+domain: general
+pack: general
+tier: optional
+triggers:
+  - pci compliance
 description: Implement PCI DSS compliance requirements for secure handling of payment card data and payment systems. Use when securing payment processing, achieving PCI compliance, or implementing payment card security measures.
 ---
 

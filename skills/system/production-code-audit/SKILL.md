@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: production-code-audit
+domain: security
+pack: security
+tier: optional
+triggers:
+  - production code audit
 description: >
   Autonomously deep-scan entire codebase line-by-line, understand architecture and patterns, 
   then systematically transform it to production-grade, corporate-level professional quality with optimizations

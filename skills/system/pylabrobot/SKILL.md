@@ -1,5 +1,10 @@
 ---
 name: pylabrobot
+domain: general
+pack: general
+tier: optional
+triggers:
+  - pylabrobot
 description: Vendor-agnostic lab automation framework. Use when controlling multiple equipment types (Hamilton, Tecan, Opentrons, plate readers, pumps) or needing unified programming across different vendors. Best for complex workflows, multi-vendor setups, simulation. For Opentrons-only protocols with official API, opentrons-integration may be simpler.
 license: MIT license
 metadata:
@@ -180,4 +185,3 @@ data = await pr.read_absorbance(wavelength=450)
 - **PyPI Package**: https://pypi.org/project/PyLabRobot/
 
 For detailed usage of specific capabilities, refer to the corresponding reference file in the `references/` directory.
-

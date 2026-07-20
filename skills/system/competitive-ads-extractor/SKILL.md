@@ -1,5 +1,10 @@
 ---
 name: competitive-ads-extractor
+domain: general
+pack: general
+tier: optional
+triggers:
+  - competitive ads extractor
 description: Extracts and analyzes competitors' ads from ad libraries (Facebook, LinkedIn, etc.) to understand what messaging, problems, and creative approaches are working. Helps inspire and improve your own ad campaigns.
 ---
 
@@ -290,4 +295,3 @@ Which gets more engagement? (if data available)
 - Discovering new use cases for your product
 - Planning product marketing strategy
 - Inspiring social media content
-

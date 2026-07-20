@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: framework-migration-legacy-modernize
+domain: general
+pack: general
+tier: optional
+triggers:
+  - framework migration legacy modernize
 description: "Orchestrate a comprehensive legacy system modernization using the strangler fig pattern, enabling gradual replacement of outdated components while maintaining continuous business operations through ex"
 ---
 

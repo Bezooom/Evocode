@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: wcag-audit-patterns
+domain: security
+pack: security
+tier: optional
+triggers:
+  - wcag audit patterns
 description: Conduct WCAG 2.2 accessibility audits with automated testing, manual verification, and remediation guidance. Use when auditing websites for accessibility, fixing WCAG violations, or implementing accessible design patterns.
 ---
 

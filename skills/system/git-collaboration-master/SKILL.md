@@ -1,5 +1,10 @@
 ---
 name: git-collaboration-master
+domain: general
+pack: general
+tier: optional
+triggers:
+  - git collaboration master
 description: Master Git workflows and high-performance team collaboration.
 category: development
 version: 4.1.0-fractal

@@ -1,5 +1,10 @@
 ---
 name: pc-games
+domain: general
+pack: general
+tier: optional
+triggers:
+  - pc games
 description: PC and console game development principles.
 category: development
 version: 4.0.5

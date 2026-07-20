@@ -1,5 +1,10 @@
 ---
 name: ml-intern
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ml intern
 description: Use ML Intern to autonomously research, write, and ship ML code using the Hugging Face ecosystem. Best for fine-tuning, model training, dataset work, and ML research. Use when user wants an ML intern, mentions fine-tuning, or needs deep ML code generation.
 ---
 

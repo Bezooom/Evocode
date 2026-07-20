@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: kaizen
+domain: general
+pack: general
+tier: optional
+triggers:
+  - kaizen
 description: Guide for continuous improvement, error proofing, and standardization. Use this skill when the user wants to improve code quality, refactor, or discuss process improvements.
 ---
 

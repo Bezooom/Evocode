@@ -1,5 +1,10 @@
 ---
 name: umap-learn
+domain: general
+pack: general
+tier: optional
+triggers:
+  - umap learn
 description: UMAP dimensionality reduction. Fast nonlinear manifold learning for 2D/3D visualization, clustering preprocessing (HDBSCAN), supervised/parametric UMAP, for high-dimensional data.
 license: BSD-3-Clause license
 metadata:
@@ -474,4 +479,3 @@ Contains detailed API documentation:
 - `api_reference.md`: Complete UMAP class parameters and methods
 
 Load these references when detailed parameter information or advanced method usage is needed.
-

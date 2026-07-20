@@ -15,16 +15,16 @@ describe('SkillLoader', () => {
     fs.mkdirSync(user, { recursive: true });
     fs.writeFileSync(
       path.join(sys, 'SKILL.md'),
-      '---\nname: tdd\ndescription: Test driven development\n---\n# System TDD\n'
+      '---\nname: tdd\ndescription: Test driven development\ntriggers: [tdd, test driven, тесты]\n---\n# System TDD\n'
     );
     fs.writeFileSync(
       path.join(user, 'SKILL.md'),
-      '---\nname: tdd\ndescription: User override TDD\n---\n# User TDD\n'
+      '---\nname: tdd\ndescription: User override TDD\ntriggers: [tdd, test driven, тесты]\n---\n# User TDD\n'
     );
     fs.mkdirSync(path.join(tmp, 'system', 'other'), { recursive: true });
     fs.writeFileSync(
       path.join(tmp, 'system', 'other', 'SKILL.md'),
-      '---\nname: other-skill\ndescription: something else\n---\n# Other\n'
+      '---\nname: other-skill\ndescription: something else entirely\ntriggers: [other skill]\n---\n# Other\n'
     );
 
     loader = new SkillLoader({
@@ -34,6 +34,13 @@ describe('SkillLoader', () => {
         backupPath: path.join(tmp, 'backup'),
         archivePath: path.join(tmp, 'archive'),
         maxInjectChars: 50_000,
+        maxSkills: 2,
+        maxSkillCoreChars: 4000,
+        enableLab: false,
+        enabledPacks: [],
+        routerVersion: 'v2',
+        minScore: 10,
+        indexPath: path.join(tmp, 'skills-index.json'),
       },
     } as any);
   });

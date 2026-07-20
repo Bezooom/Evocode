@@ -1,5 +1,10 @@
 ---
 name: webapp-testing
+domain: general
+pack: general
+tier: optional
+triggers:
+  - webapp testing
 description: Web application testing principles. E2E, Playwright, deep audit strategies.
 category: security
 version: 4.1.0-fractal

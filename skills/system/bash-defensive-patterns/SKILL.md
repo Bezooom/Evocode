@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: bash-defensive-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - bash defensive patterns
 description: Master defensive Bash programming techniques for production-grade scripts. Use when writing robust shell scripts, CI/CD pipelines, or system utilities requiring fault tolerance and safety.
 ---
 

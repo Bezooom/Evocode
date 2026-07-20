@@ -1,5 +1,10 @@
 ---
 name: hermes-agent
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - hermes agent
 description: |
   Разработка и поддержка Hermes Agent — AI-ассистента для программирования с поддержкой CLI, Telegram, Slack и других платформ.
   Использует Python с SQLite (FTS5), поддерживает инструментыterminal, браузер, web search, code execution.

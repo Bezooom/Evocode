@@ -1,5 +1,10 @@
 ---
 name: database-design
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - database design
 description: Database design principles and decision-making.
 category: database
 version: 4.1.0-fractal

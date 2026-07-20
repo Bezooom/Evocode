@@ -1,5 +1,10 @@
 ---
 name: team-composition-analysis
+domain: general
+pack: general
+tier: optional
+triggers:
+  - team composition analysis
 description: This skill should be used when the user asks to "plan team
   structure", "determine hiring needs", "design org chart", "calculate
   compensation", "plan equity allocation", or requests organizational design and

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: terraform-module-library
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - terraform module library
 description: Build reusable Terraform modules for AWS, Azure, and GCP infrastructure following infrastructure-as-code best practices. Use when creating infrastructure modules, standardizing cloud provisioning, or implementing reusable IaC components.
 ---
 

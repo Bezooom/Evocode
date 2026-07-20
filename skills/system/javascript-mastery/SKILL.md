@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: javascript-mastery
+domain: general
+pack: general
+tier: optional
+triggers:
+  - javascript mastery
 description: "Comprehensive JavaScript reference covering 33+ essential concepts every developer should know. From fundamentals like primitives and closures to advanced patterns like async/await and functional programming. Use when explaining JS concepts, debugging JavaScript issues, or teaching JavaScript fundamentals."
 ---
 

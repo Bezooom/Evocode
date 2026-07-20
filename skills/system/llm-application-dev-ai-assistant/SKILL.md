@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: llm-application-dev-ai-assistant
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - llm application dev ai assistant
 description: "You are an AI assistant development expert specializing in creating intelligent conversational interfaces, chatbots, and AI-powered applications. Design comprehensive AI assistant solutions with natur"
 ---
 

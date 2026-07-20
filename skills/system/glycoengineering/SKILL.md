@@ -1,5 +1,10 @@
 ---
 name: glycoengineering
+domain: general
+pack: general
+tier: optional
+triggers:
+  - glycoengineering
 description: Analyze and engineer protein glycosylation. Scan sequences for N-glycosylation sequons (N-X-S/T), predict O-glycosylation hotspots, and access curated glycoengineering tools (NetOGlyc, GlycoShield, GlycoWorkbench). For glycoprotein engineering, therapeutic antibody optimization, and vaccine design.
 license: Unknown
 metadata:

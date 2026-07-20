@@ -1,5 +1,10 @@
 ---
 name: geo-fundamentals
+domain: general
+pack: general
+tier: optional
+triggers:
+  - geo fundamentals
 description: Generative Engine Optimization for AI search engines (ChatGPT, Claude, Perplexity).
 category: seo
 version: 4.1.0-fractal

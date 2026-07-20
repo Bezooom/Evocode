@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: risk-metrics-calculation
+domain: general
+pack: general
+tier: optional
+triggers:
+  - risk metrics calculation
 description: Calculate portfolio risk metrics including VaR, CVaR, Sharpe, Sortino, and drawdown analysis. Use when measuring portfolio risk, implementing risk limits, or building risk monitoring systems.
 ---
 

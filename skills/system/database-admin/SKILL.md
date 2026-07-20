@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: database-admin
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - database admin
 description: Expert database administrator specializing in modern cloud
   databases, automation, and reliability engineering. Masters AWS/Azure/GCP
   database services, Infrastructure as Code, high availability, disaster

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: c4-architecture-c4-architecture
+domain: general
+pack: general
+tier: optional
+triggers:
+  - c4 architecture c4 architecture
 description: "Generate comprehensive C4 architecture documentation for an existing repository/codebase using a bottom-up analysis approach."
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-d3js-skill
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent d3js skill
 description: Creating interactive data visualisations using d3.js. This skill should be used when creating custom charts, graphs, network diagrams, geographic visualisations, or any complex SVG-based data visualisation that requires fine-grained control over visual elements, transitions, or interactions. Use this for bespoke visualisations beyond standard charting libraries, whether in React, Vue, Svelte, vanilla JavaScript, or any other environment.
 ---
 

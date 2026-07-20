@@ -1,5 +1,21 @@
 ---
 name: business-operations
+domain: general
+pack: general
+tier: optional
+triggers:
+  - платежная обработка stripe/paypal
+  - продуктивность notion/linear
+  - финансовое моделирование
+  - hr / compliance gdpr
+  - business operations
+  - payment processing
+  - startup analytics
+  - startup-аналитика
+  - бизнес-операции
+  - документы / ocr
+  - documents
+  - ocr
 description: |
   [RU] Макро-навык для бизнес-операций: инструменты продуктивности, OCR/обработка документов, платёжная обработка, startup-аналитика, HR и compliance, финансовое моделирование. Используй при запросах: "OCR документов", "интеграция Stripe/PayPal", "биллинг-автоматизация", "startup метрики и финмодель", "конкурентный анализ", "GDPR/HR-compliance", "Notion/Linear/Google Workspace".
   [EN] Macro-skill for business operations: productivity tools, OCR/documents, payment processing, startup analytics, HR compliance, financial modeling. Triggers: business operations, documents.

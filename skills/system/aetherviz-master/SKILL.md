@@ -1,5 +1,10 @@
 ---
 name: aetherviz-master
+domain: general
+pack: general
+tier: optional
+triggers:
+  - aetherviz master
 description: AetherViz Master — архитектор интерактивной образовательной визуализации, превращающий любую учебную тему в эстетичный, высокоинтерактивный профессиональный веб-сайт
 ---
 

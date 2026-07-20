@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-audit
+domain: security
+pack: security
+tier: optional
+triggers:
+  - seo audit
 description: >
   Diagnose and audit SEO issues affecting crawlability, indexation, rankings,
   and organic performance. Use when the user asks for an SEO audit, technical SEO

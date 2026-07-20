@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: tavily-web
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tavily web
 description: Web search, content extraction, crawling, and research capabilities using Tavily API
 ---
 

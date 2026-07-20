@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: uv-package-manager
+domain: general
+pack: general
+tier: optional
+triggers:
+  - uv package manager
 description: Master the uv package manager for fast Python dependency management, virtual environments, and modern Python project workflows. Use when setting up Python projects, managing dependencies, or optimizing Python development workflows with uv.
 ---
 

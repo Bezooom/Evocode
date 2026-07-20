@@ -1,4 +1,8 @@
 ---
+pack: science
+tier: optional
+triggers:
+  - strategic research
 version: 4.1.0-fractal
 domain: Strategy & Wisdom
 dna_ref: .shared/ai-master/RESEARCH_PROTOCOL.md

@@ -1,5 +1,10 @@
 ---
 name: web-games
+domain: general
+pack: general
+tier: optional
+triggers:
+  - web games
 description: Web browser game development principles.
 category: development
 version: 4.0.5

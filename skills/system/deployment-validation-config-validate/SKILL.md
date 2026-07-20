@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: deployment-validation-config-validate
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - deployment validation config validate
 description: "You are a configuration management expert specializing in validating, testing, and ensuring the correctness of application configurations. Create comprehensive validation schemas, implement configurat"
 ---
 

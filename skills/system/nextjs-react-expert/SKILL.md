@@ -1,5 +1,10 @@
 ---
 name: nextjs-react-expert
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - nextjs react expert
 description: React and Next.js performance optimization from Vercel Engineering.
 category: development
 version: 4.1.0-fractal

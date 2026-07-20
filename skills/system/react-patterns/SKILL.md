@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: react-patterns
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - react patterns
 description: Modern React patterns and principles. Hooks, composition, performance, TypeScript best practices.
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---

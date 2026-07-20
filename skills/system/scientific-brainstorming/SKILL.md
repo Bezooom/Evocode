@@ -1,5 +1,10 @@
 ---
 name: scientific-brainstorming
+domain: research
+pack: science
+tier: optional
+triggers:
+  - scientific brainstorming
 description: Creative research ideation and exploration. Use for open-ended brainstorming sessions, exploring interdisciplinary connections, challenging assumptions, or identifying research gaps. Best for early-stage research planning when you do not have specific observations yet. For formulating testable hypotheses from data use hypothesis-generation.
 license: MIT license
 metadata:
@@ -186,4 +191,3 @@ Consult this file when the scientist requests a specific methodology or when the
 - Be comfortable with silence—give space for thinking.
 - Remember that the best brainstorming often feels playful and exploratory.
 - The goal is not to solve everything, but to open new possibilities.
-

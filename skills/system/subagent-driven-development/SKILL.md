@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: subagent-driven-development
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - subagent driven development
 description: Use when executing implementation plans with independent tasks in the current session
 ---
 

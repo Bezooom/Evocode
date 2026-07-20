@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: threat-mitigation-mapping
+domain: security
+pack: security
+tier: optional
+triggers:
+  - threat mitigation mapping
 description: Map identified threats to appropriate security controls and mitigations. Use when prioritizing security investments, creating remediation plans, or validating control effectiveness.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: performance-testing-review-multi-agent-review
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - performance testing review multi agent review
 description: "Use when working with performance testing review multi agent review"
 ---
 

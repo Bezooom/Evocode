@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: deployment-pipeline-design
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - deployment pipeline design
 description: Design multi-stage CI/CD pipelines with approval gates, security checks, and deployment orchestration. Use when architecting deployment workflows, setting up continuous delivery, or implementing GitOps practices.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: conductor-status
+domain: general
+pack: general
+tier: optional
+triggers:
+  - conductor status
 description: Display project status, active tracks, and next actions
 metadata:
   argument-hint: "[track-id] [--detailed]"

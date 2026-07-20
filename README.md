@@ -4,7 +4,7 @@
 
 **Российская privacy-first AI-IDE: VSCodium + agent + локальный Core**
 
-[![Version](https://img.shields.io/badge/version-0.9.0-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-0.95.0-blue.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0-brightgreen.svg)](https://nodejs.org/)
 
@@ -16,13 +16,13 @@
 
 | | |
 |--|--|
-| **Версия** | **0.9.0** — Release Candidate 1 (F0–F3 закрыты) |
-| **Фаза** | ⚡ **F3** Hardening РФ / enterprise — Завершена |
-| **Срез** | [docs/STATUS.md](docs/STATUS.md) · [plans/ROADMAP.md](plans/ROADMAP.md) |
+| **Версия** | **0.95.0** — Release Candidate 2 |
+| **Фаза** | F3 ✅ · Skill Router v2 + dual-model FIM |
+| **Срез** | [docs/STATUS.md](docs/STATUS.md) · [plans/ROADMAP.md](plans/ROADMAP.md) · [CHANGELOG](CHANGELOG.md) |
 | **SoT для агентов** | [plans/FULL_DEV_ROADMAP.md](plans/FULL_DEV_ROADMAP.md) |
 
-> **v0.9.0** — стабильный релиз-кандидат AI-IDE (визуальный режим оператора, DLP Guard, авторизация, SSRF-защита, упаковка).  
-> Система полностью готова к пилотному внедрению и проверкам безопасности.
+> **v0.95.0 RC2** — pilot-ready AI-IDE: Operator Mode, DLP/auth, Skill Router (M1–M4), dual local models (chat + FIM Neurocontrol).  
+> Не «сертифицировано»; цель 1.0.0 — после пилотов.
 
 ---
 
@@ -87,8 +87,8 @@ curl -s localhost:8083/health | jq .
 
 ```bash
 npm run ide:package-portable
-npm run ide:package-deb        # → packages/ide/dist/evocode_0.9.0_amd64.deb
-npm run ide:package-appimage   # → Evocode-0.9.0-x86_64.AppImage
+npm run ide:package-deb        # → packages/ide/dist/evocode_0.95.0_amd64.deb
+npm run ide:package-appimage   # → Evocode-0.95.0-x86_64.AppImage
 ```
 
 ---
@@ -143,7 +143,8 @@ npm run local:stack
 | F1 Agent rebrand | 0.1–0.2 | ✅ |
 | F1.5 Smoke + Policy | 0.2–0.3 | ✅ |
 | **F2 Product IDE** | **→ 0.5.0** | ✅ |
-| **F3 Hardening РФ** | **→ 0.9.0** | ✅ |
+| **F3 Hardening РФ** | **→ 0.9.0 RC1** | ✅ |
+| Skill Router + dual FIM | **→ 0.95.0 RC2** | ✅ |
 | F4 Self-evolve | post-1.0 optional | 📋 later |
 | Product DoD | **1.0.0** | 📋 |
 
@@ -155,4 +156,4 @@ npm run local:stack
 
 ---
 
-**Эвокод 0.9.0** — Приватность. OpenCode-class agent. Локальный мозг (Core). Свой IDE-shell. Визуальный режим оператора.
+**Эвокод 0.95.0 RC2** — Приватность. Dual local LLM (chat + FIM). Skill Router v2. Operator Mode.

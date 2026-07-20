@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: gcp-cloud-run
+domain: general
+pack: general
+tier: optional
+triggers:
+  - gcp cloud run
 description: "Specialized skill for building production-ready serverless applications on GCP. Covers Cloud Run services (containerized), Cloud Run Functions (event-driven), cold start optimization, and event-driven architecture with Pub/Sub."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

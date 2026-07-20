@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: attack-tree-construction
+domain: general
+pack: general
+tier: lab
+triggers:
+  - attack tree construction
 description: Build comprehensive attack trees to visualize threat paths. Use when mapping attack scenarios, identifying defense gaps, or communicating security risks to stakeholders.
 ---
 

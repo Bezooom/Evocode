@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: api-documentation-generator
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - api documentation generator
 description: "Generate comprehensive, developer-friendly API documentation from code, including endpoints, parameters, examples, and best practices"
 ---
 

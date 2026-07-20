@@ -1,5 +1,9 @@
 # Примеры SKILL.md для Эвокод
 
+> **Актуально для Router v2:** канон frontmatter и authoring —  
+> [`docs/SKILL_AUTHORING.md`](./SKILL_AUTHORING.md) · [`specs/SKILL_ROUTER_V2.md`](../specs/SKILL_ROUTER_V2.md).  
+> Seed pack: `skills/system/evocode-*/SKILL.md`.
+
 ## 1. Базовый навык (agentic-coordination)
 
 ```yaml

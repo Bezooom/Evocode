@@ -1,5 +1,10 @@
 ---
 name: seo-plan
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo plan
 description: >
   Strategic SEO planning for new or existing websites. Industry-specific
   templates, competitive analysis, content strategy, and implementation

@@ -1,5 +1,22 @@
 ---
 name: creative-and-gaming
+domain: general
+pack: general
+tier: optional
+triggers:
+  - генерация музыки suno / ace step
+  - разработка игр unity / godot
+  - креатив / творчество
+  - видео-контент manim
+  - creative and gaming
+  - мемы / ascii-арт
+  - game development
+  - music generation
+  - написание песен
+  - video content
+  - songwriting
+  - creative
+  - gdscript
 description: |
   [RU] Макро-навык для творческих задач и геймдева: написание песен, AI-музыка (Suno, ACE Step), разработка игр (Unity, Godot), видео-контент, генерация мемов, креативные инструменты. Используй при запросах: "написать песню / текст", "сгенерировать музыку", "разработка игры Unity/Godot", "GDScript", "manim-видео", "ASCII-арт", "p5.js визуализация", "мемы".
   [EN] Macro-skill for creative and gaming: songwriting, AI music (Suno), game development (Unity, Godot), video content, meme generation, creative tools. Triggers: creative tasks, music, games.

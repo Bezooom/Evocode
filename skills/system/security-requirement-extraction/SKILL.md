@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: security-requirement-extraction
+domain: security
+pack: security
+tier: optional
+triggers:
+  - security requirement extraction
 description: Derive security requirements from threat models and business context. Use when translating threats into actionable requirements, creating security user stories, or building security test cases.
 ---
 

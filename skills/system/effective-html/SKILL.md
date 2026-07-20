@@ -1,5 +1,10 @@
 ---
 name: effective-html
+domain: general
+pack: general
+tier: optional
+triggers:
+  - effective html
 description: >
   Создание визуально насыщенных, самодостаточных HTML-страниц в стиле Effective HTML.
   Используй для генерации интерактивных SVG-диаграмм архитектуры, структурных планов

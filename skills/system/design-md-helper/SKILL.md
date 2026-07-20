@@ -1,5 +1,10 @@
 ---
 name: design-md-helper
+domain: general
+pack: general
+tier: optional
+triggers:
+  - design md helper
 description: Предлагает и применяет дизайн-системы крутых брендов для стильного UI
 version: 1.1.0
 ---

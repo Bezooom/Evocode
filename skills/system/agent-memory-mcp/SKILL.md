@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-memory-mcp
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent memory mcp
 author: Amit Rathiesh
 description: A hybrid memory system that provides persistent, searchable knowledge management for AI agents (Architecture, Patterns, Decisions).
 ---

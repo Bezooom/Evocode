@@ -1,5 +1,10 @@
 ---
 name: qutip
+domain: general
+pack: general
+tier: optional
+triggers:
+  - qutip
 description: Quantum physics simulation library for open quantum systems. Use when studying master equations, Lindblad dynamics, decoherence, quantum optics, or cavity QED. Best for physics research, open system dynamics, and educational simulations. NOT for circuit-based quantum computing—use qiskit, cirq, or pennylane for quantum algorithms and hardware execution.
 license: BSD-3-Clause license
 metadata:
@@ -313,4 +318,3 @@ This skill includes detailed reference documentation:
 - Tutorials: https://qutip.org/qutip-tutorials/
 - API Reference: https://qutip.readthedocs.io/en/stable/apidoc/apidoc.html
 - GitHub: https://github.com/qutip/qutip
-

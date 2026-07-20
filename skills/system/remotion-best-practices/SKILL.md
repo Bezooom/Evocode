@@ -1,5 +1,10 @@
 ---
 name: remotion-best-practices
+domain: general
+pack: general
+tier: optional
+triggers:
+  - remotion best practices
 description: Best practices for Remotion - Video creation in React
 author: remotion-dev
 version: 4.1.0-fractal

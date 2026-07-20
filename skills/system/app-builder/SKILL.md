@@ -1,5 +1,10 @@
 ---
 name: app-builder
+domain: general
+pack: general
+tier: optional
+triggers:
+  - app builder
 description: Main application building orchestrator.
 category: orchestration
 version: 4.1.0-fractal

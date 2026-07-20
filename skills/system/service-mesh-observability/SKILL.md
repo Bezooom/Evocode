@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: service-mesh-observability
+domain: general
+pack: general
+tier: optional
+triggers:
+  - service mesh observability
 description: Implement comprehensive observability for service meshes including distributed tracing, metrics, and visualization. Use when setting up mesh monitoring, debugging latency issues, or implementing SLOs for service communication.
 ---
 

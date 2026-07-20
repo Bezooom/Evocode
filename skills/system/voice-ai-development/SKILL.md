@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: voice-ai-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - voice ai development
 description: "Expert in building voice AI applications - from real-time voice agents to voice-enabled apps. Covers OpenAI Realtime API, Vapi for voice agents, Deepgram for transcription, ElevenLabs for synthesis, LiveKit for real-time infrastructure, and WebRTC fundamentals. Knows how to build low-latency, production-ready voice experiences. Use when: voice ai, voice agent, speech to text, text to speech, realtime voice."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

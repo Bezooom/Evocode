@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: prompt-engineering
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - prompt engineering
 description: Expert guide on prompt engineering patterns, best practices, and optimization techniques. Use when user wants to improve prompts, learn prompting strategies, or debug agent behavior.
 ---
 

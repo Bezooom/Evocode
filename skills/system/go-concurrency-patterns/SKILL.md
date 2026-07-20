@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: go-concurrency-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - go concurrency patterns
 description: Master Go concurrency with goroutines, channels, sync primitives, and context. Use when building concurrent Go applications, implementing worker pools, or debugging race conditions.
 ---
 

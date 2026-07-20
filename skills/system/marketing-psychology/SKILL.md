@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: marketing-psychology
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - marketing psychology
 description: Apply behavioral science and mental models to marketing decisions, prioritized using a psychological leverage and feasibility scoring system.
 ---
 # Marketing Psychology & Mental Models

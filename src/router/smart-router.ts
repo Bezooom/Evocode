@@ -44,6 +44,11 @@ export class SmartRouter {
     const { privacyMode, enabled, localMaxTokens, cloudMinTokens } = this.config.router;
     const hasCloudKey = Boolean(this.config.inference.cloud.apiKey);
 
+    const requestedModel = context.request.model || '';
+    if (requestedModel.includes('local')) {
+      return { decision: 'local', reason: 'явный выбор локальной модели в клиенте' };
+    }
+
     if (!enabled || privacyMode === 'always-local') {
       return { decision: 'local', reason: 'privacyMode=always-local или router disabled' };
     }

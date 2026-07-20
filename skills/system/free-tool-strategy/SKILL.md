@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: free-tool-strategy
+domain: general
+pack: general
+tier: optional
+triggers:
+  - free tool strategy
 description: When the user wants to plan, evaluate, or build a free tool for marketing purposes — lead generation, SEO value, or brand awareness. Also use when the user mentions "engineering as marketing," "free tool," "marketing tool," "calculator," "generator," "interactive tool," "lead gen tool," "build a tool for leads," or "free resource." This skill bridges engineering and marketing — useful for founders and technical marketers.
 ---
 

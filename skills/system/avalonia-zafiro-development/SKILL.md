@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: avalonia-zafiro-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - avalonia zafiro development
 description: Mandatory skills, conventions, and behavioral rules for Avalonia UI development using the Zafiro toolkit.
 ---
 

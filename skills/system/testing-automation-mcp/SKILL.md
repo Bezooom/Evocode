@@ -1,5 +1,10 @@
 ---
 name: testing-automation-mcp
+domain: general
+pack: general
+tier: optional
+triggers:
+  - testing automation mcp
 description: Autonomous E2E testing using Playwright Model Context Protocol (MCP).
 category: quality-assurance
 version: 4.1.0-fractal

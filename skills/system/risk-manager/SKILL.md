@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: risk-manager
+domain: general
+pack: general
+tier: optional
+triggers:
+  - risk manager
 description: Monitor portfolio risk, R-multiples, and position limits. Creates
   hedging strategies, calculates expectancy, and implements stop-losses. Use
   PROACTIVELY for risk assessment, trade tracking, or portfolio protection.

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: godot-gdscript-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - godot gdscript patterns
 description: Master Godot 4 GDScript patterns including signals, scenes, state machines, and optimization. Use when building Godot games, implementing game systems, or learning GDScript best practices.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: referral-program
+domain: general
+pack: general
+tier: optional
+triggers:
+  - referral program
 description: "When the user wants to create, optimize, or analyze a referral program, affiliate program, or word-of-mouth strategy. Also use when the user mentions 'referral,' 'affiliate,' 'ambassador,' 'word of mouth,' 'viral loop,' 'refer a friend,' or 'partner program.' This skill covers program design, incentive structure, and growth optimization."
 ---
 

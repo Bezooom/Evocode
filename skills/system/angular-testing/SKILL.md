@@ -1,5 +1,10 @@
 ---
 name: angular-testing
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular testing
 description: >-
   Write unit and integration tests for Angular v20+ applications using Vitest or
   Jasmine with TestBed and modern testing patterns. Use for testing components

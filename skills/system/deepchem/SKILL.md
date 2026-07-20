@@ -1,5 +1,10 @@
 ---
 name: deepchem
+domain: general
+pack: general
+tier: optional
+triggers:
+  - deepchem
 description: Molecular ML with diverse featurizers and pre-built datasets. Use for property prediction (ADMET, toxicity) with traditional ML or GNNs when you want extensive featurization options and MoleculeNet benchmarks. Best for quick experiments with pre-trained models, diverse molecular representations. For graph-first PyTorch workflows use torchdrug; for benchmark datasets use pytdc.
 license: MIT license
 metadata:
@@ -592,4 +597,3 @@ If import errors occur, the user may need specific dependencies. Check the DeepC
 - GitHub repository: https://github.com/deepchem/deepchem
 - Tutorials: https://deepchem.readthedocs.io/en/latest/get_started/tutorials.html
 - Paper: "MoleculeNet: A Benchmark for Molecular Machine Learning"
-

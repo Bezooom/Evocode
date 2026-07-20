@@ -1,5 +1,10 @@
 ---
 name: pufferlib
+domain: general
+pack: general
+tier: optional
+triggers:
+  - pufferlib
 description: High-performance reinforcement learning framework optimized for speed and scale. Use when you need fast parallel training, vectorized environments, multi-agent systems, or integration with game environments (Atari, Procgen, NetHack). Achieves 2-10x speedups over standard implementations. For quick prototyping or standard algorithm implementations with extensive documentation, use stable-baselines3 instead.
 license: MIT license
 metadata:
@@ -431,4 +436,3 @@ uv pip install pufferlib
 - Official docs: https://puffer.ai/docs.html
 - GitHub: https://github.com/PufferAI/PufferLib
 - Discord: Community support available
-

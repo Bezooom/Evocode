@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: react-modernization
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - react modernization
 description: Upgrade React applications to latest versions, migrate from class components to hooks, and adopt concurrent features. Use when modernizing React codebases, migrating to React Hooks, or upgrading to latest React versions.
 ---
 

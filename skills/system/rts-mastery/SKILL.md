@@ -1,5 +1,10 @@
 ---
 name: rts-mastery
+domain: general
+pack: general
+tier: optional
+triggers:
+  - rts mastery
 description: Комплексная методология и программа обучения разработке RTS уровня Blizzard с фокусом на Godot 4. Используй при запросах "создать RTS", "архитектура стратегии", "Blizzard RTS", "Godot RTS", "ИИ для RTS", "баланс в RTS".
 ---
 

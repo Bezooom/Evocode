@@ -1,5 +1,8 @@
 # Skill Sync Engine — ежедневная автоактуализация навыков
 
+> **Связано:** runtime-выбор и inject навыков — [SKILL_ROUTER_V2.md](./SKILL_ROUTER_V2.md) (RFC: matching, frontmatter, packs, golden tests).  
+> Sync = доставка файлов на диск; Router v2 = что попадает в system prompt.
+
 ## Overview
 
 Skill Sync Engine — компонент «Эвокод», который при каждом запуске и по расписанию (раз в сутки) синхронизирует навыки с внешними источниками (GitHub).

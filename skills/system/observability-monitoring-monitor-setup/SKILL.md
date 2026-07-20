@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: observability-monitoring-monitor-setup
+domain: general
+pack: general
+tier: optional
+triggers:
+  - observability monitoring monitor setup
 description: "You are a monitoring and observability expert specializing in implementing comprehensive monitoring solutions. Set up metrics collection, distributed tracing, log aggregation, and create insightful da"
 ---
 

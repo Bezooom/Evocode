@@ -1,5 +1,10 @@
 ---
 name: code-review-checklist
+domain: general
+pack: general
+tier: optional
+triggers:
+  - code review checklist
 description: Code review guidelines covering quality, security, and best practices.
 category: development
 version: 4.1.0-fractal

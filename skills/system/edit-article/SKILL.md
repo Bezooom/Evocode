@@ -1,5 +1,10 @@
 ---
 name: edit-article
+domain: general
+pack: general
+tier: optional
+triggers:
+  - edit article
 description: Edit and improve articles by restructuring sections, improving clarity, and tightening prose. Use when user wants to edit, revise, or improve an article draft.
 ---
 

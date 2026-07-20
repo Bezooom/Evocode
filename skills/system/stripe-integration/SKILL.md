@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: stripe-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - stripe integration
 description: Implement Stripe payment processing for robust, PCI-compliant payment flows including checkout, subscriptions, and webhooks. Use when integrating Stripe payments, building subscription systems, or implementing secure checkout flows.
 ---
 

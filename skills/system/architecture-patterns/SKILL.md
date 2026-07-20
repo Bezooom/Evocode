@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: architecture-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - architecture patterns
 description: Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use when architecting complex backend systems or refactoring existing applications for better maintainability.
 ---
 

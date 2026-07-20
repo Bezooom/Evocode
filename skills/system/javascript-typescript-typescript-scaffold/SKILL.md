@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: javascript-typescript-typescript-scaffold
+domain: general
+pack: general
+tier: optional
+triggers:
+  - javascript typescript typescript scaffold
 description: "You are a TypeScript project architecture expert specializing in scaffolding production-ready Node.js and frontend applications. Generate complete project structures with modern tooling (pnpm, Vite, N"
 ---
 

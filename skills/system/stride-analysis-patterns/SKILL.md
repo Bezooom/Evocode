@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: stride-analysis-patterns
+domain: security
+pack: security
+tier: optional
+triggers:
+  - stride analysis patterns
 description: Apply STRIDE methodology to systematically identify threats. Use when analyzing system security, conducting threat modeling sessions, or creating security documentation.
 ---
 

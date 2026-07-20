@@ -1,5 +1,10 @@
 ---
 name: notion-mcp
+domain: general
+pack: general
+tier: optional
+triggers:
+  - notion mcp
 description: Official Notion Model Context Protocol Server for workspace interaction.
 category: tools
 version: 4.1.0-fractal

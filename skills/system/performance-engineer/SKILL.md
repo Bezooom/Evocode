@@ -1,5 +1,10 @@
 ---
 name: performance-engineer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - performance engineer
 description: Expert performance engineer specializing in modern observability.
 category: performance
 version: 4.1.0-fractal

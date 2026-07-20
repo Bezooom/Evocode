@@ -1,15 +1,19 @@
 ---
 name: to-prd
+domain: general
+pack: general
+tier: optional
+triggers:
+  - product requirements
+  - оформить требования
+  - оформить как issue
+  - prd из контекста
+  - создать prd
+  - to prd
+  - prd
 description: |
   [RU] Превратить текущий контекст разговора в PRD и подать его как GitHub issue. Используй когда пользователь хочет создать PRD из текущего контекста, оформить требования или выгрузить обсуждение в issue.
   [EN] Turn the current conversation context into a PRD and submit it as a GitHub issue. Use when user wants to create a PRD from the current context.
-triggers:
-  - создать PRD
-  - оформить требования
-  - PRD из контекста
-  - оформить как issue
-  - PRD
-  - product requirements
 ---
 
 This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know.

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: django-pro
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - django pro
 description: Master Django 5.x with async views, DRF, Celery, and Django
   Channels. Build scalable web applications with proper architecture, testing,
   and deployment. Use PROACTIVELY for Django development, ORM optimization, or

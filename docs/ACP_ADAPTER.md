@@ -69,7 +69,7 @@
   "jsonrpc": "2.0",
   "id": 1,
   "result": {
-    "agentVersion": "0.9.0",
+    "agentVersion": "0.95.0",
     "capabilities": {
       "supportedTools": ["read", "write", "grep", "bash", "playwright"]
     }

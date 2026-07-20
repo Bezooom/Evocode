@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: app-store-optimization
+domain: general
+pack: general
+tier: optional
+triggers:
+  - app store optimization
 description: Complete App Store Optimization (ASO) toolkit for researching, optimizing, and tracking mobile app performance on Apple App Store and Google Play Store
 ---
 

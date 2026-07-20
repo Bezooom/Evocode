@@ -1,5 +1,10 @@
 ---
 name: daily-news-report
+domain: general
+pack: general
+tier: optional
+triggers:
+  - daily news report
 description: Automated news aggregation and reporting agent.
 category: automation
 version: 4.1.0-fractal

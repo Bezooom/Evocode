@@ -26,6 +26,8 @@ function resolveCoreRoot() {
     return process.env.EVOCODE_ROOT;
   }
   const candidates = [
+    path.resolve(__dirname, '../../../../core/'),
+    path.resolve(__dirname, '../../../../../core/'),
     path.resolve(__dirname, '../../../../'),
     path.resolve(__dirname, '../../../../../'),
     '/home/bezoom/storage/Projects/Evocode',
@@ -160,6 +162,31 @@ async function startDefaultModel(log) {
     log?.(`runtime: ${e.message}`);
   }
   const r = await httpJson('POST', '/v1/runtime/start', { profile: id }, port, 120000);
+  return r.json || { message: 'no response' };
+}
+
+/** Лёгкая FIM/autocomplete (Neurocontrol ~2G) на :8082 */
+async function startFimModel(log) {
+  const port = corePort(cfg());
+  const id = cfg().get('fimModelProfile') || 'fim-small';
+  try {
+    const rt = await httpJson('GET', '/v1/runtime', null, port, 8000);
+    const fimProf = (rt.json?.profiles || []).find((p) => p.id === id || p.role === 'fim');
+    if (fimProf?.online || rt.json?.fim?.ready) {
+      log?.('FIM already online');
+      return { skipped: true, ok: true, message: 'FIM уже online' };
+    }
+  } catch (e) {
+    log?.(`fim runtime: ${e.message}`);
+  }
+  // Ensure Core has FIM routing enabled
+  try {
+    await httpJson('POST', '/v1/config', { fim: { enabled: true, profileId: id } }, port, 8000);
+  } catch {
+    /* */
+  }
+  const r = await httpJson('POST', '/v1/runtime/start', { profile: id }, port, 180000);
+  log?.(`FIM start ${id}: ${r.json?.message || r.status}`);
   return r.json || { message: 'no response' };
 }
 
@@ -413,8 +440,57 @@ async function activate(context) {
   };
   log('activate product shell');
 
+  // Инициализируем и очищаем директорию временных артефактов
+  const artifactDir = path.join(os.homedir(), '.config', 'evocode', 'artifacts');
+  try {
+    if (fs.existsSync(artifactDir)) {
+      const files = fs.readdirSync(artifactDir);
+      for (const f of files) {
+        try {
+          fs.unlinkSync(path.join(artifactDir, f));
+        } catch { /* ignore */ }
+      }
+    } else {
+      fs.mkdirSync(artifactDir, { recursive: true });
+    }
+    log(`Инициализирована папка временных артефактов: ${artifactDir}`);
+  } catch (err) {
+    log(`Ошибка создания папки артефактов: ${err.message}`);
+  }
+
+  // Создаем FileSystemWatcher для авто-открытия новых файлов
+  let isProcessingWatcher = false;
+  try {
+    const watcher = fs.watch(artifactDir, async (eventType, filename) => {
+      if (eventType === 'rename' && filename && !isProcessingWatcher) {
+        isProcessingWatcher = true;
+        setTimeout(() => { isProcessingWatcher = false; }, 300); // Debounce
+        
+        const filePath = path.join(artifactDir, filename);
+        if (fs.existsSync(filePath)) {
+          log(`Обнаружен новый артефакт: ${filename}`);
+          const uri = vscode.Uri.file(filePath);
+          try {
+            await vscode.commands.executeCommand('vscode.openWith', uri, 'evocode.htmlPreview', {
+              viewColumn: vscode.ViewColumn.Beside,
+              preserveFocus: true
+            });
+            log(`Артефакт ${filename} успешно открыт справа`);
+          } catch (e) {
+            log(`Ошибка авто-открытия артефакта ${filename}: ${e.message}`);
+          }
+        }
+      }
+    });
+    context.subscriptions.push({ dispose: () => watcher.close() });
+  } catch (err) {
+    log(`Ошибка инициализации fs.watch: ${err.message}`);
+  }
+
   const deps = {
     ensureCore: () => ensureCore(log),
+    startDefaultModel: () => startDefaultModel(log),
+    startFimModel: () => startFimModel(log),
     focusAgent,
     channel,
   };
@@ -474,6 +550,21 @@ async function activate(context) {
           await ensureCore(log);
           const r = await startDefaultModel(log);
           vscode.window.showInformationMessage(r.message || JSON.stringify(r));
+        },
+      );
+    }),
+    vscode.commands.registerCommand('evocode.shell.startFimModel', async () => {
+      await vscode.window.withProgress(
+        {
+          location: vscode.ProgressLocation.Notification,
+          title: 'Эвокод: запуск FIM / autocomplete (лёгкая)…',
+        },
+        async () => {
+          await ensureCore(log);
+          const r = await startFimModel(log);
+          vscode.window.showInformationMessage(
+            `FIM: ${r.message || (r.ok !== false ? 'OK' : JSON.stringify(r))}`,
+          );
         },
       );
     }),
@@ -574,6 +665,19 @@ async function activate(context) {
         await context.globalState.update(AUTO_MODEL_KEY, undefined);
       }
     }, 2000);
+  }
+
+  // Dual-model: лёгкий FIM (Neurocontrol) после chat — не делит VRAM (CPU -ngl 0)
+  if (cfg().get('autoStartFimModel') !== false) {
+    setTimeout(async () => {
+      try {
+        const r = await startFimModel(log);
+        log(`auto FIM: ${r.message || JSON.stringify(r)}`);
+        refreshStatus();
+      } catch (e) {
+        log(`auto FIM: ${e.message}`);
+      }
+    }, 8000);
   }
 
   // Default: open Эвокод chat on startup

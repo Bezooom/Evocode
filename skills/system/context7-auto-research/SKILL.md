@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: context7-auto-research
+domain: research
+pack: science
+tier: optional
+triggers:
+  - context7 auto research
 description: Automatically fetch latest library/framework documentation for Claude Code via Context7 API
 ---
 

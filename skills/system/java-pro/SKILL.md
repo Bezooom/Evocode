@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: java-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - java pro
 description: Master Java 21+ with modern features like virtual threads, pattern
   matching, and Spring Boot 3.x. Expert in the latest Java ecosystem including
   GraalVM, Project Loom, and cloud-native patterns. Use PROACTIVELY for Java

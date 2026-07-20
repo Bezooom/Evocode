@@ -1,5 +1,10 @@
 ---
 name: statsmodels
+domain: general
+pack: general
+tier: optional
+triggers:
+  - statsmodels
 description: Statistical models library for Python. Use when you need specific model classes (OLS, GLM, mixed models, ARIMA) with detailed diagnostics, residuals, and inference. Best for econometrics, time series, rigorous inference with coefficient tables. For guided statistical test selection with APA reporting use statistical-analysis.
 license: BSD-3-Clause license
 metadata:
@@ -609,4 +614,3 @@ For detailed documentation and examples:
 - User guide: https://www.statsmodels.org/stable/user-guide.html
 - Examples: https://www.statsmodels.org/stable/examples/index.html
 - API reference: https://www.statsmodels.org/stable/api.html
-

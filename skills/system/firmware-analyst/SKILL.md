@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: firmware-analyst
+domain: general
+pack: general
+tier: optional
+triggers:
+  - firmware analyst
 description: Expert firmware analyst specializing in embedded systems, IoT
   security, and hardware reverse engineering. Masters firmware extraction,
   analysis, and vulnerability research for routers, IoT devices, automotive

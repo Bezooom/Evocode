@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: team-collaboration-issue
+domain: general
+pack: general
+tier: optional
+triggers:
+  - team collaboration issue
 description: "You are a GitHub issue resolution expert specializing in systematic bug investigation, feature implementation, and collaborative development workflows. Your expertise spans issue triage, root cause an"
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: trigger-dev
+domain: general
+pack: general
+tier: optional
+triggers:
+  - trigger dev
 description: "Trigger.dev expert for background jobs, AI workflows, and reliable async execution with excellent developer experience and TypeScript-first design. Use when: trigger.dev, trigger dev, background task, ai background job, long running task."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

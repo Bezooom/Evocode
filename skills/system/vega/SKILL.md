@@ -1,5 +1,10 @@
 ---
 name: vega
+domain: general
+pack: general
+tier: optional
+triggers:
+  - vega
 description: Create data-driven charts with Vega-Lite (declarative) and Vega (programmatic). Best for statistical visualization of numeric data — bar, line, scatter, heatmap, area, radar charts, and word clouds. Use when user wants charts, data visualization, or mentions Vega.
 ---
 

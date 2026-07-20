@@ -1,5 +1,10 @@
 ---
 name: performance-profiling
+domain: general
+pack: general
+tier: optional
+triggers:
+  - performance profiling
 description: Performance profiling principles. Measurement, analysis, and optimization techniques.
 category: infrastructure
 version: 4.1.0-fractal

@@ -1,5 +1,10 @@
 ---
 name: pathml
+domain: general
+pack: general
+tier: optional
+triggers:
+  - pathml
 description: Full-featured computational pathology toolkit. Use for advanced WSI analysis including multiplexed immunofluorescence (CODEX, Vectra), nucleus segmentation, tissue graph construction, and ML model training on pathology data. Supports 160+ slide formats. For simple tile extraction from H&E slides, histolab may be simpler.
 license: GPL-2.0 license
 metadata:
@@ -161,4 +166,3 @@ Documentation files providing in-depth coverage of PathML capabilities:
 - `data_management.md` - HDF5 storage, tile management, batch processing, dataset organization
 
 Load these references as needed when working on specific computational pathology tasks.
-

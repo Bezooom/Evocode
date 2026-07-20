@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: cloud-architect
+domain: general
+pack: general
+tier: optional
+triggers:
+  - cloud architect
 description: Expert cloud architect specializing in AWS/Azure/GCP multi-cloud
   infrastructure design, advanced IaC (Terraform/OpenTofu/CDK), FinOps cost
   optimization, and modern architectural patterns. Masters serverless,

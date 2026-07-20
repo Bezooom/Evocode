@@ -1,5 +1,10 @@
 ---
 name: seo-expert-kit
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo expert kit
 description: Comprehensive SEO Master Skill covering fundamentals, audit, content creation, technical optimization, and scaling.
 category: seo
 version: 4.1.0-fractal

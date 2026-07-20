@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: content-marketer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - content marketer
 description: Elite content marketing strategist specializing in AI-powered
   content creation, omnichannel distribution, SEO optimization, and data-driven
   performance marketing. Masters modern content tools, social media automation,

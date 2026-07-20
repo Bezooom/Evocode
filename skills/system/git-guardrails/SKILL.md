@@ -1,16 +1,20 @@
 ---
 name: git-guardrails
+domain: general
+pack: general
+tier: optional
+triggers:
+  - блокировать опасный git
+  - prevent destructive git
+  - git-хуки безопасности
+  - block git reset
+  - block git push
+  - git guardrails
+  - защита git
+  - git safety
 description: |
   [RU] Установка хуков для блокировки опасных git-команд (push, reset --hard, clean -f, branch -D и т.п.) до их исполнения. Используй когда пользователь хочет защиту от деструктивных git-операций, добавить safety-хуки или заблокировать опасные команды.
   [EN] Set up hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute. Use when user wants to prevent destructive git operations, add git safety hooks, or block git push/reset.
-triggers:
-  - защита git
-  - git-хуки безопасности
-  - блокировать опасный git
-  - git safety
-  - prevent destructive git
-  - block git push
-  - block git reset
 ---
 
 # Setup Git Guardrails

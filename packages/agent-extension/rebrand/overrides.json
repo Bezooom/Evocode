@@ -2,7 +2,7 @@
   "name": "evocode-agent",
   "displayName": "Эвокод",
   "description": "Эвокод — privacy-first AI-агент: local LLM, DLP, router. Полный agent runtime (tools, MCP, diff).",
-  "version": "0.9.0",
+  "version": "0.95.0",
   "publisher": "evocode",
   "author": {
     "name": "Evocode"
@@ -34,14 +34,41 @@
     "kilo-code.new.model.modelID": "evocode-auto"
   },
   "stringReplacements": [
-    { "from": "\"title\": \"Kilo Code\"", "to": "\"title\": \"Эвокод\"" },
-    { "from": "\"name\": \"Kilo Code\"", "to": "\"name\": \"Эвокод\"" },
-    { "from": "\"category\": \"Kilo Code\"", "to": "\"category\": \"Эвокод\"" },
-    { "from": "\"description\": \"Kilo Code logo\"", "to": "\"description\": \"Эвокод logo\"" },
-    { "from": "\"description\": \"Kilo Code\"", "to": "\"description\": \"Эвокод\"" },
-    { "from": "Kilo Code: AI Coding Agent, Copilot, and Autocomplete", "to": "Эвокод: AI-агент и локальный инференс" },
-    { "from": "\"category\": \"KiloClaw\"", "to": "\"category\": \"Эвокод\"" },
-    { "from": "Kilo Gateway", "to": "Эвокод Core" },
-    { "from": "via Kilo Gateway", "to": "via Эвокод Core" }
+    {
+      "from": "\"title\": \"Kilo Code\"",
+      "to": "\"title\": \"Эвокод\""
+    },
+    {
+      "from": "\"name\": \"Kilo Code\"",
+      "to": "\"name\": \"Эвокод\""
+    },
+    {
+      "from": "\"category\": \"Kilo Code\"",
+      "to": "\"category\": \"Эвокод\""
+    },
+    {
+      "from": "\"description\": \"Kilo Code logo\"",
+      "to": "\"description\": \"Эвокод logo\""
+    },
+    {
+      "from": "\"description\": \"Kilo Code\"",
+      "to": "\"description\": \"Эвокод\""
+    },
+    {
+      "from": "Kilo Code: AI Coding Agent, Copilot, and Autocomplete",
+      "to": "Эвокод: AI-агент и локальный инференс"
+    },
+    {
+      "from": "\"category\": \"KiloClaw\"",
+      "to": "\"category\": \"Эвокод\""
+    },
+    {
+      "from": "Kilo Gateway",
+      "to": "Эвокод Core"
+    },
+    {
+      "from": "via Kilo Gateway",
+      "to": "via Эвокод Core"
+    }
   ]
 }

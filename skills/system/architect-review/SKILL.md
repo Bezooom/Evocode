@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: architect-review
+domain: general
+pack: general
+tier: optional
+triggers:
+  - architect review
 description: Master software architect specializing in modern architecture
   patterns, clean architecture, microservices, event-driven systems, and DDD.
   Reviews system designs and code changes for architectural integrity,

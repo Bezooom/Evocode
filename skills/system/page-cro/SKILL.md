@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: page-cro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - page cro
 description: >
   Analyze and optimize individual pages for conversion performance.
   Use when the user wants to improve conversion rates, diagnose why a page

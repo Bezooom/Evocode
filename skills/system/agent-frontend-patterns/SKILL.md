@@ -1,5 +1,10 @@
 ---
 name: agent-frontend-patterns
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - agent frontend patterns
 description: Frontend development patterns for React, Next.js, state management, performance optimization, and UI best practices.
 author: affaan-m
 version: 4.1.0-fractal

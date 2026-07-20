@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: nextjs-supabase-auth
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - nextjs supabase auth
 description: "Expert integration of Supabase Auth with Next.js App Router Use when: supabase auth next, authentication next.js, login supabase, auth middleware, protected route."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

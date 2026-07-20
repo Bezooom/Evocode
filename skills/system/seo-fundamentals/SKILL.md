@@ -1,5 +1,10 @@
 ---
 name: seo-fundamentals
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo fundamentals
 description: SEO fundamentals, E-E-A-T, Core Web Vitals, and Google algorithm principles.
 category: seo
 version: 4.1.0-fractal

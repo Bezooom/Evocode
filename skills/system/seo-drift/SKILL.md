@@ -1,5 +1,10 @@
 ---
 name: seo-drift
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo drift
 description: >
   SEO drift monitoring: capture baselines of SEO-critical elements, detect changes,
   and track regressions over time. Git for SEO — baseline, diff, and track changes

@@ -1,5 +1,10 @@
 ---
 name: seo-content-brief
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo content brief
 description: >
   Generate competitive SEO content briefs with per-section word counts,
   competitor scoring, keyword density guidance, and page-type templates.

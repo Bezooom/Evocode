@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: github-workflow-automation
+domain: general
+pack: general
+tier: optional
+triggers:
+  - github workflow automation
 description: "Automate GitHub workflows with AI assistance. Includes PR reviews, issue triage, CI/CD integration, and Git operations. Use when automating GitHub workflows, setting up PR review automation, creating GitHub Actions, or triaging issues."
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: seo-content
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo content
 description: >
   Content quality and E-E-A-T analysis with AI citation readiness assessment.
   Use when user says "content quality", "E-E-A-T", "content analysis",

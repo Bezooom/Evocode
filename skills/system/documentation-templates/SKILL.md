@@ -1,5 +1,10 @@
 ---
 name: documentation-templates
+domain: docs
+pack: docs
+tier: optional
+triggers:
+  - documentation templates
 description: Documentation templates and structure guidelines. README, API docs, code comments.
 category: tools
 version: 4.1.0-fractal

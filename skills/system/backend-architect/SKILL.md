@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: backend-architect
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - backend architect
 description: Expert backend architect specializing in scalable API design,
   microservices architecture, and distributed systems. Masters REST/GraphQL/gRPC
   APIs, event-driven architectures, service mesh patterns, and modern backend

@@ -1,5 +1,10 @@
 ---
 name: seo-flow
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo flow
 description: >
   FLOW framework integration — evidence-led SEO using the Find → Leverage →
   Optimize → Win loop. Surfaces stage-specific AI prompts from the FLOW

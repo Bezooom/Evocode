@@ -17,8 +17,10 @@ export interface ProfilesFile {
   defaults: {
     chatProfile: string;
     embedProfile: string;
+    fimProfile?: string;
     corePort: number;
     mode: 'attach' | 'spawn';
+    autoStartFim?: boolean;
   };
   profiles: Record<string, RuntimeProfile>;
 }
@@ -55,6 +57,17 @@ export function resolveEmbedProfile(): RuntimeProfile | null {
   const file = loadProfiles();
   if (!file) return null;
   const key = process.env.EVOCODE_EMBED_PROFILE || file.defaults.embedProfile;
+  return file.profiles[key] || null;
+}
+
+export function resolveFimProfile(name?: string): RuntimeProfile | null {
+  const file = loadProfiles();
+  if (!file) return null;
+  const key =
+    name ||
+    process.env.EVOCODE_FIM_PROFILE ||
+    file.defaults.fimProfile ||
+    'fim-small';
   return file.profiles[key] || null;
 }
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: Infinite Gratitude
+domain: general
+pack: general
+tier: optional
+triggers:
+  - infinite gratitude
 description: Multi-agent research skill for parallel research execution (10 agents, battle-tested with real case studies).
 risk: safe
 source: https://github.com/sstklen/infinite-gratitude

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: python-testing-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - python testing patterns
 description: Implement comprehensive testing strategies with pytest, fixtures, mocking, and test-driven development. Use when writing Python tests, setting up test suites, or implementing testing best practices.
 ---
 

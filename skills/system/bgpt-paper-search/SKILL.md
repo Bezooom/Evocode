@@ -1,5 +1,10 @@
 ---
 name: bgpt-paper-search
+domain: general
+pack: general
+tier: optional
+triggers:
+  - bgpt paper search
 description: Search scientific papers and retrieve structured experimental data extracted from full-text studies via the BGPT MCP server. Returns 25+ fields per paper including methods, results, sample sizes, quality scores, and conclusions. Use for literature reviews, evidence synthesis, and finding experimental details not available in abstracts alone.
 allowed-tools: Bash
 license: MIT
@@ -71,4 +76,3 @@ The server returns structured results including:
 
 - **Free tier**: 50 searches per network, no API key required
 - **Paid**: $0.01 per result with an API key from [bgpt.pro/mcp](https://bgpt.pro/mcp)
-

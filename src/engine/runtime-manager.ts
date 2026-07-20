@@ -78,10 +78,17 @@ function detectFork(binary: string): string {
 
 function labelFor(id: string, p: RuntimeProfile): string {
   const roleRu =
-    p.role === 'chat' ? 'Чат' : p.role === 'embed' ? 'Эмбеддинги' : 'FIM';
+    p.role === 'chat'
+      ? 'Чат / агент'
+      : p.role === 'embed'
+        ? 'Эмбеддинги'
+        : 'FIM / autocomplete';
   const fork = detectFork(p.binary);
   const model = path.basename(p.model).replace(/\.gguf$/i, '');
-  const short = model.length > 36 ? model.slice(0, 34) + '…' : model;
+  const short = model.length > 28 ? model.slice(0, 26) + '…' : model;
+  if (p.role === 'fim' || id === 'fim-small') {
+    return `${roleRu}: Neurocontrol ~2G · :${p.port}`;
+  }
   return `${roleRu}: ${short} (${fork})`;
 }
 
@@ -109,13 +116,13 @@ async function probePort(port: number): Promise<boolean> {
   const bases = [`http://127.0.0.1:${port}`];
   for (const base of bases) {
     try {
-      const r = await fetch(`${base}/health`, { signal: AbortSignal.timeout(1500) });
+      const r = await fetch(`${base}/health`, { signal: AbortSignal.timeout(100) });
       if (r.ok) return true;
     } catch {
       /* */
     }
     try {
-      const r = await fetch(`${base}/v1/models`, { signal: AbortSignal.timeout(1500) });
+      const r = await fetch(`${base}/v1/models`, { signal: AbortSignal.timeout(100) });
       if (r.ok) return true;
     } catch {
       /* */
@@ -186,9 +193,35 @@ export class RuntimeManager {
     const file = this.file();
     const state = readState();
     const profiles: ProfileView[] = [];
+    const portCache = new Map<number, boolean>();
     if (file) {
       for (const [id, p] of Object.entries(file.profiles)) {
-        profiles.push(await this.buildProfileView(id, p, state));
+        let online = portCache.get(p.port);
+        if (online === undefined) {
+          online = await probePort(p.port);
+          portCache.set(p.port, online);
+        }
+        const rec = state.processes[id];
+        const pid = rec && isPidAlive(rec.pid) ? rec.pid : null;
+        profiles.push({
+          id,
+          role: p.role,
+          description: p.description || '',
+          label: labelFor(id, p),
+          fork: detectFork(p.binary),
+          port: p.port,
+          binary: p.binary,
+          model: p.model,
+          modelName: path.basename(p.model),
+          online,
+          ready: profileExists(p),
+          active:
+            (p.role === 'chat' && state.activeChatProfile === id) ||
+            (p.role === 'embed' && state.activeEmbedProfile === id) ||
+            online,
+          pid,
+          startScript: p.startScript,
+        });
       }
     }
 

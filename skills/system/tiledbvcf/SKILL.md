@@ -1,5 +1,10 @@
 ---
 name: tiledbvcf
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tiledbvcf
 description: Efficient storage and retrieval of genomic variant data using TileDB. Scalable VCF/BCF ingestion, incremental sample addition, compressed storage, parallel queries, and export capabilities for population genomics.
 license: MIT license
 metadata:

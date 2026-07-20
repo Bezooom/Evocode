@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: dbt-transformation-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - dbt transformation patterns
 description: Master dbt (data build tool) for analytics engineering with model organization, testing, documentation, and incremental strategies. Use when building data transformations, creating data models, or implementing analytics engineering best practices.
 ---
 

@@ -4,17 +4,19 @@
   "defaults": {
     "chatProfile": "coder",
     "embedProfile": "embed-nomic",
+    "fimProfile": "fim-small",
     "corePort": 8083,
-    "mode": "attach"
+    "mode": "attach",
+    "autoStartFim": true
   },
   "profiles": {
     "coder": {
       "role": "chat",
-      "description": "По умолчанию IDE: Qwopus 27B Coder + ik_llama (fit, KV q4). Рекомендуется для агента.",
+      "description": "По умолчанию IDE: Ornith 35B Coder + ik_llama (fit, KV q4). Рекомендуется для агента.",
       "binary": "/home/bezoom/ik_llama.cpp/build/bin/llama-server",
-      "model": "/home/bezoom/llama.cpp/models/Qwopus3.6-27B-Coder-MTP-IQ4_XS.gguf",
+      "model": "/home/bezoom/llama.cpp/models/ornith-1.0-35b-Q4_K.gguf",
       "port": 8080,
-      "startScript": "/home/bezoom/start_ik_ai_coder.sh",
+      "startScript": "/home/bezoom/start_ik_ai4.sh",
       "args": [
         "--fit", "--fit-margin", "1664",
         "--ctx-size", "131072",
@@ -84,11 +86,21 @@
     },
     "fim-small": {
       "role": "fim",
-      "description": "лёгкий FIM из Neurocontrol (2G) — без копии",
+      "description": "FIM / autocomplete · Neurocontrol ~2G Qwen · CPU (-ngl 0), не делит VRAM с chat 35B",
       "binary": "/home/bezoom/ik_llama.cpp/build/bin/llama-server",
       "model": "/home/bezoom/storage/Projects/Neurocontrol/models/Qwen1.5B-Instruct-Upscale-3.5B.Q4_K_M.gguf",
       "port": 8082,
-      "args": ["-ngl", "99", "-c", "8192", "--parallel", "1", "-t", "4"]
+      "args": [
+        "-ngl", "0",
+        "-c", "8192",
+        "--parallel", "1",
+        "-t", "8",
+        "--batch-size", "512",
+        "--ubatch-size", "128",
+        "--jinja",
+        "--no-warmup",
+        "--host", "127.0.0.1"
+      ]
     }
   },
   "keep": {

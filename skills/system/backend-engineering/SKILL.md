@@ -1,5 +1,21 @@
 ---
 name: backend-engineering
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - cqrs / event sourcing
+  - backend development
+  - backend engineering
+  - бэкенд-разработка
+  - node.js backend
+  - python backend
+  - microservices
+  - микросервисы
+  - дизайн api
+  - api design
+  - go / rust
+  - fastapi
 description: |
   [RU] Макро-навык для бэкенд-разработки: Node.js, Python, Go, Rust, FastAPI, микросервисы, CQRS, event sourcing, дизайн API, паттерны работы с БД. Используй при запросах: "написать API", "бэкенд на Python/FastAPI/Go/Rust", "микросервисная архитектура", "CQRS/event sourcing", "saga-паттерн", "async python", "асинхронность в Rust/Go", "упаковка python-пакета".
   [EN] Macro-skill for backend development: Node.js, Python, Go, Rust, FastAPI, microservices, CQRS, event sourcing, API design, database patterns. Triggers: backend development, APIs.

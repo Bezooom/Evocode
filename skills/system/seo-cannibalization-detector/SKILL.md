@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-cannibalization-detector
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo cannibalization detector
 description: Analyzes multiple provided pages to identify keyword overlap and
   potential cannibalization issues. Suggests differentiation strategies. Use
   PROACTIVELY when reviewing similar content.

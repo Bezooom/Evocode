@@ -1,5 +1,10 @@
 ---
 name: vercel-deploy
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - vercel deploy
 description: Automated Vercel deployment skill.
 category: infrastructure
 version: 4.1.0-fractal

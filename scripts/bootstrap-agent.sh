@@ -68,8 +68,7 @@ cat > "${PKG}/config/evocode-provider.example.json" <<'EOF'
   },
   "evocode.skills.paths": [
     "~/.config/evocode/skills/system",
-    "~/.config/evocode/skills/user",
-    "~/.config/kilo/skills"
+    "~/.config/evocode/skills/user"
   ]
 }
 EOF

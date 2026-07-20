@@ -1,5 +1,10 @@
 ---
 name: vkr-writer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - vkr writer
 description: >-
   Написание выпускных квалификационных работ (бакалаврские/магистерские диссертации).
   Полный pipeline от темы до защиты: формулировка темы, обзор литературы,

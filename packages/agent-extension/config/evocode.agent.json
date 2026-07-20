@@ -15,10 +15,18 @@
       },
       "models": {
         "evocode-auto": {
-          "name": "Auto (router)"
+          "name": "Auto (router)",
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
         },
         "evocode-local": {
-          "name": "Local"
+          "name": "Local",
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
         }
       }
     }
@@ -26,8 +34,7 @@
   "skills": {
     "paths": [
       "~/.config/evocode/skills/system",
-      "~/.config/evocode/skills/user",
-      "~/.config/kilo/skills"
+      "~/.config/evocode/skills/user"
     ]
   }
 }

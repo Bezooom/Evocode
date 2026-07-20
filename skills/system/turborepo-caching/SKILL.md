@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: turborepo-caching
+domain: general
+pack: general
+tier: optional
+triggers:
+  - turborepo caching
 description: Configure Turborepo for efficient monorepo builds with local and remote caching. Use when setting up Turborepo, optimizing build pipelines, or implementing distributed caching.
 ---
 

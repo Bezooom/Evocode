@@ -1,5 +1,10 @@
 ---
 name: artifacts-builder
+domain: general
+pack: general
+tier: optional
+triggers:
+  - artifacts builder
 description: >-
   Suite of tools for creating elaborate, multi-component HTML
   artifacts using modern frontend web technologies (React, Tailwind CSS,

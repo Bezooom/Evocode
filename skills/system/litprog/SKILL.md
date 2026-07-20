@@ -1,3 +1,11 @@
+---
+name: litprog
+triggers:
+  - litprog
+tier: optional
+pack: general
+domain: general
+---
 # Literate Programming
 
 Transform a codebase into a literate program: a document written for human comprehension that also generates the original source code.

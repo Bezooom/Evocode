@@ -1,5 +1,10 @@
 ---
 name: research-lookup
+domain: research
+pack: science
+tier: optional
+triggers:
+  - research lookup
 description: Look up current research information using parallel-cli search (primary, fast web search), the Parallel Chat API (deep research), or Perplexity sonar-pro-search (academic paper searches). Automatically routes queries to the best backend. Use for finding papers, gathering research data, and verifying scientific information. Note: query text is transmitted to api.parallel.ai (PARALLEL_API_KEY) and, for academic searches, to openrouter.ai (OPENROUTER_API_KEY).
 allowed-tools: Read Write Edit Bash
 license: MIT license

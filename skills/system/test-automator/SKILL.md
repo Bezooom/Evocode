@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: test-automator
+domain: general
+pack: general
+tier: optional
+triggers:
+  - test automator
 description: Master AI-powered test automation with modern frameworks,
   self-healing tests, and comprehensive quality engineering. Build scalable
   testing strategies with advanced CI/CD integration. Use PROACTIVELY for

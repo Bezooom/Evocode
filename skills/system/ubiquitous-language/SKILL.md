@@ -1,16 +1,19 @@
 ---
 name: ubiquitous-language
+domain: general
+pack: general
+tier: optional
+triggers:
+  - словарь предметной области
+  - ubiquitous language
+  - domain термины
+  - ddd-глоссарий
+  - domain model
+  - glossary
+  - ddd
 description: |
   [RU] Извлечение DDD ubiquitous language глоссария из текущего разговора: выявление неоднозначностей, предложение канонических терминов, сохранение в UBIQUITOUS_LANGUAGE.md. Используй когда пользователь хочет определить доменные термины, построить глоссарий, укрепить терминологию или упоминает "domain model", "DDD".
   [EN] Extract a DDD-style ubiquitous language glossary from the current conversation, flagging ambiguities and proposing canonical terms. Saves to UBIQUITOUS_LANGUAGE.md. Use when user wants to define domain terms, build a glossary, harden terminology, create a ubiquitous language, or mentions "domain model" or "DDD".
-triggers:
-  - DDD-глоссарий
-  - ubiquitous language
-  - domain термины
-  - словарь предметной области
-  - domain model
-  - DDD
-  - glossary
 disable-model-invocation: true
 ---
 

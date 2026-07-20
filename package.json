@@ -1,6 +1,6 @@
 {
   "name": "evocode",
-  "version": "0.9.0",
+  "version": "0.95.0",
   "description": "Эвокод — privacy-first AI-IDE: VSCodium + agent + локальный Core (DLP, router, skills)",
   "main": "dist/index.js",
   "scripts": {
@@ -20,6 +20,15 @@
     "ide:preinstall-agent": "node packages/ide/scripts/preinstall-agent.mjs",
     "ide:verify-preinstall": "node packages/ide/scripts/preinstall-agent.mjs --check",
     "skills:import": "node scripts/import-skills.mjs",
+    "skills:m3:report": "node scripts/skills-corpus-m3.cjs report",
+    "skills:m3:codemod": "node scripts/skills-corpus-m3.cjs codemod",
+    "skills:m3:codemod:write": "node scripts/skills-corpus-m3.cjs codemod --write",
+    "skills:m3:quarantine": "node scripts/skills-corpus-m3.cjs quarantine-dups",
+    "skills:m3:quarantine:write": "node scripts/skills-corpus-m3.cjs quarantine-dups --write",
+    "skills:m3:all": "node scripts/skills-corpus-m3.cjs all",
+    "skills:m3:all:write": "node scripts/skills-corpus-m3.cjs all --write",
+    "skills:m4:reindex": "npm run build && node scripts/skills-m4-reindex.cjs",
+    "skills:m4:reindex:force": "npm run build && node scripts/skills-m4-reindex.cjs --force",
     "bootstrap:agent": "bash scripts/bootstrap-agent.sh",
     "migrate:kilo": "bash scripts/migrate-kilo-config.sh",
     "agent:rebrand": "node packages/agent-extension/scripts/apply-rebrand.mjs",

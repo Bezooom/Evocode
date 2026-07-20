@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: service-mesh-expert
+domain: general
+pack: general
+tier: optional
+triggers:
+  - service mesh expert
 description: "Expert service mesh architect specializing in Istio, Linkerd, and cloud-native networking patterns. Masters traffic management, security policies, observability integration, and multi-cluster mesh con"
 ---
 

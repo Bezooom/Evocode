@@ -1,5 +1,23 @@
 ---
 name: ai-ml-engineering
+domain: general
+pack: general
+tier: optional
+triggers:
+  - эмбеддинги и векторный поиск
+  - fine-tune / дообучение llm
+  - inference optimization
+  - оптимизация inference
+  - ai ml engineering
+  - vllm / llama.cpp
+  - обучить модель
+  - pytorch fsdp
+  - rag-пайплайн
+  - fine-tuning
+  - lora / peft
+  - ml training
+  - mlops
+  - rag
 description: |
   [RU] Макро-навык для AI/ML-инженерии: MLOps, обучение моделей, fine-tuning, оптимизация inference, RAG-пайплайны, стратегии эмбеддингов, оценка моделей. Используй при запросах: "обучить модель", "fine-tune LLM", "собрать RAG", "ускорить inference", "LoRA/PEFT", "GRPO/RL-обучение", "vLLM/llama.cpp", "PyTorch FSDP", "векторный поиск". См. также: `ai-ml-platform` — для продакшн MLOps-оркестрации, serving и трекинга экспериментов.
   [EN] Macro-skill for AI/ML engineering: MLOps, training, fine-tuning, inference optimization, RAG pipelines, embedding strategies, model evaluation. Triggers: ML training, fine-tuning, inference.

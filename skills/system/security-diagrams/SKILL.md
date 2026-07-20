@@ -1,5 +1,10 @@
 ---
 name: security
+domain: security
+pack: security
+tier: optional
+triggers:
+  - security
 description: Create security architecture diagrams using PlantUML with identity, encryption, firewall, and compliance stencil icons. Best for IAM flows, zero-trust models, encryption pipelines, and threat detection architectures. Use when user wants security diagrams, IAM, zero-trust, or encryption visuals.
 ---
 

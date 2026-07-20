@@ -1,5 +1,10 @@
 ---
 name: python-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - python patterns
 description: Python development principles and decision-making.
 category: development
 version: 4.1.0-fractal

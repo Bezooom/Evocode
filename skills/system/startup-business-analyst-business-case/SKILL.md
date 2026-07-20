@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: startup-business-analyst-business-case
+domain: general
+pack: general
+tier: optional
+triggers:
+  - startup business analyst business case
 description: Generate comprehensive investor-ready business case document with
   market, solution, financials, and strategy
 allowed-tools: Read Write Edit Glob Grep Bash WebSearch WebFetch

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: context-manager
+domain: general
+pack: general
+tier: optional
+triggers:
+  - context manager
 description: Elite AI context engineering specialist mastering dynamic context
   management, vector databases, knowledge graphs, and intelligent memory
   systems. Orchestrates context across multi-agent workflows, enterprise AI

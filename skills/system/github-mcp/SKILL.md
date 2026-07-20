@@ -1,5 +1,10 @@
 ---
 name: github-mcp
+domain: general
+pack: general
+tier: optional
+triggers:
+  - github mcp
 description: Official GitHub Model Context Protocol Server for repository management.
 category: tools
 version: 4.1.0-fractal

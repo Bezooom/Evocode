@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: c4-container
+domain: general
+pack: general
+tier: optional
+triggers:
+  - c4 container
 description: Expert C4 Container-level documentation specialist. Synthesizes
   Component-level documentation into Container-level architecture, mapping
   components to deployment units, documenting container interfaces as APIs, and

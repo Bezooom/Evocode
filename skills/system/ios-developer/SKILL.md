@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ios-developer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ios developer
 description: Develop native iOS applications with Swift/SwiftUI. Masters iOS 18,
   SwiftUI, UIKit integration, Core Data, networking, and App Store optimization.
   Use PROACTIVELY for iOS-specific features, App Store optimization, or native

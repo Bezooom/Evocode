@@ -1,5 +1,10 @@
 ---
 name: para-memory
+domain: general
+pack: general
+tier: optional
+triggers:
+  - para memory
 description: >
   Управление файловой долгосрочной памятью агента по методологии PARA.
   Используется для хранения, структурирования и поиска фактов, предпочтений

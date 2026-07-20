@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: busybox-on-windows
+domain: general
+pack: general
+tier: optional
+triggers:
+  - busybox on windows
 description: How to use a Win32 build of BusyBox to run many of the standard UNIX command line tools on Windows.
 license: MIT
 ---

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: unity-developer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - unity developer
 description: Build Unity games with optimized C# scripts, efficient rendering,
   and proper asset management. Masters Unity 6 LTS, URP/HDRP pipelines, and
   cross-platform deployment. Handles gameplay systems, UI implementation, and

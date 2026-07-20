@@ -1,5 +1,10 @@
 ---
 name: aeon
+domain: general
+pack: general
+tier: optional
+triggers:
+  - aeon
 description: This skill should be used for time series machine learning tasks including classification, regression, clustering, forecasting, anomaly detection, segmentation, and similarity search. Use when working with temporal data, sequential patterns, or time-indexed observations requiring specialized algorithms beyond standard ML approaches. Particularly suited for univariate and multivariate time series analysis with scikit-learn compatible APIs.
 license: BSD-3-Clause license
 metadata:
@@ -369,4 +374,3 @@ Detailed information available in `references/`:
 - GitHub: https://github.com/aeon-toolkit/aeon
 - Examples: https://www.aeon-toolkit.org/en/stable/examples.html
 - API Reference: https://www.aeon-toolkit.org/en/stable/api_reference.html
-

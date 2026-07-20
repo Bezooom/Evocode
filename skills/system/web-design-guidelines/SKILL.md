@@ -1,5 +1,10 @@
 ---
 name: web-design-guidelines
+domain: general
+pack: general
+tier: optional
+triggers:
+  - web design guidelines
 description: Review UI code for Web Interface Guidelines compliance.
 category: design
 version: 4.1.0-fractal

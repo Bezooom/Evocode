@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: nx-workspace-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - nx workspace patterns
 description: Configure and optimize Nx monorepo workspaces. Use when setting up Nx, configuring project boundaries, optimizing build caching, or implementing affected commands.
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: autoresearch-pipeline
+domain: research
+pack: science
+tier: optional
+triggers:
+  - autoresearch pipeline
 description: "Universal multi-agent auto-dev pipeline: Issue → Task Planning → Iterative Implementation → Quality Gates (Build/Lint/Test + Scoring) → PR/Merge. Model-agnostic, language-agnostic."
 ---
 

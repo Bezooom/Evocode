@@ -1,5 +1,10 @@
 ---
 name: seo-geo
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo geo
 description: >
   Optimize content for AI Overviews (formerly SGE), ChatGPT web search,
   Perplexity, and other AI-powered search experiences. Generative Engine

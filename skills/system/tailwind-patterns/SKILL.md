@@ -1,5 +1,10 @@
 ---
 name: tailwind-patterns
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - tailwind patterns
 description: Tailwind CSS v4 principles and modern design tokens.
 category: design
 version: 4.1.0-fractal

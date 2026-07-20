@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: web-performance-optimization
+domain: general
+pack: general
+tier: optional
+triggers:
+  - web performance optimization
 description: "Optimize website and web application performance including loading speed, Core Web Vitals, bundle size, caching strategies, and runtime performance"
 ---
 

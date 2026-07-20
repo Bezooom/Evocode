@@ -1,5 +1,10 @@
 ---
 name: legacy-modernizer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - legacy modernizer
 description: Refactor legacy codebases, migrate outdated frameworks, and implement gradual modernization.
 category: development
 version: 4.1.0-fractal

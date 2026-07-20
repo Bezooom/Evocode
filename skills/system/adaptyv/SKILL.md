@@ -1,5 +1,10 @@
 ---
 name: adaptyv
+domain: general
+pack: general
+tier: optional
+triggers:
+  - adaptyv
 author: "K-Dense, Inc."
 description: "How to use the Adaptyv Bio Foundry API and Python SDK for protein experiment design, submission, and results retrieval. Use this skill whenever the user mentions Adaptyv, Foundry API, protein binding assays, protein screening experiments, BLI/SPR assays, thermostability assays, or wants to submit protein sequences for experimental characterization. Also trigger when code imports `adaptyv`, `adaptyv_sdk`, or `FoundryClient`, or references `foundry-api-public.adaptyvbio.com`."
 ---

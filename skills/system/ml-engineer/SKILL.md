@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ml-engineer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ml engineer
 description: Build production ML systems with PyTorch 2.x, TensorFlow, and
   modern ML frameworks. Implements model serving, feature engineering, A/B
   testing, and monitoring. Use PROACTIVELY for ML model deployment, inference

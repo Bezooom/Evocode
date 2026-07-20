@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: prometheus-configuration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - prometheus configuration
 description: Set up Prometheus for comprehensive metric collection, storage, and monitoring of infrastructure and applications. Use when implementing metrics collection, setting up monitoring infrastructure, or configuring alerting systems.
 ---
 

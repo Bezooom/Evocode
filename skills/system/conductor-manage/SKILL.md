@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: conductor-manage
+domain: general
+pack: general
+tier: optional
+triggers:
+  - conductor manage
 description: "Manage track lifecycle: archive, restore, delete, rename, and cleanup"
 metadata:
   argument-hint: "[--archive | --restore | --delete | --rename | --list | --cleanup]"

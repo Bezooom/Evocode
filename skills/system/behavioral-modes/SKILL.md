@@ -1,5 +1,10 @@
 ---
 name: behavioral-modes
+domain: general
+pack: general
+tier: optional
+triggers:
+  - behavioral modes
 description: AI operational modes (brainstorm, implement, debug, review, teach, ship, orchestrate).
 category: tools
 version: 4.1.0-fractal

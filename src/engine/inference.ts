@@ -139,11 +139,32 @@ export class InferenceEngine {
   }
 
   private fimBaseUrl(): string {
-    if (this.config.inference.fim.enabled) {
-      const { host, port } = this.config.inference.fim;
-      return `${host}:${port}`;
-    }
-    return this.chatBaseUrl();
+    const { host, port } = this.config.inference.fim;
+    // host may be "http://127.0.0.1" or "127.0.0.1"
+    const h = host.includes('://') ? host : `http://${host}`;
+    return `${h.replace(/\/$/, '')}:${port}`;
+  }
+
+  isFimEnabled(): boolean {
+    return !!this.config.inference.fim.enabled;
+  }
+
+  async isFimReady(): Promise<boolean> {
+    if (!this.config.inference.fim.enabled) return false;
+    return this.probe(this.fimBaseUrl());
+  }
+
+  getFimInfo(): Record<string, unknown> {
+    const f = this.config.inference.fim;
+    return {
+      enabled: f.enabled,
+      modelId: f.modelId || 'evocode-fim',
+      model: f.model,
+      port: f.port,
+      host: f.host,
+      profileId: f.profileId || 'fim-small',
+      baseUrl: this.fimBaseUrl(),
+    };
   }
 
   private embedBaseUrl(): string {
@@ -170,13 +191,13 @@ export class InferenceEngine {
 
   private async probe(url: string): Promise<boolean> {
     try {
-      const r = await fetch(`${url}/health`, { signal: AbortSignal.timeout(2000) });
+      const r = await fetch(`${url}/health`, { signal: AbortSignal.timeout(100) });
       if (r.ok) return true;
     } catch {
       /* try models */
     }
     try {
-      const r = await fetch(`${url}/v1/models`, { signal: AbortSignal.timeout(2000) });
+      const r = await fetch(`${url}/v1/models`, { signal: AbortSignal.timeout(100) });
       return r.ok;
     } catch {
       return false;
@@ -319,8 +340,15 @@ export class InferenceEngine {
   async fim(request: InferenceRequest): Promise<InferenceResponse> {
     const startTime = Date.now();
     const { local, fim } = this.config.inference;
+    if (!fim.enabled) {
+      throw new InferenceError(
+        'FIM отключён (inference.fim.enabled=false / LLAMA_FIM_ENABLED=false)',
+        'LOCAL_UNAVAILABLE'
+      );
+    }
     const url = `${this.fimBaseUrl()}/v1/completions`;
-    const model = fim.enabled ? fim.model : local.model;
+    // llama-server accepts path or any id; expose short id to clients
+    const model = request.model || fim.modelId || fim.model;
 
     try {
       const data = await this.fetchJson(
@@ -332,15 +360,16 @@ export class InferenceEngine {
             prompt: request.prompt,
             max_tokens: request.maxTokens || 256,
             temperature: request.temperature ?? 0.1,
-            model,
+            model: fim.model, // physical GGUF path/name for server
+            stop: (request as any).stop,
           }),
         },
-        local.timeout
+        Math.min(local.timeout, 120)
       );
 
       return {
         text: data.content || data.choices?.[0]?.text || '',
-        model,
+        model: fim.modelId || model,
         latency: Date.now() - startTime,
         usage: {
           promptTokens: data.usage?.prompt_tokens || 0,
@@ -351,7 +380,7 @@ export class InferenceEngine {
       };
     } catch (error) {
       throw new InferenceError(
-        `FIM недоступен: ${(error as Error).message}`,
+        `FIM недоступен (${this.fimBaseUrl()}): ${(error as Error).message}. Запустите профиль fim-small (порт ${fim.port}).`,
         'LOCAL_UNAVAILABLE',
         error
       );

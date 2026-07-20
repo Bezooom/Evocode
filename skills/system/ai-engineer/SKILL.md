@@ -1,5 +1,10 @@
 ---
 name: ai-engineer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ai engineer
 description: Principal AI Architect and Machine Learning Engineer.
 category: development
 version: 4.1.0-fractal

@@ -1,5 +1,10 @@
 ---
 name: rust-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - rust pro
 description: Master Rust 1.75+ development with async runtime (Tokio/smol).
 category: development
 version: 4.1.0-fractal

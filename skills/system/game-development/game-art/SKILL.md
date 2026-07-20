@@ -1,5 +1,10 @@
 ---
 name: game-art
+domain: general
+pack: general
+tier: optional
+triggers:
+  - game art
 description: Game art principles.
 category: development
 version: 4.0.5

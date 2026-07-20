@@ -1,5 +1,10 @@
 ---
 name: filesystem-mcp
+domain: general
+pack: general
+tier: optional
+triggers:
+  - filesystem mcp
 description: Official Filesystem Model Context Protocol Server for local file operations.
 category: tools
 version: 4.1.0-fractal

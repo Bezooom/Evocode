@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: error-debugging-multi-agent-review
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - error debugging multi agent review
 description: "Use when working with error debugging multi agent review"
 ---
 

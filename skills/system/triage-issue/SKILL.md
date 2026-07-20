@@ -1,16 +1,20 @@
 ---
 name: triage-issue
+domain: general
+pack: general
+tier: optional
+triggers:
+  - найти причину
+  - разобрать баг
+  - tdd fix plan
+  - triage issue
+  - план фикса
+  - root cause
+  - triage
+  - триаж
 description: |
   [RU] Триаж баг-репорта: исследование codebase для поиска корневой причины, создание GitHub issue с планом фикса на базе TDD. Используй когда пользователь сообщает о баге, хочет завести issue, упоминает "триаж" или хочет разобрать проблему и спланировать фикс.
   [EN] Triage a bug or issue by exploring the codebase to find root cause, then create a GitHub issue with a TDD-based fix plan. Use when user reports a bug, wants to file an issue, mentions "triage", or wants to investigate and plan a fix for a problem.
-triggers:
-  - триаж
-  - разобрать баг
-  - найти причину
-  - план фикса
-  - triage
-  - root cause
-  - TDD fix plan
 ---
 
 # Triage Issue

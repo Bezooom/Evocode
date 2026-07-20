@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: api-security-best-practices
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - api security best practices
 description: "Implement secure API design patterns including authentication, authorization, input validation, rate limiting, and protection against common API vulnerabilities"
 ---
 

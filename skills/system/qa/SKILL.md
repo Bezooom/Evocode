@@ -1,16 +1,20 @@
 ---
 name: qa
+domain: general
+pack: general
+tier: optional
+triggers:
+  - найдено в проде
+  - сообщить баг
+  - file issues
+  - report bugs
+  - баг-репорт
+  - qa session
+  - qa-сессия
+  - qa
 description: |
   [RU] Интерактивная QA-сессия: пользователь разговорно сообщает баги, а агент создаёт GitHub issues. Исследует codebase для контекста и доменного языка. Используй когда пользователь хочет сообщить баги, провести QA, завести issues в разговоре или упоминает "QA session".
   [EN] Interactive QA session where user reports bugs or issues conversationally, and the agent files GitHub issues. Explores the codebase in the background for context and domain language. Use when user wants to report bugs, do QA, file issues conversationally, or mentions "QA session".
-triggers:
-  - QA-сессия
-  - баг-репорт
-  - найдено в проде
-  - сообщить баг
-  - QA session
-  - report bugs
-  - file issues
 ---
 
 # QA Session

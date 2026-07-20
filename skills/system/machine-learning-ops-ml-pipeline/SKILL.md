@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: machine-learning-ops-ml-pipeline
+domain: general
+pack: general
+tier: optional
+triggers:
+  - machine learning ops ml pipeline
 description: "Design and implement a complete ML pipeline for: $ARGUMENTS"
 ---
 

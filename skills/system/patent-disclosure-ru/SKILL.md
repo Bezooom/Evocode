@@ -1,5 +1,10 @@
 ---
 name: patent-disclosure-skill
+domain: general
+pack: general
+tier: optional
+triggers:
+  - patent disclosure skill
 description: "Полный цикл: поиск патентных решений в проектной документации, сравнительный анализ с предшествующим уровнем техники, генерация технической заявки по российским ГОСТам, поиск в ФИПС (Роспатент), самопроверка с контролем логической связности и согласования формул и параметров. | Patent mining, disclosure drafting, prior-art search, and consistency self-check."
 version: "2.0.0"
 user-invocable: true

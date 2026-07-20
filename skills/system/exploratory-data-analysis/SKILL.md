@@ -1,5 +1,10 @@
 ---
 name: exploratory-data-analysis
+domain: data
+pack: data
+tier: optional
+triggers:
+  - exploratory data analysis
 description: Perform comprehensive exploratory data analysis on scientific data files across 200+ file formats. This skill should be used when analyzing any scientific data file to understand its structure, content, quality, and characteristics. Automatically detects file type and generates detailed markdown reports with format-specific analysis, quality metrics, and downstream analysis recommendations. Covers chemistry, bioinformatics, microscopy, spectroscopy, proteomics, metabolomics, and general scientific data formats.
 license: MIT license
 metadata:
@@ -441,4 +446,3 @@ Based on data characteristics, recommend:
 
 ### assets/
 - `report_template.md`: Comprehensive markdown template for EDA reports
-

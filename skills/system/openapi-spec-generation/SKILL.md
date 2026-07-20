@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: openapi-spec-generation
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - openapi spec generation
 description: Generate and maintain OpenAPI 3.1 specifications from code, design-first specs, and validation patterns. Use when creating API documentation, generating SDKs, or ensuring API contract compliance.
 ---
 

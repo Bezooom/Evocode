@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: prompt-engineer
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - prompt engineer
 description: Expert prompt engineer specializing in advanced prompting
   techniques, LLM optimization, and AI system design. Masters chain-of-thought,
   constitutional AI, and production prompt strategies. Use when building AI

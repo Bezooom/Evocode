@@ -1,5 +1,10 @@
 ---
 name: ai-system-builder
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ai system builder
 description: Build specialized AI systems using modern stacks (FastAPI, PyTorch, RAG, GraphRAG, LLM Wiki, local LLMs). Use when designing procurement systems, document intelligence platforms, multi-agent workflows, or any AI application requiring private/local inference, vector search, knowledge graphs, or OCR processing.
 ---
 

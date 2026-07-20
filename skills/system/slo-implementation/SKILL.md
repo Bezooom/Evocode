@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: slo-implementation
+domain: general
+pack: general
+tier: optional
+triggers:
+  - slo implementation
 description: Define and implement Service Level Indicators (SLIs) and Service Level Objectives (SLOs) with error budgets and alerting. Use when establishing reliability targets, implementing SRE practices, or measuring service performance.
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: tdd-workflow
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tdd workflow
 description: Test-Driven Development workflow principles. RED-GREEN-REFACTOR cycle.
 category: security
 version: 4.1.0-fractal

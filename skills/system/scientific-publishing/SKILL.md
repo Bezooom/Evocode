@@ -1,5 +1,25 @@
 ---
 name: scientific-publishing
+domain: research
+pack: science
+tier: optional
+triggers:
+  - подготовить статью к публикации
+  - защита диссертации по статье
+  - nature-family manuscript
+  - research paper workflow
+  - scientific publishing
+  - работа с публикацией
+  - подготовка рукописи
+  - работа с препринтом
+  - academic publishing
+  - scientific paper
+  - arxiv / biorxiv
+  - научная статья
+  - научный журнал
+  - cns публикация
+  - nature статья
+  - journal club
 description: |
   [RU] Макро-навык-координатор для работы с научными публикациями уровня Nature / CNS /
   конференций. Не делает работу сам, а указывает агенту, какой из 7 специализированных
@@ -10,22 +30,6 @@ description: |
   «научный журнал», «подготовка рукописи», «ответ рецензентам».
   [EN] Umbrella navigator for Nature-cluster scientific publishing. Dispatches to one of
   7 specialists for citation, figures, polishing, rebuttal, bilingual readers, or slides.
-triggers:
-  - научная статья
-  - работа с публикацией
-  - Nature статья
-  - CNS публикация
-  - journal club
-  - защита диссертации по статье
-  - подготовка рукописи
-  - подготовить статью к публикации
-  - работа с препринтом
-  - arXiv / bioRxiv
-  - научный журнал
-  - academic publishing
-  - scientific paper
-  - Nature-family manuscript
-  - research paper workflow
 ---
 
 # Scientific Publishing — Координатор Nature-cluster

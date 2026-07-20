@@ -1,5 +1,19 @@
 ---
 name: devops-stack
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - мониторинг и алертинг
+  - deployment automation
+  - автоматизация деплоя
+  - security scanning
+  - ci/cd пайплайн
+  - ci/cd pipeline
+  - observability
+  - devops stack
+  - monitoring
+  - gitlab ci
 description: |
   [RU] Единый навык DevOps-автоматизации: GitLab CI/CD, мониторинг и алертинг, observability, автоматизация деплоя — связанный стек платформенной инженерии. Используй при запросах: "настроить CI/CD пайплайн", "автоматизировать деплой", "мониторинг и алерты", "observability", "security scanning в пайплайне", "GitLab CI шаблоны".
   [EN] Unified DevOps automation skill combining GitLab CI/CD, monitoring/alerting, observability, and deployment automation into a cohesive platform engineering stack. Triggers: CI/CD pipeline, deployment automation, monitoring, observability, security scanning.

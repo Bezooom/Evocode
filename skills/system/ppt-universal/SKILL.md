@@ -1,5 +1,10 @@
 ---
 name: ppt-universal
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ppt universal
 description: >
   Универсальная система генерации презентаций. Поддерживает два формата выхода:
   (1) HTML-презентация в стиле "электронная журнал + электронные чернила" с WebGL фоном

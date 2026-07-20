@@ -1,5 +1,10 @@
 ---
 name: langgraph-engineering
+domain: general
+pack: general
+tier: optional
+triggers:
+  - langgraph engineering
 description: Building stateful, resilient AI agents with LangGraph v1.0.
 category: orchestration
 version: 4.1.0-fractal

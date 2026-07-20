@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: database-architect
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - database architect
 description: Expert database architect specializing in data layer design from
   scratch, technology selection, schema modeling, and scalable database
   architectures. Masters SQL/NoSQL/TimeSeries database selection, normalization

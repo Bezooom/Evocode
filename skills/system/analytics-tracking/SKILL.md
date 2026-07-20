@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: analytics-tracking
+domain: general
+pack: general
+tier: optional
+triggers:
+  - analytics tracking
 description: >
   Design, audit, and improve analytics tracking systems that produce reliable,
   decision-ready data. Use when the user wants to set up, fix, or evaluate

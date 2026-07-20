@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: rust-async-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - rust async patterns
 description: Master Rust async programming with Tokio, async traits, error handling, and concurrent patterns. Use when building async Rust applications, implementing concurrent systems, or debugging async code.
 ---
 

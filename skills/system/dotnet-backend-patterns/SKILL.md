@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: dotnet-backend-patterns
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - dotnet backend patterns
 description: Master C#/.NET backend development patterns for building robust APIs, MCP servers, and enterprise applications. Covers async/await, dependency injection, Entity Framework Core, Dapper, configuration, caching, and testing with xUnit. Use when developing .NET backends, reviewing C# code, or designing API architectures.
 ---
 

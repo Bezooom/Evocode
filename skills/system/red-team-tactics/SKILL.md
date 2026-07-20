@@ -1,5 +1,10 @@
 ---
 name: red-team-tactics
+domain: general
+pack: general
+tier: lab
+triggers:
+  - red team tactics
 description: Red team tactics principles based on MITRE ATT&CK.
 category: security
 version: 4.1.0-fractal

@@ -1,5 +1,10 @@
 ---
 name: monoscope
+domain: general
+pack: general
+tier: optional
+triggers:
+  - monoscope
 description: |
   [RU] Навык для работы с Monoscope — open-source observability платформой. Используй для поиска логов, метрик, трейсов, управления мониторами и дашбордами через MCP-сервер или CLI.
   [EN] Skill for Monoscope — an open-source observability platform. Use for searching logs, metrics, traces, managing monitors and dashboards via MCP server or CLI.

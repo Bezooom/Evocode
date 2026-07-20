@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: legal-advisor
+domain: general
+pack: general
+tier: optional
+triggers:
+  - legal advisor
 description: Draft privacy policies, terms of service, disclaimers, and legal
   notices. Creates GDPR-compliant texts, cookie policies, and data processing
   agreements. Use PROACTIVELY for legal documentation, compliance texts, or

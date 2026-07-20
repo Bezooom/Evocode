@@ -1,5 +1,10 @@
 ---
 name: seo-cluster
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo cluster
 description: >
   SERP-based semantic topic clustering for content architecture planning. Groups
   keywords by actual Google SERP overlap (not text similarity), designs hub-and-spoke

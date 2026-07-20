@@ -1,5 +1,10 @@
 ---
 name: angular-routing
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular routing
 description: >-
   Implement routing in Angular v20+ applications with lazy loading, functional
   guards, resolvers, and route parameters. Use for navigation setup, protected

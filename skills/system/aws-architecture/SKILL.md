@@ -1,5 +1,14 @@
 ---
 name: aws-architecture
+domain: general
+pack: general
+tier: optional
+triggers:
+  - aws architecture
+  - cloudformation
+  - aws migration
+  - terraform
+  - iac
 description: >-
   AWS CloudFormation и Terraform паттерны для инфраструктурного как кода (IaC).
   Triggers: архитектурные решения для AWS, CloudFormation/Terraform шаблоны, миграция, multi-account стратегии.

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: solidity-security
+domain: security
+pack: security
+tier: optional
+triggers:
+  - solidity security
 description: Master smart contract security best practices to prevent common vulnerabilities and implement secure Solidity patterns. Use when writing smart contracts, auditing existing contracts, or implementing security measures for blockchain applications.
 ---
 

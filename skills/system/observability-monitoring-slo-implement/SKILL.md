@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: observability-monitoring-slo-implement
+domain: general
+pack: general
+tier: optional
+triggers:
+  - observability monitoring slo implement
 description: "You are an SLO (Service Level Objective) expert specializing in implementing reliability standards and error budget-based practices. Design SLO frameworks, define SLIs, and build monitoring that balances reliability with delivery velocity."
 ---
 

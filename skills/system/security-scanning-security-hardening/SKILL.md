@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: security-scanning-security-hardening
+domain: security
+pack: security
+tier: optional
+triggers:
+  - security scanning security hardening
 description: "Coordinate multi-layer security scanning and hardening across application, infrastructure, and compliance controls."
 ---
 

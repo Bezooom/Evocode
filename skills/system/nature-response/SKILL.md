@@ -1,5 +1,10 @@
 ---
 name: nature-response
+domain: general
+pack: general
+tier: optional
+triggers:
+  - nature response
 description: >-
   Draft, audit, or revise point-by-point reviewer response letters for Nature-family
   manuscript revisions. Use when the user provides reviewer comments, editor decision

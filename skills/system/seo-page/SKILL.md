@@ -1,5 +1,10 @@
 ---
 name: seo-page
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo page
 description: >
   Deep single-page SEO analysis covering on-page elements, content quality,
   technical meta tags, schema, images, and performance. Use when user says

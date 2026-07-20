@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: conversation-memory
+domain: general
+pack: general
+tier: optional
+triggers:
+  - conversation memory
 description: "Persistent memory systems for LLM conversations including short-term, long-term, and entity-based memory Use when: conversation memory, remember, memory persistence, long-term memory, chat history."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

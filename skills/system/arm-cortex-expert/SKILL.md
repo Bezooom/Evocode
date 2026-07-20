@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: arm-cortex-expert
+domain: general
+pack: general
+tier: optional
+triggers:
+  - arm cortex expert
 description: >
   Senior embedded software engineer specializing in firmware and driver
   development for ARM Cortex-M microcontrollers (Teensy, STM32, nRF52, SAMD).

@@ -1,5 +1,10 @@
 ---
 name: frontend-design
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - frontend design
 description: Design thinking and decision-making for web UI.
 category: design
 version: 4.1.0-fractal

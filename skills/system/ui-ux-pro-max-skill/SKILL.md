@@ -1,5 +1,10 @@
 ---
 name: ui-ux-pro-max-skill
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - ui ux pro max skill
 description: Premium design and micro-interactions toolkit.
 category: design
 version: 4.1.0-fractal

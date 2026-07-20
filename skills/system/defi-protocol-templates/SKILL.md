@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: defi-protocol-templates
+domain: backend
+pack: web3
+tier: optional
+triggers:
+  - defi protocol templates
 description: Implement DeFi protocols with production-ready templates for staking, AMMs, governance, and lending systems. Use when building decentralized finance applications or smart contract protocols.
 ---
 

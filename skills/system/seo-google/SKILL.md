@@ -1,5 +1,10 @@
 ---
 name: seo-google
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo google
 description: >
   Google SEO APIs: Search Console (Search Analytics, URL Inspection, Sitemaps),
   PageSpeed Insights v5, CrUX field data with 25-week history, Indexing API v3,

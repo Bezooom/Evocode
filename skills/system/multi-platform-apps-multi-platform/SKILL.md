@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: multi-platform-apps-multi-platform
+domain: general
+pack: general
+tier: optional
+triggers:
+  - multi platform apps multi platform
 description: "Build and deploy the same feature consistently across web, mobile, and desktop platforms using API-first architecture and parallel implementation strategies."
 ---
 

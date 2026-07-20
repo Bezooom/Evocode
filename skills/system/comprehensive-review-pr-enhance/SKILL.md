@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: comprehensive-review-pr-enhance
+domain: general
+pack: general
+tier: optional
+triggers:
+  - comprehensive review pr enhance
 description: "You are a PR optimization expert specializing in creating high-quality pull requests that facilitate efficient code reviews. Generate comprehensive PR descriptions, automate review processes, and ensure PRs follow best practices for clarity, size, and reviewability."
 ---
 

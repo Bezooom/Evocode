@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: executing-plans
+domain: general
+pack: general
+tier: optional
+triggers:
+  - executing plans
 description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
 ---
 

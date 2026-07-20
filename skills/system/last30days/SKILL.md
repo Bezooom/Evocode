@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: last30days
+domain: general
+pack: general
+tier: optional
+triggers:
+  - last30days
 description: Research a topic from the last 30 days on Reddit + X + Web, become an expert, and write copy-paste-ready prompts for the user's target tool.
 argument-hint: "[topic] for [tool] or [topic]"
 context: fork

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: backend-development-feature-development
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - backend development feature development
 description: "Orchestrate end-to-end backend feature development from requirements to deployment. Use when coordinating multi-phase feature delivery across teams and services."
 ---
 

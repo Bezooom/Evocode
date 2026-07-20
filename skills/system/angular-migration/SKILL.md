@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: angular-migration
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular migration
 description: Migrate from AngularJS to Angular using hybrid mode, incremental component rewriting, and dependency injection updates. Use when upgrading AngularJS applications, planning framework migrations, or modernizing legacy Angular code.
 ---
 

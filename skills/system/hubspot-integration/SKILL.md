@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: hubspot-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - hubspot integration
 description: "Expert patterns for HubSpot CRM integration including OAuth authentication, CRM objects, associations, batch operations, webhooks, and custom objects. Covers Node.js and Python SDKs. Use when: hubspot, hubspot api, hubspot crm, hubspot integration, contacts api."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

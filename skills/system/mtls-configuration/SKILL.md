@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: mtls-configuration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - mtls configuration
 description: Configure mutual TLS (mTLS) for zero-trust service-to-service communication. Use when implementing zero-trust networking, certificate management, or securing internal service communication.
 ---
 

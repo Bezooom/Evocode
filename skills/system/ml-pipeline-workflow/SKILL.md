@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ml-pipeline-workflow
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ml pipeline workflow
 description: Build end-to-end MLOps pipelines from data preparation through model training, validation, and production deployment. Use when creating ML pipelines, implementing MLOps practices, or automating model training and deployment workflows.
 ---
 

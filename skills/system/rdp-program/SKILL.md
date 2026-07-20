@@ -1,5 +1,10 @@
 ---
 name: rdp-program
+domain: general
+pack: general
+tier: optional
+triggers:
+  - rdp program
 description: >-
   Разработка рабочих программ дисциплин (РДП) для высшей и среднего
   профессионального образования. Полный pipeline: от концепта до рабочей программы —

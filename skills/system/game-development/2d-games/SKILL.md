@@ -1,5 +1,10 @@
 ---
 name: 2d-games
+domain: general
+pack: general
+tier: optional
+triggers:
+  - 2d games
 description: 2D game development principles.
 category: development
 version: 4.0.5

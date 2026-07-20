@@ -1,5 +1,10 @@
 ---
 name: testing-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - testing patterns
 description: Testing patterns and principles. Unit, integration, mocking strategies.
 category: security
 version: 4.1.0-fractal

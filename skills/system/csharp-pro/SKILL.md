@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: csharp-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - csharp pro
 description: Write modern C# code with advanced features like records, pattern
   matching, and async/await. Optimizes .NET applications, implements enterprise
   patterns, and ensures comprehensive testing. Use PROACTIVELY for C#

@@ -1,5 +1,19 @@
 ---
 name: architecture-diagram
+domain: general
+pack: general
+tier: optional
+triggers:
+  - схема облачной архитектуры
+  - диаграмма инфраструктуры
+  - архитектурная диаграмма
+  - диаграмма безопасности
+  - infrastructure diagram
+  - architecture diagram
+  - cloud architecture
+  - схема компонентов
+  - security diagram
+  - топология сети
 description: |
   [RU] Создание профессиональных архитектурных диаграмм в тёмной теме в виде самодостаточных HTML-файлов с inline SVG. Используй при запросах: "нарисовать архитектуру системы", "диаграмма инфраструктуры", "визуализация облачной архитектуры", "схема безопасности", "топология сети", "диаграмма компонентов и связей", "архитектурная схема для презентации".
   [EN] Create professional, dark-themed architecture diagrams as standalone HTML files with SVG graphics. Use when the user asks for system architecture diagrams, infrastructure diagrams, cloud architecture visualizations, security diagrams, network topology diagrams, or any technical diagram showing system components and their relationships.

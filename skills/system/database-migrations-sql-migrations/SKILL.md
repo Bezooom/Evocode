@@ -1,5 +1,10 @@
 ---
 name: database-migrations-sql-migrations
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - database migrations sql migrations
 description: SQL database migrations with zero-downtime strategies for
   PostgreSQL, MySQL, SQL Server
 allowed-tools: Read Write Edit Bash Grep Glob

@@ -1,3 +1,11 @@
+---
+name: edtech-course-generator
+triggers:
+  - edtech course generator
+tier: optional
+pack: general
+domain: general
+---
 # Skill: edtech-course-generator
 
 ## Название

@@ -1,5 +1,10 @@
 ---
 name: api-patterns
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - api patterns
 description: API design principles and decision-making.
 category: architecture
 version: 4.1.0-fractal
@@ -80,4 +85,3 @@ Before designing an API:
 | Script | Purpose | Command |
 |--------|---------|---------|
 | `scripts/api_validator.py` | API endpoint validation | `python scripts/api_validator.py <project_path>` |
-

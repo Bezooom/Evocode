@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: systems-programming-rust-project
+domain: general
+pack: general
+tier: optional
+triggers:
+  - systems programming rust project
 description: "You are a Rust project architecture expert specializing in scaffolding production-ready Rust applications. Generate complete project structures with cargo tooling, proper module organization, testing"
 ---
 

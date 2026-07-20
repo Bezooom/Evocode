@@ -1,5 +1,10 @@
 ---
 name: nature-citation
+domain: general
+pack: general
+tier: optional
+triggers:
+  - nature citation
 description: >-
   Add strict Nature/CNS citations to manuscript text by splitting long passages into citable
   segments, searching only accepted flagship and subjournal titles from Nature Portfolio, the

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: tdd-workflows-tdd-green
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tdd workflows tdd green
 description: Implement the minimal code needed to make failing tests pass in the TDD green phase.
 ---
 

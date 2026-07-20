@@ -1,5 +1,21 @@
 ---
 name: devops-cloud-infrastructure
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - devops cloud infrastructure
+  - service mesh istio/linkerd
+  - cloud infrastructure
+  - kubernetes / k8s
+  - aws / облако
+  - multi-cloud
+  - kubernetes
+  - helm-чарт
+  - terraform
+  - devops
+  - gitops
+  - aws
 description: |
   [RU] Макро-навык для DevOps и облачной инфраструктуры: Kubernetes, Terraform, AWS, multi-cloud, observability, service mesh, GitOps. Используй при запросах: "задеплоить в K8s", "Terraform-модуль", "AWS-архитектура", "multi-cloud стратегия", "Istio/Linkerd service mesh", "GitOps workflow", "Helm-чарт", "Prometheus/Grafana", "mTLS".
   [EN] Macro-skill for DevOps and cloud infrastructure: Kubernetes, Terraform, AWS, multi-cloud, observability, service mesh, GitOps. Triggers: DevOps, cloud infrastructure, K8s.

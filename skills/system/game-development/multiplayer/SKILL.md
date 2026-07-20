@@ -1,5 +1,10 @@
 ---
 name: multiplayer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - multiplayer
 description: Multiplayer game development principles.
 category: development
 version: 4.0.5

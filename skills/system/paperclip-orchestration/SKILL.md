@@ -1,5 +1,10 @@
 ---
 name: paperclip-orchestration
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - paperclip orchestration
 description: >
   Координация и управление задачами в рамках автономных агентств Paperclip.
   Описывает жизненный цикл агента (heartbeats), аутентификацию, процедуру

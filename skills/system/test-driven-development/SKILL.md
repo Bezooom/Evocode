@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: test-driven-development
+domain: general
+pack: general
+tier: optional
+triggers:
+  - test driven development
 description: Use when implementing any feature or bugfix, before writing implementation code
 ---
 

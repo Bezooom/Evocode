@@ -1,5 +1,10 @@
 ---
 name: Ethical Hacking Methodology
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ethical hacking methodology
 description: This skill should be used when the user asks to "learn ethical hacking", "understand penetration testing lifecycle", "perform reconnaissance", "conduct security scanning", "exploit vulnerabilities", or "write penetration test reports". It provides comprehensive ethical hacking methodology and techniques.
 metadata:
   author: zebbern

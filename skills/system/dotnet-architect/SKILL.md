@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: dotnet-architect
+domain: general
+pack: general
+tier: optional
+triggers:
+  - dotnet architect
 description: Expert .NET backend architect specializing in C#, ASP.NET Core,
   Entity Framework, Dapper, and enterprise application patterns. Masters
   async/await, dependency injection, caching strategies, and performance

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: using-superpowers
+domain: general
+pack: general
+tier: optional
+triggers:
+  - using superpowers
 description: Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions
 ---
 

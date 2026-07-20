@@ -1,5 +1,10 @@
 ---
 name: workflow-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - workflow patterns
 description: Use this skill when implementing tasks according to Conductor's TDD
   workflow, handling phase checkpoints, managing git commits for tasks, or
   understanding the verification protocol.

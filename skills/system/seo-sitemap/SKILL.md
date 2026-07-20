@@ -1,5 +1,10 @@
 ---
 name: seo-sitemap
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo sitemap
 description: >
   Analyze existing XML sitemaps or generate new ones with industry templates.
   Validates format, URLs, and structure. Use when user says "sitemap",

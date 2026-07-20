@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: product-manager-toolkit
+domain: general
+pack: general
+tier: optional
+triggers:
+  - product manager toolkit
 description: Comprehensive toolkit for product managers including RICE prioritization, customer interview analysis, PRD templates, discovery frameworks, and go-to-market strategies. Use for feature prioritization, user research synthesis, requirement documentation, and product strategy development.
 ---
 

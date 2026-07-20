@@ -1,5 +1,10 @@
 ---
 name: postgres-best-practices
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - postgres best practices
 description: PostgreSQL and Supabase optimization guide.
 category: development
 version: 4.1.0-fractal

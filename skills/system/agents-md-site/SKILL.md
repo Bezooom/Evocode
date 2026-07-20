@@ -1,5 +1,10 @@
 ---
 name: agents-md-site
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agents md site
 description: |
   Разработка и поддержка сайта AGENTS.md (Next.js приложение с документацией формата AGENTS.md). 
   Используется при работе с проектом агентских инструкций в стиле Next.js 13+ Pages Router.

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ab-test-setup
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ab test setup
 description: Structured guide for setting up A/B tests with mandatory gates for hypothesis, metrics, and execution readiness.
 ---
 

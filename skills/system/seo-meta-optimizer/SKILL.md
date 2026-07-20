@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-meta-optimizer
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo meta optimizer
 description: Creates optimized meta titles, descriptions, and URL suggestions
   based on character limits and best practices. Generates compelling,
   keyword-rich metadata. Use PROACTIVELY for new content.

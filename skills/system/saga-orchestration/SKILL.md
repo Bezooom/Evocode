@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: saga-orchestration
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - saga orchestration
 description: Implement saga patterns for distributed transactions and cross-aggregate workflows. Use when coordinating multi-step business processes, handling compensating transactions, or managing long-running workflows.
 ---
 

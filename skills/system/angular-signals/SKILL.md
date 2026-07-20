@@ -1,5 +1,10 @@
 ---
 name: angular-signals
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular signals
 description: >-
   Implement signal-based reactive state management in Angular v20+. Use for
   creating reactive state with signal(), derived state with computed(),

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: agent-code-guide
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent code guide
 description: Master guide for using Agent Code effectively. Includes configuration templates, prompting strategies "Thinking" keywords, debugging techniques, and best practices for interacting with the agent.
 ---
 

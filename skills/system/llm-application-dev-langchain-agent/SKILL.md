@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: llm-application-dev-langchain-agent
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - llm application dev langchain agent
 description: "You are an expert LangChain agent developer specializing in production-grade AI systems using LangChain 0.1+ and LangGraph."
 ---
 

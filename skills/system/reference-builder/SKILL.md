@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: reference-builder
+domain: general
+pack: general
+tier: optional
+triggers:
+  - reference builder
 description: Creates exhaustive technical references and API documentation.
   Generates comprehensive parameter listings, configuration guides, and
   searchable reference materials. Use PROACTIVELY for API docs, configuration

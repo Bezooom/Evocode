@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: debugging-strategies
+domain: general
+pack: general
+tier: optional
+triggers:
+  - debugging strategies
 description: Master systematic debugging techniques, profiling tools, and root cause analysis to efficiently track down bugs across any codebase or technology stack. Use when investigating bugs, performance issues, or unexpected behavior.
 ---
 

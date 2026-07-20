@@ -1,5 +1,10 @@
 ---
 name: angular-http
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular http
 description: >-
   Implement HTTP data fetching in Angular v20+ using resource(), httpResource(),
   and HttpClient. Use for API calls, data loading with signals, request/response

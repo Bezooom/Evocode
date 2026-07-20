@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: ruby-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ruby pro
 description: Write idiomatic Ruby code with metaprogramming, Rails patterns, and
   performance optimization. Specializes in Ruby on Rails, gem development, and
   testing frameworks. Use PROACTIVELY for Ruby refactoring, optimization, or

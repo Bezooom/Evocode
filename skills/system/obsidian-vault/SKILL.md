@@ -1,5 +1,10 @@
 ---
 name: obsidian-vault
+domain: docs
+pack: docs
+tier: optional
+triggers:
+  - obsidian vault
 description: Search, create, and manage notes in the Obsidian vault with wikilinks and index notes. Use when user wants to find, create, or organize notes in Obsidian. Also supports obsidian-llm-wiki (olw) pipeline — generating and managing wiki articles from raw notes using a local LLM.
 ---
 

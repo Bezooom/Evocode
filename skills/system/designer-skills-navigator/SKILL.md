@@ -1,5 +1,26 @@
 ---
 name: designer-skills-navigator
+domain: general
+pack: general
+tier: optional
+triggers:
+  - interaction design / законы взаимодействия
+  - ux research / исследования пользователей
+  - gestalt principles / гештальт-принципы
+  - handoff spec / спецификация передачи
+  - user persona / персона пользователя
+  - design systems / дизайн-системы
+  - journey map / карта путешествия
+  - design tokens / токены дизайна
+  - prototyping / прототипирование
+  - design ops / процессы дизайна
+  - design sprint / дизайн-спринт
+  - ui design / визуальный дизайн
+  - ux strategy / стратегия опыта
+  - empathy map / карта эмпатии
+  - designer skills navigator
+  - fitts law / закон фиттса
+  - hicks law / закон хика
 description: |
   [RU] Навигатор для 87 профессиональных дизайн-навыков: UX Research, Design Ops, Interaction Design, Design Systems, UI Design, UX Strategy, Prototyping. Используй при запросах: "создать персону пользователя", "карта эмпатии", "дизайн-спринт", "handoff спецификация", "закон Фиттса", "гештальт-принципы", "design tokens", "юзабилити-тест".
   [EN] Navigator for 87 professional design skills: UX Research, Design Ops, Interaction Design, Design Systems, UI Design, UX Strategy, Prototyping. Use when user asks for: user personas, empathy maps, design sprints, handoff specs, Fitts law, Gestalt principles, design tokens, usability testing.

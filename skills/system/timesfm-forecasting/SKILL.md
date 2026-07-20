@@ -1,5 +1,10 @@
 ---
 name: timesfm-forecasting
+domain: general
+pack: general
+tier: optional
+triggers:
+  - timesfm forecasting
 description: Zero-shot time series forecasting with Google's TimesFM foundation model. Use for any univariate time series (sales, sensors, energy, vitals, weather) without training a custom model. Supports CSV/DataFrame/array inputs with point forecasts and prediction intervals. Includes a preflight system checker script to verify RAM/GPU before first use.
 allowed-tools: Read Write Edit Bash
 license: Apache-2.0 license
@@ -782,4 +787,3 @@ prices = df.groupby('store_id')['price'].mean()
 assert prices['store_A'] > prices['store_B'] > prices['store_C'], 'Store price ordering wrong'
 print('Covariates regression: PASS')"
 ```
-

@@ -1,5 +1,10 @@
 ---
 name: angular-ssr
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular ssr
 description: >-
   Implement server-side rendering and hydration in Angular v20+ using
   @angular/ssr. Use for SSR setup, hydration strategies, prerendering static

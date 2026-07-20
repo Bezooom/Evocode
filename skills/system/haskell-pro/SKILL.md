@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: haskell-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - haskell pro
 description: Expert Haskell engineer specializing in advanced type systems, pure
   functional design, and high-reliability software. Use PROACTIVELY for
   type-level programming, concurrency, and architecture guidance.

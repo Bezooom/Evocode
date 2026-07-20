@@ -1,5 +1,10 @@
 ---
 name: parallel-agents
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - parallel agents
 description: Multi-agent orchestration patterns.
 category: tools
 version: 4.1.0-fractal

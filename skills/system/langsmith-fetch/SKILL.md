@@ -1,5 +1,10 @@
 ---
 name: langsmith-fetch
+domain: general
+pack: general
+tier: optional
+triggers:
+  - langsmith fetch
 description: >-
   Debug LangChain and LangGraph agents by fetching execution traces from
   LangSmith Studio. Use when debugging agent behavior, investigating errors,

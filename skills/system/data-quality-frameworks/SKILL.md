@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: data-quality-frameworks
+domain: data
+pack: data
+tier: optional
+triggers:
+  - data quality frameworks
 description: Implement data quality validation with Great Expectations, dbt tests, and data contracts. Use when building data quality pipelines, implementing validation rules, or establishing data contracts.
 ---
 

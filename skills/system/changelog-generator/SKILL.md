@@ -1,5 +1,10 @@
 ---
 name: changelog-generator
+domain: general
+pack: general
+tier: optional
+triggers:
+  - changelog generator
 description: >-
   Automatically creates user-facing changelogs from git commits by analyzing
   commit history, categorizing changes, and transforming technical commits into
@@ -110,4 +115,3 @@ guidelines from CHANGELOG_STYLE.md
 - Writing app store update descriptions
 - Generating email updates for users
 - Creating social media announcement posts
-

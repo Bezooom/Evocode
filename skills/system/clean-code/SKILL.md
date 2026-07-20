@@ -1,5 +1,10 @@
 ---
 name: clean-code
+domain: general
+pack: general
+tier: optional
+triggers:
+  - clean code
 description: Pragmatic coding standards - concise, direct, no over-engineering, no unnecessary comments
 category: development
 version: 4.1.0-fractal

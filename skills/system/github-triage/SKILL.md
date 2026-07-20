@@ -1,16 +1,20 @@
 ---
 name: github-triage
+domain: general
+pack: general
+tier: optional
+triggers:
+  - подготовить issues для afk-агента
+  - label-based state machine
+  - обработать входящие баги
+  - feature requests triage
+  - review incoming bugs
+  - github triage
+  - manage issues
+  - триаж issues
 description: |
   [RU] Триаж GitHub issues через label-based state machine. Используй когда пользователь хочет создать issue, провести триаж, обработать входящие баги или фиче-реквесты, подготовить issues для AFK-агента или управлять потоком issues.
   [EN] Triage GitHub issues through a label-based state machine. Use when user wants to create an issue, triage issues, review incoming bugs or feature requests, prepare issues for an AFK agent, or manage issue workflow.
-triggers:
-  - триаж issues
-  - обработать входящие баги
-  - подготовить issues для AFK-агента
-  - manage issues
-  - label-based state machine
-  - review incoming bugs
-  - feature requests triage
 ---
 
 # GitHub Issue Triage

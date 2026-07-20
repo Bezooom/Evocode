@@ -63,8 +63,31 @@ npm run evocode
 Не интегрировано: нет публичного drop-in в ik/buun.  
 Оптимизация «здесь и сейчас» = ваши профили ik (`--fit`) + buun turbo.
 
+## Dual-model: chat + FIM (Neurocontrol)
+
+| Роль | Профиль | Порт | Модель |
+|------|---------|------|--------|
+| **Chat / agent** | `coder` | **8080** | ~35B GPU |
+| **FIM / autocomplete** | `fim-small` | **8082** | Neurocontrol Qwen ~2G, **CPU** (`-ngl 0`) |
+| Embed (opt) | `embed-nomic` | 8084 | nomic |
+
+- Core: `LLAMA_FIM_ENABLED=true` (default), model id **`evocode-fim`**
+- API autocomplete: `POST /v1/completions` (и `/v1/fim`) → лёгкая модель
+- UI: Модели → toggle FIM + «Запустить fim-small»
+- Shell: `evocode.shell.autoStartFimModel` (default **true**), через ~8 с после coder
+
+```bash
+# вручную
+curl -s -X POST localhost:8083/v1/runtime/start -d '{"profile":"fim-small"}'
+curl -s localhost:8083/health | jq '{localReady, fimReady, fim}'
+curl -s localhost:8083/v1/completions -H 'Content-Type: application/json' \
+  -d '{"model":"evocode-fim","prompt":"def hello():\n    ","max_tokens":32}'
+```
+
+Agent settings: `autocomplete.model = evocode-fim`, provider `evocode`.
+
 ## Типичный happy-path
 
 1. `npm run build && npm run evocode`
-2. Ctrl+Shift+M → **coder** → Запустить (30–90 с)
-3. Ctrl+L → чат агента → Core → local :8080
+2. Ctrl+Shift+M → **coder** (chat) + **fim-small** (FIM) → Запустить
+3. Ctrl+L → чат агента → Core → local :8080; autocomplete → :8082

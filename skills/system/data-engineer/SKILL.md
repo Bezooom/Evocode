@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: data-engineer
+domain: data
+pack: data
+tier: optional
+triggers:
+  - data engineer
 description: Build scalable data pipelines, modern data warehouses, and
   real-time streaming architectures. Implements Apache Spark, dbt, Airflow, and
   cloud-native data platforms. Use PROACTIVELY for data pipeline design,

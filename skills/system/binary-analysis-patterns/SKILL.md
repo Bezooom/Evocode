@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: binary-analysis-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - binary analysis patterns
 description: Master binary analysis patterns including disassembly, decompilation, control flow analysis, and code pattern recognition. Use when analyzing executables, understanding compiled code, or performing static analysis on binaries.
 ---
 

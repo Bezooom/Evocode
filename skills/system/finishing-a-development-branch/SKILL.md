@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: finishing-a-development-branch
+domain: general
+pack: general
+tier: optional
+triggers:
+  - finishing a development branch
 description: Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup
 ---
 

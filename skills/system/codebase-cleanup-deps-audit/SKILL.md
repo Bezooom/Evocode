@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: codebase-cleanup-deps-audit
+domain: security
+pack: security
+tier: optional
+triggers:
+  - codebase cleanup deps audit
 description: "You are a dependency security expert specializing in vulnerability scanning, license compliance, and supply chain security. Analyze project dependencies for known vulnerabilities, licensing issues, outdated packages, and provide actionable remediation strategies."
 ---
 

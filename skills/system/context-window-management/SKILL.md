@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: context-window-management
+domain: general
+pack: general
+tier: optional
+triggers:
+  - context window management
 description: "Strategies for managing LLM context windows including summarization, trimming, routing, and avoiding context rot Use when: context window, token limit, context management, context engineering, long context."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

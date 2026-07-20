@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: incident-response-smart-fix
+domain: general
+pack: general
+tier: optional
+triggers:
+  - incident response smart fix
 description: "[Extended thinking: This workflow implements a sophisticated debugging and resolution pipeline that leverages AI-assisted debugging tools and observability platforms to systematically diagnose and res"
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-keyword-strategist
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo keyword strategist
 description: Analyzes keyword usage in provided content, calculates density,
   suggests semantic variations and LSI keywords based on the topic. Prevents
   over-optimization. Use PROACTIVELY for content optimization.

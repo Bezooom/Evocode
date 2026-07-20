@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: tdd-workflows-tdd-cycle
+domain: general
+pack: general
+tier: optional
+triggers:
+  - tdd workflows tdd cycle
 description: "Use when working with tdd workflows tdd cycle"
 ---
 

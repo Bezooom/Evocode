@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: scroll-experience
+domain: general
+pack: general
+tier: optional
+triggers:
+  - scroll experience
 description: "Expert in building immersive scroll-driven experiences - parallax storytelling, scroll animations, interactive narratives, and cinematic web experiences. Like NY Times interactives, Apple product pages, and award-winning web experiences. Makes websites feel like experiences, not just pages. Use when: scroll animation, parallax, scroll storytelling, interactive story, cinematic website."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

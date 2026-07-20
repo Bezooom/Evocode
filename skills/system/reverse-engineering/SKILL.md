@@ -1,5 +1,10 @@
 ---
 name: reverse-engineering
+domain: general
+pack: general
+tier: optional
+triggers:
+  - reverse engineering
 description: [RU] Навык для реверс-инжиниринга: статический и динамический анализ бинарников, деобфускация, обход анти-отладки, анализ кастомных VM. Используй при запросах "исследовать бинарник", "взломать crackme", "деобфусцировать код", "реверс-инжиниринг", "понять как работает программа", "снять дамп памяти", а также при работе с дизассемблерами (Ghidra, radare2, IDA) и отладчиками (GDB). [EN] Reverse engineering skill: static/dynamic analysis, deobfuscation, anti-debug bypass, custom VM analysis. Use when user asks to reverse a binary, crack a program, deobfuscate code, use Ghidra/radare2/GDB, or analyze malware/CTF challenges.
 ---
 

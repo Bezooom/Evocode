@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: python-performance-optimization
+domain: general
+pack: general
+tier: optional
+triggers:
+  - python performance optimization
 description: Profile and optimize Python code using cProfile, memory profilers, and performance best practices. Use when debugging slow Python code, optimizing bottlenecks, or improving application performance.
 ---
 

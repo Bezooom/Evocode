@@ -1,5 +1,10 @@
 ---
 name: vr-ar
+domain: general
+pack: general
+tier: optional
+triggers:
+  - vr ar
 description: VR/AR development principles.
 category: development
 version: 4.0.5

@@ -1,5 +1,10 @@
 ---
 name: modern-web-architect
+domain: general
+pack: general
+tier: optional
+triggers:
+  - modern web architect
 description: Master Frontend & Web Architecture.
 category: architecture
 version: 4.1.0-fractal

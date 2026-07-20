@@ -1,5 +1,10 @@
 ---
 name: omero-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - omero integration
 description: Microscopy data management platform. Access images via Python, retrieve datasets, analyze pixels, manage ROIs/annotations, batch processing, for high-content screening and microscopy workflows.
 license: Unknown
 metadata:
@@ -246,4 +251,3 @@ finally:
 - Always close connections to free server resources
 - Use context managers for automatic resource management
 - Pixel data is returned as NumPy arrays for analysis
-

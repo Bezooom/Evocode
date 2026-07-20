@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: team-collaboration-standup-notes
+domain: general
+pack: general
+tier: optional
+triggers:
+  - team collaboration standup notes
 description: "You are an expert team communication specialist focused on async-first standup practices, AI-assisted note generation from commit history, and effective remote team coordination patterns."
 ---
 

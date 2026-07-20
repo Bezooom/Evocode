@@ -1,5 +1,10 @@
 ---
 name: cobrapy
+domain: general
+pack: general
+tier: optional
+triggers:
+  - cobrapy
 description: Constraint-based metabolic modeling (COBRA). FBA, FVA, gene knockouts, flux sampling, SBML models, for systems biology and metabolic engineering analysis.
 license: GPL-2.0 license
 metadata:
@@ -458,4 +463,3 @@ For detailed workflows and API patterns, refer to:
 - `references/api_quick_reference.md` - Common function signatures and patterns
 
 Official documentation: https://cobrapy.readthedocs.io/en/latest/
-

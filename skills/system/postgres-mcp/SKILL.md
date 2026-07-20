@@ -1,5 +1,10 @@
 ---
 name: postgres-mcp
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - postgres mcp
 description: Official PostgreSQL Model Context Protocol Server for database interaction.
 category: database
 version: 4.1.0-fractal

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: clerk-auth
+domain: general
+pack: general
+tier: optional
+triggers:
+  - clerk auth
 description: "Expert patterns for Clerk auth implementation, middleware, organizations, webhooks, and user sync Use when: adding authentication, clerk auth, user authentication, sign in, sign up."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

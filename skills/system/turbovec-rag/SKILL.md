@@ -1,5 +1,10 @@
 ---
 name: turbovec-rag
+domain: general
+pack: general
+tier: optional
+triggers:
+  - turbovec rag
 description: >
   Локальный векторный поиск на базе алгоритма Google TurboQuant (Rust-библиотека с Python-биндингами).
   Позволяет развернуть сверхэффективную RAG-систему с 4-битной или 2-битной квантизацией векторов на CPU.

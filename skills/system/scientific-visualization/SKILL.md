@@ -1,5 +1,10 @@
 ---
 name: scientific-visualization
+domain: research
+pack: science
+tier: optional
+triggers:
+  - scientific visualization
 description: Meta-skill for publication-ready figures. Use when creating journal submission figures requiring multi-panel layouts, significance annotations, error bars, colorblind-safe palettes, and specific journal formatting (Nature, Science, Cell). Orchestrates matplotlib/seaborn/plotly with publication styles. For quick exploration use seaborn or plotly directly.
 license: MIT license
 metadata:
@@ -774,4 +779,3 @@ Before submitting figures, verify:
 - [ ] Legend is clear and complete
 
 Use this skill to ensure scientific figures meet the highest publication standards while remaining accessible to all readers.
-

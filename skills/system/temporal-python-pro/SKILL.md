@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: temporal-python-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - temporal python pro
 description: Master Temporal workflow orchestration with Python SDK. Implements
   durable workflows, saga patterns, and distributed transactions. Covers
   async/await, testing strategies, and production deployment. Use PROACTIVELY

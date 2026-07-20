@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: payment-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - payment integration
 description: Integrate Stripe, PayPal, and payment processors. Handles checkout
   flows, subscriptions, webhooks, and PCI compliance. Use PROACTIVELY when
   implementing payments, billing, or subscription features.

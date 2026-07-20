@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: dx-optimizer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - dx optimizer
 description: Developer Experience specialist. Improves tooling, setup, and
   workflows. Use PROACTIVELY when setting up new projects, after team feedback,
   or when development friction is noticed.

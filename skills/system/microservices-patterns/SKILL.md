@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: microservices-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - microservices patterns
 description: Design microservices architectures with service boundaries, event-driven communication, and resilience patterns. Use when building distributed systems, decomposing monoliths, or implementing microservices.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: hybrid-search-implementation
+domain: general
+pack: general
+tier: optional
+triggers:
+  - hybrid search implementation
 description: Combine vector and keyword search for improved retrieval. Use when implementing RAG systems, building search engines, or when neither approach alone provides sufficient recall.
 ---
 

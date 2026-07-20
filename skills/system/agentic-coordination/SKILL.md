@@ -1,5 +1,21 @@
 ---
 name: agentic-coordination
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - tdd разработка через тесты
+  - разработка субагентов
+  - параллельная отладка
+  - agentic coordination
+  - subagent development
+  - координация агентов
+  - agent coordination
+  - team collaboration
+  - автономные агенты
+  - autonomous agents
+  - code review
+  - код-ревью
 description: |
   [RU] Макро-навык для координации агентов, автономных AI-агентов, разработки субагентов, TDD, код-ревью и паттернов командной работы. Используй при запросах: "координация агентов", "автономные агенты", "разработка субагентов", "ревью кода", "TDD", "параллельная отладка", "делегирование задач".
   [EN] Macro-skill for agent coordination, autonomous AI agents, subagent development, TDD, code review, and team collaboration patterns. Triggers: agent coordination, autonomous agents, subagent tasks, code review.

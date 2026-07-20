@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: memory-forensics
+domain: general
+pack: general
+tier: optional
+triggers:
+  - memory forensics
 description: Master memory forensics techniques including memory acquisition, process analysis, and artifact extraction using Volatility and related tools. Use when analyzing memory dumps, investigating incidents, or performing malware analysis from RAM captures.
 ---
 

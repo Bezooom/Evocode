@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: database-optimizer
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - database optimizer
 description: Expert database optimizer specializing in modern performance
   tuning, query optimization, and scalable architectures. Masters advanced
   indexing, N+1 resolution, multi-tier caching, partitioning strategies, and

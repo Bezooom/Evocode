@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: javascript-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - javascript pro
 description: Master modern JavaScript with ES6+, async patterns, and Node.js
   APIs. Handles promises, event loops, and browser/Node compatibility. Use
   PROACTIVELY for JavaScript optimization, async debugging, or complex JS

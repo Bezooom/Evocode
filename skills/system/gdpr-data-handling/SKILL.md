@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: gdpr-data-handling
+domain: data
+pack: data
+tier: optional
+triggers:
+  - gdpr data handling
 description: Implement GDPR-compliant data handling with consent management, data subject rights, and privacy by design. Use when building systems that process EU personal data, implementing privacy controls, or conducting GDPR compliance reviews.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: writing-plans
+domain: general
+pack: general
+tier: optional
+triggers:
+  - writing plans
 description: Use when you have a spec or requirements for a multi-step task, before touching code
 ---
 

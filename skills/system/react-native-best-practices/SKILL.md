@@ -1,5 +1,10 @@
 ---
 name: react-native-best-practices
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - react native best practices
 description: React Native & Expo engineering standards.
 category: development
 version: 4.1.0-fractal

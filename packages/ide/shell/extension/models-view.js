@@ -47,7 +47,11 @@ function httpJson(method, urlPath, body, port, timeoutMs = 120000) {
 
 function html(status) {
   const profiles = status?.profiles || [];
-  const rows = profiles
+  const roleOrder = { chat: 0, fim: 1, embed: 2 };
+  const sorted = [...profiles].sort(
+    (a, b) => (roleOrder[a.role] ?? 9) - (roleOrder[b.role] ?? 9) || String(a.id).localeCompare(b.id),
+  );
+  const rows = sorted
     .map((p) => {
       const online = p.online ? 'online' : 'offline';
       const ready =
@@ -56,11 +60,17 @@ function html(status) {
           : !p.ready?.binary
             ? ' · нет бинарника'
             : ' · нет GGUF';
-      return `<div class="card" data-id="${escapeHtml(p.id)}">
+      const roleBadge =
+        p.role === 'fim'
+          ? '<span class="badge fim">FIM / autocomplete</span>'
+          : p.role === 'embed'
+            ? '<span class="badge emb">embed</span>'
+            : '<span class="badge chat">chat</span>';
+      return `<div class="card ${p.role === 'fim' ? 'card-fim' : ''}" data-id="${escapeHtml(p.id)}">
         <div class="row">
           <span class="dot ${online}"></span>
           <div class="meta">
-            <div class="title">${escapeHtml(p.label || p.id)}</div>
+            <div class="title">${escapeHtml(p.label || p.id)} ${roleBadge}</div>
             <div class="sub">:${p.port} · ${escapeHtml(p.fork)}${ready}</div>
             <div class="sub dim">${escapeHtml(p.description || p.modelName || '')}</div>
           </div>
@@ -137,6 +147,14 @@ function html(status) {
     color: var(--fg);
     box-shadow: none;
   }
+  .card-fim { border-color: rgba(16, 185, 129, 0.35) !important; }
+  .badge {
+    font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 6px;
+    margin-left: 6px; vertical-align: middle;
+  }
+  .badge.fim { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+  .badge.chat { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+  .badge.emb { background: rgba(251,191,36,0.12); color: #fbbf24; }
   button.ghost:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.15);

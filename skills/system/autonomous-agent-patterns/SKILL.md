@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: autonomous-agent-patterns
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - autonomous agent patterns
 description: "Design patterns for building autonomous coding agents. Covers tool integration, permission systems, browser automation, and human-in-the-loop workflows. Use when building AI agents, designing tool APIs, implementing permission systems, or creating autonomous coding assistants."
 ---
 

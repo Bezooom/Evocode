@@ -1,5 +1,10 @@
 ---
 name: paperclip-create-agent
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - paperclip create agent
 description: >
   Создание и настройка новых агентов в системе Paperclip с учетом ограничений бюджетов,
   прав доступа и ролевых шаблонов. Используй при найме новых ботов в компанию.

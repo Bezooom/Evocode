@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: git-pushing
+domain: general
+pack: general
+tier: optional
+triggers:
+  - git pushing
 description: Stage, commit, and push git changes with conventional commit messages. Use when user wants to commit and push changes, mentions pushing to remote, or asks to save and push their work. Also activates when user says "push changes", "commit and push", "push this", "push to github", or similar git workflow requests.
 ---
 

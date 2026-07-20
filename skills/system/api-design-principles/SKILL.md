@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: api-design-principles
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - api design principles
 description: Master REST and GraphQL API design principles to build intuitive, scalable, and maintainable APIs that delight developers. Use when designing new APIs, reviewing API specifications, or establishing API design standards.
 ---
 

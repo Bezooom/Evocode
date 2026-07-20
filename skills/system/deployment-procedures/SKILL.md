@@ -1,5 +1,10 @@
 ---
 name: deployment-procedures
+domain: devops
+pack: devops
+tier: optional
+triggers:
+  - deployment procedures
 description: Production deployment principles and decision-making.
 category: infrastructure
 version: 4.1.0-fractal

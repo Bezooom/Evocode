@@ -2,13 +2,17 @@
   "name": "evocode-shell",
   "displayName": "Эвокод",
   "description": "Нативная оболочка Эвокод: toolbar, модели, настройки IDE.",
-  "version": "0.9.0",
+  "version": "0.95.0",
   "publisher": "evocode",
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onStartupFinished"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./extension.js",
   "icon": "icon.png",
   "contributes": {
@@ -82,7 +86,12 @@
       },
       {
         "command": "evocode.shell.startDefaultModel",
-        "title": "Запустить coder",
+        "title": "Запустить coder (chat)",
+        "category": "Эвокод"
+      },
+      {
+        "command": "evocode.shell.startFimModel",
+        "title": "Запустить FIM / autocomplete (лёгкая)",
         "category": "Эвокод"
       },
       {
@@ -123,16 +132,36 @@
         }
       ],
       "commandPalette": [
-        { "command": "evocode.shell.openProduct" },
-        { "command": "evocode.shell.models" },
-        { "command": "evocode.shell.settings" },
-        { "command": "evocode.shell.openIdeSettings" },
-        { "command": "evocode.shell.focusAgent" },
-        { "command": "evocode.shell.agentManager" },
-        { "command": "evocode.shell.profile" },
-        { "command": "evocode.shell.installDesktop" },
-        { "command": "evocode.shell.startDefaultModel" },
-        { "command": "evocode.shell.ensureCore" }
+        {
+          "command": "evocode.shell.openProduct"
+        },
+        {
+          "command": "evocode.shell.models"
+        },
+        {
+          "command": "evocode.shell.settings"
+        },
+        {
+          "command": "evocode.shell.openIdeSettings"
+        },
+        {
+          "command": "evocode.shell.focusAgent"
+        },
+        {
+          "command": "evocode.shell.agentManager"
+        },
+        {
+          "command": "evocode.shell.profile"
+        },
+        {
+          "command": "evocode.shell.installDesktop"
+        },
+        {
+          "command": "evocode.shell.startDefaultModel"
+        },
+        {
+          "command": "evocode.shell.ensureCore"
+        }
       ]
     },
     "keybindings": [
@@ -174,12 +203,22 @@
         "evocode.shell.autoStartDefaultModel": {
           "type": "boolean",
           "default": true,
-          "description": "Автозапуск профиля coder, если LLM offline"
+          "description": "Автозапуск профиля coder (chat 35B), если LLM offline"
+        },
+        "evocode.shell.autoStartFimModel": {
+          "type": "boolean",
+          "default": true,
+          "description": "Автозапуск лёгкой FIM/autocomplete (fim-small · Neurocontrol ~2G · CPU :8082)"
         },
         "evocode.shell.defaultModelProfile": {
           "type": "string",
           "default": "coder",
-          "description": "Профиль models (profiles.json)"
+          "description": "Профиль chat (profiles.json)"
+        },
+        "evocode.shell.fimModelProfile": {
+          "type": "string",
+          "default": "fim-small",
+          "description": "Профиль FIM/autocomplete (profiles.json)"
         },
         "evocode.shell.openProductOnStartup": {
           "type": "boolean",

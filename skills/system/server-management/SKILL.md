@@ -1,5 +1,10 @@
 ---
 name: server-management
+domain: general
+pack: general
+tier: optional
+triggers:
+  - server management
 description: Server management principles and decision-making.
 category: infrastructure
 version: 4.1.0-fractal

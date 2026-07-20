@@ -1,5 +1,10 @@
 ---
 name: seo-dataforseo
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo dataforseo
 description: >
   Live SEO data via DataForSEO MCP server. SERP analysis (Google, Bing, Yahoo,
   YouTube, Google Images), keyword research (volume, difficulty, intent, trends),

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: projection-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - projection patterns
 description: Build read models and projections from event streams. Use when implementing CQRS read sides, building materialized views, or optimizing query performance in event-sourced systems.
 ---
 

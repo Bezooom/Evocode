@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: code-reviewer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - code reviewer
 description: Elite code review expert specializing in modern AI-powered code
   analysis, security vulnerabilities, performance optimization, and production
   reliability. Masters static analysis tools, security scanning, and

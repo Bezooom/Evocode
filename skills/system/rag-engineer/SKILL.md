@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: rag-engineer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - rag engineer
 description: "Expert in building Retrieval-Augmented Generation systems. Masters embedding models, vector databases, chunking strategies, and retrieval optimization for LLM applications. Use when: building RAG, vector search, embeddings, semantic search, document retrieval."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

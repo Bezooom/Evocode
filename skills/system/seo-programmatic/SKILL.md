@@ -1,5 +1,10 @@
 ---
 name: seo-programmatic
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo programmatic
 description: >
   Programmatic SEO planning and analysis for pages generated at scale from data
   sources. Covers template engines, URL patterns, internal linking automation,

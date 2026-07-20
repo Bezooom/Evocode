@@ -1,5 +1,10 @@
 ---
 name: agent-orchestration
+domain: agent
+pack: agent
+tier: optional
+triggers:
+  - agent orchestration
 description: Multi-agent orchestration and state management.
 category: orchestration
 version: 4.1.0-fractal

@@ -1,5 +1,10 @@
 ---
 name: autoresearch-issue-selector
+domain: research
+pack: science
+tier: optional
+triggers:
+  - autoresearch issue selector
 description: "GitHub issue prioritization and complexity estimation: filtering, scoring, complexity assessment, resource allocation for batch processing."
 ---
 

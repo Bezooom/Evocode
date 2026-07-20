@@ -1,5 +1,10 @@
 ---
 name: angular-di
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - angular di
 description: >-
   Implement dependency injection in Angular v20+ using inject(), injection
   tokens, and provider configuration. Use for service architecture, providing

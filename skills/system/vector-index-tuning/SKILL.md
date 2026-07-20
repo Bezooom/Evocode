@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: vector-index-tuning
+domain: data
+pack: data
+tier: optional
+triggers:
+  - vector index tuning
 description: Optimize vector index performance for latency, recall, and memory. Use when tuning HNSW parameters, selecting quantization strategies, or scaling vector search infrastructure.
 ---
 

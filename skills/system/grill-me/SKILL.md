@@ -1,15 +1,18 @@
 ---
 name: grill-me
-description: |
-  [RU] Интервью пользователя по плану/дизайну до полного совместного понимания, разрешая каждую ветвь дерева решений. Используй когда пользователь хочет стресс-тест плана, ждёт жёстких вопросов по дизайну или говорит "grill me", "опроси меня".
-  [EN] Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me".
+domain: general
+pack: general
+tier: optional
 triggers:
-  - опроси меня по плану
-  - grill me
   - стресс-тест плана через вопросы
+  - опроси меня по плану
   - интервью по дизайну
   - stress-test plan
   - decision tree
+  - grill me
+description: |
+  [RU] Интервью пользователя по плану/дизайну до полного совместного понимания, разрешая каждую ветвь дерева решений. Используй когда пользователь хочет стресс-тест плана, ждёт жёстких вопросов по дизайну или говорит "grill me", "опроси меня".
+  [EN] Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me".
 ---
 
 # Grill Me

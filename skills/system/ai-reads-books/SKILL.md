@@ -1,5 +1,10 @@
 ---
 name: ai-reads-books
+domain: general
+pack: general
+tier: optional
+triggers:
+  - ai reads books
 description: Use AI to read books page-by-page and extract knowledge. Best for studying PDF books with AI-powered analysis, interval summaries, and persistent knowledge bases. Use when user wants to read books with AI, extract knowledge from PDFs, or create book summaries.
 ---
 

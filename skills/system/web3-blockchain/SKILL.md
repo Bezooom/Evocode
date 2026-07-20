@@ -1,5 +1,20 @@
 ---
 name: web3-blockchain
+domain: backend
+pack: web3
+tier: optional
+triggers:
+  - смарт-контракты solidity
+  - smart contracts
+  - web3 blockchain
+  - solana / base
+  - blockchain
+  - блокчейн
+  - ethereum
+  - solana
+  - defi
+  - web3
+  - nft
 description: |
   [RU] Макро-навык для Web3 и блокчейна: Ethereum, Solana, Base, DeFi, NFT, смарт-контракты. Используй при запросах: "написать смарт-контракт", "Solidity security", "DeFi-протокол", "NFT-стандарты (ERC-721/1155)", "разработка на Solana / Base", "интеграция с Ethereum", "Web3-кошелёк".
   [EN] Macro-skill for Web3 and blockchain: Ethereum, Solana, Base, DeFi, NFTs, smart contracts. Triggers: blockchain development, DeFi, NFTs, smart contracts.

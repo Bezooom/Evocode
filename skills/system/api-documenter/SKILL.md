@@ -1,5 +1,10 @@
 ---
 name: api-documenter
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - api documenter
 description: Master API documentation with OpenAPI 3.1.
 category: architecture
 version: 4.1.0-fractal

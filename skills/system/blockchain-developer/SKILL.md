@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: blockchain-developer
+domain: backend
+pack: web3
+tier: optional
+triggers:
+  - blockchain developer
 description: Build production-ready Web3 applications, smart contracts, and
   decentralized systems. Implements DeFi protocols, NFT platforms, DAOs, and
   enterprise blockchain integrations. Use PROACTIVELY for smart contracts, Web3

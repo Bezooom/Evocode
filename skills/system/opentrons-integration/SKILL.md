@@ -1,5 +1,10 @@
 ---
 name: opentrons-integration
+domain: general
+pack: general
+tier: optional
+triggers:
+  - opentrons integration
 description: Official Opentrons Protocol API for OT-2 and Flex robots. Use when writing protocols specifically for Opentrons hardware with full access to Protocol API v2 features. Best for production Opentrons protocols, official API compatibility. For multi-vendor automation or broader equipment control use pylabrobot.
 license: Unknown
 metadata:
@@ -568,4 +573,3 @@ def run(protocol: protocol_api.ProtocolContext):
 For detailed API documentation, see `references/api_reference.md` in this skill directory.
 
 For example protocol templates, see `scripts/` directory.
-

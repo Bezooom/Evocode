@@ -1,5 +1,10 @@
 ---
 name: mobile-games
+domain: general
+pack: general
+tier: optional
+triggers:
+  - mobile games
 description: Mobile game development principles.
 category: development
 version: 4.0.5

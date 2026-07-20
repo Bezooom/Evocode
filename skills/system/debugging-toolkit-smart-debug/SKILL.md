@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: debugging-toolkit-smart-debug
+domain: general
+pack: general
+tier: optional
+triggers:
+  - debugging toolkit smart debug
 description: "Use when working with debugging toolkit smart debug"
 ---
 

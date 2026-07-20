@@ -1,5 +1,10 @@
 ---
 name: venue-templates
+domain: general
+pack: general
+tier: optional
+triggers:
+  - venue templates
 description: Access comprehensive LaTeX templates, formatting requirements, and submission guidelines for major scientific publication venues (Nature, Science, PLOS, IEEE, ACM), academic conferences (NeurIPS, ICML, CVPR, CHI), research posters, and grant proposals (NSF, NIH, DOE, DARPA). This skill should be used when preparing manuscripts for journal submission, conference papers, research posters, or grant proposals and need venue-specific formatting requirements and templates.
 allowed-tools: Read Write Edit Bash
 license: MIT license
@@ -683,5 +688,3 @@ The venue-templates skill provides comprehensive access to:
 5. **Best practices** for successful academic submissions
 
 Use this skill whenever you need venue-specific formatting guidance or templates for academic publishing.
-
-

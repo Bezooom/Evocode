@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: marketing-ideas
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - marketing ideas
 description: Provide proven marketing strategies and growth ideas for SaaS and software products, prioritized using a marketing feasibility scoring system.
 ---
 # Marketing Ideas for SaaS (with Feasibility Scoring)

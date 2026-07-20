@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: quant-analyst
+domain: general
+pack: general
+tier: optional
+triggers:
+  - quant analyst
 description: Build financial models, backtest trading strategies, and analyze
   market data. Implements risk metrics, portfolio optimization, and statistical
   arbitrage. Use PROACTIVELY for quantitative finance, trading algorithms, or

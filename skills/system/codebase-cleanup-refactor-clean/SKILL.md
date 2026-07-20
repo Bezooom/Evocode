@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: codebase-cleanup-refactor-clean
+domain: general
+pack: general
+tier: optional
+triggers:
+  - codebase cleanup refactor clean
 description: "You are a code refactoring expert specializing in clean code principles, SOLID design patterns, and modern software engineering best practices. Analyze and refactor the provided code to improve its quality, maintainability, and performance."
 ---
 

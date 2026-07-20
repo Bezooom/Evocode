@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: plaid-fintech
+domain: general
+pack: general
+tier: optional
+triggers:
+  - plaid fintech
 description: "Expert patterns for Plaid API integration including Link token flows, transactions sync, identity verification, Auth for ACH, balance checks, webhook handling, and fintech compliance best practices. Use when: plaid, bank account linking, bank connection, ach, account aggregation."
 source: vibeship-spawner-skills (Apache 2.0)
 ---

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: seo-content-writer
+domain: business
+pack: seo-growth
+tier: optional
+triggers:
+  - seo content writer
 description: Writes SEO-optimized content based on provided keywords and topic
   briefs. Creates engaging, comprehensive content following best practices. Use
   PROACTIVELY for content creation tasks.

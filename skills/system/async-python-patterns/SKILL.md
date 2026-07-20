@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: async-python-patterns
+domain: general
+pack: general
+tier: optional
+triggers:
+  - async python patterns
 description: Master Python asyncio, concurrent programming, and async/await patterns for high-performance applications. Use when building async APIs, concurrent systems, or I/O-bound applications requiring non-blocking operations.
 ---
 

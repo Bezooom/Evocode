@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: avalonia-viewmodels-zafiro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - avalonia viewmodels zafiro
 description: Optimal ViewModel and Wizard creation patterns for Avalonia using Zafiro and ReactiveUI.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: graphql-architect
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - graphql architect
 description: Master modern GraphQL with federation, performance optimization,
   and enterprise security. Build scalable schemas, implement advanced caching,
   and design real-time systems. Use PROACTIVELY for GraphQL architecture or

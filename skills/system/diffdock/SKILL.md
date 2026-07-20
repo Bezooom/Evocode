@@ -1,5 +1,10 @@
 ---
 name: diffdock
+domain: general
+pack: general
+tier: optional
+triggers:
+  - diffdock
 description: Diffusion-based molecular docking. Predict protein-ligand binding poses from PDB/SMILES, confidence scores, virtual screening, for structure-based drug design. Not for affinity prediction.
 license: MIT license
 metadata:
@@ -478,4 +483,3 @@ ICLR 2023, arXiv:2210.01776
 - **Online Demo**: https://huggingface.co/spaces/reginabarzilaygroup/DiffDock-Web
 - **DiffDock-L Paper**: https://arxiv.org/abs/2402.18396
 - **Original Paper**: https://arxiv.org/abs/2210.01776
-

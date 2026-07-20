@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: conductor-revert
+domain: general
+pack: general
+tier: optional
+triggers:
+  - conductor revert
 description: Git-aware undo by logical work unit (track, phase, or task)
 metadata:
   argument-hint: "[track-id | track-id:phase | track-id:task]"

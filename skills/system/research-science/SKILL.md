@@ -1,5 +1,24 @@
 ---
 name: research-science
+domain: research
+pack: science
+tier: optional
+triggers:
+  - научная статья / paper writing
+  - глубокое исследование
+  - jupyter / live-kernel
+  - научные исследования
+  - литературный обзор
+  - scientific papers
+  - research science
+  - биоинформатика
+  - deep research
+  - data science
+  - scienceclaw
+  - веб-ресерч
+  - research
+  - jupyter
+  - arxiv
 description: |
   [RU] Макро-навык для научной работы и исследований: arxiv, веб-ресёрч, data science, Jupyter, биоинформатика, написание научных статей, глубокий ресёрч. Используй при запросах: "найти статью на arxiv", "провести научный обзор", "анализ данных в Jupyter", "биоинформатический пайплайн", "написать научную статью", "domain intelligence", "parallel CLI-ресёрч".
   [EN] Macro-skill for research and science: arxiv, web research, data science, Jupyter, paper writing, bioinformatics, deep research. Triggers: research, scientific analysis.

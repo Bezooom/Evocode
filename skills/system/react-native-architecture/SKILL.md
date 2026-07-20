@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: react-native-architecture
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - react native architecture
 description: Build production React Native apps with Expo, navigation, native modules, offline sync, and cross-platform patterns. Use when developing mobile apps, implementing native integrations, or architecting React Native projects.
 ---
 

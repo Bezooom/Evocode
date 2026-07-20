@@ -1,5 +1,22 @@
 ---
 name: developer-agility
+domain: general
+pack: general
+tier: optional
+triggers:
+  - developer agility
+  - доступность a11y
+  - монорепозиторий
+  - documentation
+  - документация
+  - тестирование
+  - code review
+  - код-ревью
+  - debugging
+  - monorepo
+  - отладка
+  - testing
+  - ci/cd
 description: |
   [RU] Макро-навык для гибкости разработчика: отладка, тестирование, код-ревью, документация, управление монорепозиторием, CI/CD, доступность (accessibility). Используй при запросах: "отладка бага", "настроить тесты", "провести ревью", "сгенерировать документацию", "работа с монорепо (Turborepo/Nx/Bazel)", "e2e тесты", "ADR", "OpenAPI спецификация".
   [EN] Macro-skill for developer agility: debugging, testing, code review, documentation, monorepo management, CI/CD, accessibility. Triggers: debugging, testing, code review.

@@ -1,5 +1,10 @@
 ---
 name: medchem
+domain: general
+pack: general
+tier: optional
+triggers:
+  - medchem
 description: Medicinal chemistry filters. Apply drug-likeness rules (Lipinski, Veber), PAINS filters, structural alerts, complexity metrics, for compound prioritization and library filtering.
 license: Apache-2.0 license
 metadata:
@@ -401,4 +406,3 @@ python scripts/filter_molecules.py input.csv --rules rule_of_five,rule_of_cns --
 
 Official documentation: https://medchem-docs.datamol.io/
 GitHub repository: https://github.com/datamol-io/medchem
-

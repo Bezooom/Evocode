@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: sql-optimization-patterns
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - sql optimization patterns
 description: Master SQL query optimization, indexing strategies, and EXPLAIN analysis to dramatically improve database performance and eliminate slow queries. Use when debugging slow queries, designing database schemas, or optimizing application performance.
 ---
 

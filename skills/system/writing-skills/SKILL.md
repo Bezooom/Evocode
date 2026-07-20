@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: writing-skills
+domain: general
+pack: general
+tier: optional
+triggers:
+  - writing skills
 description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
 ---
 

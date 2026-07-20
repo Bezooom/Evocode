@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: using-git-worktrees
+domain: general
+pack: general
+tier: optional
+triggers:
+  - using git worktrees
 description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification
 ---
 

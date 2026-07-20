@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: security-compliance-compliance-check
+domain: security
+pack: security
+tier: optional
+triggers:
+  - security compliance compliance check
 description: "You are a compliance expert specializing in regulatory requirements for software systems including GDPR, HIPAA, SOC2, PCI-DSS, and other industry standards. Perform compliance audits and provide implementation guidance."
 ---
 

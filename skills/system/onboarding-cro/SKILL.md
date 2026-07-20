@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: onboarding-cro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - onboarding cro
 description: When the user wants to optimize post-signup onboarding, user activation, first-run experience, or time-to-value. Also use when the user mentions "onboarding flow," "activation rate," "user activation," "first-run experience," "empty states," "onboarding checklist," "aha moment," or "new user experience." For signup/registration optimization, see signup-flow-cro. For ongoing email sequences, see email-sequence.
 ---
 

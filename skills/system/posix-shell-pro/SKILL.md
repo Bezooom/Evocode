@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: posix-shell-pro
+domain: general
+pack: general
+tier: optional
+triggers:
+  - posix shell pro
 description: Expert in strict POSIX sh scripting for maximum portability across
   Unix-like systems. Specializes in shell scripts that run on any
   POSIX-compliant shell (dash, ash, sh, bash --posix).

@@ -1,18 +1,22 @@
 ---
 name: write-a-skill
+domain: general
+pack: general
+tier: optional
+triggers:
+  - progressive disclosure
+  - build a new skill
+  - bundled resources
+  - skill development
+  - написать skill
+  - skill создание
+  - создать навык
+  - write a skill
+  - create skill
+  - новый скилл
 description: |
   [RU] Создание новых навыков агента с правильной структурой (progressive disclosure, bundled resources). Используй когда пользователь хочет создать, написать или собрать новый скилл.
   [EN] Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill.
-triggers:
-  - создать навык
-  - написать skill
-  - новый скилл
-  - skill создание
-  - build a new skill
-  - progressive disclosure
-  - bundled resources
-  - create skill
-  - skill development
 ---
 metadata:
   version: "1.0.0"

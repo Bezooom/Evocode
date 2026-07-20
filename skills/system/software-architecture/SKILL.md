@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: software-architecture
+domain: general
+pack: general
+tier: optional
+triggers:
+  - software architecture
 description: Guide for quality focused software architecture. This skill should be used when users want to write code, design architecture, analyze code, in any case that relates to software development.
 ---
 

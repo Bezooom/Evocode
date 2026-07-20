@@ -1,5 +1,10 @@
 ---
 name: brainstorming
+domain: general
+pack: general
+tier: optional
+triggers:
+  - brainstorming
 description: Socratic questioning protocol + user communication.
 category: tools
 version: 4.1.0-fractal

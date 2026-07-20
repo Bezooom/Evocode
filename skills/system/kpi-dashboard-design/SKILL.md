@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: kpi-dashboard-design
+domain: general
+pack: general
+tier: optional
+triggers:
+  - kpi dashboard design
 description: Design effective KPI dashboards with metrics selection, visualization best practices, and real-time monitoring patterns. Use when building business dashboards, selecting metrics, or designing data visualization layouts.
 ---
 

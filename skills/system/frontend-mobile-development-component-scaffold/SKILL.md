@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: frontend-mobile-development-component-scaffold
+domain: frontend
+pack: dev-frontend
+tier: optional
+triggers:
+  - frontend mobile development component scaffold
 description: "You are a React component architecture expert specializing in scaffolding production-ready, accessible, and performant components. Generate complete component implementations with TypeScript, tests, s"
 ---
 

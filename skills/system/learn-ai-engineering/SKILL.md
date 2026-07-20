@@ -1,5 +1,18 @@
 ---
 name: learn-ai-engineering
+domain: general
+pack: general
+tier: optional
+triggers:
+  - курсы по машинному обучению
+  - материалы по llm / агентам
+  - ai engineering resources
+  - deep learning courses
+  - learn ai engineering
+  - ai/ml learning path
+  - учебный путь ai/ml
+  - математика для ml
+  - roadmap по ai
 description: |
   [RU] Доступ к тщательно подобранной коллекции учебных ресурсов по AI/ML. Лучше всего подходит для изучения математических основ, глубокого обучения, LLM, агентов и практической AI-инженерии. Используй при запросах: "с чего начать AI/ML", "учебный путь / roadmap по AI", "ресурсы по machine learning", "курсы по deep learning", "материалы по LLM и агентам", "математика для ML".
   [EN] Access comprehensive curated AI/ML learning resources. Best for studying math foundations, deep learning, LLMs, agents, and practical AI engineering. Use when user wants AI/ML learning paths, resources, or mentions AI engineering courses.

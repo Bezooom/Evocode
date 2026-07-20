@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: environment-setup-guide
+domain: general
+pack: general
+tier: optional
+triggers:
+  - environment setup guide
 description: "Guide developers through setting up development environments with proper tools, dependencies, and configurations"
 ---
 

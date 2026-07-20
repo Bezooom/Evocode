@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: backend-dev-guidelines
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - backend dev guidelines
 description: Opinionated backend development standards for Node.js + Express + TypeScript microservices. Covers layered architecture, BaseController pattern, dependency injection, Prisma repositories, Zod validation, unifiedConfig, Sentry error tracking, async safety, and testing discipline.
 ---
 

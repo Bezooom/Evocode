@@ -1,5 +1,10 @@
 ---
 name: dask
+domain: general
+pack: general
+tier: optional
+triggers:
+  - dask
 description: Distributed computing for larger-than-RAM pandas/NumPy workflows. Use when you need to scale existing pandas/NumPy code beyond memory or across clusters. Best for parallel file processing, distributed ML, integration with existing pandas code. For out-of-core analytics on single machine use vaex; for in-memory speed use polars.
 license: BSD-3-Clause license
 metadata:
@@ -451,4 +456,3 @@ All reference documentation files can be read as needed for detailed information
 - `references/best-practices.md` - Comprehensive performance optimization and troubleshooting
 
 Load these files when users need detailed information about specific Dask components, operations, or patterns beyond the quick guidance provided here.
-

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: firecrawl-scraper
+domain: general
+pack: general
+tier: optional
+triggers:
+  - firecrawl scraper
 description: Deep web scraping, screenshots, PDF parsing, and website crawling using Firecrawl API
 ---
 

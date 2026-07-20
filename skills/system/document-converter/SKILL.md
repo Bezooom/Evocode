@@ -1,5 +1,10 @@
 ---
 name: document-converter
+domain: docs
+pack: docs
+tier: optional
+triggers:
+  - document converter
 description: Универсальный конвертер документов в Markdown. Объединяет markitdown (Microsoft AutoGen) с существующими инструментами (mammoth, python-pptx, PyMuPDF) для максимального качества конвертации. Поддерживает PDF, DOCX, PPTX, Excel, изображения с OCR, аудио с транскрипцией, видео, YouTube.
 version: "1.0.0"
 user-invocable: true

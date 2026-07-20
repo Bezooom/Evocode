@@ -1,5 +1,10 @@
 ---
 name: invoice-organizer
+domain: general
+pack: general
+tier: optional
+triggers:
+  - invoice organizer
 description: Automatically organizes invoices and receipts for tax preparation by reading messy files, extracting key information, renaming them consistently, and sorting them into logical folders. Turns hours of manual bookkeeping into minutes of automated organization.
 ---
 
@@ -443,4 +448,3 @@ For unusual receipt formats:
 - Archiving old financial records
 - Preparing for audits
 - Tracking subscription costs over time
-

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: comprehensive-review-full-review
+domain: general
+pack: general
+tier: optional
+triggers:
+  - comprehensive review full review
 description: "Use when working with comprehensive review full review"
 ---
 

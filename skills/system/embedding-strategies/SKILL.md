@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: embedding-strategies
+domain: data
+pack: data
+tier: optional
+triggers:
+  - embedding strategies
 description: Select and optimize embedding models for semantic search and RAG applications. Use when choosing embedding models, implementing chunking strategies, or optimizing embedding quality for specific domains.
 ---
 

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: search-specialist
+domain: general
+pack: general
+tier: optional
+triggers:
+  - search specialist
 description: Expert web researcher using advanced search techniques and
   synthesis. Masters search operators, result filtering, and multi-source
   verification. Handles competitive analysis and fact-checking. Use PROACTIVELY

@@ -1,6 +1,11 @@
 ---
 version: 4.1.0-fractal
 name: postgresql
+domain: backend
+pack: dev-backend
+tier: optional
+triggers:
+  - postgresql
 description: Design a PostgreSQL-specific schema. Covers best-practices, data types, indexing, constraints, performance patterns, and advanced features
 ---
 
