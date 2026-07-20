@@ -493,50 +493,64 @@ function main() {
 
   const customIconCss = `
 /* Evocode Premium Custom Icon Overrides */
-.activitybar .action-label.codicon-files::before,
-.activitybar .action-label.codicon-search::before,
-.activitybar .action-label.codicon-source-control::before,
-.activitybar .action-label.codicon-debug-alt::before,
-.activitybar .action-label.codicon-extensions::before,
-.activitybar .action-label.codicon-settings-gear::before {
+.activitybar .action-label.codicon-files::before {
   content: "" !important;
-}
-.activitybar .action-label.codicon-files {
-  -webkit-mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') !important;
-  mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') !important;
-}
-.activitybar .action-label.codicon-search {
-  -webkit-mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') !important;
-  mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') !important;
-}
-.activitybar .action-label.codicon-source-control {
-  -webkit-mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') !important;
-  mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') !important;
-}
-.activitybar .action-label.codicon-debug-alt {
-  -webkit-mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') !important;
-  mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') !important;
-}
-.activitybar .action-label.codicon-extensions {
-  -webkit-mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') !important;
-  mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') !important;
-}
-.activitybar .action-label.codicon-settings-gear {
-  -webkit-mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.settings)}') !important;
-  mask-image: url('data:image/svg+xml;base64,${toB64(SVGS.settings)}') !important;
-}
-.activitybar .action-label.codicon {
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: center !important;
-  mask-position: center !important;
-  -webkit-mask-size: 20px 20px !important;
-  mask-size: 20px 20px !important;
+  -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') no-repeat center / 20px 20px !important;
+  mask: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') no-repeat center / 20px 20px !important;
   background-color: currentColor !important;
-  background-image: none !important;
   width: 24px !important;
   height: 24px !important;
   display: inline-block !important;
+}
+.activitybar .action-label.codicon-search::before {
+  content: "" !important;
+  -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') no-repeat center / 20px 20px !important;
+  mask: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') no-repeat center / 20px 20px !important;
+  background-color: currentColor !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-block !important;
+}
+.activitybar .action-label.codicon-source-control::before {
+  content: "" !important;
+  -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') no-repeat center / 20px 20px !important;
+  mask: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') no-repeat center / 20px 20px !important;
+  background-color: currentColor !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-block !important;
+}
+.activitybar .action-label.codicon-debug-alt::before {
+  content: "" !important;
+  -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') no-repeat center / 20px 20px !important;
+  mask: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') no-repeat center / 20px 20px !important;
+  background-color: currentColor !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-block !important;
+}
+.activitybar .action-label.codicon-extensions::before {
+  content: "" !important;
+  -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') no-repeat center / 20px 20px !important;
+  mask: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') no-repeat center / 20px 20px !important;
+  background-color: currentColor !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-block !important;
+}
+.activitybar .action-label.codicon-settings-gear::before {
+  content: "" !important;
+  -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.settings)}') no-repeat center / 20px 20px !important;
+  mask: url('data:image/svg+xml;base64,${toB64(SVGS.settings)}') no-repeat center / 20px 20px !important;
+  background-color: currentColor !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-block !important;
+}
+
+/* Force auxiliary bar width */
+.part.auxiliarybar {
+  min-width: 500px !important;
 }
 `;
 
@@ -572,6 +586,38 @@ function main() {
         }
       } catch (err) {
         log(`  warn: failed to patch CSS or product.json: ${err.message}`);
+      }
+    }
+  }
+
+  // Write premium minimalist file icon theme SVGs
+  const fileIconSVGs = {
+    'document-dark.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#e0e2ed" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+    'folder-dark.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
+    'folder-open-dark.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14h14l4-8H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/></svg>`,
+    'root-folder-dark.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#7f71f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="2" fill="#7f71f8"/></svg>`,
+    'root-folder-open-dark.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#7f71f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14h14l4-8H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><circle cx="13" cy="15" r="2" fill="#7f71f8"/></svg>`,
+    'document-light.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1f2328" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+    'folder-light.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
+    'folder-open-light.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14h14l4-8H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/></svg>`,
+    'root-folder-light.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#7f71f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="2" fill="#7f71f8"/></svg>`,
+    'root-folder-open-light.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#7f71f8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14h14l4-8H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><circle cx="13" cy="15" r="2" fill="#7f71f8"/></svg>`
+  };
+
+  const fileIconsDirs = [
+    path.join(IDE_DIR, 'dist/evocode-ide/resources/app/extensions/theme-defaults/fileicons/images'),
+    '/usr/share/evocode/resources/app/extensions/theme-defaults/fileicons/images'
+  ];
+
+  for (const dir of fileIconsDirs) {
+    if (fs.existsSync(dir)) {
+      try {
+        for (const [filename, svg] of Object.entries(fileIconSVGs)) {
+          fs.writeFileSync(path.join(dir, filename), svg, 'utf8');
+        }
+        log(`  applied premium minimalist file icons to ${dir}`);
+      } catch (err) {
+        log(`  warn: failed to write file icons to ${dir}: ${err.message}`);
       }
     }
   }

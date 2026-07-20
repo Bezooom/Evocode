@@ -19,6 +19,7 @@
   "evocode.shell.autoFocusAgent": true,
 
   "workbench.colorTheme": "Default Dark Modern",
+  "workbench.iconTheme": "vs-minimal",
   "workbench.startupEditor": "none",
   "workbench.tips.enabled": false,
   "workbench.welcomePage.walkthroughs.openOnInstall": false,
