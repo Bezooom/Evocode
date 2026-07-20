@@ -993,7 +993,7 @@ function buildHtml(state) {
     openaicompatible: ''
   };
 
-  let currentModel = `${esc(cloud.model)}`;
+  let currentModel = "${esc(cloud.model)}";
   let isCustomModel = true;
 
   function populateModels(modelsList) {
@@ -1183,11 +1183,11 @@ function buildHtml(state) {
           updateModelsStatus.style.color = '#ff9f43';
         } else {
           populateModels(msg.models);
-          updateModelsStatus.textContent = `Успешно загружено моделей: ${msg.models.length}`;
+          updateModelsStatus.textContent = 'Успешно загружено моделей: ' + msg.models.length;
           updateModelsStatus.style.color = '#2ecc71';
         }
       } else {
-        updateModelsStatus.textContent = `Ошибка: ${msg.error || 'неизвестно'}`;
+        updateModelsStatus.textContent = 'Ошибка: ' + (msg.error || 'неизвестно');
         updateModelsStatus.style.color = '#ff6b6b';
       }
     }
