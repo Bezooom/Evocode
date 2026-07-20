@@ -252,28 +252,36 @@ async function activate(context) {
     }),
   );
 
-  // Extra status bar items = native toolbar feel
-  const mkItem = (text, cmd, tip, prio) => {
-    const it = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, prio);
-    it.text = text;
-    it.command = cmd;
-    it.tooltip = tip;
-    it.show();
-    context.subscriptions.push(it);
-    return it;
-  };
-  mkItem('$(organization) Агенты', 'evocode.shell.agentManager', 'Менеджер агентов', 990);
-  mkItem('$(account) Профиль', 'evocode.shell.profile', 'Профиль', 980);
-  mkItem('$(settings-gear) Настройки', 'evocode.shell.openIdeSettings', 'Параметры Эвокод', 970);
-  mkItem('$(server-process) Модели', 'evocode.shell.openProduct', 'Local LLM', 960);
-
   // Status bar = product entry, not "extension"
   const item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1000);
   item.text = '$(rocket) Эвокод';
-  item.tooltip = 'Настройки программы: модели, агент, Core';
+  item.tooltip = 'Панель управления Эвокод: модели, агент, Core, навыки';
   item.command = 'evocode.shell.openProduct';
   item.show();
   context.subscriptions.push(item);
+
+  // Open Folder shortcut to address Issue #2
+  const folderItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 990);
+  const updateFolderItem = () => {
+    const folders = vscode.workspace.workspaceFolders;
+    if (folders && folders.length > 0) {
+      const name = folders[0].name;
+      folderItem.text = `$(folder-opened) ${name}`;
+      folderItem.tooltip = `Рабочая папка: ${folders[0].uri.fsPath} (нажмите, чтобы сменить)`;
+    } else {
+      folderItem.text = '$(folder) Открыть папку';
+      folderItem.tooltip = 'Открыть рабочую папку проекта';
+    }
+  };
+  folderItem.command = 'workbench.action.files.openFolder';
+  folderItem.show();
+  context.subscriptions.push(folderItem);
+  updateFolderItem();
+
+  // Watch for workspace changes to update status bar
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeWorkspaceFolders(() => updateFolderItem())
+  );
 
   const refreshStatus = async () => {
     try {

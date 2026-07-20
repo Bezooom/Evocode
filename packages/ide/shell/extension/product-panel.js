@@ -203,6 +203,17 @@ function buildHtml(state) {
   const config = state.config || {};
   const cloud = config.inference?.cloud || {};
   const router = config.router || {};
+  const hasFolder = state.hasFolder;
+  const folderBanner = !hasFolder 
+    ? `<div class="settings-group" style="border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.05); margin-top: 14px;">
+        <h2>📁 Рабочее пространство</h2>
+        <p style="margin: 6px 0 12px; color: var(--muted); font-size: 13px; line-height: 1.45;">Папка проекта не открыта. Откройте рабочую папку, чтобы Эвокод мог сканировать файлы, индексировать кодовую базу и запускать локальные задачи.</p>
+        <button id="openFolderBtn">Открыть папку проекта</button>
+       </div>`
+    : `<div class="settings-group" style="padding: 12px 18px; background: rgba(255,255,255,0.01); margin-top: 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="color: var(--muted); font-size:12px;">📁 Активный проект: <b style="color: var(--fg);">${esc(state.folderPath)}</b></span>
+        <button class="ghost" id="openFolderBtn" style="padding: 4px 10px; font-size: 11px;">Сменить папку</button>
+       </div>`;
   const skillCards = skillsList.length > 0
     ? skillsList.map((s) => {
         const isUser = s.source === 'user';
@@ -346,12 +357,14 @@ function buildHtml(state) {
   }
   .top {
     display: flex;
-    background: rgba(6, 8, 20, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; z-index: 10;
-    padding: 6px;
-    gap: 6px;
+    background: rgba(13, 18, 38, 0.6) !important;
+    backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    position: sticky; top: 10px; z-index: 10;
+    margin: 16px 20px 0 20px;
+    padding: 4px;
+    gap: 4px;
   }
   .tab {
     flex: 1; padding: 10px 14px; cursor: pointer; border: 0;
@@ -531,17 +544,18 @@ function buildHtml(state) {
 </head>
 <body>
   <div class="top">
-    <button class="tab active" data-tab="models">Модели</button>
-    <button class="tab" data-tab="agent">Агент</button>
-    <button class="tab" data-tab="cloud">Облако / Роутер</button>
-    <button class="tab" data-tab="skills">Навыки</button>
-    <button class="tab" data-tab="mcp">MCP Серверы</button>
-    <button class="tab" data-tab="core">Программа</button>
+    <button class="tab active" data-tab="models">🛠️ Модели</button>
+    <button class="tab" data-tab="agent">🤖 Агент</button>
+    <button class="tab" data-tab="cloud">☁️ Облако / Роутер</button>
+    <button class="tab" data-tab="skills">📚 Навыки</button>
+    <button class="tab" data-tab="mcp">🔌 MCP Серверы</button>
+    <button class="tab" data-tab="core">💻 Программа</button>
   </div>
 
   <section class="page active" id="models">
     <h1>Настройки Эвокод</h1>
     <p class="hint"><b>Единый интерфейс</b> программы: модели, агент, Core. Ctrl+Shift+M · Ctrl+, · status bar.</p>
+    ${folderBanner}
     <h2>Локальные модели</h2>
     <div class="banner ${rt.localReady ? 'ok' : 'warn'}">${esc(rt.message || '…')}</div>
     <div class="row">
@@ -755,6 +769,11 @@ function buildHtml(state) {
   document.getElementById('refresh').onclick = () => post('refresh');
   document.getElementById('startCoder').onclick = () => { log('Запуск coder…'); post('start', { id: 'coder' }); };
   document.getElementById('stopAll').onclick = () => { log('Стоп…'); post('stopAll'); };
+  
+  const openFolderBtn = document.getElementById('openFolderBtn');
+  if (openFolderBtn) {
+    openFolderBtn.onclick = () => post('openFolder');
+  }
   document.getElementById('list')?.addEventListener('click', (e) => {
     const b = e.target.closest('button[data-act]');
     if (!b) return;
@@ -991,6 +1010,7 @@ class ProductPanel {
       process.env.EVOCODE_CORE_URL ||
       `http://127.0.0.1:${port}/v1`;
     const conf = vscode.workspace.getConfiguration();
+    const folders = vscode.workspace.workspaceFolders;
     return {
       corePort: port,
       coreOnline,
@@ -998,6 +1018,8 @@ class ProductPanel {
       runtime,
       skills,
       config,
+      hasFolder: !!(folders && folders.length > 0),
+      folderPath: folders && folders.length > 0 ? folders[0].uri.fsPath : '',
       agent: {
         coreUrl: baseURL,
         model:
@@ -1019,6 +1041,10 @@ class ProductPanel {
     const port = corePort(this.getCfg());
     const log = (text) => this.panel?.webview.postMessage({ type: 'log', text });
     try {
+      if (msg.type === 'openFolder') {
+        vscode.commands.executeCommand('workbench.action.files.openFolder');
+        return;
+      }
       if (msg.type === 'refresh') return void (await this.refresh());
       if (msg.type === 'stopAll') {
         const r = await httpJson('POST', '/v1/runtime/stop', { all: true }, port, 30000);

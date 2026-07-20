@@ -79,28 +79,13 @@
     "menus": {
       "editor/title": [
         {
-          "command": "evocode.shell.openIdeSettings",
+          "command": "evocode.shell.openProduct",
           "group": "navigation@90",
           "when": "true"
         },
         {
-          "command": "evocode.shell.agentManager",
-          "group": "navigation@91",
-          "when": "true"
-        },
-        {
-          "command": "evocode.shell.profile",
-          "group": "navigation@92",
-          "when": "true"
-        },
-        {
-          "command": "evocode.shell.openProduct",
-          "group": "navigation@93",
-          "when": "true"
-        },
-        {
           "command": "evocode.shell.focusAgent",
-          "group": "navigation@94",
+          "group": "navigation@91",
           "when": "true"
         }
       ],
