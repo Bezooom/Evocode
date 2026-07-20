@@ -32,7 +32,7 @@
   "workbench.editor.enablePreview": true,
   "workbench.editor.limit.enabled": true,
   "workbench.editor.limit.value": 6,
-  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "workbench.secondarySideBar.defaultVisibility": "visible",
   "workbench.panel.defaultLocation": "bottom",
   "workbench.tree.indent": 16,
   "workbench.tree.renderIndentGuides": "none",
