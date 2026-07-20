@@ -206,12 +206,22 @@ function buildHtml(state) {
   const hasFolder = state.hasFolder;
   const folderBanner = !hasFolder 
     ? `<div class="settings-group" style="border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.05); margin-top: 14px;">
-        <h2>📁 Рабочее пространство</h2>
+        <h2 style="display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          Рабочее пространство
+        </h2>
         <p style="margin: 6px 0 12px; color: var(--muted); font-size: 13px; line-height: 1.45;">Папка проекта не открыта. Откройте рабочую папку, чтобы Эвокод мог сканировать файлы, индексировать кодовую базу и запускать локальные задачи.</p>
         <button id="openFolderBtn">Открыть папку проекта</button>
        </div>`
     : `<div class="settings-group" style="padding: 12px 18px; background: rgba(255,255,255,0.01); margin-top: 14px; display: flex; align-items: center; justify-content: space-between;">
-        <span style="color: var(--muted); font-size:12px;">📁 Активный проект: <b style="color: var(--fg);">${esc(state.folderPath)}</b></span>
+        <span style="color: var(--muted); font-size:12px; display: inline-flex; align-items: center; gap: 6px;">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          Активный проект: <b style="color: var(--fg);">${esc(state.folderPath)}</b>
+        </span>
         <button class="ghost" id="openFolderBtn" style="padding: 4px 10px; font-size: 11px;">Сменить папку</button>
        </div>`;
   const skillCards = skillsList.length > 0
@@ -372,6 +382,18 @@ function buildHtml(state) {
     border-radius: 8px;
     font-family: inherit;
     transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .tab-icon {
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  .tab.active .tab-icon, .tab:hover .tab-icon {
+    opacity: 1;
   }
   .tab.active {
     background: rgba(99, 102, 241, 0.15);
@@ -570,12 +592,47 @@ function buildHtml(state) {
 </head>
 <body>
   <div class="top">
-    <button class="tab active" data-tab="models">🛠️ Модели</button>
-    <button class="tab" data-tab="agent">🤖 Агент</button>
-    <button class="tab" data-tab="cloud">☁️ Облако / Роутер</button>
-    <button class="tab" data-tab="skills">📚 Навыки</button>
-    <button class="tab" data-tab="mcp">🔌 MCP Серверы</button>
-    <button class="tab" data-tab="core">💻 Программа</button>
+    <button class="tab active" data-tab="models">
+      <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </svg>
+      Модели
+    </button>
+    <button class="tab" data-tab="agent">
+      <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <rect x="9" y="9" width="6" height="6"/>
+        <path d="M9 1v2M15 1v2M9 21v2M15 21v2M20 9h3M20 15h3M1 9h2M1 15h2"/>
+      </svg>
+      Агент
+    </button>
+    <button class="tab" data-tab="cloud">
+      <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+      </svg>
+      Облако / Роутер
+    </button>
+    <button class="tab" data-tab="skills">
+      <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Навыки
+    </button>
+    <button class="tab" data-tab="mcp">
+      <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/>
+        <line x1="12" y1="2" x2="12" y2="12"/>
+      </svg>
+      MCP Серверы
+    </button>
+    <button class="tab" data-tab="core">
+      <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 17 10 11 4 5"/>
+        <line x1="12" y1="19" x2="20" y2="19"/>
+      </svg>
+      Программа
+    </button>
   </div>
 
   <div class="search-bar-container">

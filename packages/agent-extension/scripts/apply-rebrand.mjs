@@ -114,13 +114,15 @@ function rebrandPackage(upstreamPkg) {
 
   const out = JSON.parse(raw);
 
-  // Activity bar: monochrome SVG (PNG often invisible on top/side bar)
+  // Secondary sidebar: monochrome SVG (PNG often invisible on top/side bar)
   try {
     const ab = out.contributes?.viewsContainers?.activitybar;
     if (Array.isArray(ab) && ab[0]) {
       ab[0].title = 'Эвокод';
       ab[0].icon = 'assets/icons/evocode-chat.svg';
       ab[0].darkIcon = 'assets/icons/evocode-chat.svg';
+      out.contributes.viewsContainers.secondarySidebar = ab;
+      delete out.contributes.viewsContainers.activitybar;
     }
     const views = out.contributes?.views?.['kilo-code-ActivityBar'];
     if (Array.isArray(views) && views[0]) {
@@ -645,7 +647,7 @@ function materializeIcons() {
 
   const activitySvgContent = fs.existsSync(path.join(BRAND_ICONS, 'evocode-activity.svg'))
     ? fs.readFileSync(path.join(BRAND_ICONS, 'evocode-activity.svg'), 'utf8')
-    : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M16.2 4.5c-3.9 0-6.9 2.1-6.9 7.5s3 7.5 6.9 7.5h.3a1.2 1.2 0 0 1 0 2.4h-.3C10.5 21.9 6 18.7 6 12S10.5 2.1 16.5 2.1h.3a1.2 1.2 0 0 1 0 2.4h-.6zm-8.4 6.3h8.4a1.2 1.2 0 0 1 0 2.4H7.8a1.2 1.2 0 0 1 0-2.4z"/></svg>\n`;
+    : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6L3 12L8 18"/><path d="M18 6c-3.5 0-6 2.5-6 6s2.5 6 6 6"/><path d="M3 12h15"/></svg>\n`;
 
   const activitySvg = path.join(dest, 'evocode-activity.svg');
   fs.writeFileSync(activitySvg, activitySvgContent);
