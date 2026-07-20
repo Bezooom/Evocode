@@ -153,6 +153,11 @@ if (fs.existsSync(workspaceStorage)) {
         // D. Set active viewlet to Explorer (so main sidebar on the right shows files!)
         wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sidebar.activeviewletid', 'workbench.view.explorer')").run();
 
+        // E. Set sizes for Sidebar (260px) and Auxiliary Bar (450px)
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sideBar.size', '260')").run();
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.size', '450')").run();
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.lastNonMaximizedSize', '450')").run();
+
         wsDb.close();
         console.log(`Patched workspace database: ${wsDbPath}`);
       } catch (wsErr) {

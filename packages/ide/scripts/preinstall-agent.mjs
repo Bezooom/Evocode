@@ -467,6 +467,37 @@ function main() {
     }
   }
 
+  // Rebrand built-in media icons (vscode-icon.svg, code-icon.svg, sessions-logo-*)
+  const evocodeLogoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="96" height="96">
+  <path d="M8 6L3 12L8 18"/>
+  <path d="M18 6c-3.5 0-6 2.5-6 6s2.5 6 6 6"/>
+  <path d="M3 12h15"/>
+</svg>\n`;
+
+  const mediaDirs = [
+    path.join(IDE_DIR, 'dist/evocode-ide/resources/app/out/media'),
+    '/usr/share/evocode/resources/app/out/media'
+  ];
+
+  for (const mDir of mediaDirs) {
+    if (fs.existsSync(mDir)) {
+      try {
+        const targets = [
+          'vscode-icon.svg',
+          'code-icon.svg',
+          'sessions-logo-dark.svg',
+          'sessions-logo-light.svg'
+        ];
+        for (const t of targets) {
+          fs.writeFileSync(path.join(mDir, t), evocodeLogoSvg);
+        }
+        log(`  rebranded media icons in ${mDir}`);
+      } catch (err) {
+        log(`  warn: failed to rebrand media icons in ${mDir}: ${err.message}`);
+      }
+    }
+  }
+
   writeInstallRecord(manifest, installs);
 
   log('');
