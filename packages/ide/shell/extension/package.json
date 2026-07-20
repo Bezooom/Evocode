@@ -76,6 +76,24 @@
         "category": "Эвокод"
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "evocode-shell-ActivityBar",
+          "title": "Эвокод Настройки",
+          "icon": "$(settings-gear)"
+        }
+      ]
+    },
+    "views": {
+      "evocode-shell-ActivityBar": [
+        {
+          "type": "webview",
+          "id": "evocode.shell.settingsView",
+          "name": "Настройки Эвокод"
+        }
+      ]
+    },
     "menus": {
       "editor/title": [
         {

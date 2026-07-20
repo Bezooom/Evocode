@@ -468,6 +468,54 @@ function main() {
     }
   }
 
+  // Import useful preview/utility extensions from the default VS Code extensions folder if they exist
+  const defaultVsCodeExtDir = path.join(os.homedir(), '.vscode', 'extensions');
+  const importList = [
+    'hediet.vscode-drawio',
+    'tomoki1207.pdf',
+    'mechatroner.rainbow-csv',
+    'yzhang.markdown-all-in-one',
+    'redhat.vscode-yaml',
+    'dotjoshjohnson.xml',
+    'usernamehw.errorlens',
+    'mhutchie.git-graph',
+    'ms-vscode.hexeditor',
+    'pomdtr.excalidraw-editor',
+    'ms-vscode.live-preview'
+  ];
+
+  if (fs.existsSync(defaultVsCodeExtDir)) {
+    try {
+      const dirs = fs.readdirSync(defaultVsCodeExtDir);
+      for (const imp of importList) {
+        const matchingDir = dirs.find(d => d.toLowerCase().startsWith(imp.toLowerCase()));
+        if (matchingDir) {
+          const srcPath = path.join(defaultVsCodeExtDir, matchingDir);
+          
+          const targets = [
+            path.join(os.homedir(), '.evocode-ide', 'extensions', matchingDir),
+            fs.existsSync(portableExtDir) ? path.join(portableExtDir, matchingDir) : null,
+            fs.existsSync('/usr/share/evocode/resources/app/extensions') ? path.join('/usr/share/evocode/resources/app/extensions', matchingDir) : null
+          ].filter(Boolean);
+
+          for (const target of targets) {
+            if (target && !fs.existsSync(target)) {
+              try {
+                fs.mkdirSync(path.dirname(target), { recursive: true });
+                execSync(`cp -aL "${srcPath}" "${target}"`, { stdio: 'pipe' });
+                log(`  imported preview extension ${matchingDir} to ${target}`);
+              } catch {
+                // Ignore write failures for system directory if not root
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      log(`  warn: failed to import default VS Code extensions: ${e.message}`);
+    }
+  }
+
   // Rebrand built-in media icons (vscode-icon.svg, code-icon.svg, sessions-logo-*)
   const evocodeLogoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="96" height="96">
   <path d="M8 6L3 12L8 18"/>

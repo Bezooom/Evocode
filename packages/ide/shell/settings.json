@@ -18,6 +18,9 @@
   "evocode.shell.openProductOnStartup": false,
   "evocode.shell.autoFocusAgent": true,
 
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  },
   "workbench.colorTheme": "Default Dark Modern",
   "workbench.iconTheme": "vs-minimal",
   "workbench.startupEditor": "none",

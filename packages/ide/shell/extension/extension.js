@@ -252,6 +252,13 @@ async function activate(context) {
     }),
   );
 
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      'evocode.shell.settingsView',
+      new SettingsViewProvider(context, cfg, deps)
+    )
+  );
+
   // Status bar = product entry, not "extension"
   const item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1000);
   item.text = '$(rocket) Эвокод';
@@ -424,6 +431,252 @@ async function activate(context) {
     } else if (startWizard === 'Пропустить') {
       await context.globalState.update(FIRST_RUN_KEY, true);
     }
+  }
+}
+
+function deactivate() {}
+
+class SettingsViewProvider {
+  static viewType = 'evocode.shell.settingsView';
+  constructor(context, getCfg, deps) {
+    this.context = context;
+    this.getCfg = getCfg;
+    this.deps = deps;
+  }
+
+  resolveWebviewView(webviewView, context, token) {
+    this._view = webviewView;
+    webviewView.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [this.context.extensionUri]
+    };
+    webviewView.webview.html = this.getHtml();
+    webviewView.webview.onDidReceiveMessage(async (msg) => {
+      if (msg.type === 'openSettings') {
+        vscode.commands.executeCommand('evocode.shell.openProduct');
+      } else if (msg.type === 'openChat') {
+        vscode.commands.executeCommand('evocode.shell.focusAgent');
+      } else if (msg.type === 'syncSkills') {
+        const port = corePort(this.getCfg());
+        vscode.window.withProgress(
+          { location: vscode.ProgressLocation.Notification, title: 'Эвокод: Синхронизация навыков…' },
+          async () => {
+            try {
+              const r = await httpJson('POST', '/v1/skills/sync', {}, port, 60000);
+              const count = (r.json?.newSkills?.length || 0) + (r.json?.changedSkills?.length || 0);
+              vscode.window.showInformationMessage(`Эвокод: Синхронизировано навыков: ${count}`);
+              this.updateState();
+            } catch (e) {
+              vscode.window.showErrorMessage(`Ошибка синхронизации: ${e.message}`);
+            }
+          }
+        );
+      }
+    });
+
+    this.updateState();
+    this._interval = setInterval(() => this.updateState(), 4000);
+    webviewView.onDidDispose(() => {
+      if (this._interval) clearInterval(this._interval);
+    });
+  }
+
+  async updateState() {
+    if (!this._view) return;
+    try {
+      const port = corePort(this.getCfg());
+      let coreOnline = false;
+      let activeModel = 'нет';
+      try {
+        const h = await new Promise((resolve) => {
+          const req = http.get(`http://127.0.0.1:${port}/health`, { timeout: 1500 }, (res) => {
+            let body = '';
+            res.on('data', (c) => (body += c));
+            res.on('end', () => resolve({ ok: res.statusCode === 200 }));
+          });
+          req.on('error', () => resolve({ ok: false }));
+        });
+        coreOnline = h.ok;
+        if (coreOnline) {
+          const rt = await httpJson('GET', '/v1/runtime', null, port, 1500);
+          if (rt.json && rt.json.activeChatProfile) {
+            activeModel = rt.json.activeChatProfile;
+          }
+        }
+      } catch {
+        /* */
+      }
+      this._view.webview.postMessage({
+        type: 'state',
+        coreOnline,
+        activeModel
+      });
+    } catch {
+      /* */
+    }
+  }
+
+  getHtml() {
+    return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+  body {
+    padding: 14px;
+    font-family: var(--vscode-font-family, system-ui, -apple-system, sans-serif);
+    font-size: var(--vscode-font-size, 13px);
+    color: var(--vscode-foreground);
+    background-color: var(--vscode-sideBar-background);
+  }
+  .section {
+    margin-bottom: 24px;
+  }
+  h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 600;
+    color: var(--vscode-descriptionForeground);
+    border-bottom: 1px solid var(--vscode-sideBar-border, rgba(255,255,255,0.08));
+    padding-bottom: 6px;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+    border: 1px solid transparent;
+    padding: 8px 12px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 12px;
+    transition: all 0.2s ease;
+  }
+  .btn:hover {
+    background: var(--vscode-button-hoverBackground);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn.ghost {
+    background: transparent;
+    color: var(--vscode-foreground);
+    border: 1px solid var(--vscode-button-background);
+  }
+  .btn.ghost:hover {
+    background: rgba(99, 102, 241, 0.1);
+  }
+  .status-card {
+    background: var(--vscode-editor-background);
+    border: 1px solid var(--vscode-sideBar-border, rgba(255,255,255,0.08));
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  .status-row:last-child {
+    margin-bottom: 0;
+  }
+  .status-val {
+    font-weight: 600;
+  }
+  .indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    background-color: var(--vscode-testing-iconUnpublishedColor, #888);
+  }
+  .indicator.online {
+    background-color: var(--vscode-testing-iconPassedColor, #2ecc71);
+    box-shadow: 0 0 6px var(--vscode-testing-iconPassedColor, #2ecc71);
+  }
+  .indicator.offline {
+    background-color: var(--vscode-testing-iconFailedColor, #e74c3c);
+    box-shadow: 0 0 6px var(--vscode-testing-iconFailedColor, #e74c3c);
+  }
+</style>
+</head>
+<body>
+  <div class="section">
+    <h3>Быстрый доступ</h3>
+    <button class="btn" id="openSettings">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M9.1 1.7L9 2.5c-.2.1-.4.2-.6.3L7.7 2.3l-.7.7.5.7c-.1.2-.2.4-.3.6L6.5 7h-.8v1h.8l.1.6c.1.2.2.4.3.6l-.5.7.7.7.7-.5c.2.1.4.2.6.3l.1.8h1l.1-.8c.2-.1.4-.2.6-.3l.7.5.7-.7-.5-.7c.1-.2.2-.4.3-.6l.8-.1v-1h-.8l-.1-.6c-.1-.2-.2-.4-.3-.6l.5-.7-.7-.7-.7.5c-.2-.1-.4-.2-.6-.3l-.1-.8h-1zm.4 4.8c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5z"/></svg>
+      Панель настроек
+    </button>
+    <button class="btn ghost" id="openChat">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 2H1.5C.7 2 0 2.7 0 3.5V11c0 .8.7 1.5 1.5 1.5H12l3.5 3V3.5c0-.8-.7-1.5-1.5-1.5z"/></svg>
+      Чат ассистента
+    </button>
+  </div>
+  
+  <div class="section">
+    <h3>Статус Эвокода</h3>
+    <div class="status-card">
+      <div class="status-row">
+        <span>Ядро Core:</span>
+        <span class="status-val" style="display: flex; align-items: center;">
+          <span class="indicator" id="coreIndicator"></span>
+          <span id="coreStatus">...</span>
+        </span>
+      </div>
+      <div class="status-row">
+        <span>Активная LLM:</span>
+        <span class="status-val" id="activeModel" style="color: var(--vscode-textLink-foreground);">...</span>
+      </div>
+    </div>
+    
+    <button class="btn ghost" id="syncSkills">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.6 2.3c-1.2-1.2-2.9-2-4.6-2-3.3 0-6.1 2.3-6.8 5.4H3.8c.6-2.3 2.7-4 5.2-4 1.4 0 2.7.6 3.6 1.5L11 5h4.5V.5L13.6 2.3zm-11.2 11.4c1.2 1.2 2.9 2 4.6 2 3.3 0 6.1-2.3 6.8-5.4H12.2c-.6 2.3-2.7 4-5.2 4-1.4 0-2.7-.6-3.6-1.5L5 11H.5v4.5l1.9-1.8z"/></svg>
+      Синхронизировать навыки
+    </button>
+  </div>
+
+  <script>
+    const vscode = acquireVsCodeApi();
+    document.getElementById('openSettings').onclick = () => vscode.postMessage({ type: 'openSettings' });
+    document.getElementById('openChat').onclick = () => vscode.postMessage({ type: 'openChat' });
+    document.getElementById('syncSkills').onclick = () => vscode.postMessage({ type: 'syncSkills' });
+
+    window.addEventListener('message', (e) => {
+      const state = e.data;
+      if (state.type === 'state') {
+        const indicator = document.getElementById('coreIndicator');
+        const status = document.getElementById('coreStatus');
+        
+        if (state.coreOnline) {
+          indicator.className = 'indicator online';
+          status.textContent = 'В сети';
+          status.style.color = 'var(--vscode-testing-iconPassedColor, #2ecc71)';
+        } else {
+          indicator.className = 'indicator offline';
+          status.textContent = 'Не в сети';
+          status.style.color = 'var(--vscode-testing-iconFailedColor, #e74c3c)';
+        }
+        
+        document.getElementById('activeModel').textContent = state.activeModel || 'локальная';
+      }
+    });
+  </script>
+</body>
+</html>`;
   }
 }
 
