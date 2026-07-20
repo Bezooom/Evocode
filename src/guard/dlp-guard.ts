@@ -71,26 +71,30 @@ export class DLPGuard {
       for (const match of matches) {
         const originalValue = match[1] || match[0];
         const maskedValue = rule.replacement;
-        // replace only first occurrence of this exact match in current masked text
-        const idx = masked.indexOf(match[0]);
-        if (idx === -1) continue;
-        masked =
-          masked.slice(0, idx) + maskedValue + masked.slice(idx + match[0].length);
 
-        changes.push({
-          rule: rule.name,
-          original: originalValue.length > 24
-            ? originalValue.slice(0, 8) + '…'
-            : originalValue,
-          masked: maskedValue,
-          position: idx,
-          critical: !!rule.critical,
-        });
+        if (masked.includes(match[0])) {
+          let count = 0;
+          while (masked.includes(match[0])) {
+            masked = masked.replace(match[0], maskedValue);
+            count++;
+          }
+          for (let i = 0; i < count; i++) {
+            changes.push({
+              rule: rule.name,
+              original: originalValue.length > 24
+                ? originalValue.slice(0, 8) + '…'
+                : originalValue,
+              masked: maskedValue,
+              position: match.index ?? -1,
+              critical: !!rule.critical,
+            });
+          }
+        }
       }
     }
 
     const hasCritical = changes.some((c) => c.critical);
-    const blocked = this.config.blockOnCritical && hasCritical && changes.length >= 3;
+    const blocked = !!(this.config.blockOnCritical && hasCritical);
 
     return {
       original: text,
@@ -104,9 +108,11 @@ export class DLPGuard {
   async processRequest(request: {
     prompt: string;
     systemPrompt?: string;
+    messages?: { role: string; content: string }[];
   }): Promise<{
     prompt: string;
     systemPrompt?: string;
+    messages?: { role: string; content: string }[];
     changes: DLPChange[];
     blocked: boolean;
   }> {
@@ -122,30 +128,61 @@ export class DLPGuard {
       systemBlocked = systemResult.blocked;
     }
 
-    this.logAudit(promptResult, systemBlocked);
+    let messages = request.messages;
+    let messagesChanges: DLPChange[] = [];
+    let messagesBlocked = false;
+
+    if (messages) {
+      const maskedMsgs = [];
+      for (const m of messages) {
+        if (typeof m.content === 'string') {
+          const res = await this.mask(m.content);
+          if (res.blocked) messagesBlocked = true;
+          messagesChanges.push(...res.changes);
+          maskedMsgs.push({ ...m, content: res.masked });
+        } else {
+          maskedMsgs.push(m);
+        }
+      }
+      messages = maskedMsgs;
+    }
+
+    const totalBlocked = promptResult.blocked || systemBlocked || messagesBlocked;
+    const allChanges = [...promptResult.changes, ...systemChanges, ...messagesChanges];
+    const totalWasMasked = promptResult.wasMasked || systemChanges.length > 0 || messagesChanges.length > 0;
+
+    this.logAudit({
+      blocked: totalBlocked,
+      wasMasked: totalWasMasked,
+      changes: allChanges,
+    });
 
     return {
       prompt: promptResult.masked,
       systemPrompt,
-      changes: [...promptResult.changes, ...systemChanges],
-      blocked: promptResult.blocked || systemBlocked,
+      messages,
+      changes: allChanges,
+      blocked: totalBlocked,
     };
   }
 
-  private logAudit(promptResult: DLPResult, systemBlocked: boolean): void {
+  private logAudit(result: { blocked: boolean; wasMasked: boolean; changes: DLPChange[] }): void {
     try {
       const root = process.env.EVOCODE_ROOT || path.resolve(__dirname, '../../');
       const auditDir = path.join(root, '.evocode');
-      fs.mkdirSync(auditDir, { recursive: true });
+      fs.mkdirSync(auditDir, { recursive: true, mode: 0o700 });
       const auditPath = path.join(auditDir, 'audit.log');
+      if (!fs.existsSync(auditPath)) {
+        fs.writeFileSync(auditPath, '', { mode: 0o600 });
+      }
       
       const logEntry = {
         timestamp: new Date().toISOString(),
         action: 'cloud_request',
-        blocked: promptResult.blocked || systemBlocked,
-        wasMasked: promptResult.wasMasked,
-        changesCount: promptResult.changes.length,
-        rulesMatched: promptResult.changes.map(c => c.rule),
+        blocked: result.blocked,
+        wasMasked: result.wasMasked,
+        changesCount: result.changes.length,
+        rulesMatched: result.changes.map(c => c.rule),
       };
       
       fs.appendFileSync(auditPath, JSON.stringify(logEntry) + '\n', 'utf-8');

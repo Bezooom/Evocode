@@ -2,7 +2,7 @@
   "name": "evocode-agent",
   "displayName": "Эвокод",
   "description": "Эвокод — privacy-first AI-агент: local LLM, DLP, router. Полный agent runtime (tools, MCP, diff).",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "publisher": "evocode",
   "author": {
     "name": "Evocode"

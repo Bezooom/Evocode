@@ -344,7 +344,6 @@ function buildHtml(state) {
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     color-scheme: dark;
@@ -359,7 +358,7 @@ function buildHtml(state) {
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    margin: 0; font-family: system-ui, -apple-system, sans-serif;
     font-size: 13px; line-height: 1.5;
     color: var(--fg); background: linear-gradient(135deg, #060814 0%, #0d122b 100%);
     background-attachment: fixed;
@@ -970,11 +969,19 @@ function buildHtml(state) {
 
   // Облачные модели и Роутер
   const DEFAULT_MODELS = {
-    openrouter: ['anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'google/gemini-pro-1.5', 'meta-llama/llama-3-70b-instruct'],
+    openrouter: ['openrouter-auto', 'anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'google/gemini-pro-1.5', 'meta-llama/llama-3-70b-instruct'],
     openai: ['gpt-4o', 'gpt-4o-mini', 'gpt-4', 'gpt-3.5-turbo'],
     anthropic: ['claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest', 'claude-3-opus-latest'],
     gemini: ['gemini-1.5-pro-latest', 'gemini-1.5-flash-latest', 'gemini-2.0-flash-exp'],
     openaicompatible: []
+  };
+
+  const friendlyNames = {
+    'openrouter-auto': 'Эвокод: Бесплатные/эффективные модели (Авто)',
+    'anthropic/claude-3.5-sonnet': 'Claude 3.5 Sonnet (Антропик)',
+    'openai/gpt-4o': 'GPT-4o (OpenAI)',
+    'google/gemini-pro-1.5': 'Gemini 1.5 Pro (Google)',
+    'meta-llama/llama-3-70b-instruct': 'Llama 3 70B (Meta)'
   };
 
   const providerEl = document.getElementById('cloudProvider');
@@ -1002,7 +1009,7 @@ function buildHtml(state) {
     uniqueModels.forEach(m => {
       const opt = document.createElement('option');
       opt.value = m;
-      opt.textContent = m;
+      opt.textContent = friendlyNames[m] || m;
       cloudModelSelect.appendChild(opt);
     });
 

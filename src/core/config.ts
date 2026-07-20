@@ -98,7 +98,7 @@ function env(name: string, fallback: string): string {
 
 export const defaultConfig: EvocodeConfig = {
   appName: 'Эвокод',
-  appVersion: '0.1.0',
+  appVersion: '0.9.0',
   language: 'ru',
   mode: (env('EVOCODE_MODE', 'strict') as RuntimeMode) === 'degraded' ? 'degraded' : 'strict',
 
@@ -212,7 +212,7 @@ export const defaultConfig: EvocodeConfig = {
         pattern: /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b/g,
         replacement: '[REDACTED_JWT]',
         description: 'Маскировка JWT',
-        critical: false,
+        critical: true,
       },
     ],
   },

@@ -1,8 +1,8 @@
 # API Reference — Evocode Core
 
 **Base URL (local):** `http://127.0.0.1:8083`  
-**Версия:** 0.1.0  
-**Обновлено:** 2026-07-19
+**Версия:** 0.5.0  
+**Обновлено:** 2026-07-20
 
 Core — privacy plane. Agent (Kilo/OpenCode) ходит сюда как на OpenAI-compatible provider.
 
@@ -15,7 +15,7 @@ Core — privacy plane. Agent (Kilo/OpenCode) ходит сюда как на Op
 ```json
 {
   "status": "ok",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "product": "evocode-core",
   "localReady": true,
   "skills": 8,

@@ -183,13 +183,37 @@ async function applyRuntimeToInference(profileId: string, online: boolean): Prom
   }
 }
 
+const rateLimits = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const isLocal =
+    ip === '127.0.0.1' ||
+    ip === '::1' ||
+    ip === '::ffff:127.0.0.1' ||
+    ip === 'localhost';
+
+  if (isLocal) return true;
+
+  const now = Date.now();
+  const limit = rateLimits.get(ip);
+  if (!limit || now > limit.resetTime) {
+    rateLimits.set(ip, { count: 1, resetTime: now + 60000 });
+    return true;
+  }
+  
+  if (limit.count >= 100) {
+    return false;
+  }
+  
+  limit.count++;
+  return true;
+}
+
 export function isAuthorized(
   remoteAddress: string | undefined,
   headers: http.IncomingHttpHeaders,
   authToken: string
 ): boolean {
-  if (!authToken) return true;
-
   const ip = remoteAddress || '';
   const isLocal =
     ip === '127.0.0.1' ||
@@ -198,6 +222,8 @@ export function isAuthorized(
     ip === 'localhost';
 
   if (isLocal) return true;
+
+  if (!authToken) return false;
 
   const authHeader = headers['authorization'] || '';
   const expected = `Bearer ${authToken}`;
@@ -208,6 +234,12 @@ async function main(): Promise<void> {
   await initialize();
 
   const server = http.createServer(async (req, res) => {
+    const remoteIp = req.socket.remoteAddress || 'unknown';
+    if (!checkRateLimit(remoteIp)) {
+      sendJson(res, 429, { error: { message: 'Too many requests, rate limit exceeded', type: 'rate_limit' } });
+      return;
+    }
+
     if (!isAuthorized(req.socket.remoteAddress, req.headers, defaultConfig.security.authToken)) {
       sendJson(res, 401, { error: { message: 'Unauthorized (invalid or missing token)', type: 'unauthorized' } });
       return;
@@ -681,24 +713,53 @@ async function main(): Promise<void> {
         if (decision === 'local') {
           const port = defaultConfig.inference.local.port;
           targetUrl = `http://127.0.0.1:${port}/v1/chat/completions`;
+          
+          let modelToUse = body.model;
+          const isVirtual = !modelToUse || modelToUse.startsWith('evocode');
+          if (isVirtual) {
+            modelToUse = defaultConfig.inference.local.model;
+          }
+          requestBody = { ...body, model: modelToUse, messages: updatedMessages };
         } else {
           // Применяем DLP Guard на облачном пути
           const { dlpGuard } = await import('./guard/dlp-guard');
           const dlpResult = await dlpGuard.processRequest({
             prompt: userText,
             systemPrompt,
+            messages: updatedMessages,
           });
 
+          if (dlpResult.blocked) {
+            const { DLPBlockedError } = await import('./guard/dlp-guard');
+            throw new DLPBlockedError(
+              'Облачный запрос заблокирован DLP Guard: обнаружены критичные секреты',
+              dlpResult.changes
+            );
+          }
+
           // Обновляем сообщения с замаскированным промптом
-          const maskedMessages = updatedMessages.map((m) => {
-            if (m.role === 'user') return { ...m, content: dlpResult.prompt };
-            if (m.role === 'system') return { ...m, content: dlpResult.systemPrompt || '' };
-            return m;
-          });
+          const maskedMessages = dlpResult.messages || [];
 
           const cloud = defaultConfig.inference.cloud;
           const isAnthropic = cloud.provider === 'anthropic' || cloud.baseUrl.includes('api.anthropic.com');
           const isGemini = cloud.provider === 'gemini' || cloud.baseUrl.includes('googleapis.com');
+
+          // Определяем целевую модель
+          let modelToUse = body.model;
+          const isVirtual = !modelToUse || modelToUse.startsWith('evocode');
+          if (isVirtual) {
+            modelToUse = cloud.model;
+          }
+
+          // Умный роутер для бесплатных моделей OpenRouter
+          if (modelToUse === 'openrouter-auto') {
+            const isCoding = /code|function|class|def |fn |refactor|debug|fix|test|regex|module|import|css|html|js|ts|rust|golang|python|c\+\+|java/i.test(userText);
+            if (isCoding) {
+              modelToUse = 'qwen/qwen-2.5-coder-32b-instruct:free';
+            } else {
+              modelToUse = 'google/gemini-2.5-flash';
+            }
+          }
 
           if (isAnthropic) {
             targetUrl = `${cloud.baseUrl}/messages`;
@@ -714,7 +775,7 @@ async function main(): Promise<void> {
               }));
 
             requestBody = {
-              model: body.model || cloud.model || 'claude-3-5-sonnet-20241022',
+              model: modelToUse || 'claude-3-5-sonnet-20241022',
               messages: userMsgs,
               system: systemMsg || undefined,
               max_tokens: body.max_tokens || 4096,
@@ -738,7 +799,7 @@ async function main(): Promise<void> {
               headers['X-Title'] = 'Evocode';
             }
 
-            requestBody = { ...body, messages: maskedMessages };
+            requestBody = { ...body, model: modelToUse, messages: maskedMessages };
           }
         }
 
@@ -995,10 +1056,11 @@ async function main(): Promise<void> {
 
   // 8083 — не конфликтует с chat:8080 и legacy embed:8081
   const PORT = Number(process.env.PORT || 8083);
-  server.listen(PORT, () => {
-    console.log(`🚀 Evocode Core :${PORT}`);
-    console.log(`   OpenAI-compat: POST http://127.0.0.1:${PORT}/v1/chat/completions`);
-    console.log(`   Health:        GET  http://127.0.0.1:${PORT}/health`);
+  const HOST = process.env.EVOCODE_HOST || '127.0.0.1';
+  server.listen(PORT, HOST, () => {
+    console.log(`🚀 Evocode Core http://${HOST}:${PORT}`);
+    console.log(`   OpenAI-compat: POST http://${HOST}:${PORT}/v1/chat/completions`);
+    console.log(`   Health:        GET  http://${HOST}:${PORT}/health`);
     console.log(`   Runtime API:   GET  /v1/runtime  POST /v1/runtime/start|stop|switch`);
     console.log(`   Runtime:       ${JSON.stringify(inferenceEngine.getRuntimeInfo())}`);
   });

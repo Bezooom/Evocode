@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IDE_DIST="${ROOT}/packages/ide/dist"
 PORTABLE_DIR="${IDE_DIST}/evocode-ide"
 APPDIR="${IDE_DIST}/AppDir"
-VERSION="0.1.0"
+VERSION="0.9.0"
 
 echo "=== Сборка AppImage Эвокод ==="
 

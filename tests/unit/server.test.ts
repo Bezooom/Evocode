@@ -11,9 +11,9 @@ describe('Server Authentication (isAuthorized)', () => {
     expect(ok).toBe(true);
   });
 
-  it('должен разрешать нелокальные запросы если токен не задан', () => {
+  it('должен отклонять нелокальные запросы если токен не задан', () => {
     const ok = isAuthorized('192.168.1.100', {}, '');
-    expect(ok).toBe(true);
+    expect(ok).toBe(false);
   });
 
   it('должен отклонять нелокальные запросы без токена', () => {

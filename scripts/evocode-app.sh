@@ -25,7 +25,8 @@ EVOCODE_CORE_URL="$EVOCODE_CORE_URL" npm run agent:install-provider >/dev/null 2
 node packages/ide/scripts/install-shell-extension.mjs 2>/dev/null || true
 node packages/ide/scripts/apply-product-settings.mjs 2>/dev/null || true
 
-if [[ ! -e "${EXT_DIR}/evocode.evocode-agent-0.1.0" ]]; then
+# Install agent if no versioned folder present (version in folder name may change)
+if ! compgen -G "${EXT_DIR}/evocode.evocode-agent-*" >/dev/null 2>&1; then
   node packages/ide/scripts/preinstall-agent.mjs --target "${EXT_DIR}" 2>/dev/null || true
 fi
 

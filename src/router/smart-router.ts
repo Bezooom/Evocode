@@ -135,6 +135,7 @@ export class SmartRouter {
     const dlpResult = await dlpGuard.processRequest({
       prompt: request.prompt,
       systemPrompt: request.systemPrompt,
+      messages: request.messages,
     });
 
     if (dlpResult.blocked) {
@@ -148,6 +149,7 @@ export class SmartRouter {
       ...request,
       prompt: dlpResult.prompt,
       systemPrompt: dlpResult.systemPrompt,
+      messages: dlpResult.messages,
     };
 
     const response = await this.engine.chatCloud(safeRequest);

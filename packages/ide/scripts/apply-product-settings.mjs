@@ -99,13 +99,13 @@ if (fs.existsSync(dbPath)) {
     // 3. Ensure Auxiliary Bar is visible and not marked empty
     db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.empty', 'false')").run();
 
-    // 4. Set default sizes for Sidebar (260px) and Auxiliary Bar (500px)
+    // 4. Set default sizes for Sidebar (260px) and Auxiliary Bar (580px)
     db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sideBar.size', '260')").run();
     db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sidebar.size', '260')").run();
-    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.size', '500')").run();
-    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.size', '500')").run();
-    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.lastNonMaximizedSize', '500')").run();
-    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.lastNonMaximizedSize', '500')").run();
+    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.size', '580')").run();
+    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.size', '580')").run();
+    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.lastNonMaximizedSize', '580')").run();
+    db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.lastNonMaximizedSize', '580')").run();
 
     db.close();
     console.log('VSCodium state.vscdb layout patched: evocode-agent moved to left auxiliary bar.');
@@ -156,13 +156,13 @@ if (fs.existsSync(workspaceStorage)) {
         // D. Set active viewlet to Explorer (so main sidebar on the right shows files!)
         wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sidebar.activeviewletid', 'workbench.view.explorer')").run();
 
-        // E. Set sizes for Sidebar (260px) and Auxiliary Bar (500px)
+        // E. Set sizes for Sidebar (260px) and Auxiliary Bar (580px)
         wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sideBar.size', '260')").run();
         wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.sidebar.size', '260')").run();
-        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.size', '500')").run();
-        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.size', '500')").run();
-        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.lastNonMaximizedSize', '500')").run();
-        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.lastNonMaximizedSize', '500')").run();
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.size', '580')").run();
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.size', '580')").run();
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliaryBar.lastNonMaximizedSize', '580')").run();
+        wsDb.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('workbench.auxiliarybar.lastNonMaximizedSize', '580')").run();
 
         wsDb.close();
         console.log(`Patched workspace database: ${wsDbPath}`);

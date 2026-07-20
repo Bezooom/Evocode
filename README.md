@@ -2,9 +2,9 @@
 
 # 🧬 Эвокод
 
-**Российская privacy-first AI-IDE: VSCodium + Kilo/OpenCode agent + локальный Core**
+**Российская privacy-first AI-IDE: VSCodium + agent + локальный Core**
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-0.9.0-blue.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0-brightgreen.svg)](https://nodejs.org/)
 
@@ -12,42 +12,39 @@
 
 ---
 
-## Статус (честно)
+## Статус
 
-| Слой | Состояние |
-|------|-----------|
-| **Продукт** | VSCodium + fork kilo-vscode + Evocode Core — [стратегия](plans/FORK_STRATEGY.md) |
-| **Agent runtime** | **Не пишем свой** — Kilo/OpenCode ([borrow](docs/ARCHITECTURE_BORROW.md)) |
-| **Evocode Core** | Router, DLP, skills, RAG, OpenAI `/v1/*`, attach llama — port **8083** |
-| **F1 agent rebrand** | Tooling готов (`npm run agent:f1`); smoke E2E — F1.5 |
-| **IDE shell** | Bootstrap VSCodium; дистрибутив — F2 |
+| | |
+|--|--|
+| **Версия** | **0.9.0** — Release Candidate 1 (F0–F3 закрыты) |
+| **Фаза** | ⚡ **F3** Hardening РФ / enterprise — Завершена |
 | **Срез** | [docs/STATUS.md](docs/STATUS.md) · [plans/ROADMAP.md](plans/ROADMAP.md) |
+| **SoT для агентов** | [plans/FULL_DEV_ROADMAP.md](plans/FULL_DEV_ROADMAP.md) |
 
-> Не позиционируем v0.1 как «уже лучше Cursor». Сейчас — **фундамент + путь к IDE**.
+> **v0.9.0** — стабильный релиз-кандидат AI-IDE (визуальный режим оператора, DLP Guard, авторизация, SSRF-защита, упаковка).  
+> Система полностью готова к пилотному внедрению и проверкам безопасности.
 
 ---
 
 ## Архитектура
 
 ```
-Adapters: VSCodium · Extension Host · ACP later
+Adapters: VSCodium «Эвокод» · Extension Host · shell extension
               │ HTTP+SSE
               ▼
-     Kilo/OpenCode (tools, MCP, sessions)  ← as-is, rebrand UI
+     Agent runtime (Kilo/OpenCode as-is, rebrand UI)
               │ OpenAI-compat
               ▼
-     Evocode Core :8083  (DLP · router · skills · RAG · attach)
+     Evocode Core :8083  (DLP · router · skills · RAG · runtime · attach)
               │
-     :8080 llama chat · :8084 embed · OpenRouter+DLP
+     :8080 llama chat · :8084 embed · cloud via DLP/proxy
 ```
 
-Заимствования OpenCode / Grok Build: **[docs/ARCHITECTURE_BORROW.md](docs/ARCHITECTURE_BORROW.md)**.
+Заимствования: [docs/ARCHITECTURE_BORROW.md](docs/ARCHITECTURE_BORROW.md).
 
 ---
 
-## Quick start — demo AI-IDE
-
-Один вход (простой UI + Kilo agent + Core), см. [docs/DEMO.md](docs/DEMO.md):
+## Quick start
 
 ```bash
 # optional: local llama
@@ -55,32 +52,25 @@ Adapters: VSCodium · Extension Host · ACP later
 
 cd /home/bezoom/storage/Projects/Evocode
 npm ci && npm run build
-npm run evocode          # = npm run demo
+npm run evocode          # branded IDE + auto Core
 ```
 
 ```bash
-npm run ide:install-desktop   # ярлык Ubuntu «Эвокод» (не VS Code)
+npm run ide:install-desktop   # ярлык Ubuntu «Эвокод»
 npm run evocode
 ```
 
-Профиль `~/.evocode-ide`. При старте — **Настройки программы** (модели + агент + Core).  
-**Ctrl+Shift+M** — настройки · **Ctrl+L** — чат агента.  
+Профиль `~/.evocode-ide`.  
+**Ctrl+Shift+M** — модели · **Ctrl+L** — чат · product panel — Модели / Агент / Cloud / Навыки / MCP / Программа.  
 См. [PRODUCT_SHELL.md](docs/PRODUCT_SHELL.md) · [RUNTIME.md](docs/RUNTIME.md).
 
-### Только Core (без UI)
+### Только Core
 
 ```bash
 /home/bezoom/start_ik_ai_coder.sh
 cp -n .env.example .env
 PORT=8083 EVOCODE_LLAMA_MODE=attach npm start
 curl -s localhost:8083/health | jq .
-```
-
-### Dev Extension Host (старый путь F1)
-
-```bash
-EVOCODE_CORE_URL=http://127.0.0.1:8083/v1 npm run agent:f1
-npm run agent:launch
 ```
 
 ### Порты
@@ -91,7 +81,15 @@ npm run agent:launch
 | **8083** | **Evocode Core** |
 | 8084 | embeddings (профиль) |
 
-Профили (абсолютные пути к моделям): [`config/profiles.json`](config/profiles.json).
+Профили: [`config/profiles.json`](config/profiles.json).
+
+### Дистрибутивы
+
+```bash
+npm run ide:package-portable
+npm run ide:package-deb        # → packages/ide/dist/evocode_0.9.0_amd64.deb
+npm run ide:package-appimage   # → Evocode-0.9.0-x86_64.AppImage
+```
 
 ---
 
@@ -99,31 +97,26 @@ npm run agent:launch
 
 | Документ | О чём |
 |----------|--------|
-| [**FULL_DEV_ROADMAP**](plans/FULL_DEV_ROADMAP.md) | **полная карта для агентов (source of truth)** |
-| [MIGRATION_PLAN](plans/MIGRATION_PLAN.md) | детальный план интеграции кросс-проектных компонентов |
-| [STATUS](docs/STATUS.md) | текущий срез |
-| [ROADMAP](plans/ROADMAP.md) | краткие фазы F0–F4 |
-| [FORK_STRATEGY](plans/FORK_STRATEGY.md) | IDE + kilo + Core |
-| [ARCHITECTURE_BORROW](docs/ARCHITECTURE_BORROW.md) | OpenCode / Grok — что брать |
+| [**FULL_DEV_ROADMAP**](plans/FULL_DEV_ROADMAP.md) | полная карта (source of truth) |
+| [STATUS](docs/STATUS.md) | текущий срез v0.5 |
+| [ROADMAP](plans/ROADMAP.md) | фазы F0–F4 |
+| [FORK_STRATEGY](plans/FORK_STRATEGY.md) | IDE + agent + Core |
 | [ARCHITECTURE](docs/ARCHITECTURE.md) | модули Core |
 | [SMOKE](docs/SMOKE.md) | checklist E2E |
-| [DISK_CLEANUP](docs/DISK_CLEANUP.md) | диск / keep |
-| [TZ](docs/TZ.md) | полное ТЗ |
-| [OPENAPI](specs/OPENAPI.md) | API reference |
+| [OPENAPI](specs/OPENAPI.md) | API Core |
+| [CRITICAL_ANALYSIS](CRITICAL_ANALYSIS.md) | security debt |
 
 ---
 
-## npm scripts
+## npm scripts (главные)
 
 ```bash
-npm test
-npm run type-check
-npm run agent:f1          # rebrand + install provider
-npm run agent:launch
-npm run local:stack       # start_ik_* wrapper
-npm run disk:audit
-npm run bootstrap:ide
-npm run migrate:kilo
+npm test / npm run type-check
+npm run evocode                 # product launch
+npm run agent:f1                # rebrand + provider
+npm run ide:refresh-brand       # rebrand + preinstall + shell + settings
+npm run ide:package-portable
+npm run local:stack
 ```
 
 ---
@@ -132,25 +125,27 @@ npm run migrate:kilo
 
 | Модуль | Поведение |
 |--------|-----------|
-| InferenceEngine | **attach-first** к llama; spawn optional; no silent stubs |
-| Smart Router | complexity + tokens + privacyMode; local→cloud fallback |
-| DLP Guard | **cloud path only** |
-| SkillLoader / Sync | system+user, GitHub MANIFEST |
+| InferenceEngine | attach-first к llama; spawn optional; no silent stubs |
+| Smart Router | complexity + tokens + privacyMode; local→cloud |
+| DLP Guard | cloud path (F3: ужесточение block-path) |
+| SkillLoader / Sync | system+user, MANIFEST |
 | VectorIndex | SQLite-vec RAG |
-| OpenAI API | `/v1/chat/completions`, `/v1/models` for Kilo |
+| Runtime API | `/v1/runtime/*` — start/stop/switch профилей |
+| OpenAI API | `/v1/chat/completions`, `/v1/models` |
 
 ---
 
 ## Roadmap (кратко)
 
-| Фаза | Статус |
-|------|--------|
-| F0 Core | ✅ |
-| F1 Agent rebrand tooling | ✅ |
-| **F1.5 Smoke + Policy bridge** | ⚡ next |
-| F2 VSCodium IDE | 📋 |
-| F3 Sandbox / audit / Astra smoke | 📋 |
-| F4 LoRA / self-evolve | later |
+| Фаза | Версия-ориентир | Статус |
+|------|-----------------|--------|
+| F0 Core | 0.1 | ✅ |
+| F1 Agent rebrand | 0.1–0.2 | ✅ |
+| F1.5 Smoke + Policy | 0.2–0.3 | ✅ |
+| **F2 Product IDE** | **→ 0.5.0** | ✅ |
+| **F3 Hardening РФ** | **→ 0.9.0** | ✅ |
+| F4 Self-evolve | post-1.0 optional | 📋 later |
+| Product DoD | **1.0.0** | 📋 |
 
 ---
 
@@ -160,4 +155,4 @@ npm run migrate:kilo
 
 ---
 
-**Эвокод** — Приватность. OpenCode-class agent. Локальный мозг (Core).
+**Эвокод 0.9.0** — Приватность. OpenCode-class agent. Локальный мозг (Core). Свой IDE-shell. Визуальный режим оператора.

@@ -81,6 +81,17 @@ if (!merged.extensionsGallery) {
 fs.writeFileSync(productPath, JSON.stringify(merged, null, 2) + '\n');
 console.log('product.json branded:', merged.nameShort, merged.applicationName);
 
+// Rebrand resources/app/package.json desktopName & name
+const appPkgPath = path.join(DEST, 'resources/app/package.json');
+if (fs.existsSync(appPkgPath)) {
+  const appPkg = JSON.parse(fs.readFileSync(appPkgPath, 'utf8'));
+  appPkg.name = 'evocode';
+  appPkg.author = { name: 'Эвокод' };
+  appPkg.desktopName = 'evocode.desktop';
+  fs.writeFileSync(appPkgPath, JSON.stringify(appPkg, null, 2) + '\n');
+  console.log('app package.json branded: name=evocode, desktopName=evocode.desktop');
+}
+
 // Replace common icon locations
 const iconTargets = [
   'resources/app/resources/linux/code.png',

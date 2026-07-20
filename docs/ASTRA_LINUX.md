@@ -22,7 +22,7 @@ Deb-пакет Эвокод содержит скомпилированную и
 ### Шаг 2.1. Установка пакета
 Выполните команду установки в терминале Astra Linux:
 ```bash
-sudo dpkg -i packages/ide/dist/evocode_0.1.0_amd64.deb
+sudo dpkg -i packages/ide/dist/evocode_0.9.0_amd64.deb
 ```
 
 ### Шаг 2.2. Разрешение зависимостей

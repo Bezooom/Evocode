@@ -79,4 +79,29 @@ describe('DLPGuard', () => {
     expect(entry.changesCount).toBe(1);
     expect(entry.rulesMatched).toContain('api-key');
   });
+
+  it('должен блокировать отправку при наличии критического ключа, если blockOnCritical=true', async () => {
+    const blockingGuard = new DLPGuard({
+      enabled: true,
+      blockOnCritical: true,
+      rules: [
+        {
+          name: 'api-key',
+          pattern: /api[_-]?key[:=]\s*["']?([a-zA-Z0-9_-]{20,})["']?/gi,
+          replacement: 'api_key: "[REDACTED_API_KEY]"',
+          description: 'Маскировка API-ключей',
+          critical: true,
+        },
+      ],
+    });
+    const result = await blockingGuard.mask('api_key: abc123def456ghi789012345');
+    expect(result.blocked).toBe(true);
+  });
+
+  it('должен заменять все вхождения секрета, а не только первое', async () => {
+    const text = 'api_key: abc123def456ghi789012345 и api_key: abc123def456ghi789012345';
+    const result = await guard.mask(text);
+    expect(result.masked).not.toContain('abc123def456ghi789012345');
+    expect(result.changes.length).toBe(2);
+  });
 });

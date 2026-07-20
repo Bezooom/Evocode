@@ -1,7 +1,7 @@
 {
   "name": "evocode",
-  "version": "0.1.0",
-  "description": "Эвокод — Core privacy-brain + путь к форку VSCodium/Kilo: локальная LLM, DLP, router, skill sync",
+  "version": "0.9.0",
+  "description": "Эвокод — privacy-first AI-IDE: VSCodium + agent + локальный Core (DLP, router, skills)",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

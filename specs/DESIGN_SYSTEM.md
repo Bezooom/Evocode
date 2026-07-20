@@ -1,59 +1,64 @@
 # Дизайн-система «Эвокод»
 
+**Версия продукта:** 0.5.0 · **Тема (канон):** *Midnight Fusion*  
+**Источник правды в runtime:** `packages/agent-extension/brand/evocode-overrides.css`, product-panel styles.
+
+> Ранее в черновике фигурировал Material Blue (`#1A73E8`). **С v0.5 канон — violet/indigo Midnight Fusion.**
+
 ## Overview
 
-Эта спецификация описывает дизайн-систему «Эвокод»: цвета, типографику, иконки, компоненты UI и правила верстки.
+Спецификация цветов, типографики, иконок и правил UI «Эвокод».
 
 ---
 
 ## Цветовая палитра
 
-### Основные цвета
+### Основные цвета (Midnight Fusion)
 
-| Название | HEX | RGB | Использование |
-|----------|-----|-----|---------------|
-| **Primary** | `#1A73E8` | 26, 115, 232 | Кнопки, акценты, активные элементы |
-| **Secondary** | `#5F6368` | 95, 99, 104 | Вторичные элементы, границы |
-| **Surface** | `#2D2D2D` | 45, 45, 45 | Фон панелей, карточек |
-| **Background** | `#1E1E1E` | 30, 30, 30 | Основной фон |
-| **Text Primary** | `#FFFFFF` | 255, 255, 255 | Основной текст |
-| **Text Secondary** | `#B0B0B0` | 176, 176, 176 | Вторичный текст, метаданные |
-| **Success** | `#34A853` | 52, 168, 83 | Успешные операции, бейджи |
-| **Warning** | `#FBBC04` | 251, 188, 4 | Предупреждения, бейджи |
-| **Error** | `#EA4335` | 234, 67, 53 | Ошибки, бейджи |
-| **Info** | `#4285F4` | 66, 133, 244 | Информационные сообщения |
+| Название | HEX | Использование |
+|----------|-----|---------------|
+| **Primary / Accent** | `#6B5CF6` | Кнопки, focus, progress, composer border |
+| **Primary hover** | `#7F71F8` | Hover primary |
+| **Link** | `#A397FF` | Ссылки |
+| **Background (editor)** | `#0A0B10` | Основной фон редактора |
+| **Background (sidebar)** | `#07080C` | Sidebar |
+| **Surface / card** | `rgba(19,21,34,0.8)` / `#12141F` | Карточки, input, dropdown |
+| **Border** | `#21253B` / `rgba(255,255,255,0.08)` | Границы |
+| **Text Primary** | `#E0E2ED` / `#F1F5F9` | Основной текст |
+| **Text Muted** | `#8A8FAB` / `#94A3B8` | Вторичный текст |
+| **Success** | `#10B981` | Онлайн / OK |
+| **Warning** | `#F59E0B` | Предупреждения |
+| **Error** | `#EA4335` | Ошибки |
+| **Panel accent (settings)** | `#6366F1` | Product panel tabs (indigo sibling) |
 
 ### Тёмная тема (по умолчанию)
 
 ```css
 :root {
-  --evocode-primary: #1A73E8;
-  --evocode-secondary: #5F6368;
-  --evocode-surface: #2D2D2D;
-  --evocode-background: #1E1E1E;
-  --evocode-text-primary: #FFFFFF;
-  --evocode-text-secondary: #B0B0B0;
-  --evocode-success: #34A853;
-  --evocode-warning: #FBBC04;
+  --evocode-primary: #6B5CF6;
+  --evocode-primary-hover: #7F71F8;
+  --evocode-link: #A397FF;
+  --evocode-background: #0A0B10;
+  --evocode-sidebar: #07080C;
+  --evocode-surface: #12141F;
+  --evocode-border: #21253B;
+  --evocode-text-primary: #E0E2ED;
+  --evocode-text-secondary: #8A8FAB;
+  --evocode-success: #10B981;
+  --evocode-warning: #F59E0B;
   --evocode-error: #EA4335;
-  --evocode-info: #4285F4;
 }
 ```
 
-### Светлая тема (опционально)
+### Светлая тема (опционально, не ship default)
 
 ```css
 :root[data-theme="light"] {
-  --evocode-primary: #1A73E8;
-  --evocode-secondary: #5F6368;
+  --evocode-primary: #5B4DE8;
+  --evocode-background: #F5F5F8;
   --evocode-surface: #FFFFFF;
-  --evocode-background: #F5F5F5;
-  --evocode-text-primary: #202124;
+  --evocode-text-primary: #1A1B23;
   --evocode-text-secondary: #5F6368;
-  --evocode-success: #34A853;
-  --evocode-warning: #FBBC04;
-  --evocode-error: #EA4335;
-  --evocode-info: #4285F4;
 }
 ```
 
@@ -65,10 +70,12 @@
 
 | Назначение | Шрифт | Семейство |
 |------------|-------|-----------|
-| **UI** | `Inter` | Sans-serif |
-| **Code** | `JetBrains Mono` | Monospace |
-| **Заголовки** | `Inter` | Sans-serif |
-| **Текст** | `Inter` | Sans-serif |
+| **UI** | `system-ui`, `-apple-system`, `sans-serif` | Sans-serif |
+| **Code** | `JetBrains Mono` / editor monospace | Monospace |
+| **Заголовки** | `system-ui`, `-apple-system`, `sans-serif` | Sans-serif |
+| **Текст** | `system-ui`, `-apple-system`, `sans-serif` | Sans-serif |
+
+> **F3.U1 (Выполнено):** Полное отключение загрузки внешних шрифтов из CDN Google Fonts для 100% локальности и автономности. Использование предустановленных высококачественных системных шрифтов.
 
 ### Размеры шрифтов
 

@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IDE_DIST="${ROOT}/packages/ide/dist"
 PORTABLE_DIR="${IDE_DIST}/evocode-ide"
 DEB_BUILD_DIR="${IDE_DIST}/deb-build"
-VERSION="0.1.0"
+VERSION="0.9.0"
 DEB_PACKAGE_DIR="${DEB_BUILD_DIR}/evocode_${VERSION}_amd64"
 
 echo "=== Сборка deb-пакета Эвокод ==="

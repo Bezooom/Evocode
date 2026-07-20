@@ -34,7 +34,7 @@ describe('SkillSyncEngine', () => {
                   name: 'test-skill',
                   path: 'test-skill/SKILL.md',
                   version: '1.0.0',
-                  sha: '12345abc',
+                  sha: '59f9f3bafd28fbbe7efc24a3d76d02cdeb5a3b70d050d751e8aad49bf3449f18',
                 },
               ],
             })

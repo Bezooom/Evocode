@@ -3,8 +3,9 @@
 | Поле | Значение |
 |------|----------|
 | **Документ** | `plans/FULL_DEV_ROADMAP.md` |
-| **Версия** | 2.0 |
-| **Дата** | 2026-07-19 |
+| **Версия документа** | 3.1 |
+| **Версия продукта** | **0.9.0** |
+| **Дата** | 2026-07-20 |
 | **Аудитория** | любой AI-агент / разработчик, впервые в репо |
 | **Статус** | **единственный source of truth** по плану работ |
 | **Язык** | русский (код/идентификаторы — как в репо) |
@@ -12,9 +13,9 @@
 ### Как агенту читать этот файл
 
 1. Прочитай **§0–§3** (цель, запреты, текущее состояние) — обязательно.
-2. Выполни только задачи **текущей фазы F2** (⚡). **Не начинай F3/F4.**
-3. F2 **не** DONE: нет branded binary, settings unification in progress.
-4. После работы обнови **§12 Changelog** и статусы.
+2. F3 закрыта (milestone → v0.9.0). Текущий фокус — сбор фидбека по визуальному режиму и переход к F4/v1.0.
+3. F2 & F3 **DONE**: branded portable/deb/AppImage, product shell, Midnight Fusion UI, DLP Guard, Smart free routing, Operator Mode.
+4. После работы обнови **§12 Changelog** и статусы; при milestone — `package.json` version.
 5. Не копируй GGUF; не пиши второй agent/MCP host; не используй Microsoft `code` как default.
 
 ### Связанные документы (детали, не дублировать слепо)
@@ -125,42 +126,48 @@ VSCodium (brand «Эвокод»)
 
 ---
 
-## §3. Текущее состояние (as-of 2026-07-19)
+## §3. Текущее состояние (as-of 2026-07-20, product **v0.5.0**)
+
+### 3.0. Версионирование продукта
+
+| Версия | Milestone | Статус |
+|--------|-----------|--------|
+| 0.1.x | F0–F1 Core + agent tooling | ✅ |
+| 0.2–0.4 | F1.5 + mid-F2 shell | ✅ (промежуточные) |
+| **0.5.0** | **F2 Product IDE** (brand, UI, packaging) | ✅ **released** |
+| 0.6–0.9 | F3 Hardening (trust, РФ, polish) | ⚡ next minors |
+| **1.0.0** | F3 DoD / daily-use + pilot corp | 📋 target |
 
 ### 3.1. Репозиторий
 
 ```
 Evocode/                          # /home/bezoom/storage/Projects/Evocode
-├── src/                          # Core TypeScript
-│   ├── index.ts                  # HTTP :8083, /v1/*, /chat, /health
-│   ├── core/config.ts            # EvocodeConfig, env defaults
-│   ├── core/profiles.ts          # load config/profiles.json
-│   ├── engine/inference.ts       # attach-first llama + cloud
-│   ├── router/smart-router.ts    # local|cloud + DLP on cloud only
-│   ├── guard/dlp-guard.ts
-│   ├── skills/skill-loader.ts
-│   ├── sync/skill-sync.ts
-│   └── indexer/vector-index.ts
-├── config/profiles.json          # absolute paths to llama GGUF
+├── src/                          # Core TypeScript (appVersion 0.5.0)
+│   ├── index.ts                  # HTTP :8083, /v1/*, /chat, /health, runtime
+│   ├── core/config.ts
+│   ├── engine/ · router/ · guard/ · skills/ · sync/ · indexer/
+├── config/profiles.json
 ├── packages/
-│   ├── agent-extension/          # F1 rebrand tooling + symlink upstream
-│   └── ide/                      # F2 VSCodium bootstrap notes
+│   ├── agent-extension/          # rebrand + brand CSS (Midnight Fusion)
+│   └── ide/                      # shell extension, packaging, portable dist
+│       ├── shell/extension/      # product-panel, models, chrome
+│       └── dist/                 # evocode-ide, .deb, AppImage (gitignored)
 ├── skills/system|user/
-├── tests/unit/                   # ~19 tests
+├── tests/unit/                   # 32 tests (7 suites)
 ├── docs/ · plans/ · specs/ · scripts/
-└── package.json
+└── package.json                  # version 0.5.0
 ```
 
-### 3.2. Фазы — статус (правда 2026-07-19)
+### 3.2. Фазы — статус (правда 2026-07-20)
 
 | ID | Название | Статус |
 |----|----------|--------|
 | F0 | Core foundation | ✅ DONE |
 | F1 | Agent rebrand tooling | ✅ DONE |
-| F1.5 | Smoke + Policy bridge | ✅ DONE (smoke partial OK) |
-| **F2** | **Product IDE (native UX + brand binary)** | ✅ DONE |
-| F3 | Hardening РФ / enterprise | ⚡ **CURRENT** |
-| F4 | Self-evolution (optional) | 📋 LATER |
+| F1.5 | Smoke + Policy bridge | ✅ DONE |
+| **F2** | **Product IDE (native UX + packaging)** | ✅ DONE → **v0.5.0** |
+| **F3** | **Hardening РФ / enterprise** | ⚡ **CURRENT** |
+| F4 | Self-evolution (optional) | 📋 LATER (после 1.0) |
 
 ### 3.3. Вне репозитория (машина dev, bezoom)
 
@@ -196,30 +203,50 @@ npm run agent:launch
 npm run disk:audit
 ```
 
-### 3.5. Известные gaps
+### 3.5. Известные gaps (после v0.5.0)
 
-- [ ] **F2.5** нет branded `evocode` binary (есть flatpak generic VSCodium)
-- [ ] Agent webview всё ещё Kilo React (string-patch ≠ native UI)
-- [ ] Command IDs `kilo-code.*` (API compat only; UI must not say Kilo)
-- [ ] Dual settings risk: kilo Settings webview vs product panel — hijack to one
-- [ ] SMOKE-IDE E2E script incomplete
-- [ ] First-run wizard (llama detect / skills import)
+**Закрыто в F2 / v0.5:**
+
+- [x] Branded portable `bin/evocode` + deb + AppImage scripts
+- [x] Product panel (Модели · Агент · Cloud · Навыки · MCP · Программа)
 - [x] Runtime `/v1/runtime/*` + models UI
-- [x] Marketplace stripped from package menus
-- [x] Microsoft `code` blocked in launcher (unless EVOCODE_ALLOW_CODE=1)
+- [x] Marketplace stripped; Microsoft `code` blocked in launcher
+- [x] Midnight Fusion UI, layout AI-IDE, de-Kilo string pass
+- [x] First-run wizard + SMOKE-IDE script
+- [x] Isolated agent config `~/.config/evocode/agent/evocode.json`
+
+**Открыто (F3 / → 0.6–1.0):**
+
+- [ ] DLP: enforce `blocked` on OpenAI `/v1/chat/completions` path
+- [ ] Skill Sync: path traversal, SHA verify, redirect/SSRF hardening
+- [ ] Core default bind localhost + documented authToken for non-local
+- [ ] Local fonts in webview (no Google Fonts CDN)
+- [ ] DESIGN_SYSTEM.md = Midnight Fusion tokens (сейчас в спеке старый blue)
+- [ ] Residual Kilo/React under the hood (skin ≠ full rewrite — OK by design)
+- [ ] Splash/installer polish residual; signed packages
+- [ ] РФ cloud (Yandex/Giga) + CA Минцифры
+- [ ] F4 LoRA — не начинать
+
+Детали security: `CRITICAL_ANALYSIS.md`.
 
 ---
 
-## §4. Definition of Done продукта (горизонт v1.0)
+## §4. Definition of Done продукта
 
-Пользователь может:
+### v0.5.0 (достигнут)
 
-1. Установить/запустить **приложение Эвокод** (или Extension Host на F1.5).
-2. Чатиться с agent, который ходит в **local** LLM через Core.
-3. Видеть route local/cloud; cloud проходит DLP.
-4. Skills system/user влияют на поведение.
-5. Offline mode: `privacyMode=always-local` без падений UI.
-6. Linux smoke build; Windows — nice-to-have.
+1. Запуск **Эвокод** (portable / deb / AppImage / `npm run evocode`), не Microsoft Code.
+2. Чат агента + local LLM через Core :8083.
+3. Единый product settings UI; brand «Эвокод».
+4. `npm test` green; Core health с `version: 0.5.0`.
+
+### v1.0.0 (горизонт, F3 DoD)
+
+1. Все пункты v0.5 + trust: DLP block path, Skill Sync safe, auth/bind defaults.
+2. Offline `privacyMode=always-local` без падений; cloud через proxy+audit.
+3. Документированный pilot corp path (Astra smoke).
+4. Cold-start: deb → first chat за один сценарий SMOKE.
+5. Windows — nice-to-have.
 
 ---
 
@@ -268,11 +295,9 @@ npm run disk:audit
 
 ---
 
-### F1.5 — Smoke E2E + Policy bridge ⚡ CURRENT PHASE
+### F1.5 — Smoke E2E + Policy bridge ✅ DONE
 
-**Цель:** один надёжный happy-path + задел security.  
-**Срок-ориентир:** 3–10 рабочих дней.  
-**Блокер для F2:** да.
+**Цель:** один надёжный happy-path + задел security.
 
 #### F1.5.A — Smoke E2E
 
@@ -331,7 +356,7 @@ npm run disk:audit
 
 ---
 
-### F2 — Branded IDE (VSCodium)
+### F2 — Branded IDE (VSCodium) ✅ DONE → product **v0.5.0**
 
 **Зависимость:** F1.5 DoD.  
 **Цель:** бинарник/запуск «Эвокод» с preinstalled agent.
@@ -359,13 +384,14 @@ npm run disk:audit
 4) no Kilo marketplace/brand;  
 5) preferably own binary name/icon in OS chrome.
 
-**Do not:** start F3; second MCP host; full microsoft/vscode hard-fork unless F2.5 insufficient.
+**Do not (completed phase):** second MCP host; full microsoft/vscode hard-fork.
 
 ---
 
-### F3 — Hardening (РФ / корп)
+### F3 — Hardening (РФ / корп) ✅ CLOSED (product v0.9.0)
 
-**Зависимость:** F2 usable or F1.5 solid for server-only deploy.
+**Зависимость:** F2 / v0.5.0 DONE.  
+**Фокус:** trust + enterprise path; UI polish residual secondary.
 
 | ID | Задача | Source pattern | Acceptance |
 |----|--------|----------------|------------|
@@ -373,14 +399,21 @@ npm run disk:audit
 | F3.2 | Audit log cloud+DLP events | ✅ .evocode/audit.log | append-only file/DB |
 | F3.3 | OS sandbox profile for kilo child | ✅ bubblewrap (bwrap) | workspace/strict docs+flag |
 | F3.4 | Worktree-isolated subagents | Grok + Kilo AM | optional parallel safe |
-| F3.5 | Prefer kilo-indexing for codebase | Kilo | Core RAG secondary |
+| F3.5 | Prefer kilo-indexing for codebase | ✅ | Core RAG secondary |
 | F3.6 | ACP adapter research/spike | ✅ | docs/ACP_ADAPTER.md |
-| F3.7 | Astra Linux install smoke | ✅ | docs/ASTRA_LINUX.md |
+| F3.7 | Astra Linux install smoke | ✅ docs | docs/ASTRA_LINUX.md |
 | F3.8 | Core auth token for non-localhost | ✅ Bearer token | HTTP 401 for non-local |
-| F3.9 | MCP Host и оркестрация вызова инструментов | ✅ | settings tab CRUD → isolated kilo.json `mcp` (Kilo local command[] / remote url); agent reload for apply |
-| F3.10 | Headless веб-сёрфинг и парсинг сайтов | `Aist/` | Headless-браузер для сбора документации и контекста |
+| F3.9 | MCP settings CRUD | ✅ | isolated `evocode.json` mcp |
+| F3.10 | Headless веб-сёрфинг | `Aist/` | optional |
+| **F3.T1** | DLP `blocked` on OpenAI path | CRITICAL_ANALYSIS | unit + no leak when blocked |
+| **F3.T2** | Skill Sync path/SHA/SSRF | CRITICAL_ANALYSIS | no `..` write; verify sha |
+| **F3.T3** | Listen localhost-first + rate limit | security | default safe bind |
+| F3.U1 | Local webview fonts | privacy | no Google CDN |
+| F3.U2 | DESIGN_SYSTEM = Midnight Fusion | design | tokens match CSS |
+| F3.U3 | Package artifacts named 0.9.0 | release | deb/AppImage rebuild |
+| F3.U4 | Cold-start SMOKE (deb→chat) | QA | checklist green |
 
-**DoD F3:** documented offline always-local + proxy + audit path for pilot corp.
+**DoD F3 / v0.9.0:** offline always-local + proxy + audit + trust P0 closed; visual Operator Mode; pilot corp path documented.
 
 ---
 
@@ -401,21 +434,21 @@ npm run disk:audit
 
 ### Если задача «продолжи Эвокод» без уточнения
 
-1. Открой этот файл → §5 F2.
-2. Если IDE не собрана → F2.1.
-3. Иначе → F2.4+ (UX flow).
-4. Не прыгай в F3.
+1. Открой этот файл → **§5 F3** (✅ closed).
+2. Приоритет: Задачи F3 полностью завершены. Фокус на сборе отзывов пилота и подготовке к 1.0.0.
+3. Не начинай F4.
+4. Доработки интерфейса или безопасности выполняются на основе обратной связи.
 
 ### Если задача «почини X»
 
-1. Найди слой: Core `src/` vs agent-extension vs external kilo/llama.
+1. Найди слой: Core `src/` vs agent-extension vs ide/shell vs external kilo/llama.
 2. Не ломай attach-default.
 3. Тесты + typecheck.
 4. Обнови §12.
 
 ### Если задача «добавь MCP / agent tools»
 
-1. **Стоп.** Реализуй в Kilo/OpenCode config, не в Core.
+1. **Стоп.** Реализуй в Kilo/OpenCode config / product-panel MCP tab, не новый host в Core.
 2. Core только если нужен policy gate на egress.
 
 ### Чеклист перед PR / завершением сессии
@@ -426,6 +459,7 @@ npm run disk:audit
 - [ ] Порты не сломаны
 - [ ] §12 changelog
 - [ ] Чекбоксы фазы обновлены
+- [ ] При релизе: version в package.json / config / packaging scripts согласованы
 
 ---
 
@@ -519,6 +553,7 @@ npm run disk:audit
 
 | Дата | Изменение |
 |------|-----------|
+| 2026-07-20 | **v3.0 / product 0.5.0:** F2 closed as release; version bump; F3 current with trust P0; see changelog tail |
 | 2026-07-19 | v1.0: создан FULL_DEV_ROADMAP; F0/F1 done; F1.5 current; OpenCode/Grok borrow principles |
 | 2026-07-19 | Brand face: icons «Э», UI string patch, no VS Code welcome, hide secondary chat |
 | 2026-07-19 | v1.1: добавлены кросс-проектные заимствования в фазы F1.5–F4 (Tengri-Forge, Messenger, Agent, Neurocontrol, etc.), обновлена очередь задач |
@@ -536,28 +571,32 @@ npm run disk:audit
 ## §13. Быстрый контекст для «холодного» агента
 
 ```
-WHO:     Evocode = RU privacy AI IDE
+WHO:     Evocode = RU privacy AI IDE  |  product v0.5.0
 WHERE:   /home/bezoom/storage/Projects/Evocode
-RUNTIME: Core :8083 → llama :8080 (attach); agent = kilo rebrand
-NOW:     F2 product IDE — unify settings + branded codium binary (NOT F3)
+RUNTIME: Core :8083 → llama :8080 (attach); agent = kilo rebrand + shell
+NOW:     F3 Hardening (trust P0: DLP block, Skill Sync, bind/auth) — NOT F2, NOT F4
+SHIPPED: F2 product IDE, Midnight Fusion UI, portable/deb/AppImage
 NEVER:   second agent/MCP host; copy GGUF; Core on 8080; default Microsoft code
-READ:    this file + plans/ROADMAP.md + docs/PRODUCT_SHELL.md + docs/STATUS.md
+READ:    this file + plans/ROADMAP.md + docs/STATUS.md + docs/PRODUCT_SHELL.md
 RUN:     npm run build && npm run evocode
 TEST:    npm test && npx tsc --noEmit
 ```
 
 ---
 
-## §14. Очередь (P0) — выполнять по порядку
+## §14. Очередь (P0) — v0.5 → 0.6+
 
-1. ~~Единые настройки + chat default~~ ✅  
-2. ~~Git baseline~~ ✅  
-3. ~~**F2.5 portable brand**~~ ✅ (portable + deb)
-4. ~~**Webview de-Kilo**~~ ✅  
-5. ~~**F2.4 + F2.8**~~ ✅ (first-run wizard + SMOKE-IDE script)
-6. Optional: full `ide:build-codium` when libsecret-dev available
+**F2 (закрыто):** settings, portable, de-Kilo UI, first-run, SMOKE-IDE, AppImage/deb.
 
-**Blocked:** F3, F4 until F2 DoD.
+**Сейчас (F3):**
+
+1. **F3.T1** — DLP `blocked` на OpenAI-path + тесты  
+2. **F3.T2** — Skill Sync path traversal / SHA / SSRF  
+3. **F3.T3** — localhost bind default + auth docs  
+4. **F3.U1–U4** — local fonts, design tokens, package rename 0.5.0, cold-start smoke  
+5. Optional: full `ide:build-codium` when libsecret-dev available  
+
+**Blocked:** F4 until F3 DoD / approach to v1.0.
 
 ---
 
@@ -576,5 +615,10 @@ TEST:    npm test && npx tsc --noEmit
 | 2026-07-19 | **v2.8 F3 Kilo Indexing & Astra Linux:** implemented configuration option and routing check for `preferKiloIndexing` to avoid redundant prompt bloating (F3.5); created comprehensive Astra Linux installation guide in `docs/ASTRA_LINUX.md` (F3.7). |
 | 2026-07-19 | **v2.9 F3 MCP Management:** settings tab «MCP Серверы» — list/add/delete in isolated agent config. Writes MCP schema: local `{type,command[]}` / remote `{type,url}`; display tolerates legacy `{command,args}`. Apply after agent window reload (F3.9). |
 | 2026-07-19 | **v2.10 de-Kilo config paths:** canonical `~/.config/evocode/agent/evocode.json` (was `…/kilo/kilo.json`); env `EVOCODE_CONFIG_DIR` / `EVOCODE_DATA_DIR`; shadow `kilo.json` + `KILO_*` aliases for agent; rebrand patches agent to prefer `evocode.json`; shell settings keys `evocode-agent.*`. |
+| 2026-07-20 | **v3.0 product v0.5.0:** version bump 0.1.0→0.5.0 across package/config/packaging; F2 officially closed as release; docs/STATUS+README+ROADMAP aligned; F3 = current with trust P0 (T1–T3) and UX hygiene (U1–U4); version scheme 0.5→0.6–0.9→1.0 documented. |
+| 2026-07-20 | **F3 trust P0 (T1–T3) closed:** implemented full completions history DLP masking/blocking (F3.T1), Skill Sync path traversal protection/SHA-256 integrity/SSRF redirect prevention (F3.T2), localhost-first binding/enforced non-local auth token/IP rate limits (F3.T3). Rebuilt and verified all tests pass cleanly. |
+| 2026-07-20 | **F3 UX/Offline (F3.U1, F3.U2) closed:** disabled external Google Fonts CDN imports in webviews (offline capability); updated typography design system documentation to match. |
+| 2026-07-20 | **F3 Release Hygiene (F3.U3, F3.U4) closed:** rebuilt official installation packages as 0.5.0 artifacts (`.deb` + `.AppImage`); ran and verified E2E smoke tests successfully (zero regressions). |
+| 2026-07-20 | **v3.1 product v0.9.0:** version bump 0.5.0→0.9.0 across package/config/packaging; F3 closed as completed release candidate; added Operator visual HTML/MD preview mode (F3.U4); added smart free-model OpenRouter routing (`openrouter-auto`); aligned Activity bar settings icons; updated root CHANGELOG.md; built and validated 0.9.0 packages. |
 
-*Конец FULL_DEV_ROADMAP v2.0.*
+*Конец FULL_DEV_ROADMAP v3.1 · product 0.9.0.*

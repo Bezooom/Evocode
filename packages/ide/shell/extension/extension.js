@@ -493,7 +493,8 @@ async function activate(context) {
     vscode.window.registerWebviewViewProvider(
       'evocode.shell.settingsView',
       new SettingsViewProvider(context, cfg, deps)
-    )
+    ),
+    HtmlPreviewEditorProvider.register(context)
   );
 
   // Status bar = product entry, not "extension"
@@ -667,6 +668,141 @@ async function activate(context) {
       }
     } else if (startWizard === 'Пропустить') {
       await context.globalState.update(FIRST_RUN_KEY, true);
+    }
+  }
+}
+
+class HtmlPreviewEditorProvider {
+  static register(context) {
+    const provider = new HtmlPreviewEditorProvider(context);
+    const providerRegistration = vscode.window.registerCustomEditorProvider(
+      'evocode.htmlPreview',
+      provider
+    );
+    return providerRegistration;
+  }
+
+  constructor(context) {
+    this.context = context;
+  }
+
+  async resolveCustomTextEditor(document, webviewPanel, token) {
+    webviewPanel.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [
+        vscode.Uri.file(path.dirname(document.uri.fsPath)),
+        this.context.extensionUri
+      ]
+    };
+
+    const updateWebview = () => {
+      webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview, document);
+    };
+
+    updateWebview();
+
+    const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
+      if (e.document.uri.toString() === document.uri.toString()) {
+        updateWebview();
+      }
+    });
+
+    webviewPanel.onDidDispose(() => {
+      changeDocumentSubscription.dispose();
+    });
+  }
+
+  getHtmlForWebview(webview, document) {
+    const fileUri = document.uri;
+    const fileDir = vscode.Uri.file(path.dirname(fileUri.fsPath));
+    const baseUri = webview.asWebviewUri(fileDir);
+    const rawContent = document.getText();
+
+    if (fileUri.fsPath.endsWith('.md')) {
+      const escaped = rawContent
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      
+      let html = escaped;
+      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+      html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+      html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+      html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+      html = html.replace(/\n/g, '<br>');
+
+      return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <base href="${baseUri}/">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+      color: var(--vscode-editor-foreground, #333333);
+      background-color: var(--vscode-editor-background, #ffffff);
+    }
+    h1, h2, h3, h4 {
+      color: var(--vscode-editor-foreground, #111111);
+      margin-top: 24px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    h1 { font-size: 2.2em; border-bottom: 1px solid var(--vscode-panel-border, #eaecef); padding-bottom: 8px; }
+    h2 { font-size: 1.6em; border-bottom: 1px solid var(--vscode-panel-border, #eaecef); padding-bottom: 6px; }
+    h3 { font-size: 1.3em; }
+    p { margin-bottom: 16px; }
+    code {
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      background-color: var(--vscode-textBlockCodeBlock-background, rgba(27,31,35,0.05));
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-size: 85%;
+    }
+    pre {
+      padding: 16px;
+      background-color: var(--vscode-textBlockCodeBlock-background, #f6f8fa);
+      border-radius: 6px;
+      overflow: auto;
+      border: 1px solid var(--vscode-panel-border, #eaecef);
+    }
+    pre code {
+      padding: 0;
+      background-color: transparent;
+      font-size: 100%;
+    }
+    a {
+      color: var(--vscode-textLink-foreground, #0366d6);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  ${html}
+</body>
+</html>`;
+    } else {
+      let html = rawContent;
+      const baseTag = `<base href="${baseUri}/">`;
+      if (html.includes('<head>')) {
+        html = html.replace('<head>', `<head>${baseTag}`);
+      } else if (html.includes('<HEAD>')) {
+        html = html.replace('<HEAD>', `<HEAD>${baseTag}`);
+      } else {
+        html = baseTag + html;
+      }
+      return html;
     }
   }
 }

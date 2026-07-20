@@ -141,13 +141,18 @@ export class SkillSyncEngine {
       const manifestUrl = `${source.url}/raw/${source.branch}/MANIFEST.json`;
       const manifest = await this.fetchJson(manifestUrl);
 
-      const localSkillsDir = path.join(this.config.skills.systemPath, source.name);
-      if (!fs.existsSync(localSkillsDir)) {
-        fs.mkdirSync(localSkillsDir, { recursive: true });
+      const resolvedLocalDir = path.resolve(this.config.skills.systemPath, source.name);
+      if (!fs.existsSync(resolvedLocalDir)) {
+        fs.mkdirSync(resolvedLocalDir, { recursive: true });
       }
 
       for (const skill of manifest.skills || []) {
-        const skillPath = path.join(localSkillsDir, skill.path);
+        const skillPath = path.resolve(resolvedLocalDir, skill.path);
+        if (!skillPath.startsWith(resolvedLocalDir)) {
+          result.errors.push(`Ошибка безопасности ${skill.name}: обнаружена уязвимость path traversal в пути ${skill.path}`);
+          this.log.push(`  ❌ Ошибка безопасности ${skill.name}: обнаружена уязвимость path traversal в пути ${skill.path}`);
+          continue;
+        }
         const skillDir = path.dirname(skillPath);
 
         // Загрузка содержимого навыка
@@ -158,6 +163,17 @@ export class SkillSyncEngine {
         } catch (fetchErr) {
           result.errors.push(`Ошибка загрузки ${skill.name}: ${(fetchErr as Error).message}`);
           continue;
+        }
+
+        // Верификация контрольной суммы (SHA-256)
+        if (skill.sha) {
+          const crypto = require('crypto');
+          const calculatedSha = crypto.createHash('sha256').update(skillContent, 'utf-8').digest('hex');
+          if (calculatedSha !== skill.sha) {
+            result.errors.push(`Ошибка верификации SHA для ${skill.name}: контрольная сумма не совпадает`);
+            this.log.push(`  ❌ Ошибка верификации SHA для ${skill.name}: контрольная сумма не совпадает`);
+            continue;
+          }
         }
 
         // Определяем статус: новый или изменённый
@@ -215,13 +231,45 @@ export class SkillSyncEngine {
   }
 
   // HTTP GET запрос, возвращающий текст
-  private async fetchText(url: string): Promise<string> {
+  private async fetchText(url: string, redirectsLeft = 3): Promise<string> {
+    const isTrustedRedirect = (originalUrl: string, redirectUrl: string): boolean => {
+      try {
+        const orig = new URL(originalUrl);
+        const redir = new URL(redirectUrl);
+        
+        if (redir.protocol !== 'https:') return false;
+        
+        const origHost = orig.hostname.toLowerCase();
+        const redirHost = redir.hostname.toLowerCase();
+        
+        if (origHost === redirHost) return true;
+        
+        const trustedHosts = ['github.com', 'raw.githubusercontent.com'];
+        if (trustedHosts.includes(redirHost) || redirHost.endsWith('.github.com') || redirHost.endsWith('.githubusercontent.com')) {
+          return true;
+        }
+        
+        return false;
+      } catch {
+        return false;
+      }
+    };
+
     return new Promise((resolve, reject) => {
       const protocol = url.startsWith('https') ? https : require('http');
       protocol.get(url, (res: any) => {
         // Обработка редиректов (301, 302, 307, 308)
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-          this.fetchText(res.headers.location).then(resolve, reject);
+          if (redirectsLeft <= 0) {
+            reject(new Error('Too many redirects'));
+            return;
+          }
+          const redirectUrl = res.headers.location;
+          if (!isTrustedRedirect(url, redirectUrl)) {
+            reject(new Error(`SSRF Prevention: Untrusted redirect target: ${redirectUrl}`));
+            return;
+          }
+          this.fetchText(redirectUrl, redirectsLeft - 1).then(resolve, reject);
           return;
         }
 

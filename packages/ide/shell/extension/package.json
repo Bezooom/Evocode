@@ -2,7 +2,7 @@
   "name": "evocode-shell",
   "displayName": "Эвокод",
   "description": "Нативная оболочка Эвокод: toolbar, модели, настройки IDE.",
-  "version": "0.5.1",
+  "version": "0.9.0",
   "publisher": "evocode",
   "engines": {
     "vscode": "^1.85.0"
@@ -12,6 +12,21 @@
   "main": "./extension.js",
   "icon": "icon.png",
   "contributes": {
+    "customEditors": [
+      {
+        "viewType": "evocode.htmlPreview",
+        "displayName": "Эвокод: Предпросмотр документа",
+        "selector": [
+          {
+            "filenamePattern": "*.html"
+          },
+          {
+            "filenamePattern": "*.md"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
     "commands": [
       {
         "command": "evocode.shell.openProduct",
