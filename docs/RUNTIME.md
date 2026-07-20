@@ -63,6 +63,23 @@ npm run evocode
 Не интегрировано: нет публичного drop-in в ik/buun.  
 Оптимизация «здесь и сейчас» = ваши профили ik (`--fit`) + buun turbo.
 
+## Порты (не путать с OOM)
+
+| Порт | Кто | Конфликт? |
+|------|-----|-----------|
+| 8080 | **один** chat-профиль (`coder` / `chat-buun` / …) | да — только один |
+| 8082 | FIM `fim-small` | нет с chat |
+| 8083 | Evocode Core | нет |
+| 8084 | embed `embed-nomic` | нет с chat |
+
+Сообщение «pid запущен, порт не отвечает» чаще значит **процесс упал** (VRAM OOM), а не «порт занят».  
+Лог: `.evocode/logs/<profile>.log` — ищите `cudaMalloc failed` / `out of memory`.
+
+**35B на RTX 3090 24GB:** веса ~20 GB → KV-cache должен быть умеренным.  
+- ✅ `coder` (ik `--fit`, ctx до ~128k с q4 KV)  
+- ⚠️ `chat-buun`: ctx **32k** (раньше 262k → OOM KV)  
+- embed/fim: **CPU** (`-ngl 0`), чтобы не отъедать VRAM у chat
+
 ## Dual-model: chat + FIM (Neurocontrol)
 
 | Роль | Профиль | Порт | Модель |

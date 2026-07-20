@@ -112,6 +112,37 @@ function writeState(s: StateFile): void {
   fs.writeFileSync(STATE_PATH, JSON.stringify(s, null, 2) + '\n');
 }
 
+/** Parse last lines of profile log for common failure causes (OOM, missing CUDA, …). */
+function diagnoseLog(logPath: string): string {
+  try {
+    if (!fs.existsSync(logPath)) return '';
+    const tail = fs.readFileSync(logPath, 'utf-8').slice(-4000).toLowerCase();
+    if (
+      tail.includes('out of memory') ||
+      tail.includes('cudamalloc failed') ||
+      tail.includes('failed to allocate') ||
+      tail.includes('ggml_gallocr_reserve')
+    ) {
+      return (
+        'Похоже на нехватку VRAM (OOM). Для 35B на 24GB: профиль «coder» (ik --fit), ' +
+        'не chat-buun с огромным ctx; embed/fim лучше на CPU (-ngl 0).'
+      );
+    }
+    if (tail.includes('cuda_error') || tail.includes('no cuda') || tail.includes('cuda driver')) {
+      return 'Ошибка CUDA/драйвера — проверьте nvidia-smi.';
+    }
+    if (tail.includes('failed to load model') || tail.includes('error loading model')) {
+      return 'Не удалось загрузить GGUF — путь/файл/права.';
+    }
+    if (tail.includes('address already in use') || tail.includes('failed to bind')) {
+      return `Порт занят — остановите другой llama-server (fuser -k <port>/tcp).`;
+    }
+  } catch {
+    /* */
+  }
+  return 'Модели 27B+ часто греются 30–90 с; если процесс умер — смотрите лог.';
+}
+
 async function probePort(port: number): Promise<boolean> {
   const bases = [`http://127.0.0.1:${port}`];
   for (const base of bases) {
@@ -385,12 +416,14 @@ export class RuntimeManager {
 
     const view = await this.buildProfileView(profileId, p, readState());
     if (!online) {
+      const died = pid > 0 && !isPidAlive(pid);
+      const hint = diagnoseLog(logPath);
       return {
         ok: false,
         profile: view,
-        message:
-          `Профиль «${profileId}» запущен (pid=${pid}), но порт :${p.port} ещё не отвечает. ` +
-          `Смотрите лог: ${logPath}. Модели 27B+ греются 30–90 с.`,
+        message: died
+          ? `Профиль «${profileId}» упал при старте (pid=${pid} мёртв). ${hint} Лог: ${logPath}`
+          : `Профиль «${profileId}» ещё грузится (pid=${pid}), порт :${p.port} не отвечает за ${waitSec}с. ${hint} Лог: ${logPath}`,
       };
     }
 

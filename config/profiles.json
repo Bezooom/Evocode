@@ -49,39 +49,41 @@
     },
     "chat-buun": {
       "role": "chat",
-      "description": "buun turbo KV + ornith (spawn binary; start_ai4 удалён как мёртвый)",
+      "description": "buun turbo KV + ornith 35B. ctx 32k (не 262k — иначе OOM KV на 24GB). Для max-ctx лучше профиль coder (ik --fit).",
       "binary": "/home/bezoom/buun-llama-cpp/build/bin/llama-server",
       "model": "/home/bezoom/llama.cpp/models/ornith-1.0-35b-Q4_K.gguf",
       "port": 8080,
       "args": [
         "-ngl", "99",
-        "--ctx-size", "262144",
+        "--ctx-size", "32768",
         "--cache-type-k", "turbo4",
         "--cache-type-v", "turbo4",
         "-fa", "on",
         "--parallel", "1",
         "-t", "8",
-        "--batch-size", "2048",
+        "--batch-size", "1024",
         "--ubatch-size", "256",
-        "--n-predict", "32768",
+        "--n-predict", "8192",
         "--timeout", "900",
-        "--no-warmup"
+        "--no-warmup",
+        "--jinja"
       ]
     },
     "embed-nomic": {
       "role": "embed",
-      "description": "nomic embeddings (НЕ на 8081 — Core там; используем 8084)",
+      "description": "nomic embeddings :8084 · CPU (-ngl 0), не отъедает VRAM у chat 35B",
       "binary": "/home/bezoom/buun-llama-cpp/build/bin/llama-server",
       "model": "/home/bezoom/llama.cpp/models/nomic-embed-text-v1.5.Q4_K_M.gguf",
       "port": 8084,
       "args": [
-        "-ngl", "99",
+        "-ngl", "0",
         "--embedding",
         "-t", "8",
         "-c", "8192",
         "--parallel", "2",
-        "--batch-size", "4096",
-        "--ubatch-size", "4096"
+        "--batch-size", "512",
+        "--ubatch-size", "512",
+        "--host", "127.0.0.1"
       ]
     },
     "fim-small": {
