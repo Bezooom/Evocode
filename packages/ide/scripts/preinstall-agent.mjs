@@ -437,6 +437,35 @@ function main() {
     }
   }
 
+  // Always copy both evocode-agent and evocode-shell into the global system IDE resources/app/extensions directory if it exists and is writable!
+  const systemExtDirs = [
+    '/usr/share/evocode/resources/app/extensions',
+  ];
+  for (const systemExtDir of systemExtDirs) {
+    if (fs.existsSync(systemExtDir)) {
+      try {
+        log(`=== F2.3 install to system IDE built-in extensions: ${systemExtDir} ===`);
+        
+        // Copy evocode-agent
+        const agentDest = path.join(systemExtDir, 'evocode-agent');
+        rmrf(agentDest);
+        execSync(`cp -aL "${STAGE_DIR}" "${agentDest}"`, { stdio: 'pipe' });
+        log(`  installed system agent → ${agentDest}`);
+        
+        // Copy evocode-shell
+        const shellSrc = path.join(IDE_DIR, 'shell', 'extension');
+        if (fs.existsSync(shellSrc)) {
+          const shellDest = path.join(systemExtDir, 'evocode-shell');
+          rmrf(shellDest);
+          execSync(`cp -aL "${shellSrc}" "${shellDest}"`, { stdio: 'pipe' });
+          log(`  installed system shell → ${shellDest}`);
+        }
+      } catch (err) {
+        log(`  warn: system install failed for ${systemExtDir}: ${err.message}`);
+      }
+    }
+  }
+
   writeInstallRecord(manifest, installs);
 
   log('');
