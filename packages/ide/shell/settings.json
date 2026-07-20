@@ -1,6 +1,6 @@
 {
   "locale": "ru",
-  "window.title": "Эвокод — ${activeEditorShort}${separator}${rootName}",
+  "window.title": "Эвокод${separator}${activeEditorShort}${separator}${rootName}",
   "window.commandCenter": false,
   "window.menuBarVisibility": "compact",
   "window.titleBarStyle": "custom",

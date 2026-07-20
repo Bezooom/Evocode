@@ -428,6 +428,133 @@ async function main(): Promise<void> {
         return;
       }
 
+      if (req.method === 'POST' && url === '/v1/models/fetch') {
+        try {
+          const body = JSON.parse(await readBody(req) || '{}');
+          const { provider, apiKey, baseUrl, proxyUrl } = body;
+          
+          if (!apiKey && provider !== 'openaicompatible') {
+            sendJson(res, 400, { error: { message: 'API key is required' } });
+            return;
+          }
+
+          let fetchedModels: string[] = [];
+
+          if (provider === 'openrouter') {
+            const targetUrl = 'https://openrouter.ai/api/v1/models';
+            const fetchOptions: any = {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
+              },
+              signal: AbortSignal.timeout(10000),
+            };
+            const proxy = proxyUrl || process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
+            if (proxy) {
+              fetchOptions.dispatcher = new ProxyAgent(proxy);
+            }
+            const r = await fetch(targetUrl, fetchOptions);
+            if (r.ok) {
+              const resData = await r.json() as any;
+              if (Array.isArray(resData.data)) {
+                fetchedModels = resData.data.map((m: any) => m.id);
+              }
+            } else {
+              throw new Error(`OpenRouter returned status ${r.status}`);
+            }
+          } else if (provider === 'openai') {
+            const targetUrl = `${baseUrl || 'https://api.openai.com/v1'}/models`;
+            const fetchOptions: any = {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
+              },
+              signal: AbortSignal.timeout(10000),
+            };
+            const proxy = proxyUrl || process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
+            if (proxy) {
+              fetchOptions.dispatcher = new ProxyAgent(proxy);
+            }
+            const r = await fetch(targetUrl, fetchOptions);
+            if (r.ok) {
+              const resData = await r.json() as any;
+              if (Array.isArray(resData.data)) {
+                fetchedModels = resData.data.map((m: any) => m.id);
+              }
+            } else {
+              throw new Error(`OpenAI returned status ${r.status}`);
+            }
+          } else if (provider === 'gemini') {
+            const targetUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
+            const fetchOptions: any = {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              signal: AbortSignal.timeout(10000),
+            };
+            const proxy = proxyUrl || process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
+            if (proxy) {
+              fetchOptions.dispatcher = new ProxyAgent(proxy);
+            }
+            const r = await fetch(targetUrl, fetchOptions);
+            if (r.ok) {
+              const resData = await r.json() as any;
+              if (Array.isArray(resData.models)) {
+                fetchedModels = resData.models
+                  .map((m: any) => m.name.replace(/^models\//, ''))
+                  .filter((name: string) => name.startsWith('gemini'));
+              }
+            } else {
+              throw new Error(`Gemini API returned status ${r.status}`);
+            }
+          } else if (provider === 'anthropic') {
+            fetchedModels = [
+              'claude-3-5-sonnet-latest',
+              'claude-3-5-haiku-latest',
+              'claude-3-opus-latest',
+              'claude-3-5-sonnet-20241022',
+              'claude-3-5-haiku-20241022',
+              'claude-3-opus-20240229'
+            ];
+          } else if (provider === 'openaicompatible') {
+            const targetUrl = `${baseUrl || 'http://127.0.0.1:8000/v1'}/models`;
+            const fetchOptions: any = {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              } as any,
+              signal: AbortSignal.timeout(10000),
+            };
+            if (apiKey) {
+              fetchOptions.headers['Authorization'] = `Bearer ${apiKey}`;
+            }
+            const proxy = proxyUrl || process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
+            if (proxy) {
+              fetchOptions.dispatcher = new ProxyAgent(proxy);
+            }
+            const r = await fetch(targetUrl, fetchOptions);
+            if (r.ok) {
+              const resData = await r.json() as any;
+              if (Array.isArray(resData.data)) {
+                fetchedModels = resData.data.map((m: any) => m.id);
+              }
+            } else {
+              throw new Error(`Custom provider returned status ${r.status}`);
+            }
+          } else {
+            throw new Error(`Unsupported provider: ${provider}`);
+          }
+
+          sendJson(res, 200, { success: true, models: fetchedModels });
+        } catch (err) {
+          sendJson(res, 500, { error: { message: (err as Error).message } });
+        }
+        return;
+      }
+
       if (req.method === 'GET' && (url === '/v1/models' || url === '/models')) {
         sendJson(res, 200, {
           object: 'list',

@@ -711,7 +711,18 @@ function buildHtml(state) {
 
       <div class="input-container">
         <label>Модель по умолчанию</label>
-        <input id="cloudModel" placeholder="например, anthropic/claude-3-5-sonnet" value="${esc(cloud.model)}" />
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; gap: 8px;">
+            <select id="cloudModelSelect" style="flex: 1;"></select>
+            <button id="toggleCustomModelBtn" class="ghost" style="padding: 4px 8px; font-size: 11px; white-space: nowrap;">Ввести вручную</button>
+          </div>
+          <input id="cloudModelInput" placeholder="например, anthropic/claude-3-5-sonnet" style="display: none;" value="${esc(cloud.model)}" />
+        </div>
+      </div>
+      
+      <div style="margin-top: 10px; display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+        <button id="updateModelsBtn" class="ghost" style="padding: 6px 12px; font-size: 12px;">Обновить модели</button>
+        <span id="updateModelsStatus" style="font-size: 11px; color: var(--vscode-descriptionForeground);"></span>
       </div>
 
       <div class="input-container">
@@ -958,9 +969,22 @@ function buildHtml(state) {
   });
 
   // Облачные модели и Роутер
+  const DEFAULT_MODELS = {
+    openrouter: ['anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'google/gemini-pro-1.5', 'meta-llama/llama-3-70b-instruct'],
+    openai: ['gpt-4o', 'gpt-4o-mini', 'gpt-4', 'gpt-3.5-turbo'],
+    anthropic: ['claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest', 'claude-3-opus-latest'],
+    gemini: ['gemini-1.5-pro-latest', 'gemini-1.5-flash-latest', 'gemini-2.0-flash-exp'],
+    openaicompatible: []
+  };
+
   const providerEl = document.getElementById('cloudProvider');
   const baseUrlEl = document.getElementById('cloudBaseUrl');
-  const modelEl = document.getElementById('cloudModel');
+  const cloudModelSelect = document.getElementById('cloudModelSelect');
+  const cloudModelInput = document.getElementById('cloudModelInput');
+  const toggleCustomModelBtn = document.getElementById('toggleCustomModelBtn');
+  const updateModelsBtn = document.getElementById('updateModelsBtn');
+  const updateModelsStatus = document.getElementById('updateModelsStatus');
+
   const urlTemplates = {
     openrouter: 'https://openrouter.ai/api/v1',
     openai: 'https://api.openai.com/v1',
@@ -968,21 +992,105 @@ function buildHtml(state) {
     gemini: 'https://generativelanguage.googleapis.com/v1beta/openai/v1',
     openaicompatible: ''
   };
-  const modelTemplates = {
-    openrouter: 'anthropic/claude-3-5-sonnet',
-    openai: 'gpt-4o',
-    anthropic: 'claude-3-5-sonnet-20241022',
-    gemini: 'gemini-1.5-pro',
-    openaicompatible: ''
-  };
+
+  let currentModel = `${esc(cloud.model)}`;
+  let isCustomModel = true;
+
+  function populateModels(modelsList) {
+    cloudModelSelect.innerHTML = '';
+    const uniqueModels = Array.from(new Set(modelsList));
+    uniqueModels.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m;
+      cloudModelSelect.appendChild(opt);
+    });
+
+    const customOpt = document.createElement('option');
+    customOpt.value = '__custom__';
+    customOpt.textContent = 'Другая (ввести вручную)...';
+    cloudModelSelect.appendChild(customOpt);
+
+    if (uniqueModels.includes(currentModel)) {
+      cloudModelSelect.value = currentModel;
+      isCustomModel = false;
+      cloudModelInput.style.display = 'none';
+    } else {
+      cloudModelSelect.value = '__custom__';
+      isCustomModel = true;
+      cloudModelInput.style.display = 'block';
+    }
+  }
+
+  // Populate initially
+  const defaultModels = DEFAULT_MODELS[providerEl.value] || [];
+  if (currentModel && !defaultModels.includes(currentModel)) {
+    populateModels([...defaultModels, currentModel]);
+  } else {
+    populateModels(defaultModels);
+  }
+
   providerEl?.addEventListener('change', () => {
     const val = providerEl.value;
     if (urlTemplates[val] !== undefined) {
       if (urlTemplates[val]) baseUrlEl.value = urlTemplates[val];
     }
-    if (modelTemplates[val] !== undefined) {
-      if (modelTemplates[val]) modelEl.value = modelTemplates[val];
+    const models = DEFAULT_MODELS[val] || [];
+    if (models.length > 0) {
+      currentModel = models[0];
+      populateModels(models);
+      cloudModelInput.value = currentModel;
+    } else {
+      currentModel = '';
+      populateModels([]);
+      cloudModelInput.value = '';
     }
+  });
+
+  cloudModelSelect?.addEventListener('change', () => {
+    if (cloudModelSelect.value === '__custom__') {
+      isCustomModel = true;
+      cloudModelInput.style.display = 'block';
+      cloudModelInput.focus();
+    } else {
+      isCustomModel = false;
+      cloudModelInput.style.display = 'none';
+      cloudModelInput.value = cloudModelSelect.value;
+    }
+  });
+
+  toggleCustomModelBtn?.addEventListener('click', () => {
+    if (cloudModelInput.style.display === 'none') {
+      cloudModelInput.style.display = 'block';
+      cloudModelSelect.value = '__custom__';
+      isCustomModel = true;
+      cloudModelInput.focus();
+    } else {
+      cloudModelInput.style.display = 'none';
+      if (cloudModelSelect.value === '__custom__') {
+        cloudModelSelect.value = cloudModelSelect.options[0]?.value || '';
+      }
+      isCustomModel = false;
+      cloudModelInput.value = cloudModelSelect.value;
+    }
+  });
+
+  updateModelsBtn?.addEventListener('click', () => {
+    const provider = providerEl.value;
+    const apiKey = document.getElementById('cloudApiKey').value.trim();
+    const baseUrl = baseUrlEl.value.trim();
+    const proxyUrl = document.getElementById('cloudProxyUrl').value.trim();
+
+    if (!apiKey && provider !== 'openaicompatible') {
+      updateModelsStatus.textContent = 'Ошибка: введите API ключ';
+      updateModelsStatus.style.color = '#ff6b6b';
+      return;
+    }
+
+    updateModelsStatus.textContent = 'Загрузка моделей...';
+    updateModelsStatus.style.color = 'var(--vscode-descriptionForeground)';
+
+    post('fetchModels', { provider, apiKey, baseUrl, proxyUrl });
   });
 
   const privacyEl = document.getElementById('routerPrivacyMode');
@@ -992,12 +1100,13 @@ function buildHtml(state) {
   });
 
   document.getElementById('saveCloudBtn').onclick = () => {
+    const activeModel = isCustomModel ? cloudModelInput.value.trim() : cloudModelSelect.value;
     post('saveCloud', {
       inference: {
         cloud: {
           provider: document.getElementById('cloudProvider').value,
           apiKey: document.getElementById('cloudApiKey').value.trim(),
-          model: document.getElementById('cloudModel').value.trim(),
+          model: activeModel,
           baseUrl: document.getElementById('cloudBaseUrl').value.trim(),
           proxyUrl: document.getElementById('cloudProxyUrl').value.trim()
         }
@@ -1064,7 +1173,25 @@ function buildHtml(state) {
     }
   });
 
-  window.addEventListener('message', (e) => { if (e.data?.type === 'log') log(e.data.text); });
+  window.addEventListener('message', (e) => {
+    const msg = e.data;
+    if (msg?.type === 'log') log(msg.text);
+    if (msg?.type === 'modelsFetched') {
+      if (msg.success && Array.isArray(msg.models)) {
+        if (msg.models.length === 0) {
+          updateModelsStatus.textContent = 'Провайдер не вернул модели';
+          updateModelsStatus.style.color = '#ff9f43';
+        } else {
+          populateModels(msg.models);
+          updateModelsStatus.textContent = `Успешно загружено моделей: ${msg.models.length}`;
+          updateModelsStatus.style.color = '#2ecc71';
+        }
+      } else {
+        updateModelsStatus.textContent = `Ошибка: ${msg.error || 'неизвестно'}`;
+        updateModelsStatus.style.color = '#ff6b6b';
+      }
+    }
+  });
 </script>
 </body>
 </html>`;
@@ -1348,6 +1475,32 @@ class ProductPanel {
           log(`Ошибка: ${e.message}`);
         }
         await this.refresh();
+        return;
+      }
+      if (msg.type === 'fetchModels') {
+        try {
+          const r = await httpJson('POST', '/v1/models/fetch', msg, port, 15000);
+          if (r.status === 200 && Array.isArray(r.json?.models)) {
+            this.panel.webview.postMessage({
+              type: 'modelsFetched',
+              success: true,
+              models: r.json.models
+            });
+          } else {
+            const err = r.json?.error?.message || 'ошибка сервера';
+            this.panel.webview.postMessage({
+              type: 'modelsFetched',
+              success: false,
+              error: err
+            });
+          }
+        } catch (e) {
+          this.panel.webview.postMessage({
+            type: 'modelsFetched',
+            success: false,
+            error: e.message
+          });
+        }
         return;
       }
       if (msg.type === 'syncSkills') {

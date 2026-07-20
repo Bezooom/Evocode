@@ -493,8 +493,8 @@ function main() {
 
   const customIconCss = `
 /* Evocode Premium Custom Icon Overrides */
-.activitybar .action-label.codicon-files::before,
-.activitybar .action-label.codicon-explorer-view-icon::before {
+.activitybar .codicon-files::before,
+.activitybar .codicon-explorer-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.explorer)}') no-repeat center / 20px 20px !important;
@@ -503,8 +503,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-search::before,
-.activitybar .action-label.codicon-search-view-icon::before {
+.activitybar .codicon-search::before,
+.activitybar .codicon-search-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.search)}') no-repeat center / 20px 20px !important;
@@ -513,8 +513,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-source-control::before,
-.activitybar .action-label.codicon-source-control-view-icon::before {
+.activitybar .codicon-source-control::before,
+.activitybar .codicon-source-control-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.git)}') no-repeat center / 20px 20px !important;
@@ -523,8 +523,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-debug-alt::before,
-.activitybar .action-label.codicon-run-view-icon::before {
+.activitybar .codicon-debug-alt::before,
+.activitybar .codicon-run-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.play)}') no-repeat center / 20px 20px !important;
@@ -533,8 +533,8 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-extensions::before,
-.activitybar .action-label.codicon-extensions-view-icon::before {
+.activitybar .codicon-extensions::before,
+.activitybar .codicon-extensions-view-icon::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.extensions)}') no-repeat center / 20px 20px !important;
@@ -543,7 +543,7 @@ function main() {
   height: 24px !important;
   display: inline-block !important;
 }
-.activitybar .action-label.codicon-settings-gear::before {
+.activitybar .codicon-settings-gear::before {
   content: "" !important;
   -webkit-mask: url('data:image/svg+xml;base64,${toB64(SVGS.settings)}') no-repeat center / 20px 20px !important;
   mask: url('data:image/svg+xml;base64,${toB64(SVGS.settings)}') no-repeat center / 20px 20px !important;
@@ -618,6 +618,32 @@ function main() {
         log(`  applied premium minimalist file icons to ${dir}`);
       } catch (err) {
         log(`  warn: failed to write file icons to ${dir}: ${err.message}`);
+      }
+    }
+  }
+
+  // Overwrite default VSCodium letterpress watermark background SVGs with Evocode branding
+  const letterpressSVGs = {
+    'letterpress-dark.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="128" height="128" fill="none" stroke="#B2B2B2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.16"><path d="M8 6L3 12L8 18"/><path d="M18 6c-3.5 0-6 2.5-6 6s2.5 6 6 6"/><path d="M3 12h15"/></svg>`,
+    'letterpress-hcDark.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="128" height="128" fill="none" stroke="#B2B2B2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.16"><path d="M8 6L3 12L8 18"/><path d="M18 6c-3.5 0-6 2.5-6 6s2.5 6 6 6"/><path d="M3 12h15"/></svg>`,
+    'letterpress-light.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="128" height="128" fill="none" stroke="#333333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.16"><path d="M8 6L3 12L8 18"/><path d="M18 6c-3.5 0-6 2.5-6 6s2.5 6 6 6"/><path d="M3 12h15"/></svg>`,
+    'letterpress-hcLight.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="128" height="128" fill="none" stroke="#333333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.16"><path d="M8 6L3 12L8 18"/><path d="M18 6c-3.5 0-6 2.5-6 6s2.5 6 6 6"/><path d="M3 12h15"/></svg>`
+  };
+
+  const letterpressDirs = [
+    path.join(IDE_DIR, 'dist/evocode-ide/resources/app/out/media'),
+    '/usr/share/evocode/resources/app/out/media'
+  ];
+
+  for (const dir of letterpressDirs) {
+    if (fs.existsSync(dir)) {
+      try {
+        for (const [filename, svg] of Object.entries(letterpressSVGs)) {
+          fs.writeFileSync(path.join(dir, filename), svg, 'utf8');
+        }
+        log(`  applied premium Evocode letterpress watermark SVGs to ${dir}`);
+      } catch (err) {
+        log(`  warn: failed to write letterpress SVGs to ${dir}: ${err.message}`);
       }
     }
   }
