@@ -33,12 +33,17 @@
 ```mermaid
 flowchart TD
     accTitle: Evocode System Architecture & Data Flow
-    accDescr: High-level overview of Evocode's request processing pipeline, routing local completions to llama-server or cloud completions through DLP Guard.
+    accDescr: High-level overview of Evocode's request processing pipeline with vertically stacked components for better readability.
+
+    classDef default font-size:16px,font-family:'JetBrains Mono',monospace,stroke-width:1.5px,padding:8px,fill:#1e1e2e,stroke:#313244,color:#cdd6f4;
+    classDef highlight fill:#11111b,stroke:#89b4fa,stroke-width:2px,color:#89b4fa;
+    classDef backend fill:#181825,stroke:#f38ba8,color:#f38ba8;
 
     user[Пользователь в VSCodium] -->|Запрос| ext[Агент расширения Эвокод]
     ext -->|OpenAI API на порт :8083| core[Evocode Core]
 
     subgraph CoreComponents["🧬 Сервисы Evocode Core"]
+        direction TB
         core -->|Анализ и роутинг| router[Smart Router]
         router -->|Загрузка контекста| skills[Skill Router v2]
         router -->|Поиск по базе кода| rag[VectorIndex RAG]
@@ -46,15 +51,17 @@ flowchart TD
     end
 
     subgraph Backends["🧠 Локальные и облачные бэкенды"]
-        router -->|Локальный Чат| llama_chat[llama-server :8080]
-        router -->|Локальный FIM| llama_fim[llama-server :8082]
-        router -->|Локальные эмбеддинги| llama_embed[llama-server :8084]
-        router -->|Облачный провайдер| cloud[Внешний API / Прокси]
+        direction TB
+        llama_chat[Локальный Чат: llama-server :8080]
+        llama_fim[Локальный FIM: llama-server :8082]
+        llama_embed[Локальные эмбеддинги: llama-server :8084]
+        cloud[Облачный провайдер / Прокси]
     end
 
-    classDef default fill:#1e1e2e,stroke:#313244,color:#cdd6f4;
-    classDef highlight fill:#11111b,stroke:#89b4fa,stroke-width:2px,color:#89b4fa;
-    classDef backend fill:#181825,stroke:#f38ba8,color:#f38ba8;
+    router --> llama_chat
+    router --> llama_fim
+    router --> llama_embed
+    dlp --> cloud
 
     class core,router,skills,rag,dlp highlight;
     class llama_chat,llama_fim,llama_embed,cloud backend;
