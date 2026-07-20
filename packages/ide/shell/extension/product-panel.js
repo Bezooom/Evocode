@@ -199,6 +199,34 @@ function readAgentSettings() {
 
 function buildHtml(state) {
   const rt = state.runtime || {};
+  const skillsList = state.skills || [];
+  const skillCards = skillsList.length > 0
+    ? skillsList.map((s) => {
+        const isUser = s.source === 'user';
+        const sourceLabel = isUser ? 'Пользовательский' : 'Системный';
+        const badgeClass = isUser ? 'badge-user' : 'badge-system';
+        const triggers = (s.triggers || []).map(t => `<span class="pill">${esc(t)}</span>`).join(' ');
+        
+        return `<div class="card">
+          <div class="head">
+            <span class="dot ${isUser ? 'on' : 'system-dot'}"></span>
+            <div style="flex: 1; min-width: 0;">
+              <div class="t">
+                ${esc(s.name)} 
+                <span class="badge ${badgeClass}">${sourceLabel}</span>
+              </div>
+              <div class="s" style="margin-top: 6px; word-break: break-all;"><code>${esc(s.path)}</code></div>
+              <div class="s muted" style="margin-top: 6px; font-style: italic;">${esc(s.description || 'Нет описания')}</div>
+              <div class="pills-container" style="margin-top: 8px;">${triggers}</div>
+            </div>
+          </div>
+          <div class="acts" style="margin-top: 12px;">
+            <button class="ghost" data-act="openFile" data-path="${esc(s.path)}">Редактировать в IDE</button>
+            ${isUser ? `<button class="ghost delete-btn" data-act="deleteSkill" data-name="${esc(s.name)}">Удалить</button>` : ''}
+          </div>
+        </div>`;
+      }).join('')
+    : `<div class="banner">Нет загруженных навыков.</div>`;
   const profiles = rt.profiles || [];
   const cards = profiles
     .map((p) => {
@@ -400,6 +428,24 @@ function buildHtml(state) {
   li { margin-bottom: 4px; }
   .hint { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
   .hint-inline { color: var(--muted); font-weight: 400; font-size: 11px; }
+  .dot.system-dot { background: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.6); }
+  .badge {
+    font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px; text-transform: uppercase;
+  }
+  .badge.badge-user { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+  .badge.badge-system { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+  .pill {
+    display: inline-block; font-size: 10px; background: rgba(255, 255, 255, 0.05); color: var(--muted);
+    padding: 2px 6px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px; border: 1px solid var(--border);
+  }
+  .delete-btn {
+    border-color: rgba(239, 68, 68, 0.3) !important;
+  }
+  .delete-btn:hover {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: rgba(239, 68, 68, 0.6) !important;
+    color: #f87171 !important;
+  }
   #log { margin-top: 14px; font-size: 11px; color: var(--muted); white-space: pre-wrap; font-family: monospace; }
 </style>
 </head>
@@ -407,6 +453,7 @@ function buildHtml(state) {
   <div class="top">
     <button class="tab active" data-tab="models">Модели</button>
     <button class="tab" data-tab="agent">Агент</button>
+    <button class="tab" data-tab="skills">Навыки</button>
     <button class="tab" data-tab="mcp">MCP Серверы</button>
     <button class="tab" data-tab="core">Программа</button>
   </div>
@@ -447,6 +494,26 @@ function buildHtml(state) {
     <div class="row" style="margin-top:16px">
       <button id="saveAgent">Сохранить всё</button>
       <button class="ghost" id="focusAgent">Открыть чат агента</button>
+    </div>
+  </section>
+
+  <section class="page" id="skills">
+    <h1>Навыки Эвокод</h1>
+    <p class="hint">Навыки — это расширенные инструкции агента. Системные навыки (system) обновляются из репозитория, а пользовательские (user) позволяют добавлять свои инструкции или переопределять системные.</p>
+    
+    <div class="row">
+      <button id="syncSkills">Синхронизировать сейчас</button>
+    </div>
+
+    <div id="skills-list" style="margin-top: 12px;">${skillCards}</div>
+
+    <h2>Создать новый навык</h2>
+    <div class="card" style="margin-top: 10px;">
+      <label>Имя нового навыка (только латиница, цифры, дефисы)</label>
+      <input id="newSkillName" placeholder="например, my-custom-skill" />
+      <div class="row" style="margin-top: 14px;">
+        <button id="createSkillBtn">Создать и редактировать</button>
+      </div>
     </div>
   </section>
 
@@ -582,6 +649,28 @@ function buildHtml(state) {
   document.getElementById('ensureCore').onclick = () => post('ensureCore');
   document.getElementById('openOutput').onclick = () => post('openOutput');
   document.getElementById('installDesktop').onclick = () => post('installDesktop');
+
+  // Навыки
+  document.getElementById('syncSkills').onclick = () => { log('Синхронизация навыков…'); post('syncSkills'); };
+  document.getElementById('createSkillBtn').onclick = () => {
+    const name = document.getElementById('newSkillName').value.trim();
+    if (!name) {
+      log('Укажите имя навыка');
+      return;
+    }
+    log('Создание навыка ' + name + '…');
+    post('createSkill', { name });
+  };
+  document.getElementById('skills-list')?.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-act]');
+    if (!b) return;
+    if (b.dataset.act === 'openFile') {
+      post('openFile', { path: b.dataset.path });
+    } else if (b.dataset.act === 'deleteSkill') {
+      post('deleteSkill', { name: b.dataset.name });
+    }
+  });
+
   window.addEventListener('message', (e) => { if (e.data?.type === 'log') log(e.data.text); });
 </script>
 </body>
@@ -649,6 +738,55 @@ class ProductPanel {
       coreOnline,
       coreHealth,
       runtime,
+      agent: {
+        coreUrl: baseURL,
+        model:
+          kilo.model ||
+          `${conf.get('evocode-agent.new.model.providerID') || 'evocode'}/${conf.get('evocode-agent.new.model.modelID') || 'evocode-auto'}`,
+        privacyMode: process.env.EVOCODE_PRIVACY_MODE || 'auto',
+      },
+      agentSettings: readAgentSettings(),
+      mcpServers: kilo.mcp || {},
+    };
+  }
+
+  async gatherState() {
+    const port = corePort(this.getCfg());
+    let runtime = { localReady: false, message: 'Core offline', profiles: [], forks: {} };
+    let coreOnline = false;
+    let coreHealth = null;
+    try {
+      const h = await httpJson('GET', '/health', null, port, 3000);
+      coreOnline = h.status === 200;
+      coreHealth = h.json;
+      const rt = await httpJson('GET', '/v1/runtime', null, port, 8000);
+      if (rt.json) runtime = rt.json;
+    } catch {
+      /* */
+    }
+    let skills = [];
+    if (coreOnline) {
+      try {
+        const sk = await httpJson('GET', '/v1/skills', null, port, 5000);
+        if (sk.json && sk.json.skills) {
+          skills = sk.json.skills;
+        }
+      } catch {
+        /* */
+      }
+    }
+    const kilo = readKiloConfig();
+    const baseURL =
+      kilo?.provider?.evocode?.options?.baseURL ||
+      process.env.EVOCODE_CORE_URL ||
+      `http://127.0.0.1:${port}/v1`;
+    const conf = vscode.workspace.getConfiguration();
+    return {
+      corePort: port,
+      coreOnline,
+      coreHealth,
+      runtime,
+      skills,
       agent: {
         coreUrl: baseURL,
         model:
@@ -802,6 +940,88 @@ class ProductPanel {
       }
       if (msg.type === 'installDesktop') {
         await vscode.commands.executeCommand('evocode.shell.installDesktop');
+        return;
+      }
+      if (msg.type === 'syncSkills') {
+        await vscode.window.withProgress(
+          { location: vscode.ProgressLocation.Notification, title: 'Эвокод: Синхронизация навыков…' },
+          async () => {
+            try {
+              const r = await httpJson('POST', '/v1/skills/sync', {}, port, 60000);
+              const count = (r.json?.newSkills?.length || 0) + (r.json?.changedSkills?.length || 0);
+              vscode.window.showInformationMessage(`Эвокод: Синхронизировано навыков: ${count}`);
+              log(`Синхронизация завершена. Ошибок: ${r.json?.errors?.length || 0}`);
+            } catch (e) {
+              vscode.window.showErrorMessage(`Ошибка синхронизации: ${e.message}`);
+              log(`Ошибка: ${e.message}`);
+            }
+            await this.refresh();
+          }
+        );
+        return;
+      }
+      if (msg.type === 'openFile') {
+        const filePath = msg.path;
+        if (fs.existsSync(filePath)) {
+          vscode.workspace.openTextDocument(filePath).then(doc => {
+            vscode.window.showTextDocument(doc);
+          });
+        } else {
+          vscode.window.showErrorMessage(`Файл не найден: ${filePath}`);
+        }
+        return;
+      }
+      if (msg.type === 'createSkill') {
+        const name = String(msg.name || '').trim();
+        if (!name) return;
+        try {
+          const r = await httpJson('POST', '/v1/skills/user', { name }, port, 10000);
+          if (r.status === 200 && r.json?.path) {
+            vscode.window.showInformationMessage(`Эвокод: Навык «${name}» создан.`);
+            log(`Создан навык ${name} по пути ${r.json.path}`);
+            if (fs.existsSync(r.json.path)) {
+              vscode.workspace.openTextDocument(r.json.path).then(doc => {
+                vscode.window.showTextDocument(doc);
+              });
+            }
+            await this.refresh();
+          } else {
+            const err = r.json?.error?.message || 'ошибка сервера';
+            vscode.window.showErrorMessage(`Не удалось создать навык: ${err}`);
+            log(`Ошибка: ${err}`);
+          }
+        } catch (e) {
+          vscode.window.showErrorMessage(`Ошибка создания: ${e.message}`);
+          log(`Ошибка: ${e.message}`);
+        }
+        return;
+      }
+      if (msg.type === 'deleteSkill') {
+        const name = String(msg.name || '').trim();
+        if (!name) return;
+        const confirm = await vscode.window.showWarningMessage(
+          `Вы действительно хотите удалить пользовательский навык «${name}»?`,
+          'Да, удалить',
+          'Отмена'
+        );
+        if (confirm === 'Да, удалить') {
+          try {
+            const r = await httpJson('DELETE', '/v1/skills/user', { name }, port, 5000);
+            if (r.status === 200) {
+              vscode.window.showInformationMessage(`Эвокод: Навык «${name}» удален.`);
+              log(`Удален навык ${name}`);
+            } else {
+              const err = r.json?.error?.message || 'ошибка сервера';
+              vscode.window.showErrorMessage(`Ошибка удаления: ${err}`);
+              log(`Ошибка: ${err}`);
+            }
+          } catch (e) {
+            vscode.window.showErrorMessage(`Ошибка: ${e.message}`);
+            log(`Ошибка: ${e.message}`);
+          }
+          await this.refresh();
+        }
+        return;
       }
     } catch (e) {
       vscode.window.showErrorMessage(`Эвокод: ${e.message}`);

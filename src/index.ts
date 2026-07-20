@@ -318,6 +318,80 @@ async function main(): Promise<void> {
         return;
       }
 
+      if (req.method === 'GET' && url === '/v1/skills') {
+        const all = skillLoader.loadAll(true);
+        sendJson(res, 200, { skills: all });
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/skills/user') {
+        const body = JSON.parse(await readBody(req) || '{}');
+        const name = String(body.name || '').trim();
+        const content = String(body.content || '');
+        if (!name) {
+          sendJson(res, 400, { error: { message: 'Имя навыка обязательно', type: 'invalid_request' } });
+          return;
+        }
+        if (!/^[a-zA-Z0-9._-]+$/.test(name)) {
+          sendJson(res, 400, { error: { message: 'Имя: только латиница, цифры, . _ -', type: 'invalid_request' } });
+          return;
+        }
+        const fs = await import('fs');
+        const pathModule = await import('path');
+        const userSkillDir = pathModule.join(defaultConfig.skills.userPath, name);
+        fs.mkdirSync(userSkillDir, { recursive: true });
+        const skillFile = pathModule.join(userSkillDir, 'SKILL.md');
+
+        let finalContent = content;
+        if (!finalContent) {
+          finalContent = [
+            '---',
+            `name: ${name}`,
+            'description: Описание вашего кастомного навыка',
+            `triggers: [${name}]`,
+            '---',
+            `# Навык: ${name}`,
+            '',
+            'Инструкции для AI-агента...',
+            '',
+          ].join('\n');
+        }
+
+        fs.writeFileSync(skillFile, finalContent, 'utf-8');
+        skillLoader.invalidate();
+        sendJson(res, 200, { success: true, path: pathModule.resolve(skillFile) });
+        return;
+      }
+
+      if (req.method === 'DELETE' && url === '/v1/skills/user') {
+        const body = JSON.parse(await readBody(req) || '{}');
+        const name = String(body.name || '').trim();
+        if (!name) {
+          sendJson(res, 400, { error: { message: 'Имя навыка обязательно', type: 'invalid_request' } });
+          return;
+        }
+        const fs = await import('fs');
+        const pathModule = await import('path');
+        const userSkillDir = pathModule.join(defaultConfig.skills.userPath, name);
+        const skillFile = pathModule.join(userSkillDir, 'SKILL.md');
+        if (fs.existsSync(skillFile)) {
+          fs.unlinkSync(skillFile);
+        }
+        if (fs.existsSync(userSkillDir)) {
+          try {
+            const files = fs.readdirSync(userSkillDir);
+            if (files.length === 0) {
+              fs.rmdirSync(userSkillDir);
+            }
+          } catch {
+            /* */
+          }
+        }
+        skillLoader.invalidate();
+        sendJson(res, 200, { success: true });
+        return;
+      }
+
       if (req.method === 'GET' && (url === '/v1/models' || url === '/models')) {
         sendJson(res, 200, {
           object: 'list',
