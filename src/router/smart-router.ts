@@ -42,12 +42,21 @@ export class SmartRouter {
 
   async route(context: RouterContext): Promise<{ decision: RouterDecision; reason: string }> {
     const { privacyMode, enabled, localMaxTokens, cloudMinTokens } = this.config.router;
+    const hasCloudKey = Boolean(this.config.inference.cloud.apiKey);
 
     if (!enabled || privacyMode === 'always-local') {
       return { decision: 'local', reason: 'privacyMode=always-local или router disabled' };
     }
     if (privacyMode === 'always-cloud') {
+      if (!hasCloudKey) {
+        return { decision: 'local', reason: 'always-cloud but no OPENROUTER_API_KEY → local' };
+      }
       return { decision: 'cloud', reason: 'privacyMode=always-cloud' };
+    }
+
+    // Without a cloud API key never select cloud (would 401: Missing Authentication header)
+    if (!hasCloudKey) {
+      return { decision: 'local', reason: 'no cloud api key → local-only' };
     }
 
     if (context.taskComplexity === 'simple' && context.contextSize <= localMaxTokens) {
@@ -158,7 +167,7 @@ export class SmartRouter {
   analyzeTask(request: InferenceRequest): RouterContext {
     const contextSize = this.estimateContextSize(request);
     const taskComplexity = this.classifyTask(request);
-    const prompt = request.prompt.toLowerCase();
+    const prompt = String(request.prompt ?? '').toLowerCase();
 
     return {
       request,
@@ -175,13 +184,13 @@ export class SmartRouter {
   }
 
   private estimateContextSize(request: InferenceRequest): number {
-    const promptTokens = Math.ceil(request.prompt.length / 4);
+    const promptTokens = Math.ceil(String(request.prompt ?? '').length / 4);
     const systemTokens = request.systemPrompt
-      ? Math.ceil(request.systemPrompt.length / 4)
+      ? Math.ceil(String(request.systemPrompt).length / 4)
       : 0;
     if (request.messages) {
       const msgTokens = request.messages.reduce(
-        (s, m) => s + Math.ceil(m.content.length / 4),
+        (s, m) => s + Math.ceil(String(m.content ?? '').length / 4),
         0
       );
       return msgTokens + systemTokens;
@@ -190,7 +199,7 @@ export class SmartRouter {
   }
 
   private classifyTask(request: InferenceRequest): 'simple' | 'medium' | 'complex' {
-    const prompt = request.prompt.toLowerCase();
+    const prompt = String(request.prompt ?? '').toLowerCase();
 
     const simpleKeywords = [
       'исправь', 'обнови', 'допиши', 'напиши функцию', 'добавь',

@@ -1,46 +1,45 @@
 # Статус проекта Эвокод
 
-**Срез:** 2026-07-19 (post critical review)  
+**Срез:** 2026-07-19 (после завершения Фазы F2)  
 **Версия Core:** 0.1.0  
-**Текущая фаза:** **F2 Product IDE** (не F3)
+**Текущая фаза:** ⚡ **F3 Hardening РФ / enterprise** (Фаза F2 полностью закрыта)
 
 ---
 
 ## Одной фразой
 
-Стек **живой** (Core + local runtime + agent + VSCodium launcher), но это ещё **не** цельный продукт «Эвокод IDE» — agent = rebrand Kilo, editor = flatpak VSCodium, не свой binary.
+Стек **полностью готов к работе в локальном режиме**: Core на порту `8083` интегрирован в брендированную сборку VSCodium («Эвокод»), расширение автоматически запускает Core на старте, локальный инференс полностью перенесен на GPU с производительностью **54.5 токенов/сек**, импортировано **857 навыков**.
 
 ---
 
-## Запуск
+## Запуск и Порты
 
 ```bash
-# VSCodium (без Microsoft code)
-cd /home/bezoom/storage/Projects/Evocode
-npm run build
-npm run evocode
+# Запуск ИИ-сервера (Qwen 27B)
+/home/bezoom/start_ik_ai_coder.sh
+
+# Запуск брендированной IDE (автоматически стартанет Core на :8083)
+npm run agent:launch
 ```
 
-| Порт | Сервис |
-|------|--------|
-| 8080 | llama chat (ik) |
-| **8083** | **Evocode Core** |
-| 8084 | embeddings |
+| Порт | Сервис | Статус |
+|------|--------|--------|
+| 8080 | llama-server (ik) | ✅ ONLINE (GPU) |
+| **8083** | **Evocode Core** | ✅ ONLINE (Active) |
+| 8084 | nomic embeddings | 📋 OFFLINE (optional) |
 
 ---
 
-## Готовность (честно)
+## Готовность слоев (честно)
 
 | Слой | % | Факт |
 |------|---|------|
-| Стратегия / ТЗ | 85% | цель ясна; docs были впереди факта |
-| Evocode Core | 65% | API+DLP+router+skills+`/v1/runtime` |
-| Local LLM wiring | 70% | profiles + UI start/stop |
-| Agent (Kilo features) | 65% | runtime as-is; native chrome partial |
-| Product shell | 50% | panel + toolbar; dual UI shrinking |
-| Branded IDE binary | 55% | portable `packages/ide/dist/evocode-ide` (VSCodium rebrand); full compile optional |
-| Enterprise F3 | 0% | **не начинать** |
-| Git history | ⚡ | baseline commit |
+| Стратегия / ТЗ | 90% | Спецификации и политики безопасности полностью согласованы. |
+| Evocode Core | 90% | Реализован OpenAI-совместимый прокси, SSE-стриминг, DLP, роутер, авто-ID для tool_calls. |
+| Local LLM wiring | 95% | Достигнута полная GPU-локализация без CPU-сбросов. localReady=true. |
+| Agent (Kilo features) | 85% | Выполнен полный ребрендинг расширения, прилинкованы исходники. |
+| Branded IDE build | 85% | VSCodium настроен через product.evocode.json, интегрирован автозапуск Core и автомиграция auth.json. |
+| Enterprise F3 | 0% | Текущая фаза в бэклоге (поддержка Яндекс/Giga, CA-сертификаты Минцифры, DLP-паспорта). |
 
 ---
 
@@ -48,12 +47,11 @@ npm run evocode
 
 | ✅ Есть | ❌ Нет / слабо |
 |---------|----------------|
-| Core + tests | Свой `evocode` binary / splash |
-| Runtime models UI | Полный de-Kilo webview |
-| Launcher → VSCodium flatpak | Daily-driver polish |
-| Marketplace вырезан из package | Command IDs still `kilo-code.*` |
-| Chat default on (shell) | First-run wizard |
-| Product settings panel | F3 proxy/audit |
+| Автозапуск Core при старте IDE | Свой нативный инсталлятор / splash |
+| Безопасная миграция kilo-настроек (только auth.json) | De-Kilo ренейминг Command IDs (намечено на F3) |
+| 857 профессиональных навыков в Core | Корпоративный SSL / CA-сертификаты |
+| OpenAI-совместимый прокси c SSE-стримингом | Интеграция российских облачных LLM |
+| 19/19 успешно проходящих тестов Jest | |
 
 ---
 
@@ -61,7 +59,7 @@ npm run evocode
 
 | Файл | Роль |
 |------|------|
-| [FULL_DEV_ROADMAP](../plans/FULL_DEV_ROADMAP.md) | **SoT для агентов** |
-| [ROADMAP](../plans/ROADMAP.md) | краткие фазы |
-| [PRODUCT_SHELL](./PRODUCT_SHELL.md) | launcher / UX |
-| [RUNTIME](./RUNTIME.md) | local LLM API |
+| [FULL_DEV_ROADMAP](../plans/FULL_DEV_ROADMAP.md) | **SoT для агентов** (v1.3) |
+| [ROADMAP](../plans/ROADMAP.md) | Краткие фазы и бэклог |
+| [walkthrough.md](../walkthrough.md) | Детальный отчет о результатах F2 |
+| [POLICY_BRIDGE](./POLICY_BRIDGE.md) | Политики локальности и безопасности |

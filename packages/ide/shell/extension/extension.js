@@ -105,8 +105,8 @@ async function ensureCore(log) {
 
 async function focusAgent() {
   const candidates = [
-    'workbench.view.extension.kilo-code-ActivityBar',
-    'kilo-code.SidebarProvider.focus',
+    'workbench.view.extension.evocode-agent-ActivityBar',
+    'evocode-agent.SidebarProvider.focus',
     'workbench.action.focusSideBar',
   ];
   for (const cmd of candidates) {
@@ -214,7 +214,7 @@ async function activate(context) {
       }
     }),
     vscode.commands.registerCommand('evocode.shell.agentManager', () =>
-      runAgentCmd('kilo-code.new.agentManagerOpen', 'Менеджер агентов недоступен'),
+      runAgentCmd('evocode-agent.new.agentManagerOpen', 'Менеджер агентов недоступен'),
     ),
     // Profile/settings of agent → single product settings UI (no Kilo settings webview)
     vscode.commands.registerCommand('evocode.shell.profile', () => {
@@ -344,22 +344,78 @@ async function activate(context) {
 
   const first = context.globalState.get(FIRST_RUN_KEY);
   if (!first && cfg().get('showWelcome') !== false) {
-    const pick = await vscode.window.showInformationMessage(
-      'Эвокод: чат слева (Ctrl+L). Все настройки — одна панель (Ctrl+Shift+M) или Ctrl+,.',
-      'Настройки',
+    const startWizard = await vscode.window.showInformationMessage(
+      'Добро пожаловать в Эвокод! Хотите выполнить быструю настройку среды (модели, ярлыки, навыки)?',
+      'Начать настройку',
       'Ярлык Ubuntu',
-      'Понятно',
+      'Пропустить'
     );
-    if (pick === 'Настройки') openProduct();
-    if (pick === 'Ярлык Ubuntu') {
+
+    if (startWizard === 'Ярлык Ubuntu') {
       try {
         installDesktopEntry(log);
         vscode.window.showInformationMessage('Ярлык «Эвокод» установлен');
       } catch (e) {
         vscode.window.showErrorMessage(String(e.message || e));
       }
+      await context.globalState.update(FIRST_RUN_KEY, true);
+    } else if (startWizard === 'Начать настройку') {
+      // Step 1: Model
+      const step1 = await vscode.window.showInformationMessage(
+        'Шаг 1/2: Запустить локальную модель Coder (27B) по умолчанию?',
+        'Запустить',
+        'Пропустить'
+      );
+      if (step1 === 'Запустить') {
+        await vscode.window.withProgress(
+          { location: vscode.ProgressLocation.Notification, title: 'Эвокод: Запуск Coder (llama-server)…' },
+          async () => {
+            try {
+              await ensureCore(log);
+              const r = await startDefaultModel(log);
+              vscode.window.showInformationMessage(`Модель: ${r.message || 'успешно запущена'}`);
+            } catch (e) {
+              vscode.window.showErrorMessage(`Ошибка запуска модели: ${e.message}`);
+            }
+          }
+        );
+      }
+
+      // Step 2: Skill sync
+      const step2 = await vscode.window.showInformationMessage(
+        'Шаг 2/2: Синхронизировать библиотеки системных навыков Эвокод?',
+        'Синхронизировать',
+        'Пропустить'
+      );
+      if (step2 === 'Синхронизировать') {
+        await vscode.window.withProgress(
+          { location: vscode.ProgressLocation.Notification, title: 'Эвокод: Синхронизация навыков с Core…' },
+          async () => {
+            try {
+              const port = corePort(cfg());
+              const res = await httpJson('POST', '/v1/skills/sync', {}, port, 60000);
+              const count = (res.json?.newSkills?.length || 0) + (res.json?.changedSkills?.length || 0);
+              vscode.window.showInformationMessage(`Синхронизировано навыков: ${count}`);
+            } catch (e) {
+              vscode.window.showErrorMessage(`Ошибка синхронизации навыков: ${e.message}`);
+            }
+          }
+        );
+      }
+
+      // Done
+      await context.globalState.update(FIRST_RUN_KEY, true);
+      const finished = await vscode.window.showInformationMessage(
+        'Настройка Эвокод успешно завершена! Открыть панель управления?',
+        'Открыть настройки',
+        'Понятно'
+      );
+      if (finished === 'Открыть настройки') {
+        openProduct();
+      }
+    } else if (startWizard === 'Пропустить') {
+      await context.globalState.update(FIRST_RUN_KEY, true);
     }
-    if (pick) await context.globalState.update(FIRST_RUN_KEY, true);
   }
 }
 

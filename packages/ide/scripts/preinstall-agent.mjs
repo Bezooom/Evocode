@@ -183,8 +183,8 @@ function stageExtension() {
   writeJson(MANIFEST_PATH, manifest);
 
   writeJson(DEFAULTS_PATH, {
-    'kilo-code.new.model.providerID': 'evocode',
-    'kilo-code.new.model.modelID': 'evocode-auto',
+    'evocode-agent.new.model.providerID': 'evocode',
+    'evocode-agent.new.model.modelID': 'evocode-auto',
     'extensions.autoUpdate': false,
   });
 
@@ -349,10 +349,12 @@ function check() {
     for (const c of Array.isArray(conf) ? conf : conf ? [conf] : []) {
       Object.assign(props, c.properties || {});
     }
-    props['kilo-code.new.model.providerID']?.default === 'evocode'
+    const pKey = props['evocode-agent.new.model.providerID'] || props['kilo-code.new.model.providerID'];
+    const mKey = props['evocode-agent.new.model.modelID'] || props['kilo-code.new.model.modelID'];
+    pKey?.default === 'evocode'
       ? ok('default providerID=evocode')
       : bad('default providerID not evocode');
-    props['kilo-code.new.model.modelID']?.default === 'evocode-auto'
+    mKey?.default === 'evocode-auto'
       ? ok('default modelID=evocode-auto')
       : bad('default modelID not evocode-auto');
   }
@@ -412,6 +414,27 @@ function main() {
 
   const vscHook = hookVscodiumSource(manifest);
   if (vscHook) installs.push({ path: vscHook, root: 'vscodium-system' });
+
+  // Always copy both evocode-agent and evocode-shell into the portable IDE resources/app/extensions directory if it exists!
+  const portableExtDir = path.join(IDE_DIR, 'dist', 'evocode-ide', 'resources', 'app', 'extensions');
+  if (fs.existsSync(portableExtDir)) {
+    log('=== F2.3 install to portable IDE built-in extensions ===');
+    
+    // Copy evocode-agent
+    const agentDest = path.join(portableExtDir, 'evocode-agent');
+    rmrf(agentDest);
+    execSync(`cp -aL "${STAGE_DIR}" "${agentDest}"`, { stdio: 'pipe' });
+    log(`  installed agent → ${agentDest}`);
+    
+    // Copy evocode-shell
+    const shellSrc = path.join(IDE_DIR, 'shell', 'extension');
+    if (fs.existsSync(shellSrc)) {
+      const shellDest = path.join(portableExtDir, 'evocode-shell');
+      rmrf(shellDest);
+      execSync(`cp -aL "${shellSrc}" "${shellDest}"`, { stdio: 'pipe' });
+      log(`  installed shell → ${shellDest}`);
+    }
+  }
 
   writeInstallRecord(manifest, installs);
 

@@ -116,13 +116,14 @@ const evocodeSh = path.join(binDir, 'evocode');
 if (fs.existsSync(codiumSh)) {
   let script = fs.readFileSync(codiumSh, 'utf8');
   // VSCodium script references itself; keep name but add sibling wrapper
+  // Do NOT pass --class/--name: Electron steals next args (breaks --user-data-dir).
+  // Window identity comes from product.json (applicationName / nameShort).
   const wrapper = `#!/usr/bin/env bash
 # Эвокод — branded VSCodium portable
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 export VSCODE_DEV=
 export ELECTRON_RUN_AS_NODE=
-# Prefer our product identity for WM
-exec "\${ROOT}/bin/codium" --class Evocode --name Evocode "\$@"
+exec "\${ROOT}/bin/codium" "\$@"
 `;
   fs.writeFileSync(evocodeSh, wrapper);
   fs.chmodSync(evocodeSh, 0o755);

@@ -1,6 +1,6 @@
 /**
  * Единые настройки программы «Эвокод»:
- * Модели | Агент (все ключевые kilo-функции) | Программа
+ * Модели | Агент | MCP | Программа
  */
 const vscode = require('vscode');
 const http = require('http');
@@ -8,21 +8,41 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
+/** Shared agent config paths (evocode.json, not stock kilo). */
+let agentPaths = null;
+for (const candidate of [
+  path.join(__dirname, 'agent-config-paths.cjs'),
+  process.env.EVOCODE_ROOT &&
+    path.join(process.env.EVOCODE_ROOT, 'packages/agent-extension/lib/agent-config-paths.cjs'),
+  path.join(__dirname, '../../../agent-extension/lib/agent-config-paths.cjs'),
+  path.join(__dirname, '../../../../agent-extension/lib/agent-config-paths.cjs'),
+].filter(Boolean)) {
+  try {
+    if (fs.existsSync(candidate)) {
+      agentPaths = require(candidate);
+      break;
+    }
+  } catch {
+    /* */
+  }
+}
+
 /** @type {{ key: string, label: string, type: 'boolean'|'string'|'enum', options?: string[], section: string, hint?: string }[]} */
 const AGENT_SETTINGS = [
-  { key: 'kilo-code.new.model.providerID', label: 'Провайдер по умолчанию', type: 'string', section: 'Модель' },
-  { key: 'kilo-code.new.model.modelID', label: 'Модель по умолчанию', type: 'string', section: 'Модель' },
-  { key: 'kilo-code.new.language', label: 'Язык UI агента', type: 'string', section: 'Модель', hint: 'Русский' },
-  { key: 'kilo-code.new.autoApprove.enabled', label: 'Авто-одобрение действий', type: 'boolean', section: 'Безопасность' },
-  { key: 'kilo-code.new.autocomplete.enableAutoTrigger', label: 'Автодополнение в редакторе', type: 'boolean', section: 'Автодополнение' },
-  { key: 'kilo-code.new.autocomplete.enableChatAutocomplete', label: 'Автодополнение в чате', type: 'boolean', section: 'Автодополнение' },
-  { key: 'kilo-code.new.autocomplete.enableSmartInlineTaskKeybinding', label: 'Умный inline task (горячая клавиша)', type: 'boolean', section: 'Автодополнение' },
-  { key: 'kilo-code.new.autocomplete.provider', label: 'Провайдер autocomplete', type: 'string', section: 'Автодополнение', hint: 'пусто = Эвокод Core' },
-  { key: 'kilo-code.new.autocomplete.model', label: 'Модель autocomplete', type: 'string', section: 'Автодополнение' },
-  { key: 'kilo-code.new.browserAutomation.enabled', label: 'Автоматизация браузера (Playwright)', type: 'boolean', section: 'Инструменты' },
-  { key: 'kilo-code.new.browserAutomation.headless', label: 'Браузер headless', type: 'boolean', section: 'Инструменты' },
-  { key: 'kilo-code.new.browserAutomation.useSystemChrome', label: 'Системный Chrome', type: 'boolean', section: 'Инструменты' },
-  { key: 'kilo-code.new.diff.renderMarkdown', label: 'Diff: рендер Markdown', type: 'boolean', section: 'Инструменты' },
+  { key: 'evocode-agent.new.model.providerID', label: 'Провайдер по умолчанию', type: 'string', section: 'Модель' },
+  { key: 'evocode-agent.new.model.modelID', label: 'Модель по умолчанию', type: 'string', section: 'Модель' },
+  { key: 'evocode-agent.new.language', label: 'Язык UI агента', type: 'string', section: 'Модель', hint: 'Русский' },
+  { key: 'evocode-agent.new.autoApprove.enabled', label: 'Авто-одобрение действий', type: 'boolean', section: 'Безопасность' },
+  { key: 'evocode-agent.new.sandbox.enabled', label: 'Изолированная песочница (bubblewrap)', type: 'boolean', section: 'Безопасность', hint: 'bwrap' },
+  { key: 'evocode-agent.new.autocomplete.enableAutoTrigger', label: 'Автодополнение в редакторе', type: 'boolean', section: 'Автодополнение' },
+  { key: 'evocode-agent.new.autocomplete.enableChatAutocomplete', label: 'Автодополнение в чате', type: 'boolean', section: 'Автодополнение' },
+  { key: 'evocode-agent.new.autocomplete.enableSmartInlineTaskKeybinding', label: 'Умный inline task (горячая клавиша)', type: 'boolean', section: 'Автодополнение' },
+  { key: 'evocode-agent.new.autocomplete.provider', label: 'Провайдер autocomplete', type: 'string', section: 'Автодополнение', hint: 'пусто = Эвокод Core' },
+  { key: 'evocode-agent.new.autocomplete.model', label: 'Модель autocomplete', type: 'string', section: 'Автодополнение' },
+  { key: 'evocode-agent.new.browserAutomation.enabled', label: 'Автоматизация браузера (Playwright)', type: 'boolean', section: 'Инструменты' },
+  { key: 'evocode-agent.new.browserAutomation.headless', label: 'Браузер headless', type: 'boolean', section: 'Инструменты' },
+  { key: 'evocode-agent.new.browserAutomation.useSystemChrome', label: 'Системный Chrome', type: 'boolean', section: 'Инструменты' },
+  { key: 'evocode-agent.new.diff.renderMarkdown', label: 'Diff: рендер Markdown', type: 'boolean', section: 'Инструменты' },
 ];
 
 function corePort(cfg) {
@@ -74,32 +94,98 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
-/** Isolated Evocode agent config — never ~/.config/kilo (that is real Kilo / VS Code). */
-function kiloConfigPath() {
-  if (process.env.KILO_CONFIG_DIR) {
-    return path.join(process.env.KILO_CONFIG_DIR, 'kilo.json');
+/** Isolated Evocode agent config — never ~/.config/kilo (stock Kilo / VS Code). */
+function agentConfigDisplayPath() {
+  if (agentPaths) return agentPaths.canonicalAgentConfigPath();
+  if (process.env.EVOCODE_CONFIG_DIR) {
+    return path.join(process.env.EVOCODE_CONFIG_DIR, 'evocode.json');
   }
-  return path.join(os.homedir(), '.config', 'evocode', 'kilo', 'kilo.json');
+  if (process.env.KILO_CONFIG_DIR) {
+    return path.join(process.env.KILO_CONFIG_DIR, 'evocode.json');
+  }
+  return path.join(os.homedir(), '.config', 'evocode', 'agent', 'evocode.json');
 }
 
-function readKiloConfig() {
+function readAgentConfigFile() {
+  if (agentPaths) {
+    agentPaths.migrateLegacyIsolatedConfig?.();
+    return agentPaths.readAgentConfig();
+  }
   try {
-    return JSON.parse(fs.readFileSync(kiloConfigPath(), 'utf8'));
+    return JSON.parse(fs.readFileSync(agentConfigDisplayPath(), 'utf8'));
   } catch {
     return {};
   }
 }
 
-function writeKiloConfig(patch) {
-  const p = kiloConfigPath();
+function writeAgentConfigFile(patch) {
+  if (agentPaths) {
+    return agentPaths.patchAgentConfig(patch);
+  }
+  const p = agentConfigDisplayPath();
   fs.mkdirSync(path.dirname(p), { recursive: true });
-  const cur = readKiloConfig();
+  let cur = {};
+  try {
+    cur = JSON.parse(fs.readFileSync(p, 'utf8'));
+  } catch {
+    /* */
+  }
   const next = { ...cur, ...patch };
   if (patch.provider) {
     next.provider = { ...(cur.provider || {}), ...patch.provider };
   }
   fs.writeFileSync(p, JSON.stringify(next, null, 2) + '\n');
   return next;
+}
+
+// Back-compat aliases used below
+const readKiloConfig = readAgentConfigFile;
+const writeKiloConfig = writeAgentConfigFile;
+
+/**
+ * Normalize MCP entry for display.
+ * Kilo/OpenCode schema:
+ *   local:  { type: "local", command: string[], environment?: Record<string,string> }
+ *   remote: { type: "remote", url: string }
+ * Legacy UI shape (pre-fix): { command: string, args: string[], env?: object }
+ */
+function formatMcpEntry(cfg) {
+  if (!cfg || typeof cfg !== 'object') {
+    return { kind: '?', detail: 'некорректная запись', extra: '' };
+  }
+  const isRemote = cfg.type === 'remote' || (cfg.url && !cfg.command);
+  if (isRemote) {
+    return { kind: 'remote', detail: String(cfg.url || ''), extra: '' };
+  }
+  let argv = [];
+  if (Array.isArray(cfg.command)) {
+    argv = cfg.command.map(String);
+  } else if (cfg.command != null || Array.isArray(cfg.args)) {
+    argv = [cfg.command, ...(cfg.args || [])].filter((x) => x != null && x !== '').map(String);
+  }
+  const env = cfg.environment || cfg.env;
+  const envKeys = env && typeof env === 'object' ? Object.keys(env) : [];
+  return {
+    kind: cfg.type || 'local',
+    detail: argv.length ? argv.join(' ') : '(нет команды)',
+    extra: envKeys.length ? `env: ${envKeys.join(', ')}` : '',
+  };
+}
+
+/** Build Kilo-compatible MCP server object from UI form payload. */
+function buildMcpServerConfig(msg) {
+  const type = msg.mcpType === 'remote' ? 'remote' : 'local';
+  if (type === 'remote') {
+    return { type: 'remote', url: String(msg.url || '').trim() };
+  }
+  const cmd = String(msg.command || '').trim();
+  const args = Array.isArray(msg.args) ? msg.args.map(String) : [];
+  const command = cmd ? [cmd, ...args] : args;
+  const entry = { type: 'local', command };
+  if (msg.env && typeof msg.env === 'object' && Object.keys(msg.env).length) {
+    entry.environment = msg.env;
+  }
+  return entry;
 }
 
 function readAgentSettings() {
@@ -148,6 +234,26 @@ function buildHtml(state) {
     .map(([k, v]) => `<li><b>${esc(k)}</b> — ${esc(v)}</li>`)
     .join('');
 
+  const mcpEntries = Object.entries(state.mcpServers || {});
+  const mcpRows = mcpEntries.length > 0
+    ? mcpEntries.map(([id, cfg]) => {
+        const meta = formatMcpEntry(cfg);
+        return `<div class="card">
+          <div class="head">
+            <span class="dot on"></span>
+            <div>
+              <div class="t">${esc(id)} <span class="hint-inline">(${esc(meta.kind)})</span></div>
+              <div class="s"><code>${esc(meta.detail)}</code></div>
+              ${meta.extra ? `<div class="s muted">${esc(meta.extra)}</div>` : ''}
+            </div>
+          </div>
+          <div class="acts">
+            <button class="ghost" data-act="deleteMcp" data-id="${esc(id)}">Удалить</button>
+          </div>
+        </div>`;
+      }).join('')
+    : `<div class="banner">Нет MCP-серверов в <code>${esc(agentConfigDisplayPath())}</code> (изолированный конфиг Эвокод).</div>`;
+
   const agent = state.agent || {};
   const vals = state.agentSettings || {};
   const sections = {};
@@ -179,72 +285,129 @@ function buildHtml(state) {
 <style>
   :root {
     color-scheme: dark;
-    --bg: #0B0F14;
-    --fg: #E6EDF3;
-    --muted: #8B949E;
-    --card: #121821;
-    --border: #1E293B;
-    --accent: #3B82F6;
-    --ok: #22C55E;
+    --bg: #060814;
+    --fg: #F1F5F9;
+    --muted: #94A3B8;
+    --card: rgba(20, 26, 48, 0.45);
+    --border: rgba(255, 255, 255, 0.08);
+    --accent: #6366F1;
+    --ok: #10B981;
+    --warn: #F59E0B;
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; font: 13px/1.45 system-ui, sans-serif;
-    color: var(--fg); background: var(--bg);
+    margin: 0; font: 13px/1.5 system-ui, -apple-system, sans-serif;
+    color: var(--fg); background: linear-gradient(135deg, #060814 0%, #0d122b 100%);
+    background-attachment: fixed;
+    letter-spacing: -0.01em;
   }
   .top {
-    display: flex; border-bottom: 1px solid var(--border);
-    background: #0B0F14; position: sticky; top: 0; z-index: 2;
+    display: flex;
+    background: rgba(6, 8, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+    padding: 6px;
+    gap: 6px;
   }
   .tab {
-    flex: 1; padding: 12px 8px; cursor: pointer; border: 0;
-    background: transparent; color: var(--muted); font-weight: 650;
+    flex: 1; padding: 10px 14px; cursor: pointer; border: 0;
+    background: transparent; color: var(--muted); font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
   }
-  .tab.active { color: var(--fg); border-bottom: 2px solid var(--accent); }
-  .page { display: none; padding: 18px 20px 48px; max-width: 760px; margin: 0 auto; }
+  .tab.active {
+    background: rgba(99, 102, 241, 0.15);
+    color: #A5B4FC;
+    box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.3);
+  }
+  .tab:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--fg);
+  }
+  .page { display: none; padding: 24px 20px 48px; max-width: 760px; margin: 0 auto; }
   .page.active { display: block; }
-  h1 { font-size: 18px; margin: 0 0 6px; font-weight: 700; }
-  h2 { font-size: 12px; margin: 18px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  h1 {
+    font-size: 22px; margin: 0 0 8px; font-weight: 800;
+    background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  h2 { font-size: 11px; margin: 24px 0 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
   .banner {
-    padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
-    background: var(--card); margin: 10px 0 14px; color: var(--muted);
+    padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);
+    background: var(--card); margin: 12px 0 18px; color: var(--muted);
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
   }
-  .banner.ok { border-color: #16653488; color: var(--fg); }
-  .banner.warn { border-color: #854d0e88; }
-  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .banner.ok { border-color: rgba(16, 185, 129, 0.3); color: var(--fg); background: rgba(16, 185, 129, 0.05); }
+  .banner.warn { border-color: rgba(245, 158, 11, 0.3); color: #FCD34D; background: rgba(245, 158, 11, 0.05); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   button {
-    background: var(--accent); color: #fff; border: 0; border-radius: 8px;
-    padding: 8px 12px; font-size: 12px; cursor: pointer; font-weight: 650;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    color: #fff; border: 0; border-radius: 8px;
+    padding: 9px 15px; font-size: 12px; cursor: pointer; font-weight: 600;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+    transition: all 0.2s ease;
   }
-  button.ghost { background: transparent; border: 1px solid var(--border); color: var(--fg); }
+  button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+  }
+  button.ghost {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    box-shadow: none;
+  }
+  button.ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: none;
+  }
   .card {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 12px; margin-bottom: 10px;
+    border-radius: 14px; padding: 16px; margin-bottom: 12px;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease-in-out;
   }
-  .head { display: flex; gap: 10px; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 5px; background: #334155; }
-  .dot.on { background: var(--ok); box-shadow: 0 0 8px #22c55e88; }
-  .t { font-weight: 700; }
-  .s { color: var(--muted); font-size: 11.5px; margin-top: 2px; }
-  .acts { display: flex; gap: 8px; margin-top: 10px; }
+  .card:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.06);
+  }
+  .head { display: flex; gap: 12px; align-items: center; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #334155; }
+  .dot.on { background: var(--ok); box-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
+  .t { font-weight: 700; font-size: 14px; }
+  .s { color: var(--muted); font-size: 12px; margin-top: 3px; }
+  .acts { display: flex; gap: 8px; margin-top: 14px; }
   .acts button { flex: 1; }
-  label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
-  label.check { color: var(--fg); display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+  label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 6px; font-weight: 500; }
+  label.check { color: var(--fg); display: flex; align-items: center; gap: 10px; margin: 10px 0; cursor: pointer; }
   input[type="text"], input:not([type]), select {
-    width: 100%; padding: 9px 10px; border-radius: 8px;
-    border: 1px solid var(--border); background: #0B0F14; color: var(--fg);
+    width: 100%; padding: 10px 12px; border-radius: 8px;
+    border: 1px solid var(--border); background: rgba(13, 18, 38, 0.6); color: var(--fg);
+    outline: none;
+    transition: all 0.2s ease;
   }
-  input[type="checkbox"] { width: 16px; height: 16px; }
+  input[type="text"]:focus, input:not([type]):focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    background: rgba(13, 18, 38, 0.9);
+  }
+  input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
   ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 12px; }
-  .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
-  .hint-inline { color: var(--muted); font-weight: 400; }
-  #log { margin-top: 12px; font-size: 11px; color: var(--muted); white-space: pre-wrap; }
+  li { margin-bottom: 4px; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+  .hint-inline { color: var(--muted); font-weight: 400; font-size: 11px; }
+  #log { margin-top: 14px; font-size: 11px; color: var(--muted); white-space: pre-wrap; font-family: monospace; }
 </style>
 </head>
 <body>
   <div class="top">
     <button class="tab active" data-tab="models">Модели</button>
     <button class="tab" data-tab="agent">Агент</button>
+    <button class="tab" data-tab="mcp">MCP Серверы</button>
     <button class="tab" data-tab="core">Программа</button>
   </div>
 
@@ -284,6 +447,36 @@ function buildHtml(state) {
     <div class="row" style="margin-top:16px">
       <button id="saveAgent">Сохранить всё</button>
       <button class="ghost" id="focusAgent">Открыть чат агента</button>
+    </div>
+  </section>
+
+  <section class="page" id="mcp">
+    <h1>MCP Серверы</h1>
+    <p class="hint">Model Context Protocol — внешние tools агента. Конфиг: <code>${esc(agentConfigDisplayPath())}</code> → ключ <code>mcp</code> (local command[] / remote url). После изменений — перезагрузка окна агента.</p>
+    <div id="mcp-list">${mcpRows}</div>
+
+    <h2>Добавить MCP-сервер</h2>
+    <div class="card" style="margin-top:10px">
+      <label>Идентификатор (ID)</label>
+      <input id="newMcpId" placeholder="например, filesystem" />
+      <label>Тип</label>
+      <select id="newMcpType">
+        <option value="local" selected>local — команда (stdio)</option>
+        <option value="remote">remote — URL</option>
+      </select>
+      <div id="mcpLocalFields">
+        <label>Исполняемый файл / команда</label>
+        <input id="newMcpCmd" placeholder="npx  или  /usr/bin/python3" />
+        <label>Аргументы (через запятую)</label>
+        <input id="newMcpArgs" placeholder="-y, @modelcontextprotocol/server-filesystem, /home/user" />
+      </div>
+      <div id="mcpRemoteFields" style="display:none">
+        <label>URL</label>
+        <input id="newMcpUrl" placeholder="https://…/mcp  или  http://127.0.0.1:8000/mcp" />
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button id="addMcpBtn">Добавить сервер</button>
+      </div>
     </div>
   </section>
 
@@ -333,6 +526,45 @@ function buildHtml(state) {
     log(b.dataset.act + ' ' + b.dataset.id);
     post(b.dataset.act, { id: b.dataset.id });
   });
+  document.getElementById('mcp-list')?.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-act]');
+    if (!b) return;
+    log(b.dataset.act + ' ' + b.dataset.id);
+    post(b.dataset.act, { id: b.dataset.id });
+  });
+  const mcpTypeEl = document.getElementById('newMcpType');
+  const syncMcpType = () => {
+    const remote = mcpTypeEl?.value === 'remote';
+    document.getElementById('mcpLocalFields').style.display = remote ? 'none' : '';
+    document.getElementById('mcpRemoteFields').style.display = remote ? '' : 'none';
+  };
+  mcpTypeEl?.addEventListener('change', syncMcpType);
+  syncMcpType();
+  document.getElementById('addMcpBtn').onclick = () => {
+    const id = document.getElementById('newMcpId').value.trim();
+    const mcpType = document.getElementById('newMcpType').value;
+    if (!id) {
+      log('Укажите ID сервера');
+      return;
+    }
+    if (mcpType === 'remote') {
+      const url = document.getElementById('newMcpUrl').value.trim();
+      if (!url) {
+        log('Укажите URL remote MCP');
+        return;
+      }
+      post('addMcp', { id, mcpType: 'remote', url });
+      return;
+    }
+    const command = document.getElementById('newMcpCmd').value.trim();
+    const argsRaw = document.getElementById('newMcpArgs').value.trim();
+    if (!command) {
+      log('Укажите команду (executable)');
+      return;
+    }
+    const args = argsRaw ? argsRaw.split(',').map((s) => s.trim()).filter(Boolean) : [];
+    post('addMcp', { id, mcpType: 'local', command, args });
+  };
   document.getElementById('saveAgent').onclick = () => {
     const settings = {};
     document.querySelectorAll('[data-key]').forEach((el) => {
@@ -421,10 +653,11 @@ class ProductPanel {
         coreUrl: baseURL,
         model:
           kilo.model ||
-          `${conf.get('kilo-code.new.model.providerID') || 'evocode'}/${conf.get('kilo-code.new.model.modelID') || 'evocode-auto'}`,
+          `${conf.get('evocode-agent.new.model.providerID') || 'evocode'}/${conf.get('evocode-agent.new.model.modelID') || 'evocode-auto'}`,
         privacyMode: process.env.EVOCODE_PRIVACY_MODE || 'auto',
       },
       agentSettings: readAgentSettings(),
+      mcpServers: kilo.mcp || {},
     };
   }
 
@@ -471,6 +704,43 @@ class ProductPanel {
         log(r.json?.message || 'OK');
         return void (await this.refresh());
       }
+      if (msg.type === 'addMcp') {
+        const id = String(msg.id || '').trim();
+        if (!id) {
+          log('ID сервера обязателен');
+          return;
+        }
+        if (!/^[a-zA-Z0-9._-]+$/.test(id)) {
+          log('ID: только латиница, цифры, . _ -');
+          return;
+        }
+        const entry = buildMcpServerConfig(msg);
+        if (entry.type === 'remote' && !entry.url) {
+          log('URL remote MCP обязателен');
+          return;
+        }
+        if (entry.type === 'local' && (!entry.command || !entry.command.length)) {
+          log('Команда local MCP обязательна');
+          return;
+        }
+        const kilo = readKiloConfig();
+        if (!kilo.mcp || typeof kilo.mcp !== 'object') kilo.mcp = {};
+        kilo.mcp[id] = entry;
+        writeKiloConfig({ mcp: kilo.mcp });
+        log(`Добавлен MCP (${entry.type}): ${id} — перезагрузите окно агента для применения`);
+        return void (await this.refresh());
+      }
+      if (msg.type === 'deleteMcp') {
+        const kilo = readKiloConfig();
+        if (kilo.mcp && kilo.mcp[msg.id]) {
+          delete kilo.mcp[msg.id];
+          writeKiloConfig({ mcp: kilo.mcp });
+          log(`Удалён MCP-сервер: ${msg.id} — перезагрузите окно агента для применения`);
+        } else {
+          log(`MCP «${msg.id}» не найден`);
+        }
+        return void (await this.refresh());
+      }
       if (msg.type === 'saveAgent') {
         const coreUrl = msg.coreUrl || `http://127.0.0.1:${port}/v1`;
         const model = msg.model || 'evocode/evocode-auto';
@@ -490,8 +760,8 @@ class ProductPanel {
         const parts = String(model).split('/');
         const providerID = parts.length > 1 ? parts[0] : 'evocode';
         const modelID = parts.length > 1 ? parts.slice(1).join('/') : model;
-        await conf.update('kilo-code.new.model.providerID', providerID, true);
-        await conf.update('kilo-code.new.model.modelID', modelID, true);
+        await conf.update('evocode-agent.new.model.providerID', providerID, true);
+        await conf.update('evocode-agent.new.model.modelID', modelID, true);
 
         // all agent settings from form
         for (const [key, val] of Object.entries(msg.settings || {})) {

@@ -55,4 +55,28 @@ describe('DLPGuard', () => {
     });
     expect(report).toContain('Данные не требуют маскировки');
   });
+
+  it('должен писать в аудит-лог при обработке запроса', async () => {
+    const fs = require('fs');
+    const path = require('path');
+    const root = process.env.EVOCODE_ROOT || path.resolve(__dirname, '../../');
+    const auditPath = path.join(root, '.evocode', 'audit.log');
+    
+    // Clear previous logs
+    if (fs.existsSync(auditPath)) {
+      fs.unlinkSync(auditPath);
+    }
+    
+    await guard.processRequest({
+      prompt: 'api_key: abc123def456ghi789012345',
+    });
+    
+    expect(fs.existsSync(auditPath)).toBe(true);
+    const content = fs.readFileSync(auditPath, 'utf-8');
+    const entry = JSON.parse(content.trim().split('\n').pop()!);
+    expect(entry.action).toBe('cloud_request');
+    expect(entry.wasMasked).toBe(true);
+    expect(entry.changesCount).toBe(1);
+    expect(entry.rulesMatched).toContain('api-key');
+  });
 });

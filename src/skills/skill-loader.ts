@@ -2,6 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { defaultConfig, EvocodeConfig } from '../core/config';
+import { contentToText } from '../core/text';
 
 export interface LoadedSkill {
   name: string;
@@ -111,9 +112,9 @@ export class SkillLoader {
    * Подбирает навыки по query и склеивает в блок для system prompt.
    * User skills уже перекрыли system в loadAll.
    */
-  buildInjection(query: string, maxSkills = 3): { text: string; skills: LoadedSkill[] } {
+  buildInjection(query: string | unknown, maxSkills = 3): { text: string; skills: LoadedSkill[] } {
     const all = this.loadAll();
-    const q = query.toLowerCase();
+    const q = contentToText(query).toLowerCase();
     const scored = all
       .map((skill) => {
         let score = 0;

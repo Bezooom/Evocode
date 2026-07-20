@@ -18,7 +18,7 @@
   },
   {
     "key": "ctrl+shift+l",
-    "command": "kilo-code.new.plusButtonClicked"
+    "command": "evocode-agent.new.plusButtonClicked"
   },
   {
     "key": "ctrl+;",

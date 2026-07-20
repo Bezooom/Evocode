@@ -10,7 +10,9 @@ import { DLPBlockedError } from './guard/dlp-guard';
 import { vectorIndex } from './indexer/vector-index';
 import { skillLoader } from './skills/skill-loader';
 import { defaultConfig } from './core/config';
+import { contentToText } from './core/text';
 import * as http from 'http';
+import { ProxyAgent } from 'undici';
 
 export interface ChatResult {
   answer: string;
@@ -51,12 +53,13 @@ async function initialize(): Promise<void> {
 }
 
 /** Полный pipeline: skills → RAG → router → (DLP only if cloud) → inference */
-export async function handleRequest(query: string): Promise<ChatResult> {
-  const skillInj = skillLoader.buildInjection(query);
+export async function handleRequest(query: string | unknown): Promise<ChatResult> {
+  const text = contentToText(query);
+  const skillInj = skillLoader.buildInjection(text);
 
   let ragContext = '';
   try {
-    const queryEmbedding = await inferenceEngine.getEmbeddings(query.slice(0, 2000));
+    const queryEmbedding = await inferenceEngine.getEmbeddings(text.slice(0, 2000));
     const relevantChunks = vectorIndex.search(queryEmbedding, 3);
     if (relevantChunks.length > 0) {
       ragContext =
@@ -72,12 +75,12 @@ export async function handleRequest(query: string): Promise<ChatResult> {
   const systemPrompt = [skillInj.text, ragContext].filter(Boolean).join('\n\n');
 
   const context = smartRouter.analyzeTask({
-    prompt: query,
+    prompt: text,
     systemPrompt,
   });
 
   const { response, meta } = await smartRouter.processRequest(
-    { prompt: query, systemPrompt: systemPrompt || undefined },
+    { prompt: text, systemPrompt: systemPrompt || undefined },
     context
   );
 
@@ -179,10 +182,36 @@ async function applyRuntimeToInference(profileId: string, online: boolean): Prom
   }
 }
 
+export function isAuthorized(
+  remoteAddress: string | undefined,
+  headers: http.IncomingHttpHeaders,
+  authToken: string
+): boolean {
+  if (!authToken) return true;
+
+  const ip = remoteAddress || '';
+  const isLocal =
+    ip === '127.0.0.1' ||
+    ip === '::1' ||
+    ip === '::ffff:127.0.0.1' ||
+    ip === 'localhost';
+
+  if (isLocal) return true;
+
+  const authHeader = headers['authorization'] || '';
+  const expected = `Bearer ${authToken}`;
+  return authHeader === expected;
+}
+
 async function main(): Promise<void> {
   await initialize();
 
   const server = http.createServer(async (req, res) => {
+    if (!isAuthorized(req.socket.remoteAddress, req.headers, defaultConfig.security.authToken)) {
+      sendJson(res, 401, { error: { message: 'Unauthorized (invalid or missing token)', type: 'unauthorized' } });
+      return;
+    }
+
     if (req.method === 'OPTIONS') {
       sendJson(res, 204, {});
       return;
@@ -282,6 +311,13 @@ async function main(): Promise<void> {
         return;
       }
 
+      if (req.method === 'POST' && url === '/v1/skills/sync') {
+        const result = await skillSyncEngine.sync();
+        skillLoader.invalidate();
+        sendJson(res, 200, result);
+        return;
+      }
+
       if (req.method === 'GET' && (url === '/v1/models' || url === '/models')) {
         sendJson(res, 200, {
           object: 'list',
@@ -308,7 +344,7 @@ async function main(): Promise<void> {
 
       if (req.method === 'POST' && url === '/chat') {
         const body = JSON.parse(await readBody(req));
-        const query = body.query || body.message || body.prompt;
+        const query = contentToText(body.query || body.message || body.prompt);
         if (!query) {
           sendJson(res, 400, { error: 'No query provided' });
           return;
@@ -324,10 +360,9 @@ async function main(): Promise<void> {
       // OpenAI-compatible — точка входа для fork kilo-vscode / любых SDK
       if (req.method === 'POST' && url === '/v1/chat/completions') {
         const body = JSON.parse(await readBody(req));
-        const messages: { role: string; content: string }[] = body.messages || [];
-        const userText = [...messages]
-          .reverse()
-          .find((m) => m.role === 'user')?.content || '';
+        const messages: { role: string; content: unknown }[] = body.messages || [];
+        const userRaw = [...messages].reverse().find((m) => m.role === 'user')?.content;
+        const userText = contentToText(userRaw);
         if (!userText) {
           sendJson(res, 400, {
             error: { message: 'messages must include a user turn', type: 'invalid_request' },
@@ -337,27 +372,45 @@ async function main(): Promise<void> {
 
         const systemFromClient = messages
           .filter((m) => m.role === 'system')
-          .map((m) => m.content)
+          .map((m) => contentToText(m.content))
           .join('\n');
 
         const skillInj = skillLoader.buildInjection(userText);
         let ragContext = '';
-        try {
-          const emb = await inferenceEngine.getEmbeddings(userText.slice(0, 2000));
-          const chunks = vectorIndex.search(emb, 3);
-          if (chunks.length) {
-            ragContext = chunks.map((c) => `[${c.filePath}]\n${c.content}`).join('\n\n');
+        
+        const uaRaw = req.headers['user-agent'] || '';
+        const userAgent = (Array.isArray(uaRaw) ? uaRaw.join(' ') : uaRaw).toLowerCase();
+        const clientRaw = req.headers['x-client'] || req.headers['x-title'] || '';
+        const clientHeader = (Array.isArray(clientRaw) ? clientRaw.join(' ') : clientRaw).toLowerCase();
+        const isAgent =
+          userAgent.includes('kilo') ||
+          userAgent.includes('evocode') ||
+          clientHeader.includes('kilo') ||
+          clientHeader.includes('evocode');
+          
+        const skipCoreRag = defaultConfig.router.preferKiloIndexing && isAgent;
+
+        if (!skipCoreRag) {
+          try {
+            const emb = await inferenceEngine.getEmbeddings(userText.slice(0, 2000));
+            const chunks = vectorIndex.search(emb, 3);
+            if (chunks.length) {
+              ragContext = chunks.map((c) => `[${c.filePath}]\n${c.content}`).join('\n\n');
+            }
+          } catch {
+            /* optional */
           }
-        } catch {
-          /* optional */
         }
 
         const systemPrompt = [systemFromClient, skillInj.text, ragContext]
           .filter(Boolean)
           .join('\n\n');
 
-        // Модифицируем системный промпт в messages для пересылки
-        const updatedMessages = [...messages];
+        // Normalize message content to strings for local inference / router
+        const updatedMessages = messages.map((m) => ({
+          role: m.role,
+          content: contentToText(m.content),
+        }));
         const sysIndex = updatedMessages.findIndex((m) => m.role === 'system');
         if (sysIndex !== -1) {
           updatedMessages[sysIndex] = { role: 'system', content: systemPrompt };
@@ -373,7 +426,12 @@ async function main(): Promise<void> {
           temperature: body.temperature,
         });
 
-        const { decision, reason } = await smartRouter.route(context);
+        let { decision, reason } = await smartRouter.route(context);
+        // Hard safety: never hit cloud without a real key (OpenRouter 401 Missing Authentication header)
+        if (decision === 'cloud' && !defaultConfig.inference.cloud.apiKey) {
+          decision = 'local';
+          reason = `${reason}; forced local (no OPENROUTER_API_KEY)`;
+        }
         console.log(`Маршрутизация: ${decision} (${reason})`);
 
         let targetUrl = '';
@@ -381,7 +439,7 @@ async function main(): Promise<void> {
           'Content-Type': 'application/json',
         };
 
-        let requestBody = { ...body, messages: updatedMessages };
+        let requestBody: Record<string, unknown> = { ...body, messages: updatedMessages };
 
         if (decision === 'local') {
           const port = defaultConfig.inference.local.port;
@@ -393,7 +451,7 @@ async function main(): Promise<void> {
             prompt: userText,
             systemPrompt,
           });
-          
+
           // Обновляем сообщения с замаскированным промптом
           const maskedMessages = updatedMessages.map((m) => {
             if (m.role === 'user') return { ...m, content: dlpResult.prompt };
@@ -406,21 +464,49 @@ async function main(): Promise<void> {
           headers['Authorization'] = `Bearer ${cloud.apiKey}`;
           headers['HTTP-Referer'] = 'https://github.com/evocode/evocode';
           headers['X-Title'] = 'Evocode';
-          
+
           requestBody = { ...body, messages: maskedMessages };
         }
 
         const startTime = Date.now();
-        const response = await fetch(targetUrl, {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(requestBody),
-          signal: AbortSignal.timeout(defaultConfig.inference.local.timeout * 1000),
-        });
+        const doFetch = async (url: string, hdrs: Record<string, string>, bodyObj: unknown) => {
+          const fetchOptions: any = {
+            method: 'POST',
+            headers: hdrs,
+            body: JSON.stringify(bodyObj),
+            signal: AbortSignal.timeout(defaultConfig.inference.local.timeout * 1000),
+          };
+          const proxyUrl =
+            defaultConfig.inference.cloud.proxyUrl ||
+            process.env.HTTP_PROXY ||
+            process.env.HTTPS_PROXY;
+          if (proxyUrl && decision === 'cloud') {
+            fetchOptions.dispatcher = new ProxyAgent(proxyUrl);
+          }
+          return fetch(url, fetchOptions);
+        };
+
+        let response = await doFetch(targetUrl, headers, requestBody);
+
+        // Cloud 401/403 without valid key → retry local once
+        if (
+          !response.ok &&
+          decision === 'cloud' &&
+          (response.status === 401 || response.status === 403)
+        ) {
+          console.warn(`Cloud ${response.status} → fallback local`);
+          decision = 'local';
+          reason = `${reason}; fallback local after cloud ${response.status}`;
+          const port = defaultConfig.inference.local.port;
+          targetUrl = `http://127.0.0.1:${port}/v1/chat/completions`;
+          headers = { 'Content-Type': 'application/json' };
+          requestBody = { ...body, messages: updatedMessages };
+          response = await doFetch(targetUrl, headers, requestBody);
+        }
 
         if (!response.ok) {
           const errText = await response.text();
-          sendJson(res, response.status, {
+          sendJson(res, response.status >= 400 && response.status < 600 ? response.status : 502, {
             error: { message: `Inference failed: ${errText}`, type: 'inference_failed' },
           });
           return;

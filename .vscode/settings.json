@@ -1,13 +1,8 @@
 {
-  "_comment": "Workspace for development only — NO product branding (window.title etc.). Branding lives in ~/.evocode-ide via packages/ide/shell/settings.json",
+  "_comment": "No product branding here (see packages/ide/shell/settings.json for Эвокод profile)",
   "files.exclude": {
     "**/node_modules": true,
     "packages/ide/dist": true,
     "packages/ide/vscodium": true
-  },
-  "search.exclude": {
-    "**/node_modules": true,
-    "packages/ide/dist": true,
-    "skills/system/**": true
   }
 }

@@ -6,7 +6,11 @@ describe('SmartRouter', () => {
   let router: SmartRouter;
 
   beforeEach(() => {
-    router = new SmartRouter(new InferenceEngine());
+    router = new SmartRouter(new InferenceEngine(), {
+      inference: {
+        cloud: { apiKey: 'test-key', baseUrl: 'https://example.test/v1', model: 'test' },
+      } as any,
+    });
   });
 
   it('маршрутизирует simple + малый контекст → local', async () => {
@@ -21,7 +25,7 @@ describe('SmartRouter', () => {
     expect(decision).toBe('local');
   });
 
-  it('маршрутизирует complex → cloud', async () => {
+  it('маршрутизирует complex → cloud (when api key set)', async () => {
     const context: RouterContext = {
       request: { prompt: 'спроектируй архитектуру' },
       contextSize: 1000,
@@ -33,7 +37,7 @@ describe('SmartRouter', () => {
     expect(decision).toBe('cloud');
   });
 
-  it('маршрутизирует вложения → cloud', async () => {
+  it('маршрутизирует вложения → cloud (when api key set)', async () => {
     const context: RouterContext = {
       request: { prompt: 'проанализируй файл' },
       contextSize: 200,
@@ -43,6 +47,24 @@ describe('SmartRouter', () => {
     };
     const { decision } = await router.route(context);
     expect(decision).toBe('cloud');
+  });
+
+  it('без cloud api key → local even for complex', async () => {
+    const noKey = new SmartRouter(new InferenceEngine(), {
+      inference: {
+        cloud: { apiKey: '', baseUrl: 'https://example.test/v1', model: 'test' },
+      } as any,
+    });
+    const context: RouterContext = {
+      request: { prompt: 'спроектируй архитектуру' },
+      contextSize: 5000,
+      taskComplexity: 'complex',
+      isCodeGeneration: false,
+      hasAttachments: false,
+    };
+    const { decision, reason } = await noKey.route(context);
+    expect(decision).toBe('local');
+    expect(reason).toMatch(/no cloud api key/i);
   });
 
   it('анализирует simple-задачу', () => {

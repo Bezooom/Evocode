@@ -85,6 +85,14 @@ function rebrandPackage(upstreamPkg) {
 
   deepSetDefault(pkg, 'kilo-code.new.language', 'Русский');
 
+  if (pkg.contributes?.configuration?.properties) {
+    pkg.contributes.configuration.properties['kilo-code.new.sandbox.enabled'] = {
+      type: 'boolean',
+      default: false,
+      description: 'Запускать CLI-сервер агента в изолированной песочнице (bubblewrap / bwrap)'
+    };
+  }
+
   let raw = JSON.stringify(pkg, null, 2);
   for (const { from, to } of OVERRIDES.stringReplacements || []) {
     raw = raw.split(from).join(to);
@@ -141,7 +149,12 @@ function rebrandPackage(upstreamPkg) {
     noMarketplace: true,
     agentSidebarButtons: ['new-task', 'history'],
   };
-  return out;
+
+  // F2.6: Rename command IDs & view container IDs kilo-code.* / kilo-code-* to evocode-agent.* / evocode-agent-*
+  const renamed = JSON.stringify(out)
+    .split('kilo-code.').join('evocode-agent.')
+    .split('kilo-code-').join('evocode-agent-');
+  return JSON.parse(renamed);
 }
 
 /**
@@ -354,15 +367,12 @@ function materializeAndPatchDist(upstream) {
     .filter((r) => r.from && r.to && r.from !== r.to)
     .sort((a, b) => b.from.length - a.from.length);
 
-  // i18n key-safe patches
-  const keyPatchList = [];
+  // i18n key-safe patches (optimized O(1) Map)
+  const keyPatchMap = new Map();
   for (const [key, val] of Object.entries(I18N_RU.keyPatches || {})) {
     if (!val?.en || !val?.ru || val.en === val.ru) continue;
     const esc = (s) => s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-    keyPatchList.push({
-      from: `"${key}": "${esc(val.en)}"`,
-      to: `"${key}": "${esc(val.ru)}"`,
-    });
+    keyPatchMap.set(key, { en: esc(val.en), ru: esc(val.ru) });
   }
 
   const webviewLike = new Set([
@@ -381,14 +391,15 @@ function materializeAndPatchDist(upstream) {
     let text = fs.readFileSync(p, 'utf-8');
     let n = 0;
 
-    for (const { from, to } of keyPatchList) {
-      if (!text.includes(from)) continue;
-      const parts = text.split(from);
-      if (parts.length > 1) {
-        n += parts.length - 1;
-        text = parts.join(to);
+    // Single-pass replacement for key patches
+    text = text.replace(/"([a-zA-Z0-9\._\-]+)":\s*"([^"]*)"/g, (match, key, val) => {
+      const patch = keyPatchMap.get(key);
+      if (patch && patch.en === val) {
+        n++;
+        return `"${key}": "${patch.ru}"`;
       }
-    }
+      return match;
+    });
 
     for (const { from, to } of phraseList) {
       if (from.length < 4) continue;
@@ -432,6 +443,129 @@ function materializeAndPatchDist(upstream) {
       }
     }
 
+    if (name === 'extension.js') {
+      const oldSpawn = 'const serverProcess = spawn(cliPath, ["serve", "--port", "0"], {';
+      const newSpawn = `let finalCliPath = cliPath;
+      let finalCliArgs = ["serve", "--port", "0"];
+      if (cfg.get("sandbox.enabled", false) && require("fs").existsSync("/usr/bin/bwrap")) {
+        console.log("[Evocode] Sandbox active via bubblewrap");
+        finalCliPath = "/usr/bin/bwrap";
+        const bwrapArgs = [
+          "--ro-bind", "/", "/",
+          "--dev", "/dev",
+          "--proc", "/proc",
+          "--tmpfs", "/tmp",
+          "--share-net"
+        ];
+        if (folders) {
+          for (const f of folders) {
+            bwrapArgs.push("--bind", f.uri.fsPath, f.uri.fsPath);
+          }
+        }
+        const home = require("os").homedir();
+        const dirs = [
+          require("path").join(home, ".config", "evocode"),
+          require("path").join(home, ".local", "share", "evocode"),
+          require("path").join(home, ".evocode-ide")
+        ];
+        for (const dir of dirs) {
+          try { require("fs").mkdirSync(dir, { recursive: true }); } catch(e){}
+          bwrapArgs.push("--bind", dir, dir);
+        }
+        finalCliArgs = [...bwrapArgs, cliPath, "serve", "--port", "0"];
+      }
+      const serverProcess = spawn(finalCliPath, finalCliArgs, {`;
+      if (text.includes(oldSpawn)) {
+        text = text.replace(oldSpawn, newSpawn);
+        n += 1;
+      }
+
+      // Prefer Эвокод config names (evocode.json) while keeping kilo.json as fallback
+      const configPathPatches = [
+        [
+          'var MODERN = ["kilo.jsonc", "kilo.json"]',
+          'var MODERN = ["evocode.jsonc", "evocode.json", "kilo.jsonc", "kilo.json"]',
+        ],
+        [
+          'var GLOBAL = ["kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"]',
+          'var GLOBAL = ["evocode.jsonc", "evocode.json", "kilo.jsonc", "kilo.json", "opencode.jsonc", "opencode.json", "config.json"]',
+        ],
+        [
+          'return path18.join(xdg, "kilo");',
+          'return path18.join(xdg, "evocode", "agent");',
+        ],
+        // globalFiles() hardcodes ~/.config/kilo
+        [
+          'path23.join(os6.homedir(), ".config"), "kilo")',
+          'path23.join(os6.homedir(), ".config"), "evocode", "agent")',
+        ],
+        [
+          'const env17 = process.env.KILO_CONFIG ? [row(process.env.KILO_CONFIG, "sourceEnvFile")] : [];',
+          'const env17 = (process.env.EVOCODE_CONFIG || process.env.KILO_CONFIG) ? [row(process.env.EVOCODE_CONFIG || process.env.KILO_CONFIG, "sourceEnvFile")] : [];',
+        ],
+        [
+          'const extra = process.env.KILO_CONFIG_DIR;',
+          'const extra = process.env.EVOCODE_CONFIG_DIR || process.env.KILO_CONFIG_DIR;',
+        ],
+        [
+          'var HOME = [".kilo", ".kilocode", ".opencode"];',
+          'var HOME = [".evocode", ".kilo", ".kilocode", ".opencode"];',
+        ],
+        [
+          'var SOURCES = {\n  ".kilo": "sourceHomeKilo",\n  ".kilocode": "sourceHomeKilocode",\n  ".opencode": "sourceHomeOpencode"\n};',
+          'var SOURCES = {\n  ".evocode": "sourceHomeEvocode",\n  ".kilo": "sourceHomeKilo",\n  ".kilocode": "sourceHomeKilocode",\n  ".opencode": "sourceHomeOpencode"\n};',
+        ],
+      ];
+      for (const [from, to] of configPathPatches) {
+        if (text.includes(from)) {
+          text = text.split(from).join(to);
+          n += 1;
+        } else if (text.includes(to)) {
+          // already patched (re-run)
+        } else {
+          console.warn(`  warn: config path patch miss: ${from.slice(0, 60)}…`);
+        }
+      }
+
+      // Never show Kilo legacy migration wizard / team onboarding in Эвокод
+      const migFrom = 'async function checkAndShowMigrationWizard(ctx) {';
+      const migTo = `async function checkAndShowMigrationWizard(ctx) {
+  /* Эвокод: migration/team promo wizard disabled */
+  return;
+  `;
+      if (text.includes(migFrom) && !text.includes('Эвокод: migration/team promo wizard disabled')) {
+        text = text.replace(migFrom, migTo);
+        n += 1;
+      }
+
+      // Kill Kilo Gateway in-app notifications (Team trial carousel, promos)
+      const notifFrom = 'async fetchAndSendNotifications() {';
+      const notifTo = `async fetchAndSendNotifications() {
+    /* Эвокод: Kilo Gateway notifications disabled (no Team trial / marketing carousel) */
+    const empty = { type: "notificationsLoaded", notifications: [], dismissedIds: [] };
+    this.cachedNotificationsMessage = empty;
+    this.postMessage(empty);
+    return;
+    `;
+      if (
+        text.includes(notifFrom) &&
+        !text.includes('Эвокод: Kilo Gateway notifications disabled')
+      ) {
+        text = text.replace(notifFrom, notifTo);
+        n += 1;
+      }
+    }
+
+
+
+    // F2.6: Rename command IDs kilo-code.* / kilo-code-* to evocode-agent.* / evocode-agent-* in JS bundles
+    if (text.includes('kilo-code.') || text.includes('kilo-code-')) {
+      text = text
+        .split('kilo-code.').join('evocode-agent.')
+        .split('kilo-code-').join('evocode-agent-');
+      n += 1;
+    }
+
     if (n > 0) {
       fs.writeFileSync(p, text);
       console.log(`  patch ${name}: ${n} replacements`);
@@ -439,7 +573,7 @@ function materializeAndPatchDist(upstream) {
     }
   }
   console.log(
-    `  total UI string replacements: ${total} (i18n keys: ${keyPatchList.length}, phrases: ${phraseList.length}, dekilo: ${dekiloList.length})`,
+    `  total UI string replacements: ${total} (i18n keys: ${keyPatchMap.size}, phrases: ${phraseList.length}, dekilo: ${dekiloList.length})`,
   );
 }
 

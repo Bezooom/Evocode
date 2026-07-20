@@ -36,8 +36,8 @@ graph LR
 | **F0** | ✅ | Core HTTP, DLP, router, skills, RAG, OpenAI `/v1/*`, runtime API |
 | **F1** | ✅ | Rebrand tooling, provider → Core :8083 |
 | **F1.5** | ✅ | Policy bridge, SSE, embed :8084, smoke partial |
-| **F2** | ⚡ **CURRENT ~55%** | Product surface: launcher, native chrome, settings, brand binary |
-| **F3** | 📋 blocked | Proxy, audit, sandbox — **после** usable F2 |
+| **F2** | ✅ ~90% | Product surface + portable brand; splash/AppImage polish residual |
+| **F3** | ⚡ **started** | Proxy, audit, auth token, sandbox flag — in progress |
 | **F4** | 📋 later | LoRA / self-improve — после daily-use IDE |
 
 ### F2 — детализация (product DoD)
@@ -48,14 +48,14 @@ graph LR
 | F2.2 | product.evocode.json brand merge | ✅ |
 | F2.3 | Preinstall agent + shell | ✅ |
 | F2.3b | Runtime API + UI «Модели» | ✅ |
-| F2.3c | Native chrome (no marketplace; toolbar) | ✅ tooling |
-| F2.3d | Единые настройки (product panel) | ⚡ |
-| F2.3e | Chat open by default | ⚡ |
-| F2.4 | First-run wizard (llama/skills) | 📋 |
-| F2.5 | **Branded portable** (`ide:package-portable`) | ⚡ partial |
-| F2.6 | Rename command IDs kilo→evocode | 📋 |
-| F2.7 | Icons/splash fully Evocode | ⚡ partial |
-| F2.8 | SMOKE-IDE E2E | 📋 |
+| F2.3c | Native chrome (no marketplace; toolbar) | ✅ |
+| F2.3d | Единые настройки (product panel) | ✅ |
+| F2.3e | Chat open by default | ✅ |
+| F2.4 | First-run wizard (llama/skills) | ✅ |
+| F2.5 | **Branded portable** (`ide:package-portable`) | ✅ + deb |
+| F2.6 | Rename command IDs kilo→evocode | ✅ |
+| F2.7 | Icons/splash fully Evocode | ✅ |
+| F2.8 | SMOKE-IDE E2E | ✅ |
 | F2.9 | Skills in tree | ✅ bulk present |
 
 **DoD F2:** пользователь ставит/запускает **Эвокод** (не Code), видит чат + local model, **один** settings UI, без Kilo marketplace/лого.

@@ -1,37 +1,48 @@
 #!/usr/bin/env node
 /**
- * Install Evocode Core provider into **isolated** config (default).
+ * Install Evocode Core provider into **isolated** agent config (default).
  * Does NOT touch ~/.config/kilo unless EVOCODE_TOUCH_KILO=1.
  *
- * Default:
- *   KILO_CONFIG_DIR=~/.config/evocode/kilo
- *   KILO_DATA_DIR=~/.local/share/evocode
+ * Canonical:
+ *   EVOCODE_CONFIG_DIR=~/.config/evocode/agent
+ *   file: evocode.json  (+ shadow kilo.json for agent runtime)
+ *   EVOCODE_DATA_DIR=~/.local/share/evocode
+ *
+ * Env aliases (compat): KILO_CONFIG_DIR, KILO_DATA_DIR
  */
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const {
+  agentConfigDir,
+  agentDataDir,
+  canonicalAgentConfigPath,
+  compatKiloConfigPath,
+  readAgentConfig,
+  writeAgentConfig,
+  migrateLegacyIsolatedConfig,
+} = require('../lib/agent-config-paths.cjs');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PKG_ROOT = path.resolve(__dirname, '..');
-const TEMPLATE = path.join(PKG_ROOT, 'config/kilo.evocode.json');
+const TEMPLATE_CANDIDATES = [
+  path.join(PKG_ROOT, 'config/evocode.agent.json'),
+  path.join(PKG_ROOT, 'config/kilo.evocode.json'), // legacy name
+];
 
 const CORE_URL = process.env.EVOCODE_CORE_URL || 'http://127.0.0.1:8083/v1';
 const TOUCH_KILO = process.env.EVOCODE_TOUCH_KILO === '1';
 
-const CONFIG_DIR =
-  process.env.KILO_CONFIG_DIR ||
-  (TOUCH_KILO
-    ? path.join(os.homedir(), '.config', 'kilo')
-    : path.join(os.homedir(), '.config', 'evocode', 'kilo'));
-
-const CONFIG_FILE = path.join(CONFIG_DIR, 'kilo.json');
-const AUTH_DIR =
-  process.env.KILO_DATA_DIR ||
-  (TOUCH_KILO
-    ? path.join(os.homedir(), '.local', 'share', 'kilo')
-    : path.join(os.homedir(), '.local', 'share', 'evocode'));
-const AUTH_FILE = path.join(AUTH_DIR, 'auth.json');
+function resolveTemplatePath() {
+  for (const p of TEMPLATE_CANDIDATES) {
+    if (fs.existsSync(p)) return p;
+  }
+  throw new Error('Missing config/evocode.agent.json');
+}
 
 function loadJson(p, fallback = {}) {
   if (!fs.existsSync(p)) return fallback;
@@ -70,28 +81,49 @@ async function pingCore(baseUrl) {
 
 async function main() {
   console.log('=== Эвокод: install-provider (isolated config) ===');
+
+  // Optional escape hatch: write into stock Kilo (not recommended)
+  if (TOUCH_KILO) {
+    process.env.EVOCODE_CONFIG_DIR = path.join(os.homedir(), '.config', 'kilo');
+    process.env.EVOCODE_DATA_DIR = path.join(os.homedir(), '.local', 'share', 'kilo');
+    console.warn('⚠️  EVOCODE_TOUCH_KILO=1 — пишем в ~/.config/kilo (осторожно!)');
+  }
+
+  const migrated = migrateLegacyIsolatedConfig();
+  if (migrated) {
+    console.log('Migrated legacy config →', migrated);
+  }
+
+  const CONFIG_DIR = agentConfigDir();
+  const CONFIG_FILE = canonicalAgentConfigPath();
+  const AUTH_DIR = agentDataDir();
+  const AUTH_FILE = path.join(AUTH_DIR, 'auth.json');
+
   console.log('Config dir:', CONFIG_DIR);
+  console.log('Config file:', CONFIG_FILE);
   console.log('Data dir:  ', AUTH_DIR);
   console.log('Core URL:  ', CORE_URL);
-  if (TOUCH_KILO) {
-    console.warn('⚠️  EVOCODE_TOUCH_KILO=1 — пишем в ~/.config/kilo (осторожно!)');
-  } else {
+  if (!TOUCH_KILO) {
     console.log('✓ не трогаем ~/.config/kilo (обычный Kilo/VS Code в безопасности)');
   }
 
-  const template = loadJson(TEMPLATE);
+  const template = loadJson(resolveTemplatePath());
   if (template.provider?.evocode?.options) {
     template.provider.evocode.options.baseURL = CORE_URL;
   }
 
   fs.mkdirSync(CONFIG_DIR, { recursive: true });
 
-  const existing = loadJson(CONFIG_FILE, {});
-  if (fs.existsSync(CONFIG_FILE)) {
-    const bak = CONFIG_FILE + `.bak-${new Date().toISOString().slice(0, 10)}`;
-    if (!fs.existsSync(bak)) {
-      fs.copyFileSync(CONFIG_FILE, bak);
-      console.log('Backup:', bak);
+  const existing = readAgentConfig();
+  if (fs.existsSync(CONFIG_FILE) || fs.existsSync(compatKiloConfigPath())) {
+    const bakBase = CONFIG_FILE + `.bak-${new Date().toISOString().slice(0, 10)}`;
+    if (!fs.existsSync(bakBase)) {
+      try {
+        fs.copyFileSync(resolveExistingOrEmpty(CONFIG_FILE), bakBase);
+        console.log('Backup:', bakBase);
+      } catch {
+        /* */
+      }
     }
   }
 
@@ -114,8 +146,9 @@ async function main() {
     merged.skills = { ...(existing.skills || {}), ...(template.skills || {}), paths: [...skillPaths] };
   }
 
-  fs.writeFileSync(CONFIG_FILE, JSON.stringify(merged, null, 2) + '\n');
-  console.log('Wrote', CONFIG_FILE);
+  const { primary, shadow } = writeAgentConfig(merged);
+  console.log('Wrote', primary);
+  console.log('Shadow', shadow, '(agent runtime compat)');
 
   fs.mkdirSync(AUTH_DIR, { recursive: true });
   const auth = loadJson(AUTH_FILE, {});
@@ -138,8 +171,17 @@ async function main() {
 
   console.log('Default model: evocode/evocode-auto');
   console.log('Launcher must set:');
-  console.log('  KILO_CONFIG_DIR=' + CONFIG_DIR);
-  console.log('  KILO_DATA_DIR=' + AUTH_DIR);
+  console.log('  EVOCODE_CONFIG_DIR=' + CONFIG_DIR);
+  console.log('  EVOCODE_DATA_DIR=' + AUTH_DIR);
+  console.log('  (compat) KILO_CONFIG_DIR=' + CONFIG_DIR);
+  console.log('  (compat) KILO_DATA_DIR=' + AUTH_DIR);
+}
+
+function resolveExistingOrEmpty(preferred) {
+  if (fs.existsSync(preferred)) return preferred;
+  const shadow = compatKiloConfigPath();
+  if (fs.existsSync(shadow)) return shadow;
+  return preferred;
 }
 
 main().catch((e) => {

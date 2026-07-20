@@ -1,5 +1,7 @@
 // DLP Guard — маскировка секретов перед cloud (не для local path)
 import { defaultConfig, DLPRule, EvocodeConfig } from '../core/config';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface DLPConfig {
   enabled: boolean;
@@ -120,12 +122,36 @@ export class DLPGuard {
       systemBlocked = systemResult.blocked;
     }
 
+    this.logAudit(promptResult, systemBlocked);
+
     return {
       prompt: promptResult.masked,
       systemPrompt,
       changes: [...promptResult.changes, ...systemChanges],
       blocked: promptResult.blocked || systemBlocked,
     };
+  }
+
+  private logAudit(promptResult: DLPResult, systemBlocked: boolean): void {
+    try {
+      const root = process.env.EVOCODE_ROOT || path.resolve(__dirname, '../../');
+      const auditDir = path.join(root, '.evocode');
+      fs.mkdirSync(auditDir, { recursive: true });
+      const auditPath = path.join(auditDir, 'audit.log');
+      
+      const logEntry = {
+        timestamp: new Date().toISOString(),
+        action: 'cloud_request',
+        blocked: promptResult.blocked || systemBlocked,
+        wasMasked: promptResult.wasMasked,
+        changesCount: promptResult.changes.length,
+        rulesMatched: promptResult.changes.map(c => c.rule),
+      };
+      
+      fs.appendFileSync(auditPath, JSON.stringify(logEntry) + '\n', 'utf-8');
+    } catch (err) {
+      console.error('DLP Guard audit log error:', (err as Error).message);
+    }
   }
 
   getReport(result: DLPResult): string {

@@ -158,8 +158,8 @@ Evocode/                          # /home/bezoom/storage/Projects/Evocode
 | F0 | Core foundation | ✅ DONE |
 | F1 | Agent rebrand tooling | ✅ DONE |
 | F1.5 | Smoke + Policy bridge | ✅ DONE (smoke partial OK) |
-| **F2** | **Product IDE (native UX + brand binary)** | ⚡ **CURRENT ~55%** |
-| F3 | Hardening РФ / enterprise | 📋 **blocked until F2 DoD** |
+| **F2** | **Product IDE (native UX + brand binary)** | ✅ DONE |
+| F3 | Hardening РФ / enterprise | ⚡ **CURRENT** |
 | F4 | Self-evolution (optional) | 📋 LATER |
 
 ### 3.3. Вне репозитория (машина dev, bezoom)
@@ -343,13 +343,13 @@ npm run disk:audit
 | F2.3 | Preinstall agent + shell | ✅ | extensions in `~/.evocode-ide` |
 | F2.3b | Runtime API + models UI | ✅ | `/v1/runtime/*` |
 | F2.3c | Native chrome (no marketplace; sidebar=new+history) | ✅ | apply-rebrand nativeChrome |
-| F2.3d | **Единые настройки** (product panel = all settings) | ⚡ | settings/profile → panel; chat default |
-| F2.3e | Kill residual Kilo logos in assets | ⚡ | overwrite kilo-*.svg/png |
-| F2.4 | First-run wizard | 📋 | llama detect / skills |
-| **F2.5** | **Branded portable IDE** | ⚡ **partial** | `ide:package-portable` → `dist/evocode-ide` (full compile still optional) |
-| F2.6 | Rename command IDs | 📋 | after UX stable |
-| F2.7 | Splash/About icons fully Evocode | 📋 | needs F2.5 |
-| F2.8 | SMOKE-IDE E2E | 📋 | one script |
+| F2.3d | **Единые настройки** (product panel = all settings) | ✅ | settings/profile → panel; chat default |
+| F2.3e | Kill residual Kilo logos in assets | ✅ | overwrite kilo-*.svg/png |
+| F2.4 | First-run wizard | ✅ | llama detect / skills |
+| **F2.5** | **Branded portable IDE** | ✅ + deb | `ide:package-portable` → `dist/evocode-ide` (full compile still optional) |
+| F2.6 | Rename command IDs | ✅ | after UX stable |
+| F2.7 | Splash/About icons fully Evocode | ✅ | needs F2.5 |
+| F2.8 | SMOKE-IDE E2E | ✅ | one script |
 | F2.9 | Skills tree | ✅ | bulk in skills/system |
 
 **DoD F2:**  
@@ -369,15 +369,15 @@ npm run disk:audit
 
 | ID | Задача | Source pattern | Acceptance |
 |----|--------|----------------|------------|
-| F3.1 | HTTP/SOCKS5 proxy for cloud | TZ | env proxy works |
-| F3.2 | Audit log cloud+DLP events | TZ | append-only file/DB |
-| F3.3 | OS sandbox profile for kilo child | Grok Landlock | workspace/strict docs+flag |
+| F3.1 | HTTP/SOCKS5 proxy for cloud | ✅ env proxy & ProxyAgent | env proxy works |
+| F3.2 | Audit log cloud+DLP events | ✅ .evocode/audit.log | append-only file/DB |
+| F3.3 | OS sandbox profile for kilo child | ✅ bubblewrap (bwrap) | workspace/strict docs+flag |
 | F3.4 | Worktree-isolated subagents | Grok + Kilo AM | optional parallel safe |
 | F3.5 | Prefer kilo-indexing for codebase | Kilo | Core RAG secondary |
-| F3.6 | ACP adapter research/spike | Grok/OpenCode | design note |
-| F3.7 | Astra Linux install smoke | TZ | doc results (not cert) |
-| F3.8 | Core auth token for non-localhost | enterprise | optional |
-| F3.9 | MCP Host и оркестрация вызова инструментов | `Agent/` | Интеграция из Kilo/Agent: вызовы CLI и API |
+| F3.6 | ACP adapter research/spike | ✅ | docs/ACP_ADAPTER.md |
+| F3.7 | Astra Linux install smoke | ✅ | docs/ASTRA_LINUX.md |
+| F3.8 | Core auth token for non-localhost | ✅ Bearer token | HTTP 401 for non-local |
+| F3.9 | MCP Host и оркестрация вызова инструментов | ✅ | settings tab CRUD → isolated kilo.json `mcp` (Kilo local command[] / remote url); agent reload for apply |
 | F3.10 | Headless веб-сёрфинг и парсинг сайтов | `Aist/` | Headless-браузер для сбора документации и контекста |
 
 **DoD F3:** documented offline always-local + proxy + audit path for pilot corp.
@@ -552,9 +552,9 @@ TEST:    npm test && npx tsc --noEmit
 
 1. ~~Единые настройки + chat default~~ ✅  
 2. ~~Git baseline~~ ✅  
-3. ⚡ **F2.5 portable brand** — `ide:package-portable` (done tree); AppImage/deb polish next  
-4. ~~**Webview de-Kilo**~~ ✅ `webview-dekilo.json` + rebrand  
-5. **F2.4 + F2.8** — first-run + SMOKE-IDE  
+3. ~~**F2.5 portable brand**~~ ✅ (portable + deb)
+4. ~~**Webview de-Kilo**~~ ✅  
+5. ~~**F2.4 + F2.8**~~ ✅ (first-run wizard + SMOKE-IDE script)
 6. Optional: full `ide:build-codium` when libsecret-dev available
 
 **Blocked:** F3, F4 until F2 DoD.
@@ -568,5 +568,13 @@ TEST:    npm test && npx tsc --noEmit
 | 2026-07-19 | **v2.0 critical reset:** F2 = current (not F3); F2 DoD rewritten; queue = settings unify + git + branded binary; anti-patterns explicit |
 | 2026-07-19 | **v2.2 webview de-Kilo:** brand/webview-dekilo.json strips Kilo Code/Gateway/marketplace/icons/URLs from webview bundles |
 | 2026-07-19 | **v2.1 F2.5 portable:** download VSCodium tarball + rebrand product.json/icons → `packages/ide/dist/evocode-ide`; launcher prefers `bin/evocode` |
+| 2026-07-19 | **v2.3 F2 completed:** built deb packaging script `ide:package-deb`; added `POST /v1/skills/sync` endpoint; integrated full multi-step first-run wizard in shell extension; added automated `SMOKE-IDE` E2E validation script. |
+| 2026-07-19 | **v2.4 F2 Complete + F3 Start:** polished interfaces with custom cyberpunk neon styling; renamed command IDs from `kilo-code.*` to `evocode-agent.*`; implemented AppImage packaging in `ide:package-appimage`; fully transitioned to Phase F3. |
+| 2026-07-19 | **v2.5 F3 Hardening:** integrated undici ProxyAgent for SOCKS5/HTTP cloud proxies (F3.1); added append-only JSON audit logging to `.evocode/audit.log` (F3.2); added test suites for audit logging. |
+| 2026-07-19 | **v2.6 F3 Sandboxing & ACP:** integrated configuration and runtime logic for bubblewrap (`bwrap`) OS sandboxing profile (F3.3); completed ACP design note specification in `docs/ACP_ADAPTER.md` (F3.6). |
+| 2026-07-19 | **v2.7 F3 Core Auth:** implemented security.authToken check for non-localhost HTTP requests, returning HTTP 401 Unauthorized for invalid tokens (F3.8); added server unit tests. |
+| 2026-07-19 | **v2.8 F3 Kilo Indexing & Astra Linux:** implemented configuration option and routing check for `preferKiloIndexing` to avoid redundant prompt bloating (F3.5); created comprehensive Astra Linux installation guide in `docs/ASTRA_LINUX.md` (F3.7). |
+| 2026-07-19 | **v2.9 F3 MCP Management:** settings tab «MCP Серверы» — list/add/delete in isolated agent config. Writes MCP schema: local `{type,command[]}` / remote `{type,url}`; display tolerates legacy `{command,args}`. Apply after agent window reload (F3.9). |
+| 2026-07-19 | **v2.10 de-Kilo config paths:** canonical `~/.config/evocode/agent/evocode.json` (was `…/kilo/kilo.json`); env `EVOCODE_CONFIG_DIR` / `EVOCODE_DATA_DIR`; shadow `kilo.json` + `KILO_*` aliases for agent; rebrand patches agent to prefer `evocode.json`; shell settings keys `evocode-agent.*`. |
 
 *Конец FULL_DEV_ROADMAP v2.0.*

@@ -8,9 +8,9 @@
   "window.confirmSaveUntitledWorkspace": false,
   "window.openWithoutArgumentsInNewWindow": "on",
 
-  "kilo-code.new.model.providerID": "evocode",
-  "kilo-code.new.model.modelID": "evocode-auto",
-  "kilo-code.new.language": "Русский",
+  "evocode-agent.new.model.providerID": "evocode",
+  "evocode-agent.new.model.modelID": "evocode-auto",
+  "evocode-agent.new.language": "Русский",
 
   "evocode.shell.autoStartCore": true,
   "evocode.shell.autoStartDefaultModel": true,

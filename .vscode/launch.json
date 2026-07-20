@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Эвокод: Extension",
+      "name": "Evocode Extension Dev",
       "type": "extensionHost",
       "request": "launch",
       "args": [

@@ -35,6 +35,14 @@
     { "from": "\"Marketplace\"", "to": "\"Отключено\"" },
     { "from": "Rebuild or reinstall Kilo Code", "to": "Пересоберите агент Эвокод (npm run agent:rebrand)" },
     { "from": "Choose the language for the Kilo Code UI", "to": "Язык интерфейса Эвокод" },
-    { "from": "previous installation of Kilo Code", "to": "предыдущей установки Эвокод" }
+    { "from": "previous installation of Kilo Code", "to": "предыдущей установки Эвокод" },
+    { "from": "kilo.jsonc", "to": "evocode.json" },
+    { "from": "KILO_CONFIG_DIR", "to": "EVOCODE_CONFIG_DIR" },
+    { "from": "KILO_CONFIG environment file", "to": "Файл EVOCODE_CONFIG" },
+    { "from": "Файл среды KILO_CONFIG", "to": "Файл EVOCODE_CONFIG" },
+    { "from": "https://chat.kiloapps.io", "to": "http://127.0.0.1:8083/health" },
+    { "from": "https://ingest.kilosessions.ai", "to": "http://127.0.0.1:8083/health" },
+    { "from": "https://github.com/Kilo-Org/kilocode", "to": "https://github.com/evocode/evocode" },
+    { "from": "https://reddit.com/r/kilocode", "to": "https://github.com/evocode/evocode" }
   ]
 }

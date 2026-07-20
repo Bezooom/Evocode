@@ -30,9 +30,12 @@ bash scripts/repair-vscode-kilo.sh
 |------|--------|-------------------------|
 | Extensions | `~/.evocode-ide/extensions` | `~/.vscode/extensions` |
 | User data | `~/.evocode-ide` | `~/.config/Code` |
-| Agent config | `KILO_CONFIG_DIR=~/.config/evocode/kilo` | `~/.config/kilo` |
-| Agent data | `KILO_DATA_DIR=~/.local/share/evocode` | `~/.local/share/kilo` |
+| Agent config | `EVOCODE_CONFIG_DIR=~/.config/evocode/agent` → `evocode.json` | `~/.config/kilo/kilo.json` |
+| Agent data | `EVOCODE_DATA_DIR=~/.local/share/evocode` | `~/.local/share/kilo` |
 | Запуск | `npm run evocode` | `code` + Kilo marketplace |
+
+Алиасы для runtime агента: `KILO_CONFIG_DIR` / `KILO_DATA_DIR` = те же пути Эвокод.  
+Файл `kilo.json` в каталоге Эвокод — **только shadow** (копия `evocode.json`), не stock Kilo.
 
 `install-provider` **по умолчанию не трогает** `~/.config/kilo`.  
 Только `EVOCODE_TOUCH_KILO=1` (не использовать без нужды).

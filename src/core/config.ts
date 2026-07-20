@@ -67,6 +67,10 @@ export interface EvocodeConfig {
     cloudMinTokens: number;
     /** always-local | auto | always-cloud */
     privacyMode: 'always-local' | 'auto' | 'always-cloud';
+    preferKiloIndexing: boolean;
+  };
+  security: {
+    authToken: string;
   };
 }
 
@@ -131,6 +135,7 @@ export const defaultConfig: EvocodeConfig = {
       model: env('OPENROUTER_MODEL', 'anthropic/claude-sonnet-4'),
       apiKey: process.env.OPENROUTER_API_KEY || '',
       baseUrl: env('OPENROUTER_BASE_URL', 'https://openrouter.ai/api/v1'),
+      proxyUrl: env('EVOCODE_PROXY_URL', ''),
     },
   },
 
@@ -219,6 +224,10 @@ export const defaultConfig: EvocodeConfig = {
     /** > 3000 tokens — склоняем к cloud при complex */
     cloudMinTokens: 3000,
     privacyMode: 'auto',
+    preferKiloIndexing: true,
+  },
+  security: {
+    authToken: env('EVOCODE_AUTH_TOKEN', ''),
   },
 };
 

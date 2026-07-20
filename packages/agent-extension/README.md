@@ -8,11 +8,11 @@
 |------|------------|
 | `upstream` | symlink → `/home/bezoom/kilocode/packages/kilo-vscode` |
 | `rebrand/overrides.json` | identity + defaults |
-| `config/kilo.evocode.json` | OpenCode/Kilo: provider `evocode` → `:8081/v1` |
+| `config/evocode.agent.json` | provider `evocode` → Core `:8083/v1` → `~/.config/evocode/agent/evocode.json` |
 | `config/settings.vscode.json` | VS Code defaults |
 | `extension/` | **сгенерированный** workspace (package.json + symlinks) |
 | `scripts/apply-rebrand.mjs` | сборка `extension/` |
-| `scripts/install-provider.mjs` | запись в `~/.config/kilo/kilo.json` + auth |
+| `scripts/install-provider.mjs` | запись в `~/.config/evocode/agent/evocode.json` (+ shadow kilo.json) + auth |
 | `scripts/launch-extension.sh` | Extension Development Host |
 
 Command IDs в F1 остаются `kilo-code.*` (стабильность API). Меняются displayName, publisher, titles, **defaults модели**.
@@ -49,7 +49,7 @@ Agent (kilo serve)  --OpenAI compat-->  Evocode Core :8081/v1
                                     local llama / cloud+DLP
 ```
 
-`~/.config/kilo/kilo.json` (после install-provider):
+`~/.config/evocode/agent/evocode.json` (после install-provider):
 
 ```json
 {

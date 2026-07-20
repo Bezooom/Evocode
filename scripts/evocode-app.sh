@@ -12,8 +12,11 @@ export EVOCODE_EXTENSIONS_DIR="$EXT_DIR"
 export EVOCODE_LLAMA_MODE="${EVOCODE_LLAMA_MODE:-attach}"
 export EVOCODE_CORE_URL="${EVOCODE_CORE_URL:-http://127.0.0.1:8083/v1}"
 # Isolate agent config from normal Kilo in VS Code
-export KILO_CONFIG_DIR="${KILO_CONFIG_DIR:-$HOME/.config/evocode/kilo}"
-export KILO_DATA_DIR="${KILO_DATA_DIR:-$HOME/.local/share/evocode}"
+# Canonical Evocode names; KILO_* kept as aliases for agent runtime
+export EVOCODE_CONFIG_DIR="${EVOCODE_CONFIG_DIR:-${KILO_CONFIG_DIR:-$HOME/.config/evocode/agent}}"
+export EVOCODE_DATA_DIR="${EVOCODE_DATA_DIR:-${KILO_DATA_DIR:-$HOME/.local/share/evocode}}"
+export KILO_CONFIG_DIR="${KILO_CONFIG_DIR:-$EVOCODE_CONFIG_DIR}"
+export KILO_DATA_DIR="${KILO_DATA_DIR:-$EVOCODE_DATA_DIR}"
 
 cd "$ROOT"
 # ensure isolated provider config (does not touch ~/.config/kilo)
@@ -37,7 +40,6 @@ WORKSPACE="${1:-$ROOT}"
 FLAGS=(
   --user-data-dir "${PROFILE}"
   --extensions-dir "${EXT_DIR}"
-  --class Evocode
   --disable-workspace-trust
   --new-window
   "${WORKSPACE}"
@@ -49,15 +51,15 @@ if [[ -n "${VSCODE_EXEC_PATH:-}" && -x "${VSCODE_EXEC_PATH}" ]]; then
   exec "${VSCODE_EXEC_PATH}" "${FLAGS[@]}"
 fi
 
-# 2) branded portable (F2.5) — first choice
+# 2) Editor binary (not wrappers — avoid recursion with ~/.local/bin/evocode)
+# Prefer system package when installed; else monorepo portable / codium tree.
 for cand in \
+  /usr/share/evocode/bin/evocode \
   "${ROOT}/packages/ide/dist/evocode-ide/bin/evocode" \
   "${ROOT}/packages/ide/dist/evocode-ide/evocode" \
   "${ROOT}/packages/ide/vscodium/VSCode-linux-x64/bin/evocode" \
   "${ROOT}/packages/ide/vscodium/VSCode-linux-x64/bin/codium" \
-  "${ROOT}/dist/evocode" \
-  "$HOME/.local/bin/evocode" \
-  /usr/bin/codium
+  "${ROOT}/dist/evocode-ide/bin/evocode"
 do
   if [[ -x "${cand}" ]]; then
     echo "→ editor: ${cand} (branded / no Microsoft)"
@@ -65,8 +67,12 @@ do
   fi
 done
 if command -v codium >/dev/null 2>&1; then
-  echo "→ editor: codium (PATH)"
-  exec codium "${FLAGS[@]}"
+  # only real codium binary, not our wrappers
+  _codium="$(command -v codium)"
+  if [[ "${_codium}" != *'/evocode'* ]]; then
+    echo "→ editor: ${_codium} (PATH codium)"
+    exec "${_codium}" "${FLAGS[@]}"
+  fi
 fi
 
 # 3) Flatpak VSCodium (installed on this machine)
