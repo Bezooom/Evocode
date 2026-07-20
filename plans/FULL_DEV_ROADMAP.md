@@ -134,15 +134,15 @@ VSCodium (brand «Эвокод»)
 |--------|-----------|--------|
 | 0.1.x | F0–F1 Core + agent tooling | ✅ |
 | 0.2–0.4 | F1.5 + mid-F2 shell | ✅ (промежуточные) |
-| **0.5.0** | **F2 Product IDE** (brand, UI, packaging) | ✅ **released** |
-| 0.6–0.9 | F3 Hardening (trust, РФ, polish) | ⚡ next minors |
+| 0.5.0 | F2 Product IDE (brand, UI, packaging) | ✅ released |
+| **0.9.0** | **F3 Hardening & Operator Mode** (trust, РФ, visual) | ✅ **released (RC1)** |
 | **1.0.0** | F3 DoD / daily-use + pilot corp | 📋 target |
 
 ### 3.1. Репозиторий
 
 ```
 Evocode/                          # /home/bezoom/storage/Projects/Evocode
-├── src/                          # Core TypeScript (appVersion 0.5.0)
+├── src/                          # Core TypeScript (appVersion 0.9.0)
 │   ├── index.ts                  # HTTP :8083, /v1/*, /chat, /health, runtime
 │   ├── core/config.ts
 │   ├── engine/ · router/ · guard/ · skills/ · sync/ · indexer/
@@ -166,7 +166,7 @@ Evocode/                          # /home/bezoom/storage/Projects/Evocode
 | F1 | Agent rebrand tooling | ✅ DONE |
 | F1.5 | Smoke + Policy bridge | ✅ DONE |
 | **F2** | **Product IDE (native UX + packaging)** | ✅ DONE → **v0.5.0** |
-| **F3** | **Hardening РФ / enterprise** | ⚡ **CURRENT** |
+| **F3** | **Hardening РФ / enterprise** | ✅ DONE → **v0.9.0 (RC1)** |
 | F4 | Self-evolution (optional) | 📋 LATER (после 1.0) |
 
 ### 3.3. Вне репозитория (машина dev, bezoom)
@@ -203,9 +203,9 @@ npm run agent:launch
 npm run disk:audit
 ```
 
-### 3.5. Известные gaps (после v0.5.0)
+### 3.5. Известные gaps (после v0.9.0)
 
-**Закрыто в F2 / v0.5:**
+**Закрыто в F2 & F3 / v0.9.0:**
 
 - [x] Branded portable `bin/evocode` + deb + AppImage scripts
 - [x] Product panel (Модели · Агент · Cloud · Навыки · MCP · Программа)
@@ -214,15 +214,19 @@ npm run disk:audit
 - [x] Midnight Fusion UI, layout AI-IDE, de-Kilo string pass
 - [x] First-run wizard + SMOKE-IDE script
 - [x] Isolated agent config `~/.config/evocode/agent/evocode.json`
+- [x] DLP: enforce `blocked` on OpenAI `/v1/chat/completions` path (F3.T1)
+- [x] Skill Sync: path traversal, SHA verify, redirect/SSRF hardening (F3.T2)
+- [x] Core default bind localhost + documented authToken for non-local (F3.T3)
+- [x] Local fonts in webview (no Google Fonts CDN) (F3.U1)
+- [x] DESIGN_SYSTEM.md = Midnight Fusion tokens (F3.U2)
+- [x] Operator Mode: HTML/MD visual preview custom editor (F3.U4)
 
-**Открыто (F3 / → 0.6–1.0):**
+**Остаточные риски и ограничения (→ v1.0):**
 
-- [ ] DLP: enforce `blocked` on OpenAI `/v1/chat/completions` path
-- [ ] Skill Sync: path traversal, SHA verify, redirect/SSRF hardening
-- [ ] Core default bind localhost + documented authToken for non-local
-- [ ] Local fonts in webview (no Google Fonts CDN)
-- [ ] DESIGN_SYSTEM.md = Midnight Fusion tokens (сейчас в спеке старый blue)
-- [ ] Residual Kilo/React under the hood (skin ≠ full rewrite — OK by design)
+- [ ] Пилотные испытания у оператора и доработки по обратной связи
+- [ ] Ограничения regex-рендеринга Markdown в визуальном режиме (не полный GFM)
+- [ ] Опциональность проверки SHA для навыков (если SHA отсутствует в манифесте)
+- [ ] Best-effort эвристики роутера `openrouter-auto` (без жестких SLA)
 - [ ] Splash/installer polish residual; signed packages
 - [ ] РФ cloud (Yandex/Giga) + CA Минцифры
 - [ ] F4 LoRA — не начинать
@@ -571,11 +575,11 @@ npm run disk:audit
 ## §13. Быстрый контекст для «холодного» агента
 
 ```
-WHO:     Evocode = RU privacy AI IDE  |  product v0.5.0
+WHO:     Evocode = RU privacy AI IDE  |  product v0.9.0 (RC1)
 WHERE:   /home/bezoom/storage/Projects/Evocode
 RUNTIME: Core :8083 → llama :8080 (attach); agent = kilo rebrand + shell
-NOW:     F3 Hardening (trust P0: DLP block, Skill Sync, bind/auth) — NOT F2, NOT F4
-SHIPPED: F2 product IDE, Midnight Fusion UI, portable/deb/AppImage
+NOW:     Pilot testing & Operator Mode feedback (F3 CLOSED) — NOT F4
+SHIPPED: F2 product IDE, F3 Hardening, visual Operator Mode, deb/AppImage
 NEVER:   second agent/MCP host; copy GGUF; Core on 8080; default Microsoft code
 READ:    this file + plans/ROADMAP.md + docs/STATUS.md + docs/PRODUCT_SHELL.md
 RUN:     npm run build && npm run evocode
@@ -584,16 +588,15 @@ TEST:    npm test && npx tsc --noEmit
 
 ---
 
-## §14. Очередь (P0) — v0.5 → 0.6+
+## §14. Очередь (P0) — v0.9.0 → 1.0.0
 
-**F2 (закрыто):** settings, portable, de-Kilo UI, first-run, SMOKE-IDE, AppImage/deb.
+**F3 (закрыто):** DLP Guard, Skill Sync (SSRF/traversal/SHA), localhost bind, rate limiting, Bearer token, local fonts, visual Operator Mode, 0.9.0 packaging.
 
-**Сейчас (F3):**
+**Сейчас (1.0.0 prep):**
 
-1. **F3.T1** — DLP `blocked` на OpenAI-path + тесты  
-2. **F3.T2** — Skill Sync path traversal / SHA / SSRF  
-3. **F3.T3** — localhost bind default + auth docs  
-4. **F3.U1–U4** — local fonts, design tokens, package rename 0.5.0, cold-start smoke  
+1. Сбор обратной связи от операторов по визуальному режиму HTML/MD.
+2. Проведение пилотного внедрения.
+3. Оптимизация локального инференса и финализация релиза 1.0.0.  
 5. Optional: full `ide:build-codium` when libsecret-dev available  
 
 **Blocked:** F4 until F3 DoD / approach to v1.0.
