@@ -1,234 +1,388 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Эвокод — Архитектура системы</title>
-<style>
-  :root {
-    --bg: #0d1117; --surface: #161b22; --border: #30363d;
-    --text: #c9d1d9; --accent: #58a6ff; --accent2: #3fb950;
-    --accent3: #f0883e; --accent4: #bc8cff; --accent5: #f778ba;
-    --green: #3fb950; --yellow: #d29922; --red: #f85149;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg); color: var(--text); min-height: 100vh;
-  }
-  .header {
-    background: linear-gradient(135deg, #161b22 0%, #1c2333 100%);
-    border-bottom: 1px solid var(--border); padding: 32px 48px;
-  }
-  .header h1 { font-size: 28px; color: #fff; margin-bottom: 8px; }
-  .header .subtitle { color: #8b949e; font-size: 14px; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 32px 48px; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
-  .card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 24px; transition: transform 0.2s;
-  }
-  .card:hover { transform: translateY(-2px); }
-  .card h2 { font-size: 18px; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-  .card h2 .icon { font-size: 24px; }
-  .card p { font-size: 14px; line-height: 1.6; color: #8b949e; }
-  .list { list-style: none; margin-top: 12px; }
-  .list li { padding: 6px 0; font-size: 13px; display: flex; align-items: center; gap: 8px; }
-  .list li::before { content: '●'; color: var(--accent); font-size: 8px; }
-  .badge {
-    display: inline-block; padding: 2px 10px; border-radius: 12px;
-    font-size: 11px; font-weight: 600;
-  }
-  .badge-blue { background: rgba(88,166,255,0.15); color: var(--accent); }
-  .badge-green { background: rgba(63,185,80,0.15); color: var(--accent2); }
-  .badge-orange { background: rgba(240,136,62,0.15); color: var(--accent3); }
-  .badge-purple { background: rgba(188,140,255,0.15); color: var(--accent4); }
-  .badge-pink { background: rgba(247,120,186,0.15); color: var(--accent5); }
-  .flow { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 32px; }
-  .flow h2 { font-size: 18px; color: #fff; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
-  .flow-row { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-  .flow-box {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-    padding: 12px 20px; text-align: center; min-width: 140px;
-  }
-  .flow-box .name { font-size: 13px; font-weight: 600; color: #fff; }
-  .flow-box .desc { font-size: 11px; color: #8b949e; margin-top: 4px; }
-  .arrow { color: var(--accent); font-size: 20px; }
-  .full-width { grid-column: 1 / -1; }
-  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-  .stat {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 20px; text-align: center;
-  }
-  .stat .value { font-size: 32px; font-weight: 700; color: var(--accent); }
-  .stat .label { font-size: 12px; color: #8b949e; margin-top: 4px; }
-  .section-title { font-size: 20px; color: #fff; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  @media (max-width: 768px) {
-    .grid { grid-template-columns: 1fr; }
-    .stat-grid { grid-template-columns: repeat(2, 1fr); }
-    .container { padding: 16px; }
-    .header { padding: 24px 16px; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧬 Эвокод — Карта архитектуры</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #020617;
+      --card-bg: #0f172a;
+      --border: #1e293b;
+      --text: #cbd5e1;
+      --text-muted: #64748b;
+      --accent: #38bdf8;
+      --accent-green: #34d399;
+      --accent-rose: #fb7185;
+      --accent-violet: #a78bfa;
+      --accent-amber: #fbbf24;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      10% { opacity: 0.4; }
+    }
+    
+    h1 {
+      font-size: 20px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    
+    .back-link {
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 16px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.05);
+      transition: all 0.2s;
+    }
+    
+    .back-link:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    .diagram-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      margin-bottom: 32px;
+      overflow: auto;
+    }
+    
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-width: 900px;
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    
+    .info-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--text-muted);
+    }
+    
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    
+    .card-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    .dot-cyan { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+    .dot-rose { background: var(--accent-rose); box-shadow: 0 0 8px var(--accent-rose); }
+    .dot-green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+    
+    .info-card h3 {
+      font-size: 14px;
+      color: #fff;
+      font-weight: 600;
+    }
+    
+    .info-card ul {
+      list-style: none;
+    }
+    
+    .info-card li {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    
+    .info-card li strong {
+      color: var(--text);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+  </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🧬 Эвокод — Архитектура системы</h1>
-  <div class="subtitle">Форк VS Code с локальным inference-фреймворком и самоактуализацией навыков</div>
-</div>
+  <header>
+    <div class="logo-container">
+      <div class="pulse-dot"></div>
+      <div>
+        <h1>🧬 ЭВОКОД • КАРТА АРХИТЕКТУРЫ</h1>
+        <div class="subtitle">Интерактивная карта компонентов и изолированных потоков данных</div>
+      </div>
+    </div>
+    <a href="../README.md" class="back-link">← В репозиторий</a>
+  </header>
 
-<div class="container">
+  <div class="main-content">
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 660" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Фоновая сетка -->
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+          <!-- Наконечник стрелки -->
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+          </marker>
+          <marker id="arrowhead-secure" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#fb7185" />
+          </marker>
+        </defs>
 
-  <!-- Статистика -->
-  <div class="stat-grid">
-    <div class="stat">
-      <div class="value">270+</div>
-      <div class="label">Навыков (Skills)</div>
+        <!-- Заполнение сеткой -->
+        <rect width="1000" height="660" fill="url(#grid)"/>
+
+        <!-- ================= СВЯЗИ (Отрисованы первыми для Z-Index) ================= -->
+        <!-- Линии от IDE к Extension Host -->
+        <path d="M 280 135 L 375 135" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <!-- Линия от Extension Host к CLI агента -->
+        <path d="M 500 170 L 500 240" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <!-- Линия от CLI агента к Core -->
+        <path d="M 500 310 L 500 375" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+        
+        <!-- Линия от Core к Smart Router -->
+        <path d="M 410 435 L 290 435" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- Линия от Core к DLP Guard -->
+        <path d="M 590 435 L 710 435" stroke="#fb7185" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        
+        <!-- Запросы из Smart Router на локальный сервер -->
+        <path d="M 200 470 L 200 560" stroke="#34d399" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <!-- Запросы из DLP на внешнее облако -->
+        <path d="M 800 470 L 800 560" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowhead-secure)"/>
+        
+        <!-- Векторный индекс и база навыков -->
+        <path d="M 200 400 L 200 310" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="2,2" marker-end="url(#arrowhead)"/>
+        <path d="M 800 400 L 800 310" stroke="#34d399" stroke-width="1.5" stroke-dasharray="2,2" marker-end="url(#arrowhead)"/>
+
+        <!-- ================= ГРУППЫ КОМПОНЕНТОВ ================= -->
+        
+        <!-- Граница IDE Layer -->
+        <rect x="40" y="50" width="920" height="140" rx="10" fill="rgba(8, 51, 68, 0.05)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="55" y="75" fill="#22d3ee" font-size="9" font-weight="700">💻 СЛОЙ IDE (ИНТЕРФЕЙС)</text>
+
+        <!-- Граница Agent Layer -->
+        <rect x="40" y="210" width="920" height="120" rx="10" fill="rgba(30, 41, 59, 0.05)" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="55" y="235" fill="#94a3b8" font-size="9" font-weight="700">🤖 СЛОЙ АГЕНТА (RUNTIME)</text>
+
+        <!-- Граница Core Layer -->
+        <rect x="40" y="350" width="920" height="150" rx="10" fill="rgba(76, 29, 149, 0.05)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="55" y="375" fill="#a78bfa" font-size="9" font-weight="700">🧬 ЯДРО EVOCODE CORE (:8083) • PRIVACY PLANE</text>
+
+        <!-- ================= КОНКРЕТНЫЕ БЛОКИ COMPONENTS ================= -->
+
+        <!-- 1. VSCodium "Эвокод" (IDE) -->
+        <rect x="60" y="100" width="220" height="70" rx="6" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+        <rect x="60" y="100" width="220" height="70" rx="6" fill="rgba(8, 51, 68, 0.3)"/>
+        <text x="170" y="128" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">VSCodium «Эвокод»</text>
+        <text x="170" y="146" fill="#89d0f5" font-size="8" text-anchor="middle">Редактор и рабочий контекст</text>
+        <text x="170" y="158" fill="#5c6f84" font-size="7" text-anchor="middle">Midnight Fusion UI</text>
+
+        <!-- 2. Agent Extension Host -->
+        <rect x="375" y="100" width="250" height="70" rx="6" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+        <rect x="375" y="100" width="250" height="70" rx="6" fill="rgba(8, 51, 68, 0.3)"/>
+        <text x="500" y="128" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">evocode-agent extension</text>
+        <text x="500" y="146" fill="#89d0f5" font-size="8" text-anchor="middle">Связующий хост расширения</text>
+        <text x="500" y="158" fill="#5c6f84" font-size="7" text-anchor="middle">fork kilo-vscode</text>
+
+        <!-- 3. Product Panel UI -->
+        <rect x="710" y="100" width="220" height="70" rx="6" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+        <rect x="710" y="100" width="220" height="70" rx="6" fill="rgba(8, 51, 68, 0.3)"/>
+        <text x="820" y="128" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Product Panel Webview</text>
+        <text x="820" y="146" fill="#89d0f5" font-size="8" text-anchor="middle">Модели / Навыки / Настройки</text>
+        <text x="820" y="158" fill="#5c6f84" font-size="7" text-anchor="middle">Асинхронные UI-контроллеры</text>
+
+        <!-- 4. Local SQLite-vec DB -->
+        <rect x="60" y="260" width="220" height="50" rx="6" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
+        <rect x="60" y="260" width="220" height="50" rx="6" fill="rgba(76, 29, 149, 0.2)"/>
+        <text x="170" y="282" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">VectorIndex DB (RAG)</text>
+        <text x="170" y="296" fill="#c084fc" font-size="8" text-anchor="middle">.evocode/index.db (SQLite-vec)</text>
+
+        <!-- 5. Kilo CLI serve -->
+        <rect x="375" y="260" width="250" height="50" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="500" y="282" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Kilo CLI Runtime (serve)</text>
+        <text x="500" y="296" fill="#94a3b8" font-size="8" text-anchor="middle">Вызовы CLI, сессии, MCP, bwrap sandbox</text>
+
+        <!-- 6. Skills Directory -->
+        <rect x="710" y="260" width="220" height="50" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>
+        <rect x="710" y="260" width="220" height="50" rx="6" fill="rgba(6, 78, 59, 0.2)"/>
+        <text x="820" y="282" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">skills/ (system + user)</text>
+        <text x="820" y="296" fill="#34d399" font-size="8" text-anchor="middle">Набор инструкций и оверрайдов</text>
+
+        <!-- 7. Smart Router -->
+        <rect x="60" y="400" width="220" height="70" rx="6" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
+        <rect x="60" y="400" width="220" height="70" rx="6" fill="rgba(76, 29, 149, 0.2)"/>
+        <text x="170" y="428" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Smart Router</text>
+        <text x="170" y="446" fill="#c084fc" font-size="8" text-anchor="middle">Оценка сложности (complexity_score)</text>
+        <text x="170" y="458" fill="#5c6f84" font-size="7" text-anchor="middle">Распределение local ↔ cloud</text>
+
+        <!-- 8. Evocode Core Engine -->
+        <rect x="375" y="400" width="250" height="70" rx="6" fill="#0f172a" stroke="#a78bfa" stroke-width="2"/>
+        <rect x="375" y="400" width="250" height="70" rx="6" fill="rgba(76, 29, 149, 0.3)"/>
+        <text x="500" y="428" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">Core Controller</text>
+        <text x="500" y="446" fill="#a78bfa" font-size="8" text-anchor="middle">OpenAI-совместимый API-шлюз</text>
+        <text x="500" y="458" fill="#5c6f84" font-size="7" text-anchor="middle">Локальная авторизация и биндинг</text>
+
+        <!-- 9. DLP Guard -->
+        <rect x="710" y="400" width="220" height="70" rx="6" fill="#0f172a" stroke="#fb7185" stroke-width="1.5"/>
+        <rect x="710" y="400" width="220" height="70" rx="6" fill="rgba(136, 19, 55, 0.3)"/>
+        <text x="820" y="428" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">DLP Guard</text>
+        <text x="820" y="446" fill="#f43f5e" font-size="8" text-anchor="middle">6 regex-правил фильтрации</text>
+        <text x="820" y="458" fill="#5c6f84" font-size="7" text-anchor="middle">Маскирование API-ключей, токенов, JWT</text>
+
+        <!-- ================= НИЖНИЙ СЛОЙ (ИНФЕРЕНС / ВЫВОД) ================= -->
+        
+        <!-- Локальный Чат -->
+        <rect x="60" y="580" width="250" height="50" rx="6" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+        <rect x="60" y="580" width="250" height="50" rx="6" fill="rgba(120, 53, 15, 0.2)"/>
+        <text x="185" y="602" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">llama-server (Chat :8080)</text>
+        <text x="185" y="616" fill="#fbbf24" font-size="8" text-anchor="middle">Тяжелая чат-модель (GPU, ~35B)</text>
+
+        <!-- Локальный FIM (Автодополнение) -->
+        <rect x="375" y="580" width="250" height="50" rx="6" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+        <rect x="375" y="580" width="250" height="50" rx="6" fill="rgba(120, 53, 15, 0.2)"/>
+        <text x="500" y="602" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">llama-server (FIM :8082)</text>
+        <text x="500" y="616" fill="#fbbf24" font-size="8" text-anchor="middle">Легкая автодополнительная модель (CPU)</text>
+
+        <!-- Облачный OpenRouter -->
+        <rect x="710" y="580" width="220" height="50" rx="6" fill="#0f172a" stroke="#fb7185" stroke-width="1.5"/>
+        <rect x="710" y="580" width="220" height="50" rx="6" fill="rgba(136, 19, 55, 0.2)"/>
+        <text x="820" y="602" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">OpenRouter API (Proxy)</text>
+        <text x="820" y="616" fill="#fb7185" font-size="8" text-anchor="middle">Внешние LLM (Claude, GPT)</text>
+
+      </svg>
     </div>
-    <div class="stat">
-      <div class="value">~150</div>
-      <div class="label">Файлов документации</div>
-    </div>
-    <div class="stat">
-      <div class="value">32K</div>
-      <div class="label">n-predict (LLM)</div>
-    </div>
-    <div class="stat">
-      <div class="value">~10 дней</div>
-      <div class="label">Сроки внедрения</div>
+
+    <!-- Информационная сетка -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="card-dot dot-cyan"></div>
+          <h3>Слой интерфейса (IDE)</h3>
+        </div>
+        <ul>
+          <li>• Брендированная сборка <strong>VSCodium</strong> без телеметрии Microsoft.</li>
+          <li>• Локальное расширение <strong>evocode-agent</strong>, управляющее сессиями.</li>
+          <li>• Интегрированные боковые панели мониторинга и настройки Core.</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="card-dot dot-rose"></div>
+          <h3>Privacy-платформа Core</h3>
+        </div>
+        <ul>
+          <li>• <strong>Smart Router:</strong> анализирует сложность запроса для локального/облачного вывода.</li>
+          <li>• <strong>DLP Guard:</strong> 6 regex-правил для удаления паролей, JWT и API-ключей.</li>
+          <li>• Локальный RAG на <strong>SQLite-vec</strong> для расширения контекста.</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="card-dot dot-green"></div>
+          <h3>Локальный инференс</h3>
+        </div>
+        <ul>
+          <li>• Движок локального исполнения <strong>llama.cpp</strong> (shared memory).</li>
+          <li>• Выделенный <strong>FIM-канал (:8082)</strong> для автодополнения кода.</li>
+          <li>• <strong>Чат-канал (:8080)</strong> для сложных инструкций и выполнения агентов.</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- Поток данных -->
-  <div class="flow">
-    <h2>🔄 Поток данных: от запроса до ответа</h2>
-    <div class="flow-row">
-      <div class="flow-box">
-        <div class="name">Пользователь</div>
-        <div class="desc">Запрос в чат</div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="flow-box">
-        <div class="name">DLP Guard</div>
-        <div class="desc">Маскировка секретов</div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="flow-box">
-        <div class="name">Умный роутер</div>
-        <div class="desc">Local vs Cloud</div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="flow-box">
-        <div class="name">Inference Engine</div>
-        <div class="desc">llama.cpp</div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="flow-box">
-        <div class="name">Результат</div>
-        <div class="desc">Ответ пользователю</div>
-      </div>
-    </div>
-    <div class="flow-row">
-      <div class="flow-box">
-        <div class="name">Skill Sync Engine</div>
-        <div class="desc">GitHub → skills/system/</div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="flow-box">
-        <div class="name">Skill Registry</div>
-        <div class="desc">Загрузка + оверрайды</div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="flow-box">
-        <div class="name">Active Skills</div>
-        <div class="desc">skills/user/ + system/</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Компоненты -->
-  <h2 class="section-title">🏗️ Ключевые компоненты</h2>
-  <div class="grid">
-    <div class="card">
-      <h2><span class="icon">🧠</span> Inference Engine</h2>
-      <p>Дву-модельный локальный инференс на базе llama.cpp</p>
-      <ul class="list">
-        <li>FIM-модель (1.5B, &lt;100ms) — догадки кода</li>
-        <li>Chat-модель (8B) — диалог и рассуждения</li>
-        <li>Фоновый режим (background mode)</li>
-        <li>Конфигурируемые промпты</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2><span class="icon">🔀</span> Умный роутер</h2>
-      <p>Интеллектуальное переключение между локальным и облачным выводом</p>
-      <ul class="list">
-        <li>Простые задачи → локальная модель</li>
-        <li>Сложные задачи → OpenRouter (Claude/GPT)</li>
-        <li>Настройка приоритетов и триггеров</li>
-        <li>Контроль расходов (cloud spending)</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2><span class="icon">🔄</span> Skill Sync Engine</h2>
-      <p>Ежедневная автоактуализация навыков из GitHub</p>
-      <ul class="list">
-        <li>Синхронизация каждые 24 часа (03:00)</li>
-        <li>Новые / изменённые / удалённые навыки</li>
-        <li>Soft-delete и бэкапы</li>
-        <li>Верификация перед применением</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2><span class="icon">🛡️</span> DLP Guard</h2>
-      <p>Защита данных перед отправкой в облако</p>
-      <ul class="list">
-        <li>Маскировка API-ключей, токенов, паролей</li>
-        <li>Конфигурируемые правила (regex)</li>
-        <li>Предпросмотр до отправки</li>
-        <li>Логирование заблокированных данных</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2><span class="icon">🔍</span> Local RAG</h2>
-      <p>Локальный семантический поиск по документам и коду</p>
-      <ul class="list">
-        <li>SQLite-vec / FTS5 — без внешних зависимостей</li>
-        <li>Индексация документации и кода проекта</li>
-        <li>Гибридный поиск (векторный + текстовый)</li>
-        <li>Авто-обновление при изменении файлов</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2><span class="icon">🔌</span> MCP Host</h2>
-      <p>Встроенный хост для Model Context Protocol</p>
-      <ul class="list">
-        <li>Серверы: filesystem, sequentialthinking, Gmail</li>
-        <li>Аутентификация и ограничения</li>
-        <li>Мониторинг и логирование вызовов</li>
-        <li>Файрвол для защиты данных</li>
-      </ul>
-    </div>
-    <div class="card full-width">
-      <h2><span class="icon">📁</span> Структура навыков</h2>
-      <p>Системные навыки обновляются автоматически, пользовательские — нет</p>
-      <div style="margin-top: 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; line-height: 1.8;">
-        <div><span style="color: var(--accent);">skills/</span></div>
-        <div>&nbsp;&nbsp;<span style="color: var(--accent);">system/</span> <span style="color: var(--accent2);">← Sync Engine обновляет</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">agentic-coordination/SKILL.md</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">frontend-engineering/SKILL.md</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">...</span></div>
-        <div>&nbsp;&nbsp;<span style="color: var(--accent3);">user/</span> <span style="color: var(--accent2);">← Пользовательские оверрайды</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">agentic-coordination/SKILL.md</span> <span style="color: #8b949e;">(переопределяет системный)</span></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text);">custom-skill/SKILL.md</span></div>
-        <div>&nbsp;&nbsp;<span style="color: var(--accent4);">.backup/</span> <span style="color: #8b949e;">← Бэкапы версий</span></div>
-        <div>&nbsp;&nbsp;<span style="color: var(--accent5);">.archive/</span> <span style="color: #8b949e;">← Удалённые навыки</span></div>
-      </div>
-    </div>
-  </div>
-
-</div>
+  <footer>
+    🧬 ЭВОКОД • Разработано для корпоративного и персонального использования на Astra Linux и GNU/Linux • Версия 0.95.0 RC2
+  </footer>
 
 </body>
 </html>

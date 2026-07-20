@@ -30,23 +30,27 @@ Hard-fork Microsoft VS Code (полный `product.json` + свои патчи w
 
 ## 2. Целевая архитектура
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Adapters: VSCodium «Эвокод» · Extension Host · ACP later   │
-│  preinstalled: evocode-agent (fork kilo-vscode / OpenCode)  │
-└───────────────────────────┬─────────────────────────────────┘
-                            │ HTTP + SSE (agent runtime)
-┌───────────────────────────▼─────────────────────────────────┐
-│  Kilo CLI serve = OpenCode runtime (НЕ переписываем)        │
-│  tools · MCP · sessions · permissions · skills              │
-└───────────────────────────┬─────────────────────────────────┘
-                            │ OpenAI-compat → Core :8083/v1
-┌───────────────────────────▼─────────────────────────────────┐
-│  Evocode Core — privacy plane                               │
-│  attach llama · router · DLP · skill sync · RAG             │
-└───────────────────────────┬─────────────────────────────────┘
-                            │
-         :8080 chat   :8082 FIM   :8084 embed   OpenRouter+DLP
+```mermaid
+flowchart TD
+    accTitle: Evocode Targeted Architecture
+    accDescr: Three-tier logical architecture of Evocode: IDE Adapters, Kilo Agent Runtime, and Evocode Core Privacy Plane, routing to backends with optimized large fonts.
+
+    classDef default font-size:16px,font-family:'JetBrains Mono',monospace,stroke-width:1.5px,padding:8px;
+    classDef adapters fill:#083344,stroke:#22d3ee,color:#fff;
+    classDef runtime fill:#1e293b,stroke:#94a3b8,color:#fff;
+    classDef core fill:#4c1d95,stroke:#a78bfa,color:#fff;
+    classDef backends fill:#78350f,stroke:#fbbf24,color:#fff;
+
+    A["💻 Адаптеры: VSCodium «Эвокод» · Extension Host<br/>Встроенный evocode-agent (fork kilo-vscode)"]:::adapters
+    
+    A -->|"HTTP + SSE<br/>(runtime агента)"| B["🤖 Kilo CLI (serve) = OpenCode runtime<br/>(вызовы инструментов, сессии, MCP, навыки)"]:::runtime
+    
+    B -->|"OpenAI-compat API<br/>на Evocode Core :8083"| C["🧬 Evocode Core (Privacy Plane)<br/>(attach llama, router, DLP, skill sync, RAG)"]:::core
+    
+    C --> D1["🧠 :8080 chat"]:::backends
+    C --> D2["🧠 :8082 FIM"]:::backends
+    C --> D3["🧠 :8084 embed"]:::backends
+    C --> D4["☁️ OpenRouter + DLP"]:::backends
 ```
 
 Паттерны OpenCode / Grok Build: [ARCHITECTURE_BORROW.md](../docs/ARCHITECTURE_BORROW.md).

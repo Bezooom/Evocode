@@ -36,16 +36,24 @@
 
 ---
 
-## Фазы (актуальная правда)
+## 🗺️ Фазы (актуальная правда)
 
 ```mermaid
-graph LR
-    F0[F0 Core] --> F1[F1 Agent tooling]
-    F1 --> F15[F1.5 Policy+smoke]
-    F15 --> F2[F2 Product IDE]
-    F2 --> F3[F3 Hardening РФ]
-    F3 --> V1[v1.0 DoD]
-    V1 --> F4[F4 Self-evolve]
+flowchart LR
+    accTitle: Evocode Development Phases
+    accDescr: Sequential roadmap stages of Evocode, starting from F0 Core to F4 Self-evolve with large fonts for high readability.
+
+    classDef default font-size:16px,font-family:'JetBrains Mono',monospace,stroke-width:1.5px,padding:8px;
+    classDef done fill:#064e3b,stroke:#34d399,color:#fff;
+    classDef current fill:#0d47a1,stroke:#1565c0,color:#fff;
+    classDef future fill:#4c1d95,stroke:#a78bfa,color:#fff;
+
+    F0["F0 Core"]:::done --> F1["F1 Agent tooling"]:::done
+    F1 --> F15["F1.5 Policy+smoke"]:::done
+    F15 --> F2["F2 Product IDE"]:::done
+    F2 --> F3["F3 Hardening РФ"]:::done
+    F3 --> V1["v1.0 DoD"]:::current
+    V1 --> F4["F4 Self-evolve"]:::future
 ```
 
 | Фаза | Статус | Суть |

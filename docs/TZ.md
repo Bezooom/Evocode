@@ -126,6 +126,15 @@
 
 ```mermaid
 flowchart TB
+    accTitle: Evocode Components Architecture Diagram
+    accDescr: Visual flowchart mapping the Electron shell components, AI Router, DLP Guard, local models, and cloud proxies inside Evocode with high-readability large text.
+
+    classDef default font-size:16px,font-family:'JetBrains Mono',monospace,stroke-width:1.5px,padding:8px;
+    classDef local fill:#1b5e20,stroke:#2e7d32,color:#fff;
+    classDef cloud fill:#0d47a1,stroke:#1565c0,color:#fff;
+    classDef core fill:#4a148c,stroke:#6a1b9a,color:#fff;
+    classDef files fill:#e65100,stroke:#ef6c00,color:#fff;
+
     subgraph Shell["Electron Shell (Эвокод / VS Code)"]
         WB["Workbench / Редактор"]
         KC["Kilocode Core<br/>(агенты, правила)"]
@@ -177,11 +186,6 @@ flowchart TB
     
     SYNC -->|"GitHub API"| GH[("GitHub источники")]
     PROXY -->|"HTTPS через прокси"| OR[("OpenRouter API")]
-
-    classDef local fill:#1b5e20,stroke:#2e7d32,color:#fff;
-    classDef cloud fill:#0d47a1,stroke:#1565c0,color:#fff;
-    classDef core fill:#4a148c,stroke:#6a1b9a,color:#fff;
-    classDef files fill:#e65100,stroke:#ef6c00,color:#fff;
     
     class FIM_MOD,CHAT_MOD local;
     class PROXY,OR cloud;
