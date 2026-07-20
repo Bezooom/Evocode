@@ -81,7 +81,7 @@
         {
           "id": "evocode-shell-ActivityBar",
           "title": "Эвокод Настройки",
-          "icon": "$(settings-gear)"
+          "icon": "media/settings.svg"
         }
       ]
     },
