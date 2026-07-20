@@ -114,15 +114,13 @@ function rebrandPackage(upstreamPkg) {
 
   const out = JSON.parse(raw);
 
-  // Auxiliary bar: monochrome SVG (PNG often invisible on top/side bar)
+  // Activity bar: monochrome SVG (PNG often invisible on top/side bar)
   try {
     const ab = out.contributes?.viewsContainers?.activitybar;
     if (Array.isArray(ab) && ab[0]) {
       ab[0].title = 'Эвокод';
       ab[0].icon = 'assets/icons/evocode-chat.svg';
       ab[0].darkIcon = 'assets/icons/evocode-chat.svg';
-      out.contributes.viewsContainers.auxiliarybar = ab;
-      delete out.contributes.viewsContainers.activitybar;
     }
     const views = out.contributes?.views?.['kilo-code-ActivityBar'];
     if (Array.isArray(views) && views[0]) {
