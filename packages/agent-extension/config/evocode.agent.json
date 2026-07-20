@@ -8,17 +8,17 @@
   "provider": {
     "evocode": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "Эвокод Core",
+      "name": "Эвокод",
       "options": {
         "baseURL": "http://127.0.0.1:8083/v1",
         "apiKey": "evocode-local"
       },
       "models": {
         "evocode-auto": {
-          "name": "Эвокод Auto (router local↔cloud)"
+          "name": "Auto (router)"
         },
         "evocode-local": {
-          "name": "Эвокод Local"
+          "name": "Local"
         }
       }
     }
