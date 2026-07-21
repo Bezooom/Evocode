@@ -1,9 +1,9 @@
 <div align="center">
 
-<img src="assets/evocode_logo.svg" width="600" alt="Evocode"/>
+<img src="packages/ide/icons/evocode.svg" width="160" alt="Evocode"/>
 
 <br/>
-<br/>
+<h1>Evocode</h1>
 
 **Russian privacy-first AI-IDE powered by VSCodium, local LLMs, and DLP filtering**
 
