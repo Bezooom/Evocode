@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.svg" width="160" alt="Эвокод"/>
+<img src="packages/agent-extension/brand/icons/evocode-app.svg" width="160" alt="Эвокод"/>
 
 <br/>
 <h1>Эвокод</h1>
