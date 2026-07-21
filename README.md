@@ -1,12 +1,24 @@
 <div align="center">
 
-# 🧬 Эвокод
+<img src="assets/evocode_logo.svg" width="600" alt="Эвокод"/>
+
+<br/>
+<br/>
 
 **Российская privacy-first AI-IDE на базе VSCodium, локальных моделей и DLP-фильтрации**
+
+<br/>
+
+<img src="screen.jpg" width="800" alt="Интерфейс Эвокод"/>
+
+<br/>
+<br/>
 
 [![Version](https://img.shields.io/badge/version-0.95.0-blue.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0-brightgreen.svg)](https://nodejs.org/)
+
+[English Version](README_EN.md)
 
 </div>
 
