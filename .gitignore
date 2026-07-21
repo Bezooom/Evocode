@@ -75,6 +75,7 @@ skills/user/**
 !skills/user/.gitkeep
 skills/.backup/
 skills/.archive/
+skills/system/subsidy-opk-1780/
 
 # Python cruft under skills
 **/__pycache__/

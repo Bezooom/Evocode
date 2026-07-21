@@ -364,70 +364,67 @@ Not directly relevant for process mining.
 ### 78. `webapp-testing` — Web Testing
 Not directly relevant for process mining.
 
-### 79. `subsidy-opk-1780` — Subsidy Document
+### 79. `caveman` — Compressed Communication
 Not directly relevant for process mining.
 
-### 80. `caveman` — Compressed Communication
+### 80. `github-triage` — GitHub Triage
 Not directly relevant for process mining.
 
-### 81. `github-triage` — GitHub Triage
+### 81. `write-a-skill` — Skill Writing
 Not directly relevant for process mining.
 
-### 82. `write-a-skill` — Skill Writing
+### 82. `autoresearch-pipeline` — Auto-dev Pipeline
 Not directly relevant for process mining.
 
-### 83. `autoresearch-pipeline` — Auto-dev Pipeline
+### 83. `autoresearch-implementation` — Auto-dev Implementation
 Not directly relevant for process mining.
 
-### 84. `autoresearch-implementation` — Auto-dev Implementation
+### 84. `autoresearch-issue-selector` — Auto-dev Issue Selector
 Not directly relevant for process mining.
 
-### 85. `autoresearch-issue-selector` — Auto-dev Issue Selector
+### 85. `autoresearch-agent` — Auto-dev Agent
 Not directly relevant for process mining.
 
-### 86. `autoresearch-agent` — Auto-dev Agent
+### 86. `autoresearch-program` — Auto-dev Code Standard
 Not directly relevant for process mining.
 
-### 87. `autoresearch-program` — Auto-dev Code Standard
+### 87. `architecture-diagram` — Architecture Diagrams
 Not directly relevant for process mining.
 
-### 88. `architecture-diagram` — Architecture Diagrams
+### 88. `security-diagrams` — Security Diagrams
 Not directly relevant for process mining.
 
-### 89. `security-diagrams` — Security Diagrams
+### 89. `database-lookup` — Database Lookup
 Not directly relevant for process mining.
 
-### 90. `database-lookup` — Database Lookup
+### 90. `hugging-science` — Hugging Science
 Not directly relevant for process mining.
 
-### 91. `hugging-science` — Hugging Science
+### 91. `scanpy` — Single-Cell Analysis
 Not directly relevant for process mining.
 
-### 92. `scanpy` — Single-Cell Analysis
+### 92. `rdkit` — Cheminformatics
 Not directly relevant for process mining.
 
-### 93. `rdkit` — Cheminformatics
+### 93. `pysam` — Genomics
 Not directly relevant for process mining.
 
-### 94. `pysam` — Genomics
+### 94. `biopython` — Bioinformatics
 Not directly relevant for process mining.
 
-### 95. `biopython` — Bioinformatics
+### 95. `diffdock` — Molecular Docking
 Not directly relevant for process mining.
 
-### 96. `diffdock` — Molecular Docking
+### 96. `open-notebook` — Notebook Notes
 Not directly relevant for process mining.
 
-### 97. `open-notebook` — Notebook Notes
+### 97. `personal-api` — Personal API
 Not directly relevant for process mining.
 
-### 98. `personal-api` — Personal API
+### 98. `obsidian-vault` — Obsidian Vault
 Not directly relevant for process mining.
 
-### 99. `obsidian-vault` — Obsidian Vault
-Not directly relevant for process mining.
-
-### 100. `olw` — OLW Pipeline
+### 99. `olw` — OLW Pipeline
 Not directly relevant for process mining.
 
 ---
