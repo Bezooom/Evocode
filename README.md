@@ -1,9 +1,8 @@
 <div align="center">
 
-<img src="packages/ide/icons/evocode.svg" width="160" alt="Эвокод"/>
+# Эвокод
 
 <br/>
-<h1>Эвокод</h1>
 
 **Российская privacy-first AI-IDE на базе VSCodium, локальных моделей и DLP-фильтрации**
 
