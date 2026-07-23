@@ -130,7 +130,7 @@ function env(name: string, fallback: string): string {
  */
 export const defaultConfig: EvocodeConfig = {
   appName: 'Эвокод',
-  appVersion: '0.95.0',
+  appVersion: '1.0.0',
   language: 'ru',
   mode: (env('EVOCODE_MODE', 'strict') as RuntimeMode) === 'degraded' ? 'degraded' : 'strict',
 

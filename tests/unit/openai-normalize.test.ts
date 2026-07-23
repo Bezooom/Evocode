@@ -12,10 +12,11 @@ describe('foldReasoning', () => {
     else process.env.EVOCODE_FOLD_REASONING = prev;
   });
 
-  it('promotes reasoning_content to content on delta', () => {
+  it('promotes reasoning_content to content on delta and removes reasoning_content property', () => {
     process.env.EVOCODE_FOLD_REASONING = 'true';
     const d = foldReasoningDelta({ reasoning_content: 'think', content: null }) as any;
     expect(d.content).toBe('think');
+    expect(d.reasoning_content).toBeUndefined();
   });
 
   it('does not overwrite real content', () => {

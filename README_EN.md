@@ -14,7 +14,7 @@
 <br/>
 <br/>
 
-[![Version](https://img.shields.io/badge/version-0.95.0-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0-brightgreen.svg)](https://nodejs.org/)
 
@@ -28,13 +28,13 @@
 
 | Attribute | Value |
 |-----------|-------|
-| **Current Version** | **0.95.0** — Release Candidate 2 |
-| **Current Phase** | F3 ✅ (Skill Router v2 + dual-model FIM) |
+| **Current Version** | **1.0.0** — Production Release |
+| **Current Phase** | **1.0.0 DoD ✅** (Production Ready) |
 | **Status Summary** | [docs/STATUS.md](docs/STATUS.md) |
 | **Development Roadmap** | [plans/ROADMAP.md](plans/ROADMAP.md) · [plans/FULL_DEV_ROADMAP.md](plans/FULL_DEV_ROADMAP.md) |
 | **Changelog** | [CHANGELOG.md](CHANGELOG.md) |
 
-> v0.95.0 RC2 is a pilot-ready AI-IDE featuring operator mode, DLP guard, user authorization, Skill Router (M1–M4), and dual-model local inference (chat + FIM). The solution is not certified; the goal for 1.0.0 is stabilization based on pilot feedback.
+> v1.0.0 Production Release: standalone AI-IDE featuring operator mode, External Agent Memory Bank, In-Context Self-Adapter, Git Skill Crawler (.cursorrules & .mdc converter), DLP guard, and dual-model local inference (chat 35B + FIM).
 
 ---
 
@@ -192,9 +192,23 @@ npm run local:stack                 # Start local model stack (llama.cpp)
 | **InferenceEngine** | Communication with llama-server and external cloud providers |
 | **Smart Router** | Dynamic routing local/cloud based on context size and task complexity |
 | **DLP Guard** | Filtering and masking secrets/keys in outgoing cloud requests |
-| **SkillLoader** | Loading agent skills (.md format files with hybrid embeddings) |
+| **SkillLoader & GitCrawler** | Skills manager: GitHub skills crawler & Cursor rules (`.cursorrules`, `.mdc`) converter |
+| **External Memory Bank** | Independent agent memory bank (`.evocode/memory/`) preserving workspace context across model switches |
+| **In-Context Self-Adapter** | Dynamic prompt self-adapter for small models with DLP-sanitized dataset collection |
 | **VectorIndex** | Local vector storage using SQLite-vec[^3] extension for RAG |
-| **Runtime API** | Managing spawned local model instances and profiles |
+| **Runtime API** | Managing spawned local model instances and profiles (`/v1/memory`, `/v1/learning/dataset`, `/v1/skills/crawl`) |
+
+---
+
+## 🛠️ Skill System (Skill Router v2 & Git Crawler)
+
+Evocode features a comprehensive Skills Engine that transforms generic LLMs into domain-specific experts:
+
+1. **860+ Out-of-the-Box Skills**: Built-in skill coverage for Frontend (React, Vue, Angular), Backend, Firebase, Android, Data Science, Bioinformatics, SEO, Accessibility, Game Dev, and Security.
+2. **Skill Router v2 (Hybrid Semantic Routing)**: Dynamically selects contextually relevant skills for queries in both Russian and English using lexical triggers combined with SQLite-vec embeddings.
+3. **Git Crawler & Cursor Rules Converter**: Automatically scans popular GitHub repositories (`awesome-agent-skills`, `awesome-cursorrules`, etc.) and converts `.cursorrules` / `.mdc` files into native `SKILL.md` format.
+4. **User Overrides (`skills/user/`)**: Custom skills placed in `skills/user/` take precedence over system skills without risk of being overwritten during updates.
+5. **Isolation & Safety**: Experimental and lab skills are marked with `tier: lab` and disabled by default, while oversized files are truncated to summaries (`summary_only`).
 
 ---
 

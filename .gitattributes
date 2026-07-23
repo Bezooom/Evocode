@@ -1,0 +1,31 @@
+# Set default behavior to automatically normalize line endings
+* text=auto eol=lf
+
+# Explicitly declare text files that should always be LF
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# Denotate generated/vendor files to hide them from GitHub statistics and diffs
+package-lock.json linguist-generated
+dist/** linguist-generated
+build/** linguist-generated
+
+# Mark assets/images as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text eol=lf
+
+# Mark test files as documentation/test
+tests/** linguist-documentation

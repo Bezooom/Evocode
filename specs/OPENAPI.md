@@ -1,8 +1,8 @@
 # API Reference — Evocode Core
 
 **Base URL (local):** `http://127.0.0.1:8083`  
-**Версия:** 0.95.0  
-**Обновлено:** 2026-07-20 (Skill Router v2 M1)
+**Версия:** 1.0.0  
+**Обновлено:** 2026-07-23 (Production Release)
 
 Core — privacy plane. Agent (Kilo/OpenCode) ходит сюда как на OpenAI-compatible provider.
 

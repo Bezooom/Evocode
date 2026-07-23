@@ -16,7 +16,9 @@ export function foldReasoningDelta(delta: Record<string, unknown> | null | undef
   const contentEmpty =
     content == null || content === '' || (typeof content === 'string' && content.length === 0);
   if (contentEmpty && typeof reasoning === 'string' && reasoning.length > 0) {
-    return { ...delta, content: reasoning };
+    const next: Record<string, unknown> = { ...delta, content: reasoning };
+    delete next.reasoning_content;
+    return next;
   }
   return delta;
 }

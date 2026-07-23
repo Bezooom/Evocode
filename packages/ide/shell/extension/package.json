@@ -2,7 +2,7 @@
   "name": "evocode-shell",
   "displayName": "Эвокод",
   "description": "Нативная оболочка Эвокод: toolbar, модели, настройки IDE.",
-  "version": "0.95.0",
+  "version": "1.0.0",
   "publisher": "evocode",
   "engines": {
     "vscode": "^1.85.0"

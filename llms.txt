@@ -1,0 +1,36 @@
+# Evocode
+
+Russian privacy-first AI-IDE built on top of VSCodium, Kilo/OpenCode agent, and a local Core inference platform.
+
+## Architecture & Integration
+
+- **Editor**: VSCodium (packaged as portable and flatpak) rebranded as Evocode.
+- **Agent Runtime**: Kilo/OpenCode features (agent loop, MCP host, sessions).
+- **Evocode Core**: Node.js/TypeScript server running on port 8083. Contains:
+  - `InferenceEngine` (local llama.cpp server management + OpenRouter fallback).
+  - `Smart Router` (complexity & token-based local/cloud routing).
+  - `DLP Guard` (local regex-based mask and block for API secrets before cloud transit).
+  - `SkillSyncEngine` (auto-syncing agent skills from GitHub repos).
+  - `VectorIndex` (local RAG on top of sqlite-vec).
+  - `External Memory Bank` (workspace memory in `.evocode/memory/`).
+  - `In-Context Self-Adapter` (fine-tuning prompt patterns based on gathered dataset).
+
+## Repository Structure
+
+- `src/` - Core TypeScript codebase:
+  - `core/` - Configuration, hardware probing, and general setup.
+  - `engine/` - Local/cloud inference engine and runtime manager.
+  - `guard/` - DLP Guard masking logic.
+  - `indexer/` - SQLite-vec search vector index.
+  - `router/` - Local/cloud smart router.
+  - `skills/` - Skills loader and system prompt injection.
+  - `sync/` - Git skill crawler and syncer.
+  - `memory/` - Workspace context persistent memory bank.
+  - `learning/` - In-context self-adapter and dataset collector.
+- `packages/` - Monorepo packages:
+  - `agent-extension/` - VS Code extension for the agent.
+  - `ide/` - Custom VSCodium launcher and desktop configurations.
+- `docs/` - System specifications, status reports, and architecture guides.
+- `plans/` - Developer roadmaps and migration blueprints.
+- `scripts/` - Packaging (deb, AppImage, portable) and configuration management.
+- `tests/` - Unit, integration, and e2e testing suites.

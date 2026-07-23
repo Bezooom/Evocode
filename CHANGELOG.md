@@ -5,6 +5,50 @@
 
 ---
 
+## [1.0.0] — 2026-07-23 (Production Release)
+
+Официальный релиз **Эвокод 1.0.0 (Production Release)** — полноценное готовое к эксплуатации рабочее место оператора на базе брендированного VSCodium, двухмодельного инференса, изоляции приватности и самообучающихся слоёв.
+
+### Добавлено и Достигнуто (DoD 1.0.0)
+- **Production-Ready DoD**:
+  - Полный технологический стек: Core :8083 + chat GPU 35B :8080 + FIM Neurocontrol CPU :8082 + embed :8084.
+  - **External Agent Memory Bank** (`.evocode/memory/`): непрерывная память задач, архитектурных решений и прогресса проекта.
+  - **In-Context Self-Adapter**: динамическое самообучение маленьких моделей без переобучения тяжелых GGUF-весов с гарантией маскирования секретов через `DLPGuard`.
+  - **Git Skill Crawler & Cursor Rules Converter**: автоматический сканер репозиториев и парсер правил `.cursorrules` / `.mdc` в стандартизированные файлы `SKILL.md`.
+  - **Hardware Recommendations & Auto-Tuning**: эндпоинт `GET /v1/hardware` для определения конфигурации ПК и выдачи рекомендаций по потокам и моделям.
+- **Официальный релиз 1.0.0**:
+  - Подготовка конфигурации сборки deb-пакетов и AppImage под финальный релиз 1.0.0.
+
+---
+
+## [0.96.0] — 2026-07-23 (Release Candidate 3)
+
+Третий кандидат-релиз: **External Agent Memory Bank**, **In-Context Self-Adapter** и **Git Skill Crawler с автоконвертером Cursor rules**.
+
+### Добавлено
+- **External Agent Memory Bank (Внешняя независимая память агента)**:
+  - Хранение постоянного контекста проекта в `.evocode/memory/` (`projectbrief.md`, `activeContext.md`, `systemPatterns.md`, `techContext.md`, `progress.md`).
+  - Автоматическая подмешивание состояния памяти в системные промпты при смене моделей (local ↔ cloud).
+  - API: `GET /v1/memory` и `POST /v1/memory` (чтение, запись, автосинхронизация).
+- **Самообучение маленькой модели (In-Context Self-Adapter)**:
+  - `DatasetCollector`: безопасный сбор успешных решений и FIM автодополнений с маскированием секретов через `DLPGuard` в `.evocode/learning/dataset/train_pairs.jsonl`.
+  - `InContextAdapter`: динамический адаптивный слой промпта (`[IN-CONTEXT MODEL ADAPTER]`), обучающий маленькую модель стилю кодирования без затрат VRAM на переобучение GGUF весов.
+  - Генерация скрипта экспорта для LoRA/Unsloth (`scripts/export-lora-dataset.sh`).
+  - API: `GET /v1/learning/dataset`.
+- **Git Skill Crawler & Конвертер Cursor Rules**:
+  - `GitSkillCrawler`: автоматическое сканирование репозиториев (`VoltAgent/awesome-agent-skills`, `PatrickJS/awesome-cursorrules`, `acedergren/agentic-tools`, `addyosmani/agent-skills`).
+  - Автоматическая конвертация правил `.cursorrules` и `.mdc` в стандартизированные файлы `SKILL.md` с сохранением фронтматтера и триггеров в `.evocode/skills/crawled/`.
+  - Автоматический фоновый таймер автосинхронизации (`startAutoSync()`).
+  - API: `POST /v1/skills/crawl`.
+- **Исправление стриминга рассуждений (Reasoning Stream Fix)**:
+  - Нормализация `foldReasoningDelta` в `openai-normalize.ts`: автоматическая очистка дублирующего `reasoning_content` при фолдинге в `content`, предотвращающая спам выпадающих UI-блоков `Reasoning` по каждому токену.
+
+### Изменено
+- Версия продукта **0.95.0 → 0.96.0** (RC3).
+- Актуализирована документация: `README.md`, `docs/RUNTIME.md`, `docs/STATUS.md`.
+
+---
+
 ## [0.95.0] — 2026-07-20 (Release Candidate 2)
 
 Второй кандидат-релиз: **Skill Router v2 (M1–M4)** и **dual-model FIM** (лёгкая Neurocontrol-модель для autocomplete).

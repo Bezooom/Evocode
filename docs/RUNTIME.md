@@ -131,8 +131,42 @@ curl -s localhost:8083/v1/completions -H 'Content-Type: application/json' \
 
 Agent settings: `autocomplete.model = evocode-fim`, provider `evocode`.
 
+## External Agent Memory Bank (Внешняя память агента)
+
+Внешняя память хранится в `.evocode/memory/` и автоматически подмешивается в системный промпт при любых переключениях моделей (локальные ik/buun ↔ облачные OpenRouter/Claude):
+
+- `GET /v1/memory` — статус и содержимое файлов памяти (`projectbrief.md`, `activeContext.md`, `systemPatterns.md`, `techContext.md`, `progress.md`).
+- `POST /v1/memory` — синхронизация или обновление файлов памяти.
+
+```bash
+curl -s localhost:8083/v1/memory | jq .
+```
+
+## Самообучение маленькой модели (In-Context Adapter & Dataset Collector)
+
+Служба `DatasetCollector` с маскированием DLP собирает удачные решения в `.evocode/learning/dataset/train_pairs.jsonl`. На их основе создаётся лёгкий адаптивный слой в системном промпте без необходимости переобучения весов GGUF.
+
+- `GET /v1/learning/dataset` — статистика собранного датасета и путь к скрипту экспорта LoRA (`scripts/export-lora-dataset.sh`).
+
+```bash
+curl -s localhost:8083/v1/learning/dataset | jq .
+```
+
+## Git Skill Crawler & Конвертер Cursor Rules
+
+Служба `GitSkillCrawler` сканирует внешние репозитории (`VoltAgent/awesome-agent-skills`, `PatrickJS/awesome-cursorrules` и др.) и автоматически преобразует файлы правил `.cursorrules` / `.mdc` в готовые навыки Evocode (`SKILL.md`).
+
+- `POST /v1/skills/crawl` — парсинг и конвертация внешнего правила в файл `SKILL.md`.
+
+```bash
+curl -s -X POST localhost:8083/v1/skills/crawl \
+  -H 'Content-Type: application/json' \
+  -d '{"ruleName":"nextjs.mdc","rawContent":"---\ndescription: Next.js rules\n---\nUse server components","repoName":"awesome-cursorrules"}'
+```
+
 ## Типичный happy-path
 
 1. `npm run build && npm run evocode`
 2. Ctrl+Shift+M → **coder** (chat) + **fim-small** (FIM) → Запустить
 3. Ctrl+L → чат агента → Core → local :8080; autocomplete → :8082
+

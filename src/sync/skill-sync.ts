@@ -42,6 +42,7 @@ export class SkillSyncEngine {
   private log: string[] = [];
   private lastSync: Date | null = null;
   private syncInProgress: boolean = false;
+  private autoSyncTimer: NodeJS.Timeout | null = null;
   
   constructor(config?: Partial<EvocodeConfig>) {
     this.config = config ? { ...defaultConfig, ...config } : defaultConfig;
@@ -419,6 +420,22 @@ export class SkillSyncEngine {
       )
     );
     this.log.push(`[${new Date().toISOString()}] Бэкап: ${backupPath}`);
+  }
+
+  public startAutoSync(intervalHours: number = 6): void {
+    this.stopAutoSync();
+    const intervalMs = Math.max(1, intervalHours) * 3600 * 1000;
+    this.autoSyncTimer = setInterval(() => {
+      void this.sync();
+    }, intervalMs);
+    this.log.push(`[${new Date().toISOString()}] Автосинхронизация навыков запущена (интервал ${intervalHours}ч)`);
+  }
+
+  public stopAutoSync(): void {
+    if (this.autoSyncTimer) {
+      clearInterval(this.autoSyncTimer);
+      this.autoSyncTimer = null;
+    }
   }
 }
 

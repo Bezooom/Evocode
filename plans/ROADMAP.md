@@ -1,7 +1,7 @@
 # 🗺️ Дорожная карта Эвокод
 
-**Обновлено:** 2026-07-20  
-**Продукт:** **v0.95.0 (Release Candidate 2)** — branded VSCodium + agent + Core + Skill Router + dual FIM  
+**Обновлено:** 2026-07-23  
+**Продукт:** **v1.0.0 (Production Release)** — branded VSCodium + agent + Core + Skill Router + dual FIM  
 **Продуктовый путь:** native UX «Эвокод» + privacy plane (Core)
 
 > **Source of truth для агентов:** [FULL_DEV_ROADMAP.md](./FULL_DEV_ROADMAP.md)  
@@ -102,11 +102,11 @@ flowchart LR
 
 ---
 
-## Очередь работ (P0) — v0.95.0 → 1.0.0
+## Очередь работ (P0) — v1.0.0 (Production Release)
 
 1. Пилоты: Operator preview + FIM autocomplete + skills route.
-2. Пересборка/smoke deb+AppImage **0.95.0**.
-3. Фидбек → стабильный **1.0.0**.
+2. Пересборка/smoke deb+AppImage 1.0.0.
+3. Фидбек → стабильный 1.0.0.
 4. **Не делать сейчас:** F4 LoRA, второй MCP host, hard-fork microsoft/vscode
 
 ---

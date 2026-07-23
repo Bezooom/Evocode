@@ -17,6 +17,10 @@ import { skillLoader } from './skills/skill-loader';
 import { defaultConfig, initConfig, saveConfig } from './core/config';
 import { contentToText } from './core/text';
 import { probeHardware } from './core/hardware';
+import { defaultMemoryManager, MemoryFileName } from './memory/memory-bank';
+import { defaultDatasetCollector } from './learning/dataset-collector';
+import { defaultInContextAdapter } from './learning/in-context-adapter';
+import { defaultGitSkillCrawler } from './sync/git-crawler';
 import * as http from 'http';
 import { ProxyAgent } from 'undici';
 
@@ -871,6 +875,70 @@ async function main(): Promise<void> {
         return;
       }
 
+      if (req.method === 'GET' && url === '/v1/memory') {
+        sendJson(res, 200, {
+          success: true,
+          memoryDir: defaultMemoryManager.getMemoryDir(),
+          memory: defaultMemoryManager.getAllMemory(),
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/memory') {
+        try {
+          const body = JSON.parse((await readBody(req)) || '{}');
+          if (body.action === 'sync') {
+            defaultMemoryManager.syncFromWorkspace(body.task);
+            sendJson(res, 200, { success: true, memory: defaultMemoryManager.getAllMemory() });
+            return;
+          }
+          if (body.file && body.content !== undefined) {
+            const ok = defaultMemoryManager.writeMemoryFile(
+              body.file as MemoryFileName,
+              String(body.content)
+            );
+            sendJson(res, ok ? 200 : 400, { success: ok, memory: defaultMemoryManager.getAllMemory() });
+            return;
+          }
+          sendJson(res, 400, { error: { message: 'file and content required, or action="sync"' } });
+        } catch (e) {
+          sendJson(res, 400, { error: { message: (e as Error).message } });
+        }
+        return;
+      }
+
+      if (req.method === 'GET' && url === '/v1/learning/dataset') {
+        const stats = defaultDatasetCollector.getStats();
+        const loraScript = defaultInContextAdapter.generateLoraTrainingScript();
+        sendJson(res, 200, {
+          success: true,
+          stats,
+          loraScript,
+          recent: defaultDatasetCollector.getRecentItems(5),
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/skills/crawl') {
+        try {
+          const body = JSON.parse((await readBody(req)) || '{}');
+          if (body.ruleName && body.rawContent) {
+            const skill = defaultGitSkillCrawler.convertCursorRuleToSkill(
+              body.ruleName,
+              body.rawContent,
+              body.repoName || 'custom'
+            );
+            const savedPath = defaultGitSkillCrawler.saveCrawledSkill(skill);
+            sendJson(res, 200, { success: true, savedPath, skill });
+            return;
+          }
+          sendJson(res, 400, { error: { message: 'ruleName and rawContent required' } });
+        } catch (e) {
+          sendJson(res, 400, { error: { message: (e as Error).message } });
+        }
+        return;
+      }
+
       if (req.method === 'GET' && (url === '/v1/models' || url === '/models')) {
         const models: Array<Record<string, unknown>> = [
           { id: 'evocode-local', object: 'model', owned_by: 'evocode', purpose: 'chat' },
@@ -1057,15 +1125,33 @@ async function main(): Promise<void> {
 Критически важно: НИКОГДА не выводите технические заголовки или маркеры вроде "[PLAN]" или "[EXECUTE]" в чат. Пишите ваши мысли и действия простым, естественным языком на русском.
 `;
 
-        const systemPrompt = [systemFromClient, skillInj.text, ragContext, artifactInstructions]
+        const memorySnippet = defaultMemoryManager.buildSystemPromptSnippet();
+        const adapterSnippet = defaultInContextAdapter.buildAdapterPromptSnippet();
+
+        const systemPrompt = [
+          systemFromClient,
+          skillInj.text,
+          ragContext,
+          memorySnippet,
+          adapterSnippet,
+          artifactInstructions,
+        ]
           .filter(Boolean)
           .join('\n\n');
 
-        // Normalize message content to strings for local inference / router
-        const updatedMessages = messages.map((m) => ({
-          role: m.role,
-          content: contentToText(m.content),
-        }));
+        // Normalize message content to strings and convert tool roles for local inference / router
+        const updatedMessages = messages.map((m) => {
+          let role = m.role;
+          let content = contentToText(m.content);
+          if (role === 'tool') {
+            role = 'user';
+            content = `[Result]: ${content}`;
+          }
+          return {
+            role,
+            content,
+          };
+        });
         const sysIndex = updatedMessages.findIndex((m) => m.role === 'system');
         if (sysIndex !== -1) {
           updatedMessages[sysIndex] = { role: 'system', content: systemPrompt };
