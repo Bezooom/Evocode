@@ -22,15 +22,24 @@ function resolveCoreRoot() {
   if (fromSettings && fs.existsSync(path.join(fromSettings, 'dist', 'index.js'))) {
     return fromSettings;
   }
-  if (process.env.EVOCODE_ROOT && fs.existsSync(path.join(process.env.EVOCODE_ROOT, 'dist', 'index.js'))) {
-    return process.env.EVOCODE_ROOT;
+  // Portable package: EVOCODE_ROOT may point at core/ (has dist/) or monorepo root
+  if (process.env.EVOCODE_ROOT) {
+    const envRoot = process.env.EVOCODE_ROOT;
+    if (fs.existsSync(path.join(envRoot, 'dist', 'index.js'))) return envRoot;
+    if (fs.existsSync(path.join(envRoot, 'core', 'dist', 'index.js'))) {
+      return path.join(envRoot, 'core');
+    }
   }
   const home = os.homedir();
   const candidates = [
-    path.resolve(__dirname, '../../../../core/'),
-    path.resolve(__dirname, '../../../../../core/'),
+    // built-in portable layouts (extension under resources/app/extensions/evocode-shell)
+    path.resolve(__dirname, '../../../../core/'), // …/Resources/core (mac) or …/resources/core
+    path.resolve(__dirname, '../../../../../core/'), // …/DEST/core (linux/win)
+    path.resolve(__dirname, '../../../../../../core/'), // …/DEST/core (mac app parent)
     path.resolve(__dirname, '../../../../'),
     path.resolve(__dirname, '../../../../../'),
+    // system deb/AppImage
+    '/usr/share/evocode/core',
     // common clone layouts (no hard-coded username)
     path.join(home, 'Projects', 'Evocode'),
     path.join(home, 'src', 'Evocode'),
@@ -40,6 +49,21 @@ function resolveCoreRoot() {
     if (fs.existsSync(path.join(c, 'dist', 'index.js'))) return c;
   }
   return null;
+}
+
+/** Prefer system Node for Core (native better-sqlite3); fall back to Electron. */
+function resolveNodeBinary() {
+  if (process.env.EVOCODE_NODE && fs.existsSync(process.env.EVOCODE_NODE)) {
+    return process.env.EVOCODE_NODE;
+  }
+  try {
+    const which = process.platform === 'win32' ? 'where node' : 'command -v node';
+    const out = execSync(which, { encoding: 'utf8' }).trim().split(/\r?\n/)[0];
+    if (out && fs.existsSync(out)) return out;
+  } catch {
+    /* */
+  }
+  return process.execPath;
 }
 
 function healthCheck(port, timeoutMs = 1200) {
@@ -89,7 +113,8 @@ async function ensureCore(log) {
     /* */
   }
   const entry = path.join(root, 'dist', 'index.js');
-  log?.(`Запуск Core: ${entry}`);
+  const nodeBin = resolveNodeBinary();
+  log?.(`Запуск Core: ${nodeBin} ${entry}`);
   const coreLog = path.join(root, '.evocode', 'core-sidecar.log');
   fs.mkdirSync(path.dirname(coreLog), { recursive: true });
   let out = 'ignore';
@@ -98,13 +123,14 @@ async function ensureCore(log) {
   } catch {
     out = 'ignore';
   }
-  const child = spawn(process.execPath, [entry], {
+  const child = spawn(nodeBin, [entry], {
     cwd: root,
     detached: true,
     stdio: out === 'ignore' ? 'ignore' : ['ignore', out, out],
     env: {
       ...process.env,
       PORT: String(port),
+      EVOCODE_ROOT: root,
       EVOCODE_LLAMA_MODE: process.env.EVOCODE_LLAMA_MODE || 'attach',
     },
   });

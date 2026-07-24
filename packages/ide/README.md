@@ -55,9 +55,19 @@ npm run ide:prepare-shell
 При сборке VSCodium (`prepare_vscode.sh`) root `product.json` мержится в `vscode/product.json`  
 (`jq '.[0] * .[1]'`), поэтому brand-поля попадают в итоговый бинарник.
 
-## Сборка
+## Сборка / релизы
 
-Сборка VSCodium — по [документации VSCodium](https://github.com/VSCodium/vscodium).  
+Полный продукт (не plain VSCodium):
+
+```bash
+npm run ide:package-portable   # packages/ide/dist/evocode-ide
+npm run ide:package-all        # multi-OS → dist/releases/
+npm run ide:productize:check
+```
+
+См. [docs/PACKAGING.md](../../docs/PACKAGING.md).
+
+Сборка VSCodium from source — по [документации VSCodium](https://github.com/VSCodium/vscodium).  
 После `prepare_vscode` / build — preinstall extension из `packages/agent-extension` (F2.3).
 
 ## Почему не microsoft/vscode напрямую

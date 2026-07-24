@@ -14,7 +14,7 @@
 <br/>
 <br/>
 
-[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.0.1-brightgreen.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0-brightgreen.svg)](https://nodejs.org/)
 
@@ -28,13 +28,13 @@
 
 | Attribute | Value |
 |-----------|-------|
-| **Current Version** | **1.0.0** — Production Release |
-| **Current Phase** | **1.0.0 DoD ✅** (Production Ready) |
+| **Current Version** | **1.0.1** — Maintenance (hardware stack + full OS releases) |
+| **Current Phase** | **1.0.x** Production Ready |
 | **Status Summary** | [docs/STATUS.md](docs/STATUS.md) |
 | **Development Roadmap** | [plans/ROADMAP.md](plans/ROADMAP.md) · [plans/FULL_DEV_ROADMAP.md](plans/FULL_DEV_ROADMAP.md) |
 | **Changelog** | [CHANGELOG.md](CHANGELOG.md) |
 
-> v1.0.0 Production Release: standalone AI-IDE featuring operator mode, External Agent Memory Bank, In-Context Self-Adapter, Git Skill Crawler (.cursorrules & .mdc converter), DLP guard, and dual-model local inference (chat 35B + FIM).
+> v1.0.1 — full multi-OS product packages (IDE + agent + Core), hardware probe and model-stack recommend/download; builds on 1.0.0 (operator mode, Memory Bank, DLP, dual-model FIM, skill crawler).
 
 ---
 
@@ -143,13 +143,23 @@ Profiles and file path templates are described in [`config/profiles.json`](confi
 
 ## 📦 Distributions
 
-Distributions are packaged using the following commands:
+Releases are a **full product** (branded IDE + built-in agent/shell + Core), not plain VSCodium. See [docs/PACKAGING.md](docs/PACKAGING.md).
 
 ```bash
-npm run ide:package-portable    # Build portable IDE version
-npm run ide:package-deb         # Build deb package (packages/ide/dist/evocode_0.95.0_amd64.deb)
-npm run ide:package-appimage    # Build AppImage (Evocode-0.95.0-x86_64.AppImage)
+npm run ide:package-portable    # Linux portable → packages/ide/dist/evocode-ide
+npm run ide:package-all         # Linux/Windows/macOS → packages/ide/dist/releases/
+npm run ide:package-deb         # .deb (from portable)
+npm run ide:package-appimage    # AppImage (from portable)
+FORCE=1 npm run ide:package-all # force rebuild
 ```
+
+| Artifact | Example |
+|----------|---------|
+| Linux x64 | `evocode-linux-x64-1.0.1.tar.gz` |
+| Windows x64 | `evocode-win32-x64-1.0.1.zip` |
+| macOS | `evocode-darwin-*-1.0.1.zip` |
+
+Hardware / model stack: `GET /v1/hardware`, UI tab **Hardware**, [HARDWARE_PROFILES.md](plans/HARDWARE_PROFILES.md).
 
 ---
 
@@ -159,9 +169,12 @@ npm run ide:package-appimage    # Build AppImage (Evocode-0.95.0-x86_64.AppImage
 |---------|------|-------------|
 | **Dev Map** | [FULL_DEV_ROADMAP](plans/FULL_DEV_ROADMAP.md) | Comprehensive development task map (source of truth) |
 | Project Status | [STATUS](docs/STATUS.md) | Current technical status of the project |
+| Packaging | [PACKAGING](docs/PACKAGING.md) | portable, multi-OS, deb, AppImage |
+| Hardware | [HARDWARE_PROFILES](plans/HARDWARE_PROFILES.md) | probe, stack, GGUF download |
 | Roadmap | [ROADMAP](plans/ROADMAP.md) | Realization stages for phases F0–F4 |
 | Fork Strategy | [FORK_STRATEGY](plans/FORK_STRATEGY.md) | Core, agent, and IDE integration details |
 | Core Architecture | [ARCHITECTURE](docs/ARCHITECTURE.md) | Inside Core modules description |
+| Runtime | [RUNTIME](docs/RUNTIME.md) | llama profiles, dual-model, hardware API |
 | Testing | [SMOKE](docs/SMOKE.md) | E2E smoke tests checklist |
 | API Spec | [OPENAPI](specs/OPENAPI.md) | Core REST API description |
 | Security | [SECURITY](SECURITY.md) | Security policy and DLP details |
@@ -179,7 +192,9 @@ npm test / npm run type-check       # Run tests and TypeScript type checks
 npm run evocode                     # Start IDE and automatically spawn Core
 npm run agent:f1                    # Rebuild agent (rebranding + provider installation)
 npm run ide:refresh-brand           # Reset cache and refresh brand icons/profiles
-npm run ide:package-portable        # Pack VSCodium portable release
+npm run ide:package-portable        # Full Linux portable (agent+shell+Core)
+npm run ide:package-all             # Multi-OS archives under dist/releases/
+npm run ide:productize:check        # Verify tree is a full product
 npm run local:stack                 # Start local model stack (llama.cpp)
 ```
 
@@ -192,6 +207,7 @@ npm run local:stack                 # Start local model stack (llama.cpp)
 | **InferenceEngine** | Communication with llama-server and external cloud providers |
 | **Smart Router** | Dynamic routing local/cloud based on context size and task complexity |
 | **DLP Guard** | Filtering and masking secrets/keys in outgoing cloud requests |
+| **Hardware / Model catalog** | Hardware probe, dual-model stack recommendation, optional GGUF download |
 | **SkillLoader & GitCrawler** | Skills manager: GitHub skills crawler & Cursor rules (`.cursorrules`, `.mdc`) converter |
 | **External Memory Bank** | Independent agent memory bank (`.evocode/memory/`) preserving workspace context across model switches |
 | **In-Context Self-Adapter** | Dynamic prompt self-adapter for small models with DLP-sanitized dataset collection |
@@ -223,8 +239,9 @@ Development phases and current status:
 | **F1.5 Smoke** | 0.2–0.3 | Basic testing and DLP integration | ✅ |
 | **F2 Product** | 0.5.0 | User interface & VSCodium integration | ✅ |
 | **F3 Hardening** | 0.9.0 RC1 | Security hardening, OS isolation, and profiles | ✅ |
-| **Skill Router** | 0.95.0 RC2 | Skill Router v2 and dual-mode FIM | ✅ **current** |
-| **Product DoD** | 1.0.0 | Full release after pilots feedback | 📋 in progress |
+| **Skill Router** | 0.95.0 RC2 | Skill Router v2 and dual-mode FIM | ✅ |
+| **Product DoD** | 1.0.0 | Production release | ✅ |
+| **Maintenance** | **1.0.1** | Hardware stack + full multi-OS product packages | ✅ **current** |
 | **F4 Self-evolve** | post-1.0 | Self-evolving coding agents | 📋 scheduled |
 
 ---

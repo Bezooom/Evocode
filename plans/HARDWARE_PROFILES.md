@@ -1,7 +1,7 @@
 # Hardware profiles & model tuning (target **v1.0.0**)
 
-**Status:** foundation in Core (`GET /v1/hardware`, `src/core/hardware.ts`) · full first-run wizard → **1.0 DoD**  
-**Related:** [RUNTIME.md](../docs/RUNTIME.md), `config/profiles.json`, dual-model FIM
+**Status:** ✅ shipped in **1.0.1** — probe + stack + apply + download + UI «Железо»  
+**Related:** [RUNTIME.md](../docs/RUNTIME.md), [PACKAGING.md](../docs/PACKAGING.md), `config/profiles.json` / `profiles.local.json`, dual-model FIM
 
 ---
 
@@ -103,18 +103,33 @@ EVOCODE_FOLD_REASONING=true
 ## Implementation checklist
 
 - [x] `src/core/hardware.ts` probe + recommend  
-- [x] `GET /v1/hardware`  
+- [x] `GET /v1/hardware` (+ `stack`, `catalog`, ports)  
+- [x] `POST /v1/hardware/apply` → `config/profiles.local.json`  
+- [x] Model catalog + optional download (`POST /v1/models/download`)  
+- [x] Product panel «Железо» tab  
 - [x] reasoning fold + abort message  
-- [x] profiles: reasoning-budget, FIM/embed `-t 16`  
-- [ ] Product panel «Железо» tab (1.0)  
-- [ ] First-run wizard apply profiles.local  
-- [ ] Auto-pick profile after probe  
+- [x] profiles: reasoning-budget, FIM/embed `-t` from probe  
+- [ ] First-run wizard (auto open «Железо» on empty models)  
+- [ ] Auto-start recommended profiles after apply+download  
 - [ ] Optional: ROCm / Apple Metal detect  
+
+### API
+
+```bash
+curl -s localhost:8083/v1/hardware | jq '.tier,.stack'
+curl -s -X POST localhost:8083/v1/hardware/apply -H 'content-type: application/json' -d '{}'
+# with download (explicit consent):
+curl -s -X POST localhost:8083/v1/hardware/apply -d '{"downloadMissing":true}'
+curl -s -X POST localhost:8083/v1/models/download -d '{"id":"nomic-embed-q4"}'
+curl -s localhost:8083/v1/models/downloads
+```
+
+UI: **Настройки Эвокод → Железо** — зонд, стек, apply, скачивание GGUF.
 
 ---
 
 ## Non-goals
 
-- Auto-download multi‑GB GGUF without consent  
+- Auto-download multi‑GB GGUF **without consent** (UI/API flag required)  
 - Benchmark every model on every start  
-- Replace manual `profiles.json` for power users  
+- Replace manual `profiles.json` for power users (`profiles.local.json` overlay only)  

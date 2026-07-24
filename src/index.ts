@@ -16,7 +16,17 @@ import { vectorIndex } from './indexer/vector-index';
 import { skillLoader } from './skills/skill-loader';
 import { defaultConfig, initConfig, saveConfig } from './core/config';
 import { contentToText } from './core/text';
-import { probeHardware } from './core/hardware';
+import {
+  applyRecommendedStackFromReport,
+  probeHardware,
+} from './core/hardware';
+import { listCatalog } from './core/model-catalog';
+import {
+  cancelDownload,
+  getDownload,
+  listDownloads,
+  startDownload,
+} from './engine/model-downloader';
 import { defaultMemoryManager, MemoryFileName } from './memory/memory-bank';
 import { defaultDatasetCollector } from './learning/dataset-collector';
 import { defaultInContextAdapter } from './learning/in-context-adapter';
@@ -344,6 +354,100 @@ async function main(): Promise<void> {
       if (req.method === 'GET' && url === '/v1/hardware') {
         const report = await probeHardware();
         sendJson(res, 200, { ok: true, ...report });
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/hardware/apply') {
+        const body = JSON.parse((await readBody(req)) || '{}');
+        const report = await probeHardware();
+        const result = applyRecommendedStackFromReport(report, {
+          modelsDir: body.modelsDir,
+        });
+        // optional: queue downloads for missing recommended models
+        const downloads: unknown[] = [];
+        if (body.downloadMissing === true) {
+          for (const id of result.stack.missing) {
+            try {
+              downloads.push(startDownload(id, { modelsDir: body.modelsDir }));
+            } catch (e) {
+              downloads.push({
+                catalogId: id,
+                error: e instanceof Error ? e.message : String(e),
+              });
+            }
+          }
+        }
+        sendJson(res, 200, { ...result, downloads });
+        return;
+      }
+
+      if (req.method === 'GET' && url === '/v1/models/catalog') {
+        const report = await probeHardware();
+        sendJson(res, 200, {
+          ok: true,
+          modelsDir: report.modelsDir,
+          tier: report.tier,
+          stack: report.stack,
+          catalog: report.catalog,
+          entries: listCatalog(),
+        });
+        return;
+      }
+
+      if (req.method === 'GET' && url === '/v1/models/downloads') {
+        sendJson(res, 200, { ok: true, downloads: listDownloads() });
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/models/download') {
+        const body = JSON.parse((await readBody(req)) || '{}');
+        const catalogId = body.id || body.catalogId;
+        if (!catalogId || typeof catalogId !== 'string') {
+          sendJson(res, 400, {
+            ok: false,
+            error: { message: 'id (catalog model id) required' },
+          });
+          return;
+        }
+        try {
+          const job = startDownload(catalogId, {
+            modelsDir: body.modelsDir,
+            force: Boolean(body.force),
+          });
+          sendJson(res, 200, { ok: true, download: job });
+        } catch (e) {
+          const status = (e as { statusCode?: number }).statusCode || 500;
+          sendJson(res, status, {
+            ok: false,
+            error: { message: e instanceof Error ? e.message : String(e) },
+          });
+        }
+        return;
+      }
+
+      if (req.method === 'POST' && url === '/v1/models/download/cancel') {
+        const body = JSON.parse((await readBody(req)) || '{}');
+        const catalogId = body.id || body.catalogId;
+        if (!catalogId) {
+          sendJson(res, 400, { ok: false, error: { message: 'id required' } });
+          return;
+        }
+        const job = cancelDownload(catalogId);
+        sendJson(res, job ? 200 : 404, {
+          ok: Boolean(job),
+          download: job,
+        });
+        return;
+      }
+
+      if (req.method === 'GET' && url.startsWith('/v1/models/download/')) {
+        const catalogId = decodeURIComponent(url.slice('/v1/models/download/'.length));
+        const job = getDownload(catalogId);
+        if (!job) {
+          sendJson(res, 404, { ok: false, error: { message: 'no download job' } });
+          return;
+        }
+        sendJson(res, 200, { ok: true, download: job });
         return;
       }
 
@@ -1596,6 +1700,8 @@ async function main(): Promise<void> {
     }
     console.log(`   Health:        GET  http://${HOST}:${PORT}/health`);
     console.log(`   Runtime API:   GET  /v1/runtime  POST /v1/runtime/start|stop|switch`);
+    console.log(`   Hardware:      GET  /v1/hardware  POST /v1/hardware/apply`);
+    console.log(`   Model catalog: GET  /v1/models/catalog  POST /v1/models/download`);
     console.log(`   Runtime:       ${JSON.stringify(inferenceEngine.getRuntimeInfo())}`);
     // Background — never block listen/health
     void warmSkillEmbeddings();

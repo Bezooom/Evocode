@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IDE_DIST="${ROOT}/packages/ide/dist"
 PORTABLE_DIR="${IDE_DIST}/evocode-ide"
 APPDIR="${IDE_DIST}/AppDir"
-VERSION="1.0.0"
+VERSION="$(node -p "require('${ROOT}/package.json').version" 2>/dev/null || echo "1.0.1")"
 
 echo "=== Сборка AppImage Эвокод ==="
 

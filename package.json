@@ -1,6 +1,6 @@
 {
   "name": "evocode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Эвокод — privacy-first AI-IDE: VSCodium + agent + локальный Core (DLP, router, skills)",
   "main": "dist/index.js",
   "scripts": {
@@ -47,6 +47,8 @@
     "ide:package-deb": "bash scripts/package-deb.sh",
     "ide:package-appimage": "bash scripts/package-appimage.sh",
     "ide:package-all": "bash scripts/package-all-os.sh",
+    "ide:productize": "node packages/ide/scripts/productize-portable-tree.mjs",
+    "ide:productize:check": "node packages/ide/scripts/productize-portable-tree.mjs packages/ide/dist/evocode-ide --check",
     "ide:rebrand-portable": "node packages/ide/scripts/rebrand-portable-codium.mjs",
     "ide:refresh-brand": "npm run agent:rebrand && npm run ide:preinstall-agent && npm run ide:install-shell && npm run ide:product-settings && npm run ide:install-desktop",
     "evocode": "bash scripts/evocode-app.sh",

@@ -5,6 +5,31 @@
 
 ---
 
+## [1.0.1] — 2026-07-24 (Maintenance)
+
+Поддержка железа + **полные** multi-OS релизы (не plain VSCodium).
+
+### Добавлено
+- **Hardware stack end-to-end**
+  - `GET /v1/hardware` → tier, CPU/RAM/GPU, порты, `stack`, `catalog`, `recommendations`.
+  - `POST /v1/hardware/apply` → merge `config/profiles.local.json` (defaults + профили).
+  - Каталог GGUF (`src/core/model-catalog.ts`) + `POST /v1/models/download` (с прогрессом, только по согласию).
+  - UI: вкладка **«Железо»** в настройках программы (зонд, apply, скачивание).
+  - Приоритет уже установленных GGUF (например Ornith 35B) над каталогом.
+- **Productize portable / OS releases**
+  - `packages/ide/scripts/productize-portable-tree.mjs`: brand + **evocode-agent** + **evocode-shell** + Core (`dist`/`skills`/`node_modules` на Linux).
+  - `npm run ide:package-all` / `ide:package-portable` кладут полный продукт, не rebrand-only VSCodium.
+  - Маркер `EVOCODE-PRODUCT.txt`; smoke проверяет agent/shell/Core.
+
+### Исправлено
+- OS-архивы 1.0.0 содержали только rebrand VSCodium без агента/Core — пересобраны как 1.0.1.
+- Лаунчеры portable: `EVOCODE_ROOT`, isolated `~/.evocode-ide`, system Node для sidecar Core.
+
+### Документация
+- README / README_EN / STATUS / RUNTIME / PACKAGING / HARDWARE_PROFILES / ASTRA_LINUX.
+
+---
+
 ## [1.0.0] — 2026-07-23 (Production Release)
 
 Официальный релиз **Эвокод 1.0.0 (Production Release)** — полноценное готовое к эксплуатации рабочее место оператора на базе брендированного VSCodium, двухмодельного инференса, изоляции приватности и самообучающихся слоёв.

@@ -197,6 +197,123 @@ function readAgentSettings() {
   return out;
 }
 
+function buildHardwareSection(hw) {
+  if (!hw || !hw.tier) {
+    return `<div class="banner warn">Core offline или /v1/hardware недоступен. Запустите Core и нажмите «Обновить».</div>
+      <div class="row"><button id="hwRefresh">Обновить зонд</button></div>`;
+  }
+  const rec = hw.recommendations || {};
+  const stack = hw.stack || {};
+  const gpus = (hw.gpus || [])
+    .map((g) => `<li><b>${esc(g.name)}</b> — ${esc(String(g.vramMb))} MB VRAM</li>`)
+    .join('') || '<li class="muted">NVIDIA GPU не найден (nvidia-smi)</li>';
+  const ports = Object.entries(hw.ports || {})
+    .map(([p, s]) => `<span class="pill">${esc(p)}: ${esc(s)}</span>`)
+    .join(' ');
+  const notes = (rec.notes || []).map((n) => `<li>${esc(n)}</li>`).join('');
+  const stackNotes = (stack.notes || []).map((n) => `<li>${esc(n)}</li>`).join('');
+  const slot = (s, label) => {
+    if (!s) return '';
+    const status = s.present
+      ? '<span class="badge badge-tier">на диске</span>'
+      : s.downloadable
+        ? '<span class="badge badge-user">нужно скачать</span>'
+        : '<span class="badge">—</span>';
+    const dl =
+      s.catalogId && !s.present && s.downloadable
+        ? `<button data-hw-dl="${esc(s.catalogId)}">Скачать ~${esc(String(s.approxSizeGb))} GiB</button>`
+        : s.catalogId && s.present
+          ? `<button class="ghost" data-hw-dl="${esc(s.catalogId)}" title="перекачать">Повторить</button>`
+          : '';
+    return `<div class="card">
+      <div class="head">
+        <span class="dot ${s.present ? 'on' : ''}"></span>
+        <div style="flex:1;min-width:0">
+          <div class="t">${esc(label)} · ${esc(s.name || '—')} ${status}</div>
+          <div class="s muted">profile <code>${esc(s.profileId || '')}</code>
+            ${s.filename ? ` · <code>${esc(s.filename)}</code>` : ''}
+            ${s.catalogId ? ` · id <code>${esc(s.catalogId)}</code>` : ''}
+          </div>
+          <div class="s muted">${esc(s.reason || '')}</div>
+        </div>
+      </div>
+      <div class="acts" style="margin-top:10px">${dl}</div>
+    </div>`;
+  };
+  const catalogRows = (hw.catalog || [])
+    .slice()
+    .sort((a, b) => Number(b.recommended) - Number(a.recommended) || a.role.localeCompare(b.role))
+    .map((m) => {
+      const recBadge = m.recommended ? '<span class="badge badge-tier">рекоменд.</span>' : '';
+      const present = m.present ? '✓' : '—';
+      const btn = !m.present
+        ? `<button data-hw-dl="${esc(m.id)}">Скачать</button>`
+        : `<span class="muted">есть</span>`;
+      return `<tr>
+        <td>${esc(m.role)}</td>
+        <td>${esc(m.name)} ${recBadge}</td>
+        <td>~${esc(String(m.approxSizeGb))} G</td>
+        <td>${present}</td>
+        <td>${btn}</td>
+      </tr>`;
+    })
+    .join('');
+  const downloads = (hw.downloads || [])
+    .map((d) => {
+      const pct = d.percent != null ? `${d.percent}%` : '…';
+      return `<li><code>${esc(d.catalogId)}</code> — ${esc(d.status)} ${esc(pct)}
+        ${d.error ? ` · ${esc(d.error)}` : ''}
+        ${d.status === 'downloading' ? `<button class="ghost" data-hw-cancel="${esc(d.catalogId)}">Отмена</button>` : ''}
+      </li>`;
+    })
+    .join('');
+
+  return `
+    <div class="banner ok">Tier: <b>${esc(hw.tier)}</b> · ${esc(hw.cpu?.model || '')} ·
+      ${esc(String(hw.cpu?.logicalCores || '?'))} thr · RAM ${esc(String(Math.round((hw.memory?.totalMb || 0) / 1024)))} GiB
+      · modelsDir <code>${esc(hw.modelsDir || '')}</code>
+    </div>
+    <div class="settings-group">
+      <h2>GPU</h2>
+      <ul>${gpus}</ul>
+      <div class="pills-container" style="margin-top:8px">${ports}</div>
+    </div>
+    <div class="settings-group">
+      <h2>Рекомендация</h2>
+      <p><b>Chat class:</b> ${esc(rec.chatClass || '—')}</p>
+      <p class="hint">ctx ~${esc(String(rec.chatCtxHint || ''))} · CPU threads FIM/embed: <b>${esc(String(rec.cpuThreads || ''))}</b>
+        · secondaryOnCpu: ${rec.secondaryOnCpu ? 'да' : 'нет'}</p>
+      <ul>${notes || '<li>—</li>'}</ul>
+    </div>
+    <div class="settings-group">
+      <h2>Рекомендуемый стек</h2>
+      <ul>${stackNotes || ''}</ul>
+      ${slot(stack.chat, 'Chat / agent')}
+      ${slot(stack.fim, 'FIM / autocomplete')}
+      ${slot(stack.embed, 'Embeddings')}
+      <div class="row" style="margin-top:12px;flex-wrap:wrap;gap:8px">
+        <button id="hwApply">Применить стек → profiles.local.json</button>
+        <button id="hwApplyDl">Применить + скачать недостающее</button>
+        <button class="ghost" id="hwRefresh">Обновить зонд</button>
+      </div>
+      <p class="hint" style="margin-top:8px">Применение не качает GGUF само — только профили и defaults. Скачивание только по кнопке / «Применить + скачать».</p>
+    </div>
+    <div class="settings-group">
+      <h2>Каталог GGUF</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="text-align:left;color:var(--muted)">
+          <th>role</th><th>модель</th><th>size</th><th>disk</th><th></th>
+        </tr></thead>
+        <tbody>${catalogRows || '<tr><td colspan="5">пусто</td></tr>'}</tbody>
+      </table>
+    </div>
+    <div class="settings-group">
+      <h2>Загрузки</h2>
+      <ul id="hwDownloads">${downloads || '<li class="muted">Нет активных загрузок</li>'}</ul>
+    </div>
+  `;
+}
+
 function buildHtml(state) {
   const rt = state.runtime || {};
   const skillsList = state.skills || [];
@@ -204,6 +321,7 @@ function buildHtml(state) {
   const cloud = config.inference?.cloud || {};
   const router = config.router || {};
   const hasFolder = state.hasFolder;
+  const hardwareSection = buildHardwareSection(state.hardware);
   const folderBanner = !hasFolder 
     ? `<div class="settings-group" style="border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.05); margin-top: 14px;">
         <h2 style="display: flex; align-items: center; gap: 8px;">
@@ -650,6 +768,14 @@ function buildHtml(state) {
       </svg>
       Модели
     </button>
+    <button class="tab" data-tab="hardware">
+      <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="16" height="16" rx="2"/>
+        <rect x="9" y="9" width="6" height="6"/>
+        <path d="M9 1v2M15 1v2M9 21v2M15 21v2M20 9h3M20 15h3M1 9h2M1 15h2"/>
+      </svg>
+      Железо
+    </button>
     <button class="tab" data-tab="agent">
       <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -724,6 +850,12 @@ function buildHtml(state) {
     <div id="list">${cards || '<div class="banner warn">Нет профилей — Core offline?</div>'}</div>
     <h2>Форки</h2>
     <ul>${forks || '<li>—</li>'}</ul>
+  </section>
+
+  <section class="page" id="hardware">
+    <h1>Железо и стек моделей</h1>
+    <p class="hint">Core определяет CPU/RAM/GPU (nvidia-smi), рекомендует dual-model стек и может скачать GGUF по согласию.</p>
+    ${hardwareSection}
   </section>
 
   <section class="page" id="agent">
@@ -992,6 +1124,31 @@ function buildHtml(state) {
     post('saveFimConfig', { enabled });
   });
   document.getElementById('stopAll').onclick = () => { log('Стоп…'); post('stopAll'); };
+
+  document.getElementById('hwRefresh')?.addEventListener('click', () => {
+    log('Зонд железа…');
+    post('hwRefresh');
+  });
+  document.getElementById('hwApply')?.addEventListener('click', () => {
+    log('Применение стека…');
+    post('hwApply', { downloadMissing: false });
+  });
+  document.getElementById('hwApplyDl')?.addEventListener('click', () => {
+    log('Применение стека + скачивание…');
+    post('hwApply', { downloadMissing: true });
+  });
+  document.getElementById('hardware')?.addEventListener('click', (e) => {
+    const dl = e.target.closest('[data-hw-dl]');
+    if (dl) {
+      log('Скачивание ' + dl.dataset.hwDl + '…');
+      post('hwDownload', { id: dl.dataset.hwDl });
+      return;
+    }
+    const cancel = e.target.closest('[data-hw-cancel]');
+    if (cancel) {
+      post('hwCancelDownload', { id: cancel.dataset.hwCancel });
+    }
+  });
   
   const openFolderBtn = document.getElementById('openFolderBtn');
   if (openFolderBtn) {
@@ -1453,6 +1610,23 @@ class ProductPanel {
         /* */
       }
     }
+    let hardware = null;
+    if (coreOnline) {
+      try {
+        const hw = await httpJson('GET', '/v1/hardware', null, port, 8000);
+        if (hw.json && hw.json.ok !== false) {
+          hardware = hw.json;
+          try {
+            const dl = await httpJson('GET', '/v1/models/downloads', null, port, 3000);
+            if (dl.json?.downloads) hardware.downloads = dl.json.downloads;
+          } catch {
+            hardware.downloads = [];
+          }
+        }
+      } catch {
+        /* */
+      }
+    }
     const fim = {
       enabled: true,
       port: 8082,
@@ -1490,6 +1664,7 @@ class ProductPanel {
       },
       agentSettings: readAgentSettings(),
       mcpServers: kilo.mcp || {},
+      hardware,
     };
   }
 
@@ -1507,6 +1682,84 @@ class ProductPanel {
         return;
       }
       if (msg.type === 'refresh') return void (await this.refresh());
+      if (msg.type === 'hwRefresh') return void (await this.refresh());
+      if (msg.type === 'hwApply') {
+        try {
+          const r = await httpJson(
+            'POST',
+            '/v1/hardware/apply',
+            { downloadMissing: Boolean(msg.downloadMissing) },
+            port,
+            120000,
+          );
+          if (r.json?.ok) {
+            vscode.window.showInformationMessage(r.json.message || 'Стек применён');
+            log(r.json.message || 'Стек применён');
+            if (msg.downloadMissing && (r.json.downloads || []).length) {
+              log(`Запущено загрузок: ${r.json.downloads.length}`);
+              // poll progress a few times
+              for (let i = 0; i < 5; i++) {
+                await new Promise((res) => setTimeout(res, 2000));
+                await this.refresh();
+              }
+            }
+          } else {
+            const err = r.json?.error?.message || r.json?.message || 'ошибка apply';
+            vscode.window.showErrorMessage(`Железо: ${err}`);
+            log(err);
+          }
+        } catch (e) {
+          vscode.window.showErrorMessage(`Железо: ${e.message}`);
+          log(e.message);
+        }
+        return void (await this.refresh());
+      }
+      if (msg.type === 'hwDownload') {
+        try {
+          const r = await httpJson('POST', '/v1/models/download', { id: msg.id }, port, 15000);
+          if (r.json?.ok) {
+            log(`Скачивание ${msg.id}: ${r.json.download?.status}`);
+            vscode.window.showInformationMessage(`Эвокод: загрузка ${msg.id} (${r.json.download?.status})`);
+            // background refresh while downloading
+            const poll = async () => {
+              for (let i = 0; i < 120; i++) {
+                await new Promise((res) => setTimeout(res, 3000));
+                const st = await httpJson('GET', `/v1/models/download/${encodeURIComponent(msg.id)}`, null, port, 5000);
+                const d = st.json?.download;
+                if (!d || d.status === 'completed' || d.status === 'failed' || d.status === 'cancelled') {
+                  if (d?.status === 'completed') {
+                    vscode.window.showInformationMessage(`Эвокод: ${msg.id} скачан`);
+                  } else if (d?.status === 'failed') {
+                    vscode.window.showErrorMessage(`Загрузка ${msg.id}: ${d.error || 'failed'}`);
+                  }
+                  await this.refresh();
+                  return;
+                }
+                log(`${msg.id}: ${d.status} ${d.percent != null ? d.percent + '%' : ''}`);
+                if (i % 3 === 0) await this.refresh();
+              }
+            };
+            poll();
+          } else {
+            const err = r.json?.error?.message || 'download failed';
+            vscode.window.showErrorMessage(err);
+            log(err);
+          }
+        } catch (e) {
+          vscode.window.showErrorMessage(e.message);
+          log(e.message);
+        }
+        return void (await this.refresh());
+      }
+      if (msg.type === 'hwCancelDownload') {
+        try {
+          await httpJson('POST', '/v1/models/download/cancel', { id: msg.id }, port, 5000);
+          log(`Отмена ${msg.id}`);
+        } catch (e) {
+          log(e.message);
+        }
+        return void (await this.refresh());
+      }
       if (msg.type === 'stopAll') {
         const r = await httpJson('POST', '/v1/runtime/stop', { all: true }, port, 30000);
         log(r.json?.message || 'OK');

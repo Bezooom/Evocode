@@ -1,14 +1,66 @@
 # API Reference — Evocode Core
 
 **Base URL (local):** `http://127.0.0.1:8083`  
-**Версия:** 1.0.0  
-**Обновлено:** 2026-07-23 (Production Release)
+**Версия:** 1.0.1  
+**Обновлено:** 2026-07-24 (hardware stack + packaging)
 
 Core — privacy plane. Agent (Kilo/OpenCode) ходит сюда как на OpenAI-compatible provider.
 
 ---
 
 ## Endpoints
+
+### `GET /v1/hardware`
+
+Зонд железа + рекомендация dual-model стека + наличие GGUF в `modelsDir`.
+
+```json
+{
+  "ok": true,
+  "tier": "beast",
+  "cpu": { "model": "…", "logicalCores": 36 },
+  "memory": { "totalMb": 65536, "freeMb": 40000 },
+  "gpus": [{ "index": 0, "name": "RTX 3090", "vramMb": 24576 }],
+  "ports": { "8080": "free", "8082": "busy", "8083": "busy", "8084": "free" },
+  "recommendations": {
+    "chatClass": "30–35B Q4 on GPU…",
+    "chatCtxHint": 65536,
+    "cpuThreads": 16,
+    "secondaryOnCpu": true,
+    "suggestedProfiles": ["coder", "fim-small", "embed-nomic"],
+    "notes": [],
+    "tunables": []
+  },
+  "stack": {
+    "tier": "beast",
+    "chat": { "profileId": "coder", "present": true, "catalogId": "…" },
+    "fim": { "profileId": "fim-small", "present": false, "catalogId": "qwen25-coder-1.5b-q4" },
+    "embed": { "profileId": "embed-nomic", "present": true },
+    "missing": ["qwen25-coder-1.5b-q4"],
+    "totalDownloadGb": 1.1
+  },
+  "catalog": [],
+  "modelsDir": "/home/…/llama.cpp/models"
+}
+```
+
+### `POST /v1/hardware/apply`
+
+Пишет merge в `config/profiles.local.json`.
+
+```json
+{ "downloadMissing": false, "modelsDir": null }
+```
+
+Ответ: `{ "ok": true, "path": "…/profiles.local.json", "defaults": {…}, "profilesWritten": [], "stack": {…}, "downloads": [] }`.
+
+### `GET /v1/models/catalog` · `POST /v1/models/download` · `GET /v1/models/downloads`
+
+Каталог GGUF и загрузка **только по явному запросу** (`{ "id": "nomic-embed-q4" }`).  
+Отмена: `POST /v1/models/download/cancel` `{ "id" }`.  
+Статус: `GET /v1/models/download/:id`.
+
+---
 
 ### `GET /health`
 

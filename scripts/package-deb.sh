@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IDE_DIST="${ROOT}/packages/ide/dist"
 PORTABLE_DIR="${IDE_DIST}/evocode-ide"
 DEB_BUILD_DIR="${IDE_DIST}/deb-build"
-VERSION="1.0.0"
+VERSION="$(node -p "require('${ROOT}/package.json').version" 2>/dev/null || echo "1.0.1")"
 DEB_PACKAGE_DIR="${DEB_BUILD_DIR}/evocode_${VERSION}_amd64"
 
 echo "=== Сборка deb-пакета Эвокод ==="

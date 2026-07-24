@@ -95,16 +95,109 @@ const CANDIDATES = [
       : '',
 ];
 
-export function loadProfiles(): ProfilesFile | null {
+function deepMergeProfiles(base: ProfilesFile, local: Partial<ProfilesFile>): ProfilesFile {
+  return {
+    ...base,
+    ...local,
+    modelsDir: local.modelsDir ?? base.modelsDir,
+    defaults: { ...base.defaults, ...(local.defaults || {}) },
+    profiles: { ...base.profiles, ...(local.profiles || {}) },
+    keep: local.keep
+      ? {
+          binaries: local.keep.binaries ?? base.keep?.binaries,
+          models: local.keep.models ?? base.keep?.models,
+        }
+      : base.keep,
+  };
+}
+
+/** Directory that holds profiles.json (for writing profiles.local.json). */
+export function profilesConfigDir(): string {
+  for (const get of CANDIDATES) {
+    const p = get();
+    if (p && fs.existsSync(p)) return path.dirname(p);
+  }
+  // fallback monorepo / cwd
+  if (process.env.EVOCODE_ROOT) {
+    return path.join(expandPath(process.env.EVOCODE_ROOT), 'config');
+  }
+  return path.resolve(process.cwd(), 'config');
+}
+
+export function profilesLocalPath(): string {
+  return path.join(profilesConfigDir(), 'profiles.local.json');
+}
+
+/** Expanded models directory from profiles (or default under $HOME). */
+export function resolveModelsDir(override?: string): string {
+  if (override) return expandPath(override);
+  const file = loadProfilesRaw();
+  if (file?.modelsDir) return expandPath(file.modelsDir);
+  return expandPath('$HOME/llama.cpp/models');
+}
+
+function loadProfilesRaw(): ProfilesFile | null {
   for (const get of CANDIDATES) {
     const p = get();
     if (!p) continue;
     if (fs.existsSync(p)) {
       const raw = JSON.parse(fs.readFileSync(p, 'utf-8')) as ProfilesFile;
-      return expandFile(raw);
+      const localPath = path.join(path.dirname(p), 'profiles.local.json');
+      if (fs.existsSync(localPath)) {
+        try {
+          const local = JSON.parse(fs.readFileSync(localPath, 'utf-8')) as Partial<ProfilesFile>;
+          return deepMergeProfiles(raw, local);
+        } catch {
+          return raw;
+        }
+      }
+      return raw;
+    }
+  }
+  // local-only install
+  const localOnly = path.join(profilesConfigDir(), 'profiles.local.json');
+  if (fs.existsSync(localOnly)) {
+    try {
+      return JSON.parse(fs.readFileSync(localOnly, 'utf-8')) as ProfilesFile;
+    } catch {
+      return null;
     }
   }
   return null;
+}
+
+export function loadProfiles(): ProfilesFile | null {
+  const raw = loadProfilesRaw();
+  return raw ? expandFile(raw) : null;
+}
+
+/**
+ * Merge-write profiles.local.json next to profiles.json.
+ * Does not overwrite profiles.json (operator source of truth).
+ */
+export function writeProfilesLocal(partial: Partial<ProfilesFile>): string {
+  const dir = profilesConfigDir();
+  fs.mkdirSync(dir, { recursive: true });
+  const dest = path.join(dir, 'profiles.local.json');
+  let existing: Partial<ProfilesFile> = {};
+  if (fs.existsSync(dest)) {
+    try {
+      existing = JSON.parse(fs.readFileSync(dest, 'utf-8')) as Partial<ProfilesFile>;
+    } catch {
+      existing = {};
+    }
+  }
+  const merged: Partial<ProfilesFile> = {
+    ...existing,
+    ...partial,
+    defaults: { ...(existing.defaults || {} as ProfilesFile['defaults']), ...(partial.defaults || {}) },
+    profiles: { ...(existing.profiles || {}), ...(partial.profiles || {}) },
+  };
+  // stamp
+  (merged as { $comment?: string }).$comment =
+    'Auto-written by Evocode hardware stack apply. Safe to edit. Merged over profiles.json.';
+  fs.writeFileSync(dest, JSON.stringify(merged, null, 2) + '\n', 'utf-8');
+  return dest;
 }
 
 export function resolveChatProfile(name?: string): RuntimeProfile | null {

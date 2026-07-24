@@ -20,13 +20,27 @@
 Deb-пакет Эвокод содержит скомпилированную и брендированную сборку среды, исполняемый файл запуска `/usr/bin/evocode`, ярлык рабочего стола и необходимые ассеты.
 
 ### Шаг 2.1. Установка пакета
-Выполните команду установки в терминале Astra Linux:
+
+**Вариант A — deb (предпочтительно):**
+
 ```bash
-sudo dpkg -i packages/ide/dist/releases/evocode-linux-x64-1.0.0.tar.gz
+# после npm run ide:package-portable && npm run ide:package-deb
+sudo dpkg -i packages/ide/dist/evocode_*_amd64.deb
+sudo apt-get install -f   # при необходимости
+evocode
 ```
 
+**Вариант B — portable tar.gz (полный продукт, не plain VSCodium):**
+
+```bash
+tar -xzf packages/ide/dist/releases/evocode-linux-x64-*.tar.gz -C ~/Evocode
+~/Evocode/bin/evocode
+```
+
+Внутри: branded IDE + `evocode-agent` + `evocode-shell` + `core/` (см. [PACKAGING.md](PACKAGING.md)).
+
 ### Шаг 2.2. Разрешение зависимостей
-Если возникли ошибки из-за отсутствующих системных библиотек, выполните команду их автоматической настройки:
+Если при установке deb возникли ошибки из-за отсутствующих системных библиотек:
 ```bash
 sudo apt-get install -f
 ```

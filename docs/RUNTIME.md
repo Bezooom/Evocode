@@ -31,9 +31,17 @@ curl -s -X POST localhost:8083/v1/runtime/stop \
 | POST | `/v1/runtime/start` | `{ "profile": "coder" }` |
 | POST | `/v1/runtime/stop` | `{ "profile" }` или `{ "all": true }` |
 | POST | `/v1/runtime/switch` | смена профиля (force restart) |
+| GET | `/v1/hardware` | зонд CPU/RAM/GPU + **stack** + catalog |
+| POST | `/v1/hardware/apply` | `profiles.local.json`; optional `downloadMissing` |
+| GET | `/v1/models/catalog` | каталог GGUF |
+| POST | `/v1/models/download` | `{ "id": "nomic-embed-q4" }` (consent) |
+| GET | `/v1/models/downloads` | прогресс загрузок |
 
 Логи spawn: `.evocode/logs/<profile>.log`  
-Состояние: `.evocode/runtime-state.json`
+Состояние: `.evocode/runtime-state.json`  
+Локальный оверлей профилей: `config/profiles.local.json` (merge поверх `profiles.json`).
+
+Подробно про железо: [HARDWARE_PROFILES.md](../plans/HARDWARE_PROFILES.md).
 
 ## UI
 
@@ -44,6 +52,7 @@ npm run evocode
 - **Activity bar** — иконка стопки **«Модели»** (отдельная боковая панель)
 - Status bar **«Эвокод · …»** → клик = панель Модели
 - **Ctrl+Shift+M** — фокус на Модели
+- **Настройки программы → Железо** — зонд, стек, apply, скачивание GGUF
 - Автозапуск **coder (ik_llama)** если LLM offline (`evocode.shell.autoStartDefaultModel`, default **true**)
 - Welcome: кнопки Модели / Агент
 
