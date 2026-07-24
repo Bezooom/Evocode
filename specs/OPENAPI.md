@@ -67,7 +67,7 @@ Core — privacy plane. Agent (Kilo/OpenCode) ходит сюда как на Op
 ```json
 {
   "status": "ok",
-  "version": "0.5.0",
+  "version": "1.0.1",
   "product": "evocode-core",
   "localReady": true,
   "skills": 8,
@@ -273,6 +273,96 @@ Hybrid dry-run (lexical + embeddings). Response includes `hybrid`, `embedBackend
 | `EVOCODE_SKILLS_EMBED_WEIGHT` | `40` |
 | `EVOCODE_SKILLS_EMBED_DB` | `.evocode/skills-embeddings.db` |
 | `EVOCODE_SKILLS_MAX` / `MAX_INJECT` / `ALLOW_LAB` / `PACKS` | см. config |
+
+---
+
+### `GET /v1/config`
+
+Получение текущих настроек ядра Эвокод (объединяет настройки инференса, роутера, навыков и FIM).
+
+**Response 200:**
+```json
+{
+  "inference": {
+    "cloud": { "model": "..." }
+  },
+  "router": {
+    "privacyMode": "always-local",
+    "localMaxTokens": 2048,
+    "cloudMinTokens": 4096
+  },
+  "skills": {
+    "enableLab": false,
+    "enabledPacks": ["evocode-core"],
+    "maxSkills": 2,
+    "maxInjectChars": 8000,
+    "minScore": 15,
+    "routerVersion": "v2",
+    "useEmbeddings": true,
+    "embedBackend": "hash",
+    "embedWeight": 40,
+    "packsCatalog": { "evocode-core": { "name": "..." } }
+  },
+  "fim": {
+    "enabled": true,
+    "port": 8082,
+    "modelId": "evocode-fim",
+    "profileId": "fim-small",
+    "ready": true
+  }
+}
+```
+
+### `POST /v1/config`
+
+Применение (apply-config) и сохранение новых настроек ядра в `.evocode/config.json`.
+
+**Request:**
+```json
+{
+  "inference": {
+    "cloud": {
+      "model": "...",
+      "apiKey": "..."
+    }
+  },
+  "router": {
+    "privacyMode": "always-local",
+    "localMaxTokens": 2048,
+    "cloudMinTokens": 4096
+  },
+  "skills": {
+    "enableLab": true,
+    "enabledPacks": ["evocode-core", "dev-backend"],
+    "maxSkills": 2,
+    "maxInjectChars": 8000,
+    "minScore": 15,
+    "routerVersion": "v2",
+    "useEmbeddings": true,
+    "embedBackend": "hash",
+    "embedWeight": 40
+  },
+  "fim": {
+    "enabled": true,
+    "port": 8082,
+    "modelId": "evocode-fim",
+    "profileId": "fim-small"
+  }
+}
+```
+
+**Response 200:**
+```json
+{
+  "success": true,
+  "skills": {
+    "enableLab": true,
+    "enabledPacks": ["evocode-core", "dev-backend"],
+    "maxSkills": 2,
+    "routerVersion": "v2"
+  }
+}
+```
 
 ---
 

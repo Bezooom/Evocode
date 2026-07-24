@@ -13,6 +13,7 @@
 - **Hardware stack end-to-end**
   - `GET /v1/hardware` → tier, CPU/RAM/GPU, порты, `stack`, `catalog`, `recommendations`.
   - `POST /v1/hardware/apply` → merge `config/profiles.local.json` (defaults + профили).
+  - `GET/POST /v1/config` (apply-config) → просмотр, обновление и сохранение настроек инференса, роутера и пакетов навыков.
   - Каталог GGUF (`src/core/model-catalog.ts`) + `POST /v1/models/download` (с прогрессом, только по согласию).
   - UI: вкладка **«Железо»** в настройках программы (зонд, apply, скачивание).
   - Приоритет уже установленных GGUF (например Ornith 35B) над каталогом.

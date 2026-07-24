@@ -4,7 +4,7 @@
 |------|----------|
 | **ID** | EVOCODE-RFC-SKILL-ROUTER-V2 |
 | **Статус** | **M1–M4 Implemented** (2026-07-20) |
-| **Продукт** | Эвокод ≥ 0.9.0-rc1 → 1.0 / 1.1 |
+| **Продукт** | Эвокод ≥ 0.9.0-rc1 → 1.0.1 / 1.1 |
 | **Дата** | 2026-07-20 |
 | **Авторы** | product + Core |
 | **Связано** | `src/skills/skill-loader.ts`, `src/sync/skill-sync.ts`, `specs/skill_sync_engine.md`, `docs/STATUS.md` |

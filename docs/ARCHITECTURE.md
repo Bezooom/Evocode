@@ -42,6 +42,12 @@ flowchart TD
     
     RAG --> DB[("SQLite-vec<br/>.evocode/index.db")]:::db
     Sync["📚 SkillSyncEngine<br/>GitHub API"]:::intel -->|"MANIFEST.json"| Skills[("skills/<br/>system + user")]:::db
+
+    Server --> HW["🖥️ Hardware / Catalog<br/>probe + stack"]:::intel
+    Server --> Mem["💾 Memory Bank<br/>context memory"]:::intel
+    Server --> Lrn["📈 Self-Adapter<br/>dataset collector"]:::intel
+    
+    HW --> Downloader["📥 Model Downloader<br/>HF GGUF download"]:::local
     
     Config["⚙️ Config<br/>defaultConfig"]:::intel -.->|"настройки"| Local
     Config -.->|"настройки"| Cloud
@@ -306,6 +312,73 @@ EvocodeConfig {
 
 ---
 
+### 7. RuntimeManager (`src/engine/runtime-manager.ts`)
+
+Управляет запущенными инстансами и процессами локальных моделей.
+
+**Функции:**
+- Запуск и остановка инстансов `llama-server` для чата (порт 8080), FIM (порт 8082) и эмбеддингов (порт 8084).
+- Автоматический запуск моделей по умолчанию при старте системы.
+- Контроль состояния инференса и горячее переключение профилей (`/v1/runtime/switch`).
+
+---
+
+### 8. ModelDownloader (`src/engine/model-downloader.ts`)
+
+Фоновый асинхронный загрузчик GGUF-моделей.
+
+**Функции:**
+- Загрузка моделей напрямую с Hugging Face (через URL-разрешение).
+- Сканирование и верификация файлов в локальной папке `modelsDir`.
+- Поддержка отслеживания прогресса скачивания (`/v1/models/downloads`) и прерывания процесса.
+- Запуск загрузки только после явного согласия пользователя.
+
+---
+
+### 9. MemoryBank (`src/memory/memory-bank.ts`)
+
+Реализация внешней независимой памяти агента (External Agent Memory Bank).
+
+**Функции:**
+- Сохранение контекста текущих задач и технических решений в `.evocode/memory/`.
+- Автоматическое подмешивание состояния памяти в системный промпт при смене локальных и облачных моделей.
+- API для синхронизации и обновления состояния памяти (`GET / POST /v1/memory`).
+
+---
+
+### 10. DatasetCollector & InContextAdapter (`src/learning/`)
+
+Модули динамического самообучения маленьких моделей.
+
+**Компоненты:**
+- `DatasetCollector`: Сбор пар «промпт-ответ» успешных решений и FIM-завершений с маскированием через DLP Guard.
+- `InContextAdapter`: Формирование динамического адаптивного слоя в системном промпте для адаптации локальной модели к стилю написания кода.
+- Экспорт датасета для полноценного внешнего LoRA-обучения (`scripts/export-lora-dataset.sh`).
+
+---
+
+### 11. GitCrawler (`src/sync/git-crawler.ts`)
+
+Служба автоматического сбора и импорта внешних правил.
+
+**Функции:**
+- Периодическое сканирование репозиториев правил (например, awesome-cursorrules).
+- Автоматическое преобразование правил `.cursorrules` и `.mdc` в формат навыков `SKILL.md` с сохранением в `skills/user/crawled/`.
+
+---
+
+### 12. Hardware & Model catalog (`src/core/hardware.ts`, `src/core/model-catalog.ts`)
+
+Зондирование ресурсов и выдача рекомендаций по стеку.
+
+**Функции:**
+- Определение доступного железа (количество логических ядер CPU, объем RAM, графические карты и видеопамять VRAM).
+- Назначение категории производительности (minimal, dev, workstation, beast).
+- Подбор оптимального dual-model стека (chat + FIM) и выдача рекомендаций (`/v1/hardware`).
+- Автоматическая запись настроек в `profiles.local.json` при вызове `apply`.
+
+---
+
 ## Зависимости
 
 | Пакет | Версия | Назначение |
@@ -455,4 +528,4 @@ sha: abc123def456
 
 ---
 
-*Последнее обновление: 2026-07-19*
+*Последнее обновление: 2026-07-24*

@@ -91,7 +91,7 @@ curl -s localhost:8083/v1/chat/completions -H 'Content-Type: application/json' \
   -d '{"model":"evocode-auto","messages":[{"role":"user","content":"Say OK"}],"max_tokens":64}' | jq '.choices[0].message'
 ```
 
-## Hardware recommendations (→ 1.0)
+## Hardware recommendations (→ 1.0.1)
 
 ```bash
 curl -s localhost:8083/v1/hardware | jq .

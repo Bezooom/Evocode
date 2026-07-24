@@ -1,6 +1,6 @@
 # Дизайн-система «Эвокод»
 
-**Версия продукта:** 0.5.0 · **Тема (канон):** *Midnight Fusion*  
+**Версия продукта:** 1.0.1 · **Тема (канон):** *Midnight Fusion*  
 **Источник правды в runtime:** `packages/agent-extension/brand/evocode-overrides.css`, product-panel styles.
 
 > Ранее в черновике фигурировал Material Blue (`#1A73E8`). **С v0.5 канон — violet/indigo Midnight Fusion.**
