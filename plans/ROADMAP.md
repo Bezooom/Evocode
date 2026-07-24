@@ -1,7 +1,7 @@
 # 🗺️ Дорожная карта Эвокод
 
-**Обновлено:** 2026-07-23  
-**Продукт:** **v1.0.0 (Production Release)** — branded VSCodium + agent + Core + Skill Router + dual FIM  
+**Обновлено:** 2026-07-24  
+**Продукт:** **v1.0.1 (Maintenance Release)** — branded VSCodium + agent + Core + Skill Router + dual FIM + hardware recommendations UI  
 **Продуктовый путь:** native UX «Эвокод» + privacy plane (Core)
 
 > **Source of truth для агентов:** [FULL_DEV_ROADMAP.md](./FULL_DEV_ROADMAP.md)  
@@ -31,7 +31,8 @@
 | 0.5.0 | F2 done | Product IDE, packaging, premium UI |
 | **0.9.0** | **F3 done** | Trust, proxy, auth, SSRF, Operator Mode (RC1) |
 | **0.95.0** | Skill Router + FIM | Router v2 M1–M4, dual-model autocomplete (RC2) |
-| **1.0.0** | Pilot DoD | Daily-use + pilot corp + **hardware detect / model tuning** |
+| **1.0.0** | Pilot DoD | Daily-use + pilot corp (Production Release) |
+| **1.0.1** | Hardware & Multi-OS | **Hardware stack detect / model download + full multi-OS releases** |
 | 1.x+ | F4 optional | LoRA / self-evolve |
 
 ---
@@ -52,7 +53,7 @@ flowchart LR
     F1 --> F15["F1.5 Policy+smoke"]:::done
     F15 --> F2["F2 Product IDE"]:::done
     F2 --> F3["F3 Hardening РФ"]:::done
-    F3 --> V1["v1.0 DoD"]:::current
+    F3 --> V1["v1.0.1 Production"]:::current
     V1 --> F4["F4 Self-evolve"]:::future
 ```
 
@@ -64,7 +65,7 @@ flowchart LR
 | **F2** | ✅ | Product surface, Midnight Fusion UI, portable + deb + AppImage |
 | **F3** | ✅ | Trust/security, proxy, audit, sandbox, РФ cloud, Operator Mode, polish |
 | **F4** | 📋 later | LoRA / self-improve — после daily-use |
-| **H0–H4** | 🟡 foundation | Hardware probe + model recommendations → full UI in **1.0** ([HARDWARE_PROFILES.md](./HARDWARE_PROFILES.md)) |
+| **H0–H4** | ✅ | Hardware probe + model recommendations + full UI & download in **1.0.1** ([HARDWARE_PROFILES.md](./HARDWARE_PROFILES.md)) |
 
 ### F2 — закрыто (milestone → v0.5.0)
 
@@ -102,12 +103,12 @@ flowchart LR
 
 ---
 
-## Очередь работ (P0) — v1.0.0 (Production Release)
+## Очередь работ (P0) — v1.0.x → v1.1.x
 
-1. Пилоты: Operator preview + FIM autocomplete + skills route.
-2. Пересборка/smoke deb+AppImage 1.0.0.
-3. Фидбек → стабильный 1.0.0.
-4. **Не делать сейчас:** F4 LoRA, второй MCP host, hard-fork microsoft/vscode
+1. Сбор обратной связи от пилотных пользователей по визуальному режиму HTML/MD.
+2. Проверка и полировка дистрибутивов v1.0.1 (deb + AppImage).
+3. Интеграция с локальными моделями через UI «Железо» и автонастройку.
+4. **Не делать сейчас:** F4 LoRA (внедрение в авто-режим), второй MCP host.
 
 ---
 

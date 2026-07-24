@@ -3,9 +3,9 @@
 | Поле | Значение |
 |------|----------|
 | **Документ** | `plans/FULL_DEV_ROADMAP.md` |
-| **Версия документа** | 3.1 |
-| **Версия продукта** | **1.0.0** |
-| **Дата** | 2026-07-23 |
+| **Версия документа** | 3.2 |
+| **Версия продукта** | **1.0.1** |
+| **Дата** | 2026-07-24 |
 | **Аудитория** | любой AI-агент / разработчик, впервые в репо |
 | **Статус** | **единственный source of truth** по плану работ |
 | **Язык** | русский (код/идентификаторы — как в репо) |
@@ -135,8 +135,9 @@ VSCodium (brand «Эвокод»)
 | 0.1.x | F0–F1 Core + agent tooling | ✅ |
 | 0.2–0.4 | F1.5 + mid-F2 shell | ✅ (промежуточные) |
 | 0.5.0 | F2 Product IDE (brand, UI, packaging) | ✅ released |
-| **0.9.0** | **F3 Hardening & Operator Mode** (trust, РФ, visual) | ✅ **released (RC1)** |
-| **1.0.0** | F3 DoD / daily-use + pilot corp | 📋 target |
+| **0.9.0** | **F3 Hardening & Operator Mode** (trust, РФ, visual) | ✅ released |
+| **1.0.0** | F3 DoD / daily-use + pilot corp | ✅ released |
+| **1.0.1** | Hardware stack + full product OS releases | ✅ **current** |
 
 ### 3.1. Репозиторий
 
@@ -244,13 +245,19 @@ npm run disk:audit
 3. Единый product settings UI; brand «Эвокод».
 4. `npm test` green; Core health с `version: 0.5.0`.
 
-### v1.0.0 (горизонт, F3 DoD)
+### v1.0.0 / F3 DoD (достигнут)
 
 1. Все пункты v0.5 + trust: DLP block path, Skill Sync safe, auth/bind defaults.
 2. Offline `privacyMode=always-local` без падений; cloud через proxy+audit.
 3. Документированный pilot corp path (Astra smoke).
 4. Cold-start: deb → first chat за один сценарий SMOKE.
 5. Windows — nice-to-have.
+
+### v1.0.1 (достигнут)
+
+1. Интеграция Hardware stack: GET/POST /v1/hardware, Merged local profiles, GGUF catalog download.
+2. Полные архивы дистрибутивов (не plain VSCodium) со встроенным Core, evocode-agent и evocode-shell.
+3. Поддержка сборки macOS (Intel / Apple Silicon), Linux x64 и Windows x64.
 
 ---
 
@@ -575,11 +582,11 @@ npm run disk:audit
 ## §13. Быстрый контекст для «холодного» агента
 
 ```
-WHO:     Evocode = RU privacy AI IDE  |  product v0.9.0 (RC1)
+WHO:     Evocode = RU privacy AI IDE  |  product v1.0.1
 WHERE:   $EVOCODE_ROOT  # path to clone
 RUNTIME: Core :8083 → llama :8080 (attach); agent = kilo rebrand + shell
-NOW:     Pilot testing & Operator Mode feedback (F3 CLOSED) — NOT F4
-SHIPPED: F2 product IDE, F3 Hardening, visual Operator Mode, deb/AppImage
+NOW:     Pilot testing & Hardware recommendations / download feedback — NOT F4
+SHIPPED: F2 product IDE, F3 Hardening, visual Operator, v1.0.0 Production, v1.0.1 Hardware & Multi-OS
 NEVER:   second agent/MCP host; copy GGUF; Core on 8080; default Microsoft code
 READ:    this file + plans/ROADMAP.md + docs/STATUS.md + docs/PRODUCT_SHELL.md
 RUN:     npm run build && npm run evocode
@@ -588,18 +595,15 @@ TEST:    npm test && npx tsc --noEmit
 
 ---
 
-## §14. Очередь (P0) — v0.9.0 → 1.0.0
+## §14. Очередь (P0) — v1.0.x → v1.1.x
 
-**F3 (закрыто):** DLP Guard, Skill Sync (SSRF/traversal/SHA), localhost bind, rate limiting, Bearer token, local fonts, visual Operator Mode, 0.9.0 packaging.
+**Сейчас (1.0.1 prep & post-release):**
 
-**Сейчас (1.0.0 prep):**
+1. Сбор отзывов по визуальному MD-режиму и вкладке «Железо» в настройках.
+2. Полировка процесса автоматического скачивания моделей из каталога.
+3. Улучшение локальной производительности и стабильности Core.
 
-1. Сбор обратной связи от операторов по визуальному режиму HTML/MD.
-2. Проведение пилотного внедрения.
-3. Оптимизация локального инференса и финализация релиза 1.0.0.  
-5. Optional: full `ide:build-codium` when libsecret-dev available  
-
-**Blocked:** F4 until F3 DoD / approach to v1.0.
+**Blocked:** F4 (LoRA/self-improve) до завершения пилотных тестов 1.0.x.
 
 ---
 
@@ -623,5 +627,6 @@ TEST:    npm test && npx tsc --noEmit
 | 2026-07-20 | **F3 UX/Offline (F3.U1, F3.U2) closed:** disabled external Google Fonts CDN imports in webviews (offline capability); updated typography design system documentation to match. |
 | 2026-07-20 | **F3 Release Hygiene (F3.U3, F3.U4) closed:** rebuilt official installation packages as 0.5.0 artifacts (`.deb` + `.AppImage`); ran and verified E2E smoke tests successfully (zero regressions). |
 | 2026-07-20 | **v3.1 product v0.9.0:** version bump 0.5.0→0.9.0 across package/config/packaging; F3 closed as completed release candidate; added Operator visual HTML/MD preview mode (F3.U4); added smart free-model OpenRouter routing (`openrouter-auto`); aligned Activity bar settings icons; updated root CHANGELOG.md; built and validated 0.9.0 packages. |
+| 2026-07-24 | **v3.2 product v1.0.1:** version bump 0.9.0→1.0.1; F3 and v1.0 Production Release officially closed; hardware recommendations / apply / model downloader integrated; full multi-OS packaging completed; docs/ROADMAP/FULL_DEV_ROADMAP/STATUS aligned; all unit tests passing. |
 
-*Конец FULL_DEV_ROADMAP v3.1 · product 0.9.0.*
+*Конец FULL_DEV_ROADMAP v3.2 · product 1.0.1.*
