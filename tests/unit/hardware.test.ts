@@ -8,6 +8,14 @@ import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs';
 
+jest.mock('../../src/core/profiles', () => {
+  const original = jest.requireActual('../../src/core/profiles');
+  return {
+    ...original,
+    loadProfiles: () => null,
+  };
+});
+
 // classifyTier is not directly exported with name for deep check — use recommend + stack
 
 describe('hardware recommendations', () => {
